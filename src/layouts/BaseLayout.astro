@@ -1,0 +1,153 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { siteMeta } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  imagePath?: string;
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const {
+  title = siteMeta.title,
+  description = siteMeta.description,
+  path = Astro.url.pathname,
+  imagePath,
+  noindex = false,
+  type = 'website',
+  structuredData = [],
+} = Astro.props;
+
+const fullTitle = title.includes(siteMeta.name) ? title : `${title} | ${siteMeta.name}`;
+const canonicalUrl = new URL(path, Astro.site ?? siteMeta.siteUrl);
+const ogImageUrl = imagePath ? new URL(imagePath, canonicalUrl).toString() : undefined;
+
+const baseStructuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteMeta.name,
+    url: siteMeta.siteUrl,
+    email: siteMeta.email,
+    description: siteMeta.description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteMeta.name,
+    url: siteMeta.siteUrl,
+  },
+];
+
+const extraStructuredData = Array.isArray(structuredData) ? structuredData : [structuredData];
+const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl.toString()} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteMeta.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl.toString()} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
+    <meta name="theme-color" content="#0e1714" />
+    {
+      jsonLd.length > 0 && (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <Header />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      const setupSiteUi = () => {
+        const header = document.querySelector('[data-site-header]');
+        const menu = document.querySelector('[data-menu]');
+        const toggle = document.querySelector('[data-menu-toggle]');
+        const body = document.body;
+
+        const syncHeader = () => {
+          header?.classList.toggle('is-scrolled', window.scrollY > 20);
+        };
+
+        const closeMenu = () => {
+          if (!menu || !toggle) return;
+          menu.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
+          body.classList.remove('menu-open');
+        };
+
+        syncHeader();
+        window.addEventListener('scroll', syncHeader, { passive: true });
+
+        toggle?.addEventListener('click', () => {
+          const isOpen = menu?.classList.toggle('is-open');
+          toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+          body.classList.toggle('menu-open', Boolean(isOpen));
+        });
+
+        menu?.querySelectorAll('a').forEach((anchor) => {
+          anchor.addEventListener('click', closeMenu);
+        });
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.querySelectorAll('[data-reveal]').forEach((element) => {
+            element.classList.add('is-visible');
+          });
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.18,
+            rootMargin: '0px 0px -10% 0px',
+          }
+        );
+
+        document.querySelectorAll('[data-reveal]').forEach((element) => {
+          observer.observe(element);
+        });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupSiteUi, { once: true });
+      } else {
+        setupSiteUi();
+      }
+    </script>
+  </body>
+</html>

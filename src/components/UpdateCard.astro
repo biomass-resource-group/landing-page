@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  update: CollectionEntry<'updates'>;
+}
+
+const { update } = Astro.props;
+
+const publishedLabel = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  year: 'numeric',
+}).format(update.data.publishedAt);
+---
+
+<article class="update-card" data-reveal>
+  <a class="update-card__link" href={`/updates/${update.id}/`}>
+    <div class="update-card__meta">
+      <span>{publishedLabel}</span>
+      <span>{update.data.category}</span>
+    </div>
+    <h3>{update.data.title}</h3>
+    <p>{update.data.summary}</p>
+    <span class="update-card__action">
+      Read update
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 12h14M13 5l7 7-7 7"></path>
+      </svg>
+    </span>
+  </a>
+</article>

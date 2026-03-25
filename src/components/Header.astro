@@ -1,0 +1,68 @@
+---
+import { navLinks, siteMeta } from '../data/site';
+
+const resolveHref = (href: string) =>
+  href.startsWith('#') && Astro.url.pathname !== '/' ? `/${href}` : href;
+---
+
+<header class="site-header" data-site-header>
+  <div class="container site-header__inner">
+    <a class="brand" href="/" aria-label={`${siteMeta.name} home`}>
+      <span class="brand__mark" aria-hidden="true">
+        <span class="brand__mark-ring"></span>
+      </span>
+      <span class="brand__wordmark">
+        Biomass <span>Resource Group</span>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <ul class="site-nav__list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                class:list={[
+                  'site-nav__link',
+                  'primary' in link && link.primary && 'site-nav__link--primary',
+                ]}
+                href={resolveHref(link.href)}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button
+      class="site-menu-toggle"
+      type="button"
+      data-menu-toggle
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="sr-only">Toggle navigation</span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" data-menu>
+    <nav aria-label="Mobile navigation">
+      <ul class="mobile-menu__list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a class="mobile-menu__link" href={resolveHref(link.href)}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

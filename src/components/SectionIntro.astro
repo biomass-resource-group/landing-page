@@ -1,0 +1,16 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  intro: string;
+  tone?: 'light' | 'dark';
+}
+
+const { label, title, intro, tone = 'light' } = Astro.props;
+---
+
+<div class:list={['section-intro-block', tone === 'dark' && 'section-intro-block--dark']}>
+  <p class="section-intro-block__label">{label}</p>
+  <h2 class="section-intro-block__title">{title}</h2>
+  <p class="section-intro-block__summary">{intro}</p>
+</div>

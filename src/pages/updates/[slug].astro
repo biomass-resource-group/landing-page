@@ -1,0 +1,68 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteMeta } from '../../data/site';
+
+export async function getStaticPaths() {
+  const updates = await getCollection('updates', ({ data }) => !data.draft);
+
+  return updates.map((update) => ({
+    params: { slug: update.id },
+    props: { update },
+  }));
+}
+
+const { update } = Astro.props;
+const { Content } = await render(update);
+
+const publishedLabel = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+}).format(update.data.publishedAt);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: update.data.title,
+  description: update.data.summary,
+  datePublished: update.data.publishedAt.toISOString(),
+  author: {
+    '@type': 'Organization',
+    name: siteMeta.name,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: siteMeta.name,
+  },
+  mainEntityOfPage: `${siteMeta.siteUrl}/updates/${update.id}/`,
+};
+---
+
+<BaseLayout
+  title={update.data.title}
+  description={update.data.summary}
+  path={`/updates/${update.id}/`}
+  type="article"
+  structuredData={structuredData}
+>
+  <section class="page-hero page-hero--article">
+    <div class="container page-hero__inner" data-reveal>
+      <a class="page-back-link" href="/updates/">Back to updates</a>
+      <p class="page-hero__eyebrow">{update.data.category}</p>
+      <h1>{update.data.title}</h1>
+      <p>{update.data.summary}</p>
+      <div class="article-meta">
+        <span>{publishedLabel}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section article-section">
+    <div class="container article-shell">
+      <article class="article-body" data-reveal>
+        <Content />
+      </article>
+    </div>
+  </section>
+</BaseLayout>

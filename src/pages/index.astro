@@ -1,0 +1,341 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import UpdateCard from '../components/UpdateCard.astro';
+import {
+  affiliations,
+  commercialModel,
+  contact,
+  hero,
+  impact,
+  leadership,
+  platform,
+  regions,
+  siteMeta,
+  technology,
+} from '../data/site';
+
+const updates = (await getCollection('updates', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 3);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: siteMeta.title,
+  url: siteMeta.siteUrl,
+  description: siteMeta.description,
+};
+---
+
+<BaseLayout
+  title={siteMeta.title}
+  description={siteMeta.description}
+  structuredData={structuredData}
+>
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy" data-reveal>
+        <div class="hero__eyebrow">
+          <span class="hero__eyebrow-line"></span>
+          <span>{hero.label}</span>
+        </div>
+        <h1 class="hero__title">
+          We build and operate <em>{hero.emphasis}</em> in emerging markets.
+        </h1>
+        <p class="hero__summary">{hero.summary}</p>
+        <div class="hero__actions">
+          <a class="button button--primary" href={hero.primaryAction.href}>
+            {hero.primaryAction.label}
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7"></path>
+            </svg>
+          </a>
+          <a class="button button--secondary" href={hero.secondaryAction.href}>
+            {hero.secondaryAction.label}
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true" data-reveal>
+        <div class="hero-visual__halo"></div>
+        <div class="hero-visual__grid"></div>
+        <div class="hero-visual__ring">
+          <div class="hero-visual__ring-center">BRG</div>
+          {
+            hero.flywheel.map((step, index) => (
+              <span class:list={['hero-visual__orbit', `hero-visual__orbit--${index + 1}`]}>
+                {step}
+              </span>
+            ))
+          }
+        </div>
+        <div class="hero-visual__card hero-visual__card--top">
+          <span class="hero-visual__label">Operational flywheel</span>
+          <strong>Waste biomass into carbon removal and agricultural value</strong>
+        </div>
+        <div class="hero-visual__card hero-visual__card--bottom">
+          <span class="hero-visual__label">Active regions</span>
+          <strong>East Africa and the Middle East</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="hero-metrics" data-reveal>
+        {
+          hero.metrics.map((metric) => (
+            <div class="hero-metrics__item">
+              <strong>{metric.value}</strong>
+              <span>{metric.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="affiliations">
+    <div class="container affiliations__inner">
+      <p class="affiliations__title">Affiliations and standards</p>
+      <div class="affiliations__list">
+        {
+          affiliations.map((item) => (
+            <div class="affiliations__item" data-reveal>
+              <strong>{item.label}</strong>
+              <span>{item.detail}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="platform">
+    <div class="container">
+      <SectionIntro label={platform.label} title={platform.title} intro={platform.intro} />
+      <div class="platform-layout">
+        <div class="platform-layout__narrative" data-reveal>
+          {platform.narrative.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <div class="stacked-list">
+          {
+            platform.capabilities.map((capability, index) => (
+              <article class="stacked-list__item" data-reveal>
+                <span class="stacked-list__index">{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{capability.title}</h3>
+                  <p>{capability.description}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="model">
+    <div class="container">
+      <SectionIntro
+        label={commercialModel.label}
+        title={commercialModel.title}
+        intro={commercialModel.intro}
+      />
+      <div class="model-grid">
+        {
+          commercialModel.lines.map((line) => (
+            <article class="model-card" data-reveal>
+              <p class="model-card__phase">{line.phase}</p>
+              <h3>{line.title}</h3>
+              <p>{line.description}</p>
+              <div class="model-card__revenue">
+                <span>Revenue generated from</span>
+                <ul>
+                  {line.revenue.map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="technology">
+    <div class="container">
+      <SectionIntro label={technology.label} title={technology.title} intro={technology.intro} />
+      <div class="technology-grid">
+        {
+          technology.systems.map((system) => (
+            <article class="technology-panel" data-reveal>
+              <div class:list={['technology-panel__visual', `technology-panel__visual--${system.theme}`]}>
+                <span class="technology-panel__tag">{system.tag}</span>
+              </div>
+              <div class="technology-panel__body">
+                <h3>{system.title}</h3>
+                <p>{system.summary}</p>
+                <dl class="technology-panel__specs">
+                  {system.specs.map((spec) => (
+                    <div>
+                      <dt>{spec.label}</dt>
+                      <dd>{spec.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark" id="regions">
+    <div class="container">
+      <SectionIntro
+        label={regions.label}
+        title={regions.title}
+        intro={regions.intro}
+        tone="dark"
+      />
+      <div class="regions-grid">
+        {
+          regions.markets.map((market) => (
+            <article class="region-panel" data-reveal>
+              <div class:list={['region-panel__visual', `region-panel__visual--${market.theme}`]}></div>
+              <div class="region-panel__body">
+                <p class="region-panel__status">
+                  <span></span>
+                  {market.status}
+                </p>
+                <h3>{market.name}</h3>
+                <p>{market.description}</p>
+                <dl class="region-panel__details">
+                  {market.detail.map((item) => (
+                    <div>
+                      <dt>{item.label}</dt>
+                      <dd>{item.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="expansion-banner" data-reveal>
+        <div>
+          <h3>{regions.expansion.title}</h3>
+          <p>{regions.expansion.description}</p>
+        </div>
+        <div class="expansion-banner__chips">
+          {regions.expansion.regions.map((label) => <span>{label}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="impact">
+    <div class="container">
+      <SectionIntro label={impact.label} title={impact.title} intro={impact.intro} />
+      <div class="impact-layout">
+        <div class="impact-layout__narrative" data-reveal>
+          {impact.narrative.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <div class="impact-stats">
+          {
+            impact.stats.map((stat) => (
+              <article class="impact-stats__item" data-reveal>
+                <strong>{stat.value}</strong>
+                <h3>{stat.label}</h3>
+                <p>{stat.description}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="leadership">
+    <div class="container">
+      <SectionIntro
+        label={leadership.label}
+        title={leadership.title}
+        intro={leadership.intro}
+      />
+      <div class="leadership-layout">
+        <div class="leadership-layout__narrative" data-reveal>
+          {leadership.narrative.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <div class="principles">
+          {
+            leadership.principles.map((principle) => (
+              <article class="principles__item" data-reveal>
+                <span class="principles__bar" aria-hidden="true"></span>
+                <div>
+                  <h3>{principle.title}</h3>
+                  <p>{principle.description}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="updates">
+    <div class="container">
+      <div class="section-heading-row">
+        <SectionIntro
+          label="Updates"
+          title="From the field."
+          intro="Operational milestones, project updates, and industry perspective from teams across active regions."
+        />
+        <a class="section-heading-row__link" href="/updates/">View all updates</a>
+      </div>
+      <div class="updates-grid">
+        {updates.map((update) => <UpdateCard update={update} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section" id="contact">
+    <div class="container">
+      <SectionIntro
+        label={contact.label}
+        title={contact.title}
+        intro={contact.intro}
+        tone="dark"
+      />
+      <div class="cta-grid">
+        {
+          contact.audiences.map((audience) => (
+            <a class="cta-card" href={audience.href} data-reveal>
+              <span class="cta-card__audience">{audience.audience}</span>
+              <h3>{audience.title}</h3>
+              <p>{audience.description}</p>
+              <span class="cta-card__action">
+                {audience.action}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 5l7 7-7 7"></path>
+                </svg>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+      <div class="cta-section__footer" data-reveal>
+        <span>General inquiries</span>
+        <a href={`mailto:${siteMeta.email}`}>{siteMeta.email}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import { footerGroups, siteMeta } from '../data/site';
+
+const resolveHref = (href: string) =>
+  href.startsWith('#') && Astro.url.pathname !== '/' ? `/${href}` : href;
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <div class="brand brand--footer">
+        <span class="brand__mark" aria-hidden="true">
+          <span class="brand__mark-ring"></span>
+        </span>
+        <span class="brand__wordmark">
+          Biomass <span>Resource Group</span>
+        </span>
+      </div>
+      <p class="site-footer__legal">
+        &copy; {new Date().getFullYear()} {siteMeta.name}.<br />
+        Carbon removal infrastructure designed for durable growth.
+      </p>
+    </div>
+
+    {
+      footerGroups.map((group) => (
+        <div class="site-footer__group">
+          <p class="site-footer__title">{group.title}</p>
+          <ul class="site-footer__links">
+            {group.links.map((link) => (
+              <li>
+                <a href={resolveHref(link.href)}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</footer>

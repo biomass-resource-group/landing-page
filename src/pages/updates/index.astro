@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const updates = (await getCollection('updates', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+---
+
+<BaseLayout
+  title="Updates"
+  description="Field updates, project milestones, and company news from Biomass Resource Group."
+  path="/updates/"
+>
+  <section class="page-hero">
+    <div class="container page-hero__inner" data-reveal>
+      <p class="page-hero__eyebrow">Updates</p>
+      <h1>Operational milestones and company updates.</h1>
+      <p>
+        Publish-ready entries live as Markdown in the repository so new field notes and milestones can
+        be added without rewriting templates.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="updates-list">
+        {
+          updates.map((update) => {
+            const published = new Intl.DateTimeFormat('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+            }).format(update.data.publishedAt);
+
+            return (
+              <article class="updates-list__item" data-reveal>
+                <div class="updates-list__meta">
+                  <span>{published}</span>
+                  <span>{update.data.category}</span>
+                </div>
+                <div class="updates-list__body">
+                  <h2>
+                    <a href={`/updates/${update.id}/`}>{update.data.title}</a>
+                  </h2>
+                  <p>{update.data.summary}</p>
+                </div>
+                <a class="updates-list__action" href={`/updates/${update.id}/`}>
+                  Read
+                </a>
+              </article>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

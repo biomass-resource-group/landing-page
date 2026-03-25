@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" noindex={true} path="/404/">
+  <section class="page-hero page-hero--compact">
+    <div class="container page-hero__inner" data-reveal>
+      <p class="page-hero__eyebrow">404</p>
+      <h1>The page you requested does not exist.</h1>
+      <p>
+        Return to the main site to review the platform, active regions, and the latest operating
+        updates.
+      </p>
+      <div class="hero__actions">
+        <a class="button button--primary" href="/">Back to homepage</a>
+        <a class="button button--secondary" href="/updates/">Browse updates</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
