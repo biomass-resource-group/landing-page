@@ -108,6 +108,18 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
           body.classList.remove('menu-open');
         };
 
+        const subscribeToViewportChanges = (handler: (event: MediaQueryListEvent) => void) => {
+          if (typeof mobileNavQuery.addEventListener === 'function') {
+            mobileNavQuery.addEventListener('change', handler);
+            return;
+          }
+
+          const legacyMediaQuery = mobileNavQuery as unknown as {
+            addListener?: (listener: (event: MediaQueryListEvent) => void) => void;
+          };
+          legacyMediaQuery.addListener?.(handler);
+        };
+
         const syncViewportState = () => {
           if (!mobileNavQuery.matches) {
             closeMenu();
@@ -117,7 +129,7 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
         syncHeader();
         syncViewportState();
         window.addEventListener('scroll', syncHeader, { passive: true });
-        mobileNavQuery.addEventListener('change', syncViewportState);
+        subscribeToViewportChanges(syncViewportState);
 
         toggle?.addEventListener('click', () => {
           const isOpen = menu?.classList.toggle('is-open');
@@ -144,6 +156,13 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
         });
 
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          revealElements.forEach((element) => {
+            element.classList.add('is-visible');
+          });
+          return;
+        }
+
+        if (!('IntersectionObserver' in window)) {
           revealElements.forEach((element) => {
             element.classList.add('is-visible');
           });
