@@ -10,15 +10,15 @@ const { update } = Astro.props;
 const publishedLabel = formatMonthYear(update.data.publishedAt);
 ---
 
-<article class="update-card" data-reveal>
-  <a class="update-card__link" href={`/updates/${update.id}/`}>
-    <div class="update-card__meta">
+<article class="update-teaser" data-reveal>
+  <a class="update-teaser__link" href={`/updates/${update.id}/`}>
+    <div class="update-teaser__meta">
       <time datetime={update.data.publishedAt.toISOString()}>{publishedLabel}</time>
       <span>{update.data.category}</span>
     </div>
     <h3>{update.data.title}</h3>
     <p>{update.data.summary}</p>
-    <span class="update-card__action">
+    <span class="update-teaser__action">
       Read update
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M5 12h14M13 5l7 7-7 7"></path>

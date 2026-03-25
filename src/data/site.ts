@@ -22,13 +22,13 @@ export const hero = {
   label: 'Biochar Carbon Removal Infrastructure',
   emphasis: 'carbon removal infrastructure',
   summary:
-    'Converting waste biomass into verified carbon removal and agricultural biochar at industrial scale across East Africa and the Middle East. Owner-operated. Revenue-generating. Designed for replication.',
+    'BRG converts waste biomass into verified carbon removal and agricultural biochar across East Africa and the Middle East. Owner-operated assets, revenue-generating projects, and field systems built to replicate.',
   primaryAction: {
-    label: 'Our Commercial Model',
+    label: 'See the Operating Model',
     href: '#model',
   },
   secondaryAction: {
-    label: 'Partner With Us',
+    label: 'Partner with BRG',
     href: '#contact',
   },
   metrics: [

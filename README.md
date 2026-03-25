@@ -2,6 +2,11 @@
 
 Astro-based marketing site for `biomassresourcegroup.com`, designed for static deployment on Cloudflare Pages.
 
+## Runtime
+
+- Node `22.12.0` or newer is required
+- `.nvmrc` pins the expected local version
+
 ## Stack
 
 - Astro 6
@@ -15,6 +20,7 @@ Astro-based marketing site for `biomassresourcegroup.com`, designed for static d
 - `npm run dev` starts the local Astro dev server
 - `npm run build` creates the production build in `dist/`
 - `npm run check` runs Astro's project checks
+- `npm run validate:dist` verifies the built HTML, sitemap, headers, and social metadata
 - `npm run preview` serves the production build locally
 
 ## Content editing
@@ -42,5 +48,12 @@ Each update automatically appears:
 ## Deployment notes
 
 - The canonical site URL is set to `https://biomassresourcegroup.com`
-- Cloudflare Pages can deploy the generated `dist/` directory
-- Security headers live in `public/_headers`
+- Cloudflare Pages should deploy the generated `dist/` directory
+- Configure the Pages build environment to use Node `22.12.0`
+- Security headers live in `public/_headers`; if any Cloudflare dashboard rule or edge config overrides them, keep both sources in sync
+
+## CI and dependency hygiene
+
+- GitHub Actions run `npm ci`, `npm run check`, `npm run build`, and `npm run validate:dist` on pushes and pull requests
+- Pull requests also run dependency review
+- Dependabot is configured for npm packages and GitHub Actions

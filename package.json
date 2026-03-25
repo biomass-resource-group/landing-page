@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "check": "astro check",
+    "validate:dist": "node ./scripts/validate-dist.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

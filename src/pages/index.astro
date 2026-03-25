@@ -33,18 +33,26 @@ const structuredData = {
   title={siteMeta.title}
   description={siteMeta.description}
   structuredData={structuredData}
+  bodyClass="page--home"
 >
-  <section class="hero">
-    <div class="container hero__grid">
-      <div class="hero__copy" data-reveal>
-        <div class="hero__eyebrow">
-          <span class="hero__eyebrow-line"></span>
-          <span>{hero.label}</span>
-        </div>
-        <h1 class="hero__title">
+  <section class="home-hero" data-hero>
+    <div class="home-hero__backdrop" aria-hidden="true">
+      <span class="home-hero__terrain home-hero__terrain--north"></span>
+      <span class="home-hero__terrain home-hero__terrain--south"></span>
+      <span class="home-hero__grain"></span>
+      <span class="home-hero__glow home-hero__glow--primary"></span>
+      <span class="home-hero__glow home-hero__glow--secondary"></span>
+    </div>
+
+    <div class="container home-hero__inner">
+      <div class="home-hero__copy" data-reveal>
+        <p class="home-hero__eyebrow">{hero.label}</p>
+        <p class="home-hero__brand">{siteMeta.name}</p>
+        <h1 class="home-hero__title">
           We build and operate <em>{hero.emphasis}</em> in emerging markets.
         </h1>
-        <p class="hero__summary">{hero.summary}</p>
+        <p class="home-hero__summary">{hero.summary}</p>
+
         <div class="hero__actions">
           <a class="button button--primary" href={hero.primaryAction.href}>
             {hero.primaryAction.label}
@@ -59,53 +67,73 @@ const structuredData = {
             </svg>
           </a>
         </div>
+
+        <dl class="home-hero__proof">
+          {
+            hero.metrics.map((metric) => (
+              <div class="home-hero__proof-item">
+                <dt>{metric.label}</dt>
+                <dd>{metric.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
       </div>
 
-      <div class="hero-visual" aria-hidden="true" data-reveal>
-        <div class="hero-visual__halo"></div>
-        <div class="hero-visual__grid"></div>
-        <div class="hero-visual__ring">
-          <div class="hero-visual__ring-center">BRG</div>
+      <div class="home-hero__stage" data-reveal>
+        <div class="home-hero__stage-header">
+          <p>Active operating corridors</p>
+          <span>Owner-operated, field validated, built to replicate.</span>
+        </div>
+
+        <div class="home-hero__market-list">
           {
-            hero.flywheel.map((step, index) => (
-              <span class:list={['hero-visual__orbit', `hero-visual__orbit--${index + 1}`]}>
-                {step}
-              </span>
+            regions.markets.map((market) => (
+              <article class:list={['home-hero__market', `home-hero__market--${market.theme}`]}>
+                <div class="home-hero__market-top">
+                  <p class="home-hero__market-status">
+                    <span></span>
+                    {market.status}
+                  </p>
+                  <h3>{market.name}</h3>
+                </div>
+                <ul class="home-hero__market-details">
+                  {market.detail.map((item) => (
+                    <li>
+                      <span>{item.label}</span>
+                      <strong>{item.value}</strong>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             ))
           }
         </div>
-        <div class="hero-visual__card hero-visual__card--top">
-          <span class="hero-visual__label">Operational flywheel</span>
-          <strong>Waste biomass into carbon removal and agricultural value</strong>
-        </div>
-        <div class="hero-visual__card hero-visual__card--bottom">
-          <span class="hero-visual__label">Active regions</span>
-          <strong>East Africa and the Middle East</strong>
-        </div>
-      </div>
-    </div>
 
-    <div class="container">
-      <div class="hero-metrics" data-reveal>
-        {
-          hero.metrics.map((metric) => (
-            <div class="hero-metrics__item">
-              <strong>{metric.value}</strong>
-              <span>{metric.label}</span>
-            </div>
-          ))
-        }
+        <div class="home-hero__loop">
+          <p>Operating loop</p>
+          <ol>
+            {
+              hero.flywheel.map((step, index) => (
+                <li>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{step}</strong>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="affiliations">
-    <div class="container affiliations__inner">
-      <p class="affiliations__title">Affiliations and standards</p>
-      <div class="affiliations__list">
+  <section class="signal-strip">
+    <div class="container signal-strip__inner">
+      <p class="signal-strip__title">Affiliations and standards</p>
+      <div class="signal-strip__list">
         {
           affiliations.map((item) => (
-            <div class="affiliations__item" data-reveal>
+            <div class="signal-strip__item" data-reveal>
               <strong>{item.label}</strong>
               <span>{item.detail}</span>
             </div>
@@ -146,19 +174,21 @@ const structuredData = {
         title={commercialModel.title}
         intro={commercialModel.intro}
       />
-      <div class="model-grid">
+      <div class="model-lines">
         {
-          commercialModel.lines.map((line) => (
-            <article class="model-card" data-reveal>
-              <p class="model-card__phase">{line.phase}</p>
-              <h3>{line.title}</h3>
-              <p>{line.description}</p>
-              <div class="model-card__revenue">
-                <span>Revenue generated from</span>
-                <ul>
-                  {line.revenue.map((item) => <li>{item}</li>)}
-                </ul>
+          commercialModel.lines.map((line, index) => (
+            <article class="model-line" data-reveal>
+              <div class="model-line__lead">
+                <span class="model-line__index">{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <p class="model-line__phase">{line.phase}</p>
+                  <h3>{line.title}</h3>
+                </div>
               </div>
+              <p class="model-line__description">{line.description}</p>
+              <ul class="model-line__revenue">
+                {line.revenue.map((item) => <li>{item}</li>)}
+              </ul>
             </article>
           ))
         }
@@ -169,17 +199,28 @@ const structuredData = {
   <section class="section section--tinted" id="technology">
     <div class="container">
       <SectionIntro label={technology.label} title={technology.title} intro={technology.intro} />
-      <div class="technology-grid">
+      <div class="technology-rows">
         {
-          technology.systems.map((system) => (
-            <article class="technology-panel" data-reveal>
-              <div class:list={['technology-panel__visual', `technology-panel__visual--${system.theme}`]}>
-                <span class="technology-panel__tag">{system.tag}</span>
+          technology.systems.map((system, index) => (
+            <article
+              class:list={[
+                'technology-row',
+                `technology-row--${system.theme}`,
+                index % 2 === 1 && 'technology-row--reverse',
+              ]}
+              data-reveal
+            >
+              <div class="technology-row__visual">
+                <span class="technology-row__tag">{system.tag}</span>
+                <div class="technology-row__signal">
+                  <span>{system.specs[0]?.value}</span>
+                  <strong>{system.specs[3]?.value}</strong>
+                </div>
               </div>
-              <div class="technology-panel__body">
+              <div class="technology-row__body">
                 <h3>{system.title}</h3>
                 <p>{system.summary}</p>
-                <dl class="technology-panel__specs">
+                <dl class="technology-row__specs">
                   {system.specs.map((spec) => (
                     <div>
                       <dt>{spec.label}</dt>
@@ -203,19 +244,24 @@ const structuredData = {
         intro={regions.intro}
         tone="dark"
       />
-      <div class="regions-grid">
+      <div class="market-list">
         {
           regions.markets.map((market) => (
-            <article class="region-panel" data-reveal>
-              <div class:list={['region-panel__visual', `region-panel__visual--${market.theme}`]}></div>
-              <div class="region-panel__body">
-                <p class="region-panel__status">
+            <article class:list={['market-band', `market-band--${market.theme}`]} data-reveal>
+              <div class="market-band__visual">
+                <div class="market-band__visual-copy">
+                  <span>{market.detail[0]?.value}</span>
+                  <strong>{market.detail[2]?.value}</strong>
+                </div>
+              </div>
+              <div class="market-band__body">
+                <p class="market-band__status">
                   <span></span>
                   {market.status}
                 </p>
                 <h3>{market.name}</h3>
                 <p>{market.description}</p>
-                <dl class="region-panel__details">
+                <dl class="market-band__details">
                   {market.detail.map((item) => (
                     <div>
                       <dt>{item.label}</dt>
@@ -315,14 +361,16 @@ const structuredData = {
         intro={contact.intro}
         tone="dark"
       />
-      <div class="cta-grid">
+      <div class="partner-list">
         {
           contact.audiences.map((audience) => (
-            <a class="cta-card" href={audience.href} data-reveal>
-              <span class="cta-card__audience">{audience.audience}</span>
-              <h3>{audience.title}</h3>
-              <p>{audience.description}</p>
-              <span class="cta-card__action">
+            <a class="partner-row" href={audience.href} data-reveal>
+              <span class="partner-row__audience">{audience.audience}</span>
+              <div class="partner-row__body">
+                <h3>{audience.title}</h3>
+                <p>{audience.description}</p>
+              </div>
+              <span class="partner-row__action">
                 {audience.action}
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14M13 5l7 7-7 7"></path>

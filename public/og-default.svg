@@ -1,0 +1,53 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="96" y1="64" x2="1080" y2="566" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14211C"/>
+      <stop offset="0.48" stop-color="#21342D"/>
+      <stop offset="1" stop-color="#335944"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(925 146) rotate(132.791) scale(412.859 512.651)">
+      <stop stop-color="#E8C274" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#E8C274" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(194 138) rotate(90) scale(148)">
+      <stop stop-color="#F7F1E3" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#F7F1E3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" rx="32" fill="url(#bg)"/>
+  <rect x="40" y="40" width="1120" height="550" rx="28" stroke="#F7F1E3" stroke-opacity="0.12"/>
+  <circle cx="925" cy="146" r="240" fill="url(#glow)"/>
+  <circle cx="194" cy="138" r="148" fill="url(#halo)"/>
+
+  <g transform="translate(112 104)">
+    <circle cx="0" cy="0" r="44" fill="#F7F1E3" fill-opacity="0.06"/>
+    <circle cx="0" cy="0" r="26" stroke="#F7F1E3" stroke-width="4" stroke-opacity="0.9"/>
+  </g>
+
+  <text x="112" y="228" fill="#E8C274" font-family="Manrope, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="5.5">
+    BIOCHAR CARBON REMOVAL INFRASTRUCTURE
+  </text>
+
+  <text x="112" y="312" fill="#F7F1E3" font-family="'Cormorant Garamond', Georgia, serif" font-size="84" font-weight="500">
+    Biomass Resource Group
+  </text>
+
+  <text x="112" y="396" fill="#F7F1E3" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-style="italic" font-weight="500">
+    Durable carbon removal infrastructure.
+  </text>
+
+  <text x="112" y="468" fill="#D2D7D2" font-family="Manrope, Arial, sans-serif" font-size="30" font-weight="500">
+    Converting waste biomass into verified carbon removal and agricultural biochar
+  </text>
+  <text x="112" y="510" fill="#D2D7D2" font-family="Manrope, Arial, sans-serif" font-size="30" font-weight="500">
+    at industrial scale across East Africa and the Middle East.
+  </text>
+
+  <g transform="translate(112 558)">
+    <rect width="340" height="2" fill="#C89D45" fill-opacity="0.72"/>
+    <text x="368" y="10" fill="#F7F1E3" font-family="Manrope, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="2.4">
+      biomassresourcegroup.com
+    </text>
+  </g>
+</svg>

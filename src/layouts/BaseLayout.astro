@@ -2,6 +2,8 @@
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { siteMeta } from '../data/site';
+import manropeRegularWoff2 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
+import cormorantDisplayWoff2 from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2?url';
 import '../styles/global.css';
 
 interface Props {
@@ -12,16 +14,18 @@ interface Props {
   noindex?: boolean;
   type?: 'website' | 'article';
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  bodyClass?: string;
 }
 
 const {
   title = siteMeta.title,
   description = siteMeta.description,
   path = Astro.url.pathname,
-  imagePath,
+  imagePath = '/og-default.jpg',
   noindex = false,
   type = 'website',
   structuredData = [],
+  bodyClass = '',
 } = Astro.props;
 
 const fullTitle = title.includes(siteMeta.name) ? title : `${title} | ${siteMeta.name}`;
@@ -55,6 +59,8 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preload" href={manropeRegularWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={cormorantDisplayWoff2} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl.toString()} />
     <title>{fullTitle}</title>
@@ -80,7 +86,7 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
       )
     }
   </head>
-  <body>
+  <body class={bodyClass}>
     <a class="skip-link" href="#content">Skip to content</a>
     <Header />
     <main id="content">
@@ -96,9 +102,17 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
         const body = document.body;
         const mobileNavQuery = window.matchMedia('(max-width: 820px)');
         const revealElements = Array.from(document.querySelectorAll('[data-reveal]'));
+        const hero = document.querySelector('[data-hero]');
 
         const syncHeader = () => {
           header?.classList.toggle('is-scrolled', window.scrollY > 20);
+        };
+
+        const syncHero = () => {
+          if (!(hero instanceof HTMLElement)) return;
+
+          const progress = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+          hero.style.setProperty('--hero-progress', progress.toFixed(3));
         };
 
         const closeMenu = () => {
@@ -127,8 +141,10 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
         };
 
         syncHeader();
+        syncHero();
         syncViewportState();
         window.addEventListener('scroll', syncHeader, { passive: true });
+        window.addEventListener('scroll', syncHero, { passive: true });
         subscribeToViewportChanges(syncViewportState);
 
         toggle?.addEventListener('click', () => {
