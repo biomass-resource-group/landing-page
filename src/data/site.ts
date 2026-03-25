@@ -1,11 +1,11 @@
 export const siteMeta = {
   name: 'Biomass Resource Group',
   shortName: 'BRG',
-  siteUrl: 'https://biomassresourcegroup.io',
+  siteUrl: 'https://biomassresourcegroup.com',
   title: 'Biomass Resource Group | Biochar Carbon Removal Infrastructure',
   description:
     'Biomass Resource Group builds and operates biochar carbon removal infrastructure in emerging markets, converting waste biomass into verified carbon removal and agricultural biochar at industrial scale.',
-  email: 'info@biomassresourcegroup.io',
+  email: 'info@biomassresourcegroup.com',
 };
 
 export const navLinks = [
@@ -271,7 +271,7 @@ export const contact = {
       title: 'Deploy capital into physical carbon removal infrastructure',
       description:
         'Equity and project-level investment opportunities in biochar production infrastructure across operating and pipeline regions.',
-      href: 'mailto:invest@biomassresourcegroup.io',
+      href: 'mailto:invest@biomassresourcegroup.com',
       action: 'Investor inquiries',
     },
     {
@@ -279,7 +279,7 @@ export const contact = {
       title: 'Purchase high-permanence carbon removal credits',
       description:
         'Verified biochar carbon removal credits with 100+ year permanence, backed by physical production and third-party monitoring.',
-      href: 'mailto:carbon@biomassresourcegroup.io',
+      href: 'mailto:carbon@biomassresourcegroup.com',
       action: 'Buy carbon removal',
     },
     {
@@ -287,7 +287,7 @@ export const contact = {
       title: 'Partner on waste processing and biochar infrastructure',
       description:
         'Contract waste processing, biogas co-production, and biochar supply for municipalities, water authorities, and industrial operators.',
-      href: 'mailto:partnerships@biomassresourcegroup.io',
+      href: 'mailto:partnerships@biomassresourcegroup.com',
       action: 'Partnership inquiries',
     },
   ],

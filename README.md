@@ -1,6 +1,6 @@
 # Biomass Resource Group Website
 
-Astro-based marketing site for `biomassresourcegroup.io`, designed for static deployment on Cloudflare Pages.
+Astro-based marketing site for `biomassresourcegroup.com`, designed for static deployment on Cloudflare Pages.
 
 ## Stack
 
@@ -41,6 +41,6 @@ Each update automatically appears:
 
 ## Deployment notes
 
-- The canonical site URL is set to `https://biomassresourcegroup.io`
+- The canonical site URL is set to `https://biomassresourcegroup.com`
 - Cloudflare Pages can deploy the generated `dist/` directory
 - Security headers live in `public/_headers`
