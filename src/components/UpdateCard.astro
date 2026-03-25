@@ -1,22 +1,19 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { formatMonthYear } from '../utils/formatDate';
 
 interface Props {
   update: CollectionEntry<'updates'>;
 }
 
 const { update } = Astro.props;
-
-const publishedLabel = new Intl.DateTimeFormat('en-US', {
-  month: 'long',
-  year: 'numeric',
-}).format(update.data.publishedAt);
+const publishedLabel = formatMonthYear(update.data.publishedAt);
 ---
 
 <article class="update-card" data-reveal>
   <a class="update-card__link" href={`/updates/${update.id}/`}>
     <div class="update-card__meta">
-      <span>{publishedLabel}</span>
+      <time datetime={update.data.publishedAt.toISOString()}>{publishedLabel}</time>
       <span>{update.data.category}</span>
     </div>
     <h3>{update.data.title}</h3>

@@ -987,9 +987,9 @@ section[id] {
 
 .technology-panel__specs dt,
 .region-panel__details dt,
-.article-meta span,
-.updates-list__meta span,
-.update-card__meta span:first-child {
+.article-meta time,
+.updates-list__meta > *,
+.update-card__meta time {
   margin-bottom: 0.25rem;
   font-size: 0.7rem;
   font-weight: 700;

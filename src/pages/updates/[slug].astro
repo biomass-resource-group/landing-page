@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { siteMeta } from '../../data/site';
+import { formatFullDate } from '../../utils/formatDate';
 
 export async function getStaticPaths() {
   const updates = await getCollection('updates', ({ data }) => !data.draft);
@@ -15,11 +16,7 @@ export async function getStaticPaths() {
 const { update } = Astro.props;
 const { Content } = await render(update);
 
-const publishedLabel = new Intl.DateTimeFormat('en-US', {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-}).format(update.data.publishedAt);
+const publishedLabel = formatFullDate(update.data.publishedAt);
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -53,7 +50,7 @@ const structuredData = {
       <h1>{update.data.title}</h1>
       <p>{update.data.summary}</p>
       <div class="article-meta">
-        <span>{publishedLabel}</span>
+        <time datetime={update.data.publishedAt.toISOString()}>{publishedLabel}</time>
       </div>
     </div>
   </section>

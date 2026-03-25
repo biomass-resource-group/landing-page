@@ -2,7 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Page not found" noindex={true} path="/404/">
+<BaseLayout
+  title="Page not found"
+  description="The requested page could not be found. Return to the Biomass Resource Group homepage or browse recent updates."
+  noindex={true}
+  path="/404.html"
+>
   <section class="page-hero page-hero--compact">
     <div class="container page-hero__inner" data-reveal>
       <p class="page-hero__eyebrow">404</p>
