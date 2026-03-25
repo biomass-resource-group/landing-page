@@ -71,6 +71,9 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
     <meta name="twitter:description" content={description} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     <meta name="theme-color" content="#0e1714" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     {
       jsonLd.length > 0 && (
         <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -91,6 +94,8 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
         const menu = document.querySelector('[data-menu]');
         const toggle = document.querySelector('[data-menu-toggle]');
         const body = document.body;
+        const mobileNavQuery = window.matchMedia('(max-width: 820px)');
+        const revealElements = Array.from(document.querySelectorAll('[data-reveal]'));
 
         const syncHeader = () => {
           header?.classList.toggle('is-scrolled', window.scrollY > 20);
@@ -103,8 +108,16 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
           body.classList.remove('menu-open');
         };
 
+        const syncViewportState = () => {
+          if (!mobileNavQuery.matches) {
+            closeMenu();
+          }
+        };
+
         syncHeader();
+        syncViewportState();
         window.addEventListener('scroll', syncHeader, { passive: true });
+        mobileNavQuery.addEventListener('change', syncViewportState);
 
         toggle?.addEventListener('click', () => {
           const isOpen = menu?.classList.toggle('is-open');
@@ -116,8 +129,22 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
           anchor.addEventListener('click', closeMenu);
         });
 
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            closeMenu();
+          }
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!menu?.classList.contains('is-open') || !toggle) return;
+          const target = event.target;
+          if (!(target instanceof Node)) return;
+          if (menu.contains(target) || toggle.contains(target)) return;
+          closeMenu();
+        });
+
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          document.querySelectorAll('[data-reveal]').forEach((element) => {
+          revealElements.forEach((element) => {
             element.classList.add('is-visible');
           });
           return;
@@ -138,7 +165,14 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
           }
         );
 
-        document.querySelectorAll('[data-reveal]').forEach((element) => {
+        revealElements.forEach((element) => {
+          const bounds = element.getBoundingClientRect();
+          if (bounds.top <= window.innerHeight * 0.9) {
+            element.classList.add('is-visible');
+            return;
+          }
+
+          element.classList.add('reveal-pending');
           observer.observe(element);
         });
       };

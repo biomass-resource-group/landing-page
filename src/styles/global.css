@@ -161,6 +161,7 @@ section[id] {
   position: sticky;
   top: 0;
   z-index: 100;
+  isolation: isolate;
   transition:
     background-color 0.3s ease,
     border-color 0.3s ease,
@@ -1444,15 +1445,18 @@ section[id] {
   text-transform: uppercase;
 }
 
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(22px);
+html.js [data-reveal] {
   transition:
     opacity 0.6s ease,
     transform 0.6s ease;
 }
 
-[data-reveal].is-visible {
+html.js [data-reveal].reveal-pending {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+html.js [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -1511,7 +1515,8 @@ section[id] {
     padding: 1rem;
     border: 1px solid rgba(14, 23, 20, 0.08);
     border-radius: 1.4rem;
-    background: rgba(255, 255, 255, 0.96);
+    z-index: 2;
+    background: #fdfaf4;
     box-shadow: var(--shadow-soft);
   }
 
