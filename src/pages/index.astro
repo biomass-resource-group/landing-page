@@ -354,10 +354,17 @@ const structuredData = {
 
   <section class="section section--tinted" id="impact">
     <div class="container">
-      <SectionIntro label={impact.label} title={impact.title} intro={impact.intro} />
-      <div class="impact-layout">
-        <div class="impact-layout__narrative" data-reveal>
-          {impact.narrative.map((paragraph) => <p>{paragraph}</p>)}
+      <div class="proof-shell">
+        <div class="proof-shell__lead">
+          <SectionIntro label={impact.label} title={impact.title} intro={impact.intro} />
+          <div class="impact-layout__narrative" data-reveal>
+            {impact.narrative.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <div class="proof-shell__operator" data-reveal>
+            <p class="proof-shell__label">{leadership.label}</p>
+            <h3>{leadership.title}</h3>
+            {leadership.narrative.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
         </div>
         <div class="impact-stats">
           {
@@ -371,21 +378,12 @@ const structuredData = {
           }
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="section" id="leadership">
-    <div class="container">
-      <SectionIntro
-        label={leadership.label}
-        title={leadership.title}
-        intro={leadership.intro}
-      />
-      <div class="leadership-layout">
-        <div class="leadership-layout__narrative" data-reveal>
-          {leadership.narrative.map((paragraph) => <p>{paragraph}</p>)}
+      <div class="principles-shell" data-reveal>
+        <div class="principles-shell__intro">
+          <p class="proof-shell__label">Operating principles</p>
+          <h3>{leadership.intro}</h3>
         </div>
-        <div class="principles">
+        <div class="principles principles--grid">
           {
             leadership.principles.map((principle) => (
               <article class="principles__item" data-reveal>
@@ -402,52 +400,43 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section section--tinted" id="updates">
-    <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label="Updates"
-          title="From the field."
-          intro="Operational milestones, project updates, and industry perspective from teams across active regions."
-        />
-        <a class="section-heading-row__link" href="/updates/">View all updates</a>
-      </div>
-      <div class="updates-grid">
-        {updates.map((update) => <UpdateCard update={update} />)}
-      </div>
-    </div>
-  </section>
-
   <section class="section cta-section" id="contact">
     <div class="container">
-      <SectionIntro
-        label={contact.label}
-        title={contact.title}
-        intro={contact.intro}
-        tone="dark"
-      />
-      <div class="partner-list">
-        {
-          contact.audiences.map((audience) => (
-            <a class="partner-row" href={audience.href} data-reveal>
-              <span class="partner-row__audience">{audience.audience}</span>
-              <div class="partner-row__body">
-                <h3>{audience.title}</h3>
-                <p>{audience.description}</p>
-              </div>
-              <span class="partner-row__action">
-                {audience.action}
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14M13 5l7 7-7 7"></path>
-                </svg>
-              </span>
-            </a>
-          ))
-        }
-      </div>
-      <div class="cta-section__footer" data-reveal>
-        <span>General inquiries</span>
-        <a href={`mailto:${siteMeta.email}`}>{siteMeta.email}</a>
+      <div class="cta-panel" data-reveal>
+        <SectionIntro
+          label={contact.label}
+          title={contact.title}
+          intro={contact.intro}
+          tone="dark"
+        />
+        <div class="cta-panel__actions">
+          <a class="button button--primary" href={`mailto:${siteMeta.email}`}>
+            Email BRG
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7"></path>
+            </svg>
+          </a>
+          <a class="button button--secondary" href="#pathways">
+            Choose your path
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+            </svg>
+          </a>
+        </div>
+        <div class="cta-panel__contacts">
+          {
+            contact.audiences.map((audience) => (
+              <a class="cta-panel__contact" href={audience.href}>
+                <span>{audience.audience}</span>
+                <strong>{audience.action}</strong>
+              </a>
+            ))
+          }
+        </div>
+        <div class="cta-section__footer">
+          <span>General inquiries</span>
+          <a href={`mailto:${siteMeta.email}`}>{siteMeta.email}</a>
+        </div>
       </div>
     </div>
   </section>
