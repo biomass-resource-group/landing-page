@@ -10,11 +10,9 @@ export const siteMeta = {
 
 export const navLinks = [
   { label: 'Platform', href: '#platform' },
-  { label: 'Model', href: '#model' },
-  { label: 'Technology', href: '#technology' },
-  { label: 'Regions', href: '#regions' },
-  { label: 'Impact', href: '#impact' },
-  { label: 'Updates', href: '#updates' },
+  { label: 'Economics', href: '#model' },
+  { label: 'Markets', href: '#regions' },
+  { label: 'Activity', href: '#updates' },
   { label: 'Contact', href: '#contact', primary: true },
 ] as const;
 
@@ -24,12 +22,12 @@ export const hero = {
   summary:
     'BRG turns waste biomass into verified carbon removal and agricultural biochar through owner-operated assets in East Africa and the Middle East.',
   primaryAction: {
-    label: 'See the Operating Model',
-    href: '#model',
+    label: 'Start a conversation',
+    href: '#contact',
   },
   secondaryAction: {
-    label: 'Partner with BRG',
-    href: '#contact',
+    label: 'See latest activity',
+    href: '#updates',
   },
   metrics: [
     { value: '3.5+', label: 'Years of field operations' },
@@ -191,8 +189,8 @@ export const regions = {
 };
 
 export const impact = {
-  label: 'Impact',
-  title: 'Measurable outcomes across carbon, employment, and waste diversion.',
+  label: 'Why BRG',
+  title: 'Measured output, operator depth, and a platform that is active now.',
   intro: 'Every metric is tied to operating output. We report only what we can verify.',
   narrative: [
     'Every tonne of BRG biochar is traceable to a specific production run and aligned with third-party verification. In parallel, operations create jobs, divert waste, and support agricultural productivity in the markets where they run.',
@@ -258,10 +256,10 @@ export const leadership = {
 };
 
 export const contact = {
-  label: 'Work With Us',
-  title: 'Investing in durable carbon removal infrastructure.',
+  label: 'Contact',
+  title: 'Start a partnership conversation with BRG.',
   intro:
-    'We partner with investors, carbon buyers, public-sector procurement teams, and waste-management operators.',
+    'We work with investors, carbon buyers, and infrastructure operators building durable biochar systems in-market.',
   audiences: [
     {
       audience: 'Investors',

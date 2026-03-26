@@ -4,14 +4,16 @@ import { formatMonthYear } from '../utils/formatDate';
 
 interface Props {
   update: CollectionEntry<'updates'>;
+  featured?: boolean;
 }
 
-const { update } = Astro.props;
+const { update, featured = false } = Astro.props;
 const publishedLabel = formatMonthYear(update.data.publishedAt);
 ---
 
-<article class="update-teaser" data-reveal>
+<article class:list={['update-teaser', featured && 'update-teaser--featured']} data-reveal>
   <a class="update-teaser__link" href={`/updates/${update.id}/`}>
+    {featured && <p class="update-teaser__eyebrow">Latest milestone</p>}
     <div class="update-teaser__meta">
       <time datetime={update.data.publishedAt.toISOString()}>{publishedLabel}</time>
       <span>{update.data.category}</span>
