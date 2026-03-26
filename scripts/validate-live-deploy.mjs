@@ -1,13 +1,13 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { parseHeadersBlocks } from './headers-utils.mjs';
+import { normalizeHeaderValue, parseHeadersBlocks } from './headers-utils.mjs';
 
-const siteUrl = process.env.SITE_URL ?? 'https://biomassresourcegroup.com';
+const siteUrl = (process.env.SITE_URL ?? 'https://biomassresourcegroup.com').replace(/\/$/, '');
 const repoRoot = process.cwd();
 const distHeadersFile = join(repoRoot, 'dist', '_headers');
 const sourceHeadersFile = join(repoRoot, 'public', '_headers');
 const headersFile = existsSync(distHeadersFile) ? distHeadersFile : sourceHeadersFile;
-const headersText = readFileSync(headersFile, 'utf8');
+const headerBlocks = parseHeadersBlocks(readFileSync(headersFile, 'utf8'));
 
 const failures = [];
 
@@ -15,8 +15,6 @@ const expect = (condition, message) => {
   if (!condition) failures.push(message);
 };
 
-const normalizeHeaderValue = (value) => value.trim().replace(/\s+/g, ' ');
-const headerBlocks = parseHeadersBlocks(headersText);
 const rootHeaders = headerBlocks.get('/*') ?? new Map();
 const assetHeaders = headerBlocks.get('/_astro/*') ?? new Map();
 const homeHeaders = headerBlocks.get('/') ?? new Map();
@@ -32,6 +30,7 @@ const compareHeaders = (response, expectedHeaders, label) => {
   for (const [name, expectedValue] of expectedHeaders.entries()) {
     const actualValue = response.headers.get(name);
     expect(actualValue !== null, `${label} is missing header ${name}`);
+
     if (actualValue !== null) {
       expect(
         normalizeHeaderValue(actualValue) === expectedValue,

@@ -14,7 +14,7 @@ const setupSiteUi = () => {
   let scrollFrame = 0;
 
   const syncHeader = () => {
-    if (!header) return;
+    if (!(header instanceof HTMLElement)) return;
     header.classList.toggle('is-scrolled', window.scrollY > 20);
   };
 
@@ -37,7 +37,7 @@ const setupSiteUi = () => {
   };
 
   const closeMenu = () => {
-    if (!menu || !toggle) return;
+    if (!(menu instanceof HTMLElement) || !(toggle instanceof HTMLElement)) return;
 
     menu.classList.remove('is-open');
     toggle.setAttribute('aria-expanded', 'false');
@@ -75,9 +75,11 @@ const setupSiteUi = () => {
   });
 
   toggle?.addEventListener('click', () => {
-    const isOpen = menu?.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
-    body.classList.toggle('menu-open', Boolean(isOpen));
+    if (!(menu instanceof HTMLElement) || !(toggle instanceof HTMLElement)) return;
+
+    const isOpen = menu.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    body.classList.toggle('menu-open', isOpen);
   });
 
   menu?.querySelectorAll('a').forEach((anchor) => {
@@ -91,23 +93,15 @@ const setupSiteUi = () => {
   });
 
   document.addEventListener('click', (event) => {
-    if (!menu?.classList.contains('is-open') || !toggle) return;
-
-    const { target } = event;
-    if (!(target instanceof Node)) return;
-    if (menu.contains(target) || toggle.contains(target)) return;
+    if (!(menu instanceof HTMLElement) || !(toggle instanceof HTMLElement)) return;
+    if (!menu.classList.contains('is-open')) return;
+    if (!(event.target instanceof Node)) return;
+    if (menu.contains(event.target) || toggle.contains(event.target)) return;
 
     closeMenu();
   });
 
-  if (prefersReducedMotion) {
-    revealElements.forEach((element) => {
-      element.classList.add('is-visible');
-    });
-    return;
-  }
-
-  if (!('IntersectionObserver' in window)) {
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
     revealElements.forEach((element) => {
       element.classList.add('is-visible');
     });
@@ -117,16 +111,15 @@ const setupSiteUi = () => {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
       });
     },
     {
       threshold: 0.18,
       rootMargin: '0px 0px -10% 0px',
-    }
+    },
   );
 
   revealElements.forEach((element) => {

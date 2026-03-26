@@ -15,6 +15,16 @@ const requiredFiles = [
   'og-default.jpg',
   join('scripts', 'site-ui.js'),
 ];
+const retiredSelectors = [
+  '.hero-visual',
+  '.hero-metrics',
+  '.affiliations__item',
+  '.model-card',
+  '.technology-panel',
+  '.region-panel',
+  '.update-card',
+  '.cta-card',
+];
 
 const failures = [];
 
@@ -97,6 +107,14 @@ expect(rootHeaders.get('x-frame-options') === 'DENY', '_headers is missing X-Fra
 expect(
   rootHeaders.get('referrer-policy') === 'strict-origin-when-cross-origin',
   '_headers is missing Referrer-Policy: strict-origin-when-cross-origin',
+);
+expect(
+  rootHeaders.get('cross-origin-opener-policy') === 'same-origin',
+  '_headers is missing Cross-Origin-Opener-Policy: same-origin',
+);
+expect(
+  rootHeaders.get('cross-origin-resource-policy') === 'same-origin',
+  '_headers is missing Cross-Origin-Resource-Policy: same-origin',
 );
 expect(
   assetHeaders.get('cache-control') === 'public, max-age=31536000, immutable',
@@ -237,6 +255,10 @@ expect(
   /html\.js\s+\.mobile-menu\.is-open\s*\{[^}]*display\s*:\s*block/i.test(css),
   'Built CSS is missing the JS-driven mobile menu open state',
 );
+
+for (const selector of retiredSelectors) {
+  expect(!css.includes(selector), `Built CSS still ships retired selector ${selector}`);
+}
 
 const robots = read('robots.txt');
 expect(

@@ -17,7 +17,7 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",
     "@fontsource/cormorant-garamond": "^5.2.11",
-    "@fontsource/manrope": "^5.2.8",
+    "@fontsource-variable/manrope": "^5.2.8",
     "astro": "^6.0.8"
   },
   "devDependencies": {

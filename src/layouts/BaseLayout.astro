@@ -2,8 +2,7 @@
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { siteMeta } from '../data/site';
-import manropeRegularWoff2 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
-import manropeBoldWoff2 from '@fontsource/manrope/files/manrope-latin-700-normal.woff2?url';
+import manropeVariableWoff2 from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
 import cormorantDisplayWoff2 from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2?url';
 import cormorantDisplayItalicWoff2 from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-italic.woff2?url';
 import '../styles/global.css';
@@ -61,8 +60,7 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="preload" href={manropeRegularWoff2} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={manropeBoldWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={manropeVariableWoff2} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={cormorantDisplayWoff2} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={cormorantDisplayItalicWoff2} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
