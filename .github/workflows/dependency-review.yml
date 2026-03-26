@@ -2,6 +2,11 @@ name: Dependency Review
 
 on:
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -10,6 +15,7 @@ permissions:
 jobs:
   dependency-review:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
       - name: Detect dependency graph support
@@ -23,8 +29,11 @@ jobs:
           )"
           echo "status=$status" >> "$GITHUB_OUTPUT"
 
-      - if: steps.dependency-graph.outputs.status == 'enabled'
+      - if: github.event_name == 'pull_request' && steps.dependency-graph.outputs.status == 'enabled'
         uses: actions/dependency-review-action@v4
 
-      - if: steps.dependency-graph.outputs.status != 'enabled'
+      - if: github.event_name == 'pull_request' && steps.dependency-graph.outputs.status != 'enabled'
         run: echo "Skipping dependency review because GitHub Dependency Graph is not enabled for this repository."
+
+      - if: github.event_name != 'pull_request'
+        run: echo "Skipping dependency review because this workflow only evaluates pull request dependency diffs."
