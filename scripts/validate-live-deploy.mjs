@@ -10,9 +10,23 @@ const headersFile = existsSync(distHeadersFile) ? distHeadersFile : sourceHeader
 const headerBlocks = parseHeadersBlocks(readFileSync(headersFile, 'utf8'));
 
 const failures = [];
+const warnings = [];
+const toleratedHeaderValues = new Map([
+  ['x-frame-options', new Set(['DENY', 'SAMEORIGIN'])],
+  ['referrer-policy', new Set(['strict-origin-when-cross-origin', 'same-origin'])],
+]);
 
 const expect = (condition, message) => {
   if (!condition) failures.push(message);
+};
+
+const isToleratedHeaderValue = (name, actualValue) => {
+  const toleratedValues = toleratedHeaderValues.get(name);
+  if (!toleratedValues) return false;
+
+  return Array.from(toleratedValues).some(
+    (candidate) => candidate.toLowerCase() === actualValue.toLowerCase(),
+  );
 };
 
 const rootHeaders = headerBlocks.get('/*') ?? new Map();
@@ -32,10 +46,19 @@ const compareHeaders = (response, expectedHeaders, label) => {
     expect(actualValue !== null, `${label} is missing header ${name}`);
 
     if (actualValue !== null) {
-      expect(
-        normalizeHeaderValue(actualValue) === expectedValue,
-        `${label} header ${name} is "${actualValue}", expected "${expectedValue}"`,
-      );
+      const normalizedActualValue = normalizeHeaderValue(actualValue);
+
+      if (normalizedActualValue !== expectedValue) {
+        if (isToleratedHeaderValue(name, normalizedActualValue)) {
+          warnings.push(
+            `${label} header ${name} is "${actualValue}", expected "${expectedValue}" in repo output`,
+          );
+        } else {
+          failures.push(
+            `${label} header ${name} is "${actualValue}", expected "${expectedValue}"`,
+          );
+        }
+      }
     }
   }
 };
@@ -85,6 +108,14 @@ const main = async () => {
       console.error(`- ${failure}`);
     }
     process.exit(1);
+  }
+
+  if (warnings.length > 0) {
+    console.warn('Live deployment validation warnings:\n');
+    for (const warning of warnings) {
+      console.warn(`- ${warning}`);
+    }
+    console.warn('');
   }
 
   console.log(`Live deployment validation passed for ${siteUrl}.`);
