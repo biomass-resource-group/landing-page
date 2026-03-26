@@ -30,21 +30,30 @@ const updates = (await getCollection('updates', ({ data }) => !data.draft)).sort
         {
           updates.map((update) => {
             const published = formatFullDate(update.data.publishedAt);
+            const updateSlug = update.id.replace(/[^a-zA-Z0-9_-]/g, '-');
+            const titleId = `update-${updateSlug}-title`;
+            const metaId = `update-${updateSlug}-meta`;
+            const summaryId = `update-${updateSlug}-summary`;
 
             return (
-              <article class="updates-list__item" data-reveal>
-                <div class="updates-list__meta">
-                  <time datetime={update.data.publishedAt.toISOString()}>{published}</time>
-                  <span>{update.data.category}</span>
-                </div>
-                <div class="updates-list__body">
-                  <h2>
-                    <a href={`/updates/${update.id}/`}>{update.data.title}</a>
-                  </h2>
-                  <p>{update.data.summary}</p>
-                </div>
-                <a class="updates-list__action" href={`/updates/${update.id}/`}>
-                  Read
+              <article class="updates-list__entry" data-reveal>
+                <a
+                  class="updates-list__item"
+                  href={`/updates/${update.id}/`}
+                  aria-labelledby={titleId}
+                  aria-describedby={`${metaId} ${summaryId}`}
+                >
+                  <div class="updates-list__meta" id={metaId}>
+                    <time datetime={update.data.publishedAt.toISOString()}>{published}</time>
+                    <span>{update.data.category}</span>
+                  </div>
+                  <div class="updates-list__body">
+                    <h2 id={titleId}>{update.data.title}</h2>
+                    <p id={summaryId}>{update.data.summary}</p>
+                  </div>
+                  <span class="updates-list__action" aria-hidden="true">
+                    Read update
+                  </span>
                 </a>
               </article>
             );

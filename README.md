@@ -21,6 +21,7 @@ Astro-based marketing site for `biomassresourcegroup.com`, designed for static d
 - `npm run build` creates the production build in `dist/`
 - `npm run check` runs Astro's project checks
 - `npm run validate:dist` verifies the built HTML, sitemap, headers, and social metadata
+- `npm run validate:live-deploy` compares production headers and critical metadata against the repo's expected state
 - `npm run preview` serves the production build locally
 
 ## Content editing
@@ -56,4 +57,5 @@ Each update automatically appears:
 
 - GitHub Actions run `npm ci`, `npm run check`, `npm run build`, and `npm run validate:dist` on pushes and pull requests
 - Pull requests also run dependency review
+- A scheduled/manual workflow validates the live deployment against `public/_headers` and the expected production metadata
 - Dependabot is configured for npm packages and GitHub Actions

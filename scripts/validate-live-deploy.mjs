@@ -1,0 +1,94 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { parseHeadersBlocks } from './headers-utils.mjs';
+
+const siteUrl = process.env.SITE_URL ?? 'https://biomassresourcegroup.com';
+const repoRoot = process.cwd();
+const distHeadersFile = join(repoRoot, 'dist', '_headers');
+const sourceHeadersFile = join(repoRoot, 'public', '_headers');
+const headersFile = existsSync(distHeadersFile) ? distHeadersFile : sourceHeadersFile;
+const headersText = readFileSync(headersFile, 'utf8');
+
+const failures = [];
+
+const expect = (condition, message) => {
+  if (!condition) failures.push(message);
+};
+
+const normalizeHeaderValue = (value) => value.trim().replace(/\s+/g, ' ');
+const headerBlocks = parseHeadersBlocks(headersText);
+const rootHeaders = headerBlocks.get('/*') ?? new Map();
+const assetHeaders = headerBlocks.get('/_astro/*') ?? new Map();
+const homeHeaders = headerBlocks.get('/') ?? new Map();
+
+const fetchText = async (url) => {
+  const response = await fetch(url, { redirect: 'follow' });
+  const text = await response.text();
+
+  return { response, text };
+};
+
+const compareHeaders = (response, expectedHeaders, label) => {
+  for (const [name, expectedValue] of expectedHeaders.entries()) {
+    const actualValue = response.headers.get(name);
+    expect(actualValue !== null, `${label} is missing header ${name}`);
+    if (actualValue !== null) {
+      expect(
+        normalizeHeaderValue(actualValue) === expectedValue,
+        `${label} header ${name} is "${actualValue}", expected "${expectedValue}"`,
+      );
+    }
+  }
+};
+
+const main = async () => {
+  const home = await fetchText(`${siteUrl}/`);
+  expect(home.response.ok, `Home page request failed with ${home.response.status}`);
+  compareHeaders(home.response, rootHeaders, 'home page');
+  compareHeaders(home.response, homeHeaders, 'home page');
+
+  expect(
+    home.text.includes(`<link rel="canonical" href="${siteUrl}/"`),
+    'Home page canonical does not match production URL',
+  );
+  expect(
+    home.text.includes(`<meta property="og:image" content="${siteUrl}/og-default.jpg"`),
+    'Home page is missing og:image for og-default.jpg',
+  );
+  expect(
+    home.text.includes(`<meta name="twitter:image" content="${siteUrl}/og-default.jpg"`),
+    'Home page is missing twitter:image for og-default.jpg',
+  );
+  expect(
+    home.response.headers.get('content-security-policy') !== null,
+    'Home page is missing Content-Security-Policy',
+  );
+
+  const robots = await fetchText(`${siteUrl}/robots.txt`);
+  expect(robots.response.ok, `robots.txt request failed with ${robots.response.status}`);
+  expect(
+    robots.text.includes(`Sitemap: ${siteUrl}/sitemap-index.xml`),
+    'robots.txt does not reference the production sitemap',
+  );
+
+  const assetMatch = home.text.match(/href="(\/_astro\/[^"]+\.css)"/);
+  if (assetMatch?.[1]) {
+    const asset = await fetchText(`${siteUrl}${assetMatch[1]}`);
+    expect(asset.response.ok, `CSS asset request failed with ${asset.response.status}`);
+    compareHeaders(asset.response, assetHeaders, 'CSS asset');
+  } else {
+    failures.push('Could not find a built CSS asset in the home page HTML');
+  }
+
+  if (failures.length > 0) {
+    console.error('Live deployment validation failed:\n');
+    for (const failure of failures) {
+      console.error(`- ${failure}`);
+    }
+    process.exit(1);
+  }
+
+  console.log(`Live deployment validation passed for ${siteUrl}.`);
+};
+
+await main();
