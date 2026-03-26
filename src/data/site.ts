@@ -22,7 +22,7 @@ export const hero = {
   label: 'Biochar Carbon Removal Infrastructure',
   emphasis: 'carbon removal infrastructure',
   summary:
-    'BRG converts waste biomass into verified carbon removal and agricultural biochar across East Africa and the Middle East. Owner-operated assets, revenue-generating projects, and field systems built to replicate.',
+    'BRG turns waste biomass into verified carbon removal and agricultural biochar through owner-operated assets in East Africa and the Middle East.',
   primaryAction: {
     label: 'See the Operating Model',
     href: '#model',
@@ -57,32 +57,31 @@ export const platform = {
   label: 'Our Platform',
   title: 'End-to-end biochar infrastructure, from feedstock to carbon credit.',
   intro:
-    'We own the full value chain. The platform is designed to replicate across geographies, feedstock types, and regulatory environments.',
+    'BRG owns the value chain from feedstock to credit issuance in a format designed to transfer across regions, feedstocks, and regulatory environments.',
   narrative: [
-    'Biomass Resource Group is a holding company operating a portfolio of biochar production and carbon removal businesses across emerging markets. Our operating entities deploy proven pyrolysis technologies to convert agricultural waste, invasive species, and municipal organics into high-quality biochar: a stable carbon sink with a permanence horizon measured in centuries.',
-    'The challenge of biochar at scale has never been the science. It has been the logistics: securing feedstock supply, building reliable transport and processing chains, navigating local procurement structures, training operational teams, and establishing durable buyer relationships. We have spent years solving these constraints in the field, and the infrastructure we have built is replicable.',
-    'Every project in the portfolio generates revenue from three sources: waste processing contracts, biochar product sales, and verified carbon removal credits. Operations are capitalized through project-level debt facilities, forward carbon offtake agreements, and strategic equity partnerships with regional industrial groups.',
+    'BRG operates biochar production and carbon removal businesses across emerging markets, converting agricultural waste, invasive species, and municipal organics into durable biochar.',
+    'The real moat is the operating layer: feedstock contracts, logistics, local teams, verification workflows, and buyer relationships that hold up in the field.',
   ],
   capabilities: [
     {
       title: 'Biomass Sourcing and Logistics',
       description:
-        'In-country procurement relationships and supply-chain infrastructure for consistent feedstock at scale, designed to transfer into new geographies with minimal adaptation.',
+        'In-country procurement and logistics systems that secure consistent feedstock at scale.',
     },
     {
       title: 'Pyrolysis Operations',
       description:
-        'Mobile and fixed-kiln production systems validated in field conditions, each matched to distinct feedstock profiles and throughput requirements.',
+        'Mobile and fixed-kiln systems matched to the feedstock and throughput of each market.',
     },
     {
       title: 'Carbon Monitoring and Verification',
       description:
-        'Integrated measurement, reporting, and verification workflows for issuing high-integrity carbon removal credits.',
+        'Integrated monitoring and verification workflows for high-integrity carbon credit issuance.',
     },
     {
       title: 'Offtake and Market Access',
       description:
-        'Established channels with biochar buyers, carbon credit purchasers, and government procurement authorities across active regions.',
+        'Channels to biochar buyers, carbon purchasers, and public-sector procurement programs.',
     },
   ],
 };
@@ -91,27 +90,27 @@ export const commercialModel = {
   label: 'Commercial Model',
   title: 'Three revenue streams from a single operational process.',
   intro:
-    'Each project generates income through production, offtake, and procurement. These are parallel revenue lines from the same physical operations, not separate business units.',
+    'One operating loop supports product sales, carbon offtake, and contracted waste processing.',
   lines: [
     {
       phase: 'Production',
       title: 'Biomass-to-biochar conversion',
       description:
-        'Fixed and mobile pyrolysis systems process agricultural waste, invasive species, and municipal organics into high-quality biochar. Throughput is configurable to local feedstock availability and market demand.',
+        'Mobile and fixed systems convert locally available waste streams into marketable biochar products.',
       revenue: ['Biochar product sales', 'Agricultural amendments', 'Energy co-products'],
     },
     {
       phase: 'Offtake',
       title: 'Carbon removal credits',
       description:
-        'Each production run generates verified, durable carbon removal credits backed by physical biochar output and third-party monitoring. Forward offtake agreements provide revenue visibility and pre-capitalize new deployments.',
+        'Each production run yields verified credits backed by physical output and third-party monitoring.',
       revenue: ['Spot carbon sales', 'Forward offtake agreements'],
     },
     {
       phase: 'Procurement',
       title: 'Waste processing contracts',
       description:
-        'Municipal and industrial operators pay for waste diversion and processing. Government tenders and contracted waste infrastructure create recurring revenue independent of carbon market pricing.',
+        'Municipal and industrial operators pay for waste diversion, creating recurring revenue outside carbon pricing.',
       revenue: ['Government tenders', 'Municipal contracts', 'Industrial waste fees'],
     },
   ],
@@ -121,7 +120,7 @@ export const technology = {
   label: 'Technology',
   title: 'Two validated kiln platforms, optimized for distinct operating contexts.',
   intro:
-    'Technology selection is driven by feedstock characteristics, throughput requirements, and deployment constraints in each region.',
+    'Technology selection follows feedstock, throughput, and deployment constraints in each market.',
   systems: [
     {
       title: 'Mobile kiln systems',
@@ -156,7 +155,7 @@ export const regions = {
   label: 'Where We Operate',
   title: 'Active operations and a global pipeline built for replication.',
   intro:
-    'Each new region leverages shared technology, carbon infrastructure, and institutional knowledge while adapting to local feedstock, policy, and buyer conditions.',
+    'Each region uses the same operating backbone while adapting to local feedstock, policy, and buyer conditions.',
   markets: [
     {
       name: 'East Africa',
@@ -186,7 +185,7 @@ export const regions = {
   expansion: {
     title: 'Expansion pipeline under active evaluation',
     description:
-      'The operating model and supply chain infrastructure are being assessed for deployment in additional markets where feedstock availability, carbon market access, and local partnerships align.',
+      'The model is being assessed for markets where feedstock, carbon demand, and local partners line up.',
     regions: ['Pakistan', 'MENA', 'Sub-Saharan Africa'],
   },
 };
@@ -194,10 +193,9 @@ export const regions = {
 export const impact = {
   label: 'Impact',
   title: 'Measurable outcomes across carbon, employment, and waste diversion.',
-  intro: 'Every metric is tied to operational output. We report what we can verify.',
+  intro: 'Every metric is tied to operating output. We report only what we can verify.',
   narrative: [
-    'Carbon removal that cannot demonstrate permanence, additionality, and co-benefits will not survive increasing buyer scrutiny. Every tonne of biochar we produce is traceable to a specific production run and aligned with third-party verification.',
-    'Carbon is only one dimension of what our projects deliver. In Kenya, operations create employment in communities where the economics are transformative. In Saudi Arabia, waste is diverted from landfill while generating value for national infrastructure. These co-benefits are part of the commercial model, not incidental to it.',
+    'Every tonne of BRG biochar is traceable to a specific production run and aligned with third-party verification. In parallel, operations create jobs, divert waste, and support agricultural productivity in the markets where they run.',
   ],
   stats: [
     {
@@ -231,10 +229,9 @@ export const leadership = {
   label: 'Leadership',
   title: 'Built by operators, not observers.',
   intro:
-    'The company has spent years building the operational infrastructure that makes biochar work at scale in challenging environments.',
+    'BRG has spent years building the operating infrastructure that makes biochar work at scale in difficult environments.',
   narrative: [
-    'Biomass Resource Group is built on the conviction that durable carbon removal will come from operational infrastructure deployed where waste biomass is abundant, labor markets are underserved, and the economics of conversion are viable.',
-    'The team operates on the ground in East Africa and the Middle East. It has built logistics networks, trained local teams, negotiated contracts, and navigated the complexity of operating across jurisdictions. That operating depth is the differentiator.',
+    'The team operates on the ground in East Africa and the Middle East. It has built logistics networks, trained local teams, negotiated contracts, and operated across jurisdictions. That operating depth is the differentiator.',
   ],
   principles: [
     {
@@ -264,13 +261,13 @@ export const contact = {
   label: 'Work With Us',
   title: 'Investing in durable carbon removal infrastructure.',
   intro:
-    'We partner with institutional investors, carbon credit buyers, government procurement authorities, and waste-management operators.',
+    'We partner with investors, carbon buyers, public-sector procurement teams, and waste-management operators.',
   audiences: [
     {
       audience: 'Investors',
       title: 'Deploy capital into physical carbon removal infrastructure',
       description:
-        'Equity and project-level investment opportunities in biochar production infrastructure across operating and pipeline regions.',
+        'Equity and project-level opportunities across operating and pipeline regions.',
       href: 'mailto:invest@biomassresourcegroup.com',
       action: 'Investor inquiries',
     },
@@ -278,7 +275,7 @@ export const contact = {
       audience: 'Carbon Buyers',
       title: 'Purchase high-permanence carbon removal credits',
       description:
-        'Verified biochar carbon removal credits with 100+ year permanence, backed by physical production and third-party monitoring.',
+        'Verified biochar credits with 100+ year permanence and third-party monitoring.',
       href: 'mailto:carbon@biomassresourcegroup.com',
       action: 'Buy carbon removal',
     },
@@ -286,7 +283,7 @@ export const contact = {
       audience: 'Governments and Operators',
       title: 'Partner on waste processing and biochar infrastructure',
       description:
-        'Contract waste processing, biogas co-production, and biochar supply for municipalities, water authorities, and industrial operators.',
+        'Contract waste processing, biogas co-production, and biochar supply for municipalities and industrial operators.',
       href: 'mailto:partnerships@biomassresourcegroup.com',
       action: 'Partnership inquiries',
     },
