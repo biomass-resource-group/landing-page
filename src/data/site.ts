@@ -18,9 +18,11 @@ export const navLinks = [
 
 export const hero = {
   label: 'Biochar Carbon Removal Infrastructure',
-  emphasis: 'carbon removal infrastructure',
+  lead: 'Waste biomass into',
+  emphasis: 'carbon removal assets',
+  tail: '.',
   summary:
-    'BRG turns waste biomass into verified carbon removal and agricultural biochar through owner-operated assets in East Africa and the Middle East.',
+    'BRG builds and operates owner-led biochar systems that earn from waste processing, biochar product sales, and verified carbon removal credits.',
   primaryAction: {
     label: 'Start a conversation',
     href: '#contact',
@@ -30,10 +32,10 @@ export const hero = {
     href: '#updates',
   },
   metrics: [
-    { value: '3.5+', label: 'Years of field operations' },
+    { value: '2', label: 'Active operating markets' },
+    { value: '3', label: 'Revenue streams per asset' },
+    { value: '100+', label: 'Years of carbon durability' },
     { value: '5', label: 'Country pipeline' },
-    { value: '2', label: 'Kiln platforms validated' },
-    { value: '3', label: 'Parallel revenue streams' },
   ],
   flywheel: [
     'Feedstock sourcing',
@@ -53,12 +55,12 @@ export const affiliations = [
 
 export const platform = {
   label: 'Our Platform',
-  title: 'End-to-end biochar infrastructure, from feedstock to carbon credit.',
+  title: 'One operating platform from feedstock to offtake.',
   intro:
-    'BRG owns the value chain from feedstock to credit issuance in a format designed to transfer across regions, feedstocks, and regulatory environments.',
+    'BRG controls sourcing, conversion, monitoring, and market access so each project launches on the same repeatable operating backbone.',
   narrative: [
-    'BRG operates biochar production and carbon removal businesses across emerging markets, converting agricultural waste, invasive species, and municipal organics into durable biochar.',
-    'The real moat is the operating layer: feedstock contracts, logistics, local teams, verification workflows, and buyer relationships that hold up in the field.',
+    'BRG converts agricultural waste, invasive species, and municipal organics into durable biochar through an operating system designed for difficult markets.',
+    'The moat is not a single kiln. It is the field layer: feedstock contracts, logistics, local teams, verification workflows, and buyer relationships that hold up under real operating conditions.',
   ],
   capabilities: [
     {
@@ -86,29 +88,29 @@ export const platform = {
 
 export const commercialModel = {
   label: 'Commercial Model',
-  title: 'Three revenue streams from a single operational process.',
+  title: 'Each asset earns from waste, product, and carbon.',
   intro:
-    'One operating loop supports product sales, carbon offtake, and contracted waste processing.',
+    'The same operating loop monetizes feedstock processing, biochar output, and carbon removal credits.',
   lines: [
     {
       phase: 'Production',
       title: 'Biomass-to-biochar conversion',
       description:
-        'Mobile and fixed systems convert locally available waste streams into marketable biochar products.',
+        'Mobile and fixed systems turn locally available waste streams into saleable biochar.',
       revenue: ['Biochar product sales', 'Agricultural amendments', 'Energy co-products'],
     },
     {
       phase: 'Offtake',
       title: 'Carbon removal credits',
       description:
-        'Each production run yields verified credits backed by physical output and third-party monitoring.',
+        'Each production run can generate verified credits backed by physical output and third-party monitoring.',
       revenue: ['Spot carbon sales', 'Forward offtake agreements'],
     },
     {
       phase: 'Procurement',
       title: 'Waste processing contracts',
       description:
-        'Municipal and industrial operators pay for waste diversion, creating recurring revenue outside carbon pricing.',
+        'Municipal and industrial operators pay for waste diversion, creating recurring revenue independent of carbon pricing.',
       revenue: ['Government tenders', 'Municipal contracts', 'Industrial waste fees'],
     },
   ],
@@ -116,9 +118,9 @@ export const commercialModel = {
 
 export const technology = {
   label: 'Technology',
-  title: 'Two validated kiln platforms, optimized for distinct operating contexts.',
+  title: 'Validated systems for distributed and industrial deployment.',
   intro:
-    'Technology selection follows feedstock, throughput, and deployment constraints in each market.',
+    'Technology choice follows feedstock, throughput, and deployment constraints in each market.',
   systems: [
     {
       title: 'Mobile kiln systems',
@@ -151,9 +153,9 @@ export const technology = {
 
 export const regions = {
   label: 'Where We Operate',
-  title: 'Active operations and a global pipeline built for replication.',
+  title: 'Two active operating markets with a wider pipeline underway.',
   intro:
-    'Each region uses the same operating backbone while adapting to local feedstock, policy, and buyer conditions.',
+    'Each region runs on the same backbone while adapting to local feedstock, policy, and buyer conditions.',
   markets: [
     {
       name: 'East Africa',
@@ -190,8 +192,8 @@ export const regions = {
 
 export const impact = {
   label: 'Why BRG',
-  title: 'Measured output, operator depth, and a platform that is active now.',
-  intro: 'Every metric is tied to operating output. We report only what we can verify.',
+  title: 'Operational proof, not speculative narrative.',
+  intro: 'Every metric is tied to production, permanence, or market execution. We report only what we can verify.',
   narrative: [
     'Every tonne of BRG biochar is traceable to a specific production run and aligned with third-party verification. In parallel, operations create jobs, divert waste, and support agricultural productivity in the markets where they run.',
   ],
@@ -259,7 +261,7 @@ export const contact = {
   label: 'Contact',
   title: 'Start a partnership conversation with BRG.',
   intro:
-    'We work with investors, carbon buyers, and infrastructure operators building durable biochar systems in-market.',
+    'Pick the fastest route to the right BRG team for capital, offtake, or operating partnerships.',
   audiences: [
     {
       audience: 'Investors',

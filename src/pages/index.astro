@@ -54,7 +54,7 @@ const structuredData = {
         <p class="home-hero__eyebrow">{hero.label}</p>
         <p class="home-hero__brand">{siteMeta.name}</p>
         <h1 class="home-hero__title">
-          We operate <em>{hero.emphasis}</em> across emerging markets.
+          {hero.lead} <em>{hero.emphasis}</em> {hero.tail}
         </h1>
         <p class="home-hero__summary">{hero.summary}</p>
 
@@ -95,7 +95,7 @@ const structuredData = {
       <div class="home-hero__stage" data-reveal>
         <div class="home-hero__stage-header">
           <h2 class="home-hero__stage-title">Active operating corridors</h2>
-          <span>Owner-operated in Kenya and Saudi Arabia, with a wider pipeline underway.</span>
+          <span>Operator-led assets in Kenya and Saudi Arabia, with a broader pipeline underway.</span>
         </div>
 
         <div class="home-hero__market-list">
@@ -264,28 +264,28 @@ const structuredData = {
   <section class="section section--tinted" id="technology">
     <div class="container">
       <SectionIntro label={technology.label} title={technology.title} intro={technology.intro} />
-      <div class="technology-rows">
+      <div class="technology-grid">
         {
           technology.systems.map((system, index) => (
             <article
               class:list={[
-                'technology-row',
-                `technology-row--${system.theme}`,
-                index % 2 === 1 && 'technology-row--reverse',
+                'technology-card',
+                `technology-card--${system.theme}`,
+                index === 0 && 'technology-card--featured',
               ]}
               data-reveal
             >
-              <div class="technology-row__visual">
-                <span class="technology-row__tag">{system.tag}</span>
-                <div class="technology-row__signal">
+              <div class="technology-card__topline">
+                <span class="technology-card__tag">{system.tag}</span>
+                <div class="technology-card__signal">
                   <span>{system.specs[0]?.value}</span>
                   <strong>{system.specs[3]?.value}</strong>
                 </div>
               </div>
-              <div class="technology-row__body">
+              <div class="technology-card__body">
                 <h3>{system.title}</h3>
                 <p>{system.summary}</p>
-                <dl class="technology-row__specs">
+                <dl class="technology-card__specs">
                   {system.specs.map((spec) => (
                     <div>
                       <dt>{spec.label}</dt>
