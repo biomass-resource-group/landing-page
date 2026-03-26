@@ -19,7 +19,7 @@ const setupSiteUi = () => {
   };
 
   const syncHero = () => {
-    if (!(hero instanceof HTMLElement)) return;
+    if (prefersReducedMotion || !(hero instanceof HTMLElement)) return;
 
     const progress = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
     hero.style.setProperty('--hero-progress', progress.toFixed(3));
