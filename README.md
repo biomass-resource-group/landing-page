@@ -6,6 +6,7 @@ Astro-based marketing site for `biomassresourcegroup.com`, designed for static d
 
 - Node `22.12.0` or newer is required
 - `.nvmrc` pins the expected local version
+- `packageManager` pins npm `10.9.0` so the lockfile stays compatible with CI
 
 ## Stack
 
@@ -17,6 +18,7 @@ Astro-based marketing site for `biomassresourcegroup.com`, designed for static d
 ## Commands
 
 - `npm install` installs dependencies
+- `npm ci` performs a clean install against the committed lockfile
 - `npm run dev` starts the local Astro dev server
 - `npm run build` creates the production build in `dist/` and appends route-specific CSP headers
 - `npm run check` runs Astro sync and TypeScript checks
@@ -58,6 +60,6 @@ Each update automatically appears:
 ## CI and dependency hygiene
 
 - GitHub Actions run `npm ci`, `npm run check`, `npm run build`, and `npm run validate:dist` on pushes and pull requests
-- Pull requests also run dependency review
+- Pull requests run dependency review when GitHub Dependency Graph is enabled for the repository
 - A scheduled/manual workflow validates the live deployment against the generated header expectations and production metadata
 - Dependabot is configured for npm packages and GitHub Actions
