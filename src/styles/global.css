@@ -1522,7 +1522,7 @@ section[id] {
 .proof-shell {
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(20rem, 1.18fr);
-  gap: 2.4rem;
+  gap: 2rem;
   align-items: start;
 }
 
@@ -1541,8 +1541,13 @@ section[id] {
 
 .proof-shell__operator {
   max-width: 34rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
+  padding: 1.25rem 1.35rem;
+  border: 1px solid rgba(51, 89, 68, 0.14);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(200, 157, 69, 0.08), transparent 24%),
+    rgba(255, 255, 255, 0.66);
+  box-shadow: var(--shadow-soft);
 }
 
 .proof-shell__operator p + p {
@@ -1554,14 +1559,15 @@ section[id] {
 .leadership-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.9fr);
-  gap: 3rem;
+  gap: 2.4rem;
 }
 
 .platform-layout__narrative,
 .impact-layout__narrative,
 .leadership-layout__narrative {
   display: grid;
-  gap: 1.35rem;
+  gap: 1rem;
+  max-width: 34rem;
 }
 
 .platform-layout__narrative p,
@@ -1575,12 +1581,10 @@ section[id] {
 }
 
 .platform-layout__narrative p:first-child::first-letter {
-  float: left;
-  margin-right: 0.45rem;
-  font-family: var(--font-display);
-  font-size: 3.6rem;
-  line-height: 0.8;
-  color: var(--forest);
+  font: inherit;
+  float: none;
+  margin-right: 0;
+  color: inherit;
 }
 
 .stacked-list {
@@ -1754,18 +1758,18 @@ section[id] {
 
 .cta-section {
   background:
-    radial-gradient(circle at 50% 0%, rgba(200, 157, 69, 0.1), transparent 22%),
-    linear-gradient(180deg, #14211c 0%, #0d1512 100%);
+    radial-gradient(circle at 50% 0%, rgba(200, 157, 69, 0.12), transparent 24%),
+    linear-gradient(180deg, #16241e 0%, #0d1512 100%);
 }
 
 .cta-panel {
   padding: clamp(1.8rem, 4vw, 3rem);
-  border: 1px solid rgba(247, 241, 227, 0.08);
+  border: 1px solid rgba(247, 241, 227, 0.12);
   border-radius: calc(var(--radius-lg) * 1.05);
   background:
-    radial-gradient(circle at 100% 0%, rgba(200, 157, 69, 0.12), transparent 22%),
-    linear-gradient(180deg, rgba(19, 30, 26, 0.98), rgba(13, 21, 18, 0.98));
-  box-shadow: 0 30px 80px rgba(6, 14, 11, 0.28);
+    radial-gradient(circle at 100% 0%, rgba(200, 157, 69, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(22, 36, 30, 0.98), rgba(13, 21, 18, 0.96));
+  box-shadow: 0 34px 90px rgba(6, 14, 11, 0.3);
 }
 
 .cta-panel .section-intro-block {
@@ -1789,12 +1793,30 @@ section[id] {
 }
 
 .cta-panel__contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(247, 241, 227, 0.12);
+  border-radius: 1rem;
+  background: rgba(247, 241, 227, 0.05);
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.cta-panel__contact:hover,
+.cta-panel__contact:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(247, 241, 227, 0.22);
+  background: rgba(247, 241, 227, 0.08);
+}
+
+.cta-panel__contact div {
   display: grid;
   gap: 0.35rem;
-  padding: 0.95rem 1rem;
-  border: 1px solid rgba(247, 241, 227, 0.08);
-  border-radius: 1rem;
-  background: rgba(247, 241, 227, 0.03);
 }
 
 .cta-panel__contact span {
@@ -1803,6 +1825,21 @@ section[id] {
 
 .cta-panel__contact strong {
   color: var(--cream);
+}
+
+.cta-panel__contact svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  color: rgba(247, 241, 227, 0.64);
+}
+
+.cta-panel__contact svg path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 .cta-section__footer {
