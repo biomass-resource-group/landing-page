@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageCta from '../../components/PageCta.astro';
+import PageHero from '../../components/PageHero.astro';
 import { formatFullDate } from '../../utils/formatDate';
 
 const updates = (await getCollection('updates', ({ data }) => !data.draft)).sort(
@@ -14,16 +15,12 @@ const updates = (await getCollection('updates', ({ data }) => !data.draft)).sort
   description="Field updates, project milestones, and company news from Biomass Resource Group."
   path="/updates/"
 >
-  <section class="page-hero">
-    <div class="container page-hero__inner" data-reveal>
-      <p class="page-hero__eyebrow">Updates</p>
-      <h1>Operational milestones and company updates.</h1>
-      <p>
-        Publish-ready entries live as Markdown in the repository so new field notes and milestones can
-        be added without rewriting templates.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Updates"
+    title="Operational milestones and company updates."
+    intro="Recent field milestones, tenders, and company developments across BRG's operating platform."
+    compact
+  />
 
   <section class="section">
     <div class="container">
@@ -67,7 +64,7 @@ const updates = (await getCollection('updates', ({ data }) => !data.draft)).sort
   <PageCta
     label="Next Step"
     title="If an update opens a conversation, take it forward."
-    intro="BRG keeps the updates archive public, but investor, buyer, and operator routes live on the dedicated contact page."
+    intro="When an update points to a relevant opportunity, move the conversation to the BRG team that matches your role."
     primaryAction={{ label: 'Open contact page', href: '/contact/' }}
     secondaryAction={{ label: 'Review markets', href: '/markets/', variant: 'secondary' }}
   />
