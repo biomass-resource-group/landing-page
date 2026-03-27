@@ -85,6 +85,25 @@ const main = async () => {
     home.response.headers.get('content-security-policy') !== null,
     'Home page is missing Content-Security-Policy',
   );
+  expect(!home.text.includes('/updates/'), 'Home page still links to a removed /updates route');
+  expect(
+    !/Latest Activity|View all updates|Read the update|Latest milestone|Latest update/.test(home.text),
+    'Home page still exposes removed updates language',
+  );
+
+  const updates = await fetchText(`${siteUrl}/updates/`);
+  expect(updates.response.ok, `/updates/ request failed with ${updates.response.status}`);
+  expect(updates.response.url === `${siteUrl}/`, `/updates/ did not redirect to the home page`);
+
+  const retiredUpdate = await fetchText(`${siteUrl}/updates/brg-holding-company-established/`);
+  expect(
+    retiredUpdate.response.ok,
+    `/updates/brg-holding-company-established/ request failed with ${retiredUpdate.response.status}`,
+  );
+  expect(
+    retiredUpdate.response.url === `${siteUrl}/`,
+    '/updates/brg-holding-company-established/ did not redirect to the home page',
+  );
 
   const robots = await fetchText(`${siteUrl}/robots.txt`);
   expect(robots.response.ok, `robots.txt request failed with ${robots.response.status}`);

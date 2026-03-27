@@ -1,9 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageCta from '../components/PageCta.astro';
 import SectionIntro from '../components/SectionIntro.astro';
-import { formatFullDate, formatMonthYear } from '../utils/formatDate';
 import {
   commercialModel,
   exploreLinks,
@@ -11,15 +9,6 @@ import {
   regions,
   siteMeta,
 } from '../data/site';
-
-const updates = (await getCollection('updates', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
-  .slice(0, 3);
-
-const latestUpdate = updates[0];
-const remainingUpdates = updates.slice(1);
-const latestUpdateMonthLabel = latestUpdate ? formatMonthYear(latestUpdate.data.publishedAt) : '';
-const latestUpdateFullLabel = latestUpdate ? formatFullDate(latestUpdate.data.publishedAt) : '';
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -68,13 +57,6 @@ const structuredData = {
             </svg>
           </a>
         </div>
-
-        {latestUpdate && (
-          <p class="home-hero__microcopy">
-            <span>Latest milestone</span>
-            <a href="/updates/">{latestUpdateMonthLabel}</a>
-          </p>
-        )}
       </div>
 
       <div class="home-hero__stage" data-reveal>
@@ -107,15 +89,6 @@ const structuredData = {
           }
         </div>
 
-        {latestUpdate && (
-          <a class="home-hero__milestone" href={`/updates/${latestUpdate.id}/`}>
-            <span>Latest update</span>
-            <strong>{latestUpdate.data.title}</strong>
-            <p>
-              {latestUpdateFullLabel} · {latestUpdate.data.category}
-            </p>
-          </a>
-        )}
       </div>
     </div>
   </section>
@@ -145,57 +118,6 @@ const structuredData = {
             </a>
           ))
         }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--tinted home-activity-preview">
-    <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label="Latest Activity"
-          title="Recent movement across the operating platform."
-          intro={`Last updated ${latestUpdateMonthLabel}. Recent milestones across BRG's operating platform.`}
-        />
-        <a class="section-heading-row__link" href="/updates/">
-          View all updates
-        </a>
-      </div>
-
-      <div class="activity-preview">
-        {
-          latestUpdate && (
-            <a class="activity-preview__feature" href={`/updates/${latestUpdate.id}/`} data-reveal>
-              <div class="activity-preview__meta">
-                <span>{latestUpdate.data.category}</span>
-                <time datetime={latestUpdate.data.publishedAt.toISOString()}>{latestUpdateFullLabel}</time>
-              </div>
-              <h3>{latestUpdate.data.title}</h3>
-              <p>{latestUpdate.data.summary}</p>
-              <span class="activity-preview__action">Read the update</span>
-            </a>
-          )
-        }
-
-        <div class="activity-preview__rail">
-          {
-            remainingUpdates.map((update) => (
-              <a class="activity-preview__item" href={`/updates/${update.id}/`} data-reveal>
-                <div class="activity-preview__meta">
-                  <span>{update.data.category}</span>
-                  <time datetime={update.data.publishedAt.toISOString()}>
-                    {formatFullDate(update.data.publishedAt)}
-                  </time>
-                </div>
-                <h3>{update.data.title}</h3>
-                <p>{update.data.summary}</p>
-              </a>
-            ))
-          }
-          <a class="activity-preview__browse" href="/updates/" data-reveal>
-            View all updates
-          </a>
-        </div>
       </div>
     </div>
   </section>

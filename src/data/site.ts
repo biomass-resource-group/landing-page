@@ -12,7 +12,6 @@ export const navLinks = [
   { label: 'Platform', href: '/platform/' },
   { label: 'Markets', href: '/markets/' },
   { label: 'Company', href: '/company/' },
-  { label: 'Updates', href: '/updates/' },
   { label: 'Contact', href: '/contact/', primary: true },
 ] as const;
 
@@ -345,7 +344,6 @@ export const footerGroups = [
   {
     title: 'Connect',
     links: [
-      { label: 'Updates', href: '/updates/' },
       { label: 'Contact', href: '/contact/' },
       { label: siteMeta.email, href: `mailto:${siteMeta.email}` },
     ],

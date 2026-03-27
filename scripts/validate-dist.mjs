@@ -12,10 +12,10 @@ const requiredFiles = [
   join('markets', 'index.html'),
   join('company', 'index.html'),
   join('contact', 'index.html'),
-  join('updates', 'index.html'),
   'robots.txt',
   'sitemap-index.xml',
   '_headers',
+  '_redirects',
   'og-default.jpg',
   join('scripts', 'site-ui.js'),
 ];
@@ -101,6 +101,12 @@ for (const relativePath of requiredFiles) {
   expectFile(relativePath);
 }
 
+expect(!existsSync(join(distDir, 'updates')), 'dist still contains a public updates directory');
+
+const redirects = readFileSync(join(distDir, '_redirects'), 'utf8');
+expect(redirects.includes('/updates /'), '_redirects is missing the /updates redirect');
+expect(redirects.includes('/updates/* /'), '_redirects is missing the /updates/* redirect');
+
 const htmlPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.html'));
 const headersBlocks = parseHeadersBlocks(read('_headers'));
 
@@ -165,6 +171,7 @@ for (const relativePath of htmlPaths) {
     html.includes('<meta name="twitter:card" content="summary_large_image"'),
     `${relativePath} is missing summary_large_image twitter card`,
   );
+  expect(!html.includes('/updates/'), `${relativePath} still links to a removed /updates route`);
   expect(
     /<a class="skip-link" href="#content">Skip to content<\/a>/.test(html),
     `${relativePath} is missing the skip link`,
@@ -223,13 +230,8 @@ for (const relativePath of htmlPaths) {
   }
 }
 
-const updatesArchiveHtml = read(join('updates', 'index.html'));
 const homeHtml = read('index.html');
 const contactHtml = read(join('contact', 'index.html'));
-const updateEntries = matchAll(
-  updatesArchiveHtml,
-  /<article[^>]*class="updates-list__entry"[^>]*>([\s\S]*?)<\/article>/g,
-);
 
 expect(
   /<h2 class="home-hero__stage-title">\s*Operating today\s*<\/h2>/.test(homeHtml),
@@ -242,33 +244,14 @@ expect(
     homeHtml.includes('href="/contact/"'),
   'index.html is missing one or more primary architecture links',
 );
-expect(updateEntries.length > 0, 'updates/index.html is missing updates archive entries');
 expect(
-  !/<a\b[^>]*>\s*Read\s*<\/a>/i.test(updatesArchiveHtml),
-  'updates/index.html still contains generic "Read" links',
+  !/Latest Activity|View all updates|Read the update|Latest milestone|Latest update/.test(homeHtml),
+  'index.html still exposes removed updates language',
 );
 expect(
   matchAll(contactHtml, /class="pathway-card"/g).length === 3,
   'contact/index.html is missing one or more audience pathway cards',
 );
-
-for (const [index, entry] of updateEntries.entries()) {
-  const entryMarkup = entry[1];
-  const articleLinks = matchAll(entryMarkup, /<a\b[^>]*href="\/updates\/[^"]+\/"/g).length;
-
-  expect(
-    articleLinks === 1,
-    `updates/index.html archive entry ${index + 1} should expose exactly one article link`,
-  );
-  expect(
-    /aria-labelledby="[^"]+"/.test(entryMarkup),
-    `updates/index.html archive entry ${index + 1} is missing aria-labelledby`,
-  );
-  expect(
-    /aria-describedby="[^"]+"/.test(entryMarkup),
-    `updates/index.html archive entry ${index + 1} is missing aria-describedby`,
-  );
-}
 
 const cssPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.css'));
 const css = cssPaths.map((relativePath) => read(relativePath)).join('\n');
