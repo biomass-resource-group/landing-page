@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
 <BaseLayout
@@ -8,18 +9,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   noindex={true}
   path="/404.html"
 >
-  <section class="page-hero page-hero--compact">
-    <div class="container page-hero__inner" data-reveal>
-      <p class="page-hero__eyebrow">404</p>
-      <h1>The page you requested does not exist.</h1>
-      <p>
-        Return to the main site to review the platform, active markets, and the right BRG contact
-        path.
-      </p>
-      <div class="hero__actions">
-        <a class="button button--primary" href="/">Back to homepage</a>
-        <a class="button button--secondary" href="/contact/">Open contact page</a>
+  <PageHero
+    eyebrow="404"
+    title="The page you requested does not exist."
+    intro="Return to the main site to review the platform, active markets, and the right BRG contact path."
+    actions={[
+      { label: 'Back to homepage', href: '/' },
+      { label: 'Open contact page', href: '/contact/', variant: 'secondary' },
+    ]}
+    compact
+  >
+    <div slot="visual" class="hero-panel hero-panel--routes">
+      <div class="hero-panel__header">
+        <p class="hero-panel__label">Suggested routes</p>
+        <h2 class="hero-panel__title">Continue from one of the core BRG pages.</h2>
+      </div>
+      <div class="hero-route-list">
+        <a class="hero-route" href="/platform/">
+          <span>Platform</span>
+          <strong>Operating model</strong>
+        </a>
+        <a class="hero-route" href="/markets/">
+          <span>Markets</span>
+          <strong>Live corridors</strong>
+        </a>
+        <a class="hero-route" href="/contact/">
+          <span>Contact</span>
+          <strong>Talk with BRG</strong>
+        </a>
       </div>
     </div>
-  </section>
+  </PageHero>
 </BaseLayout>

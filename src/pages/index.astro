@@ -76,6 +76,20 @@ const structuredData = {
           <span>Two live corridors, three revenue layers, and a broader pipeline already underway.</span>
         </div>
 
+        <div class="home-hero__loop">
+          <p class="home-hero__loop-title">Operating flow</p>
+          <ol>
+            {
+              hero.flywheel.map((step, index) => (
+                <li>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{step}</strong>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
         <div class="home-hero__market-list">
           {
             regions.markets.map((market) => (
@@ -122,6 +136,9 @@ const structuredData = {
               <p class="home-model-preview__phase">{line.phase}</p>
               <h3>{line.title}</h3>
               <p>{line.description}</p>
+              <ul class="home-model-preview__revenue">
+                {line.revenue.map((item) => <li>{item}</li>)}
+              </ul>
             </article>
           ))
         }

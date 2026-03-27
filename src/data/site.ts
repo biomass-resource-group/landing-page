@@ -81,6 +81,24 @@ export const platform = {
   title: 'One operating platform from feedstock to offtake.',
   intro:
     'BRG controls sourcing, conversion, monitoring, and market access so each project launches on the same repeatable operating backbone.',
+  sequence: [
+    {
+      title: 'Secure feedstock',
+      detail: 'Local sourcing agreements, collection logistics, and operating entities in market.',
+    },
+    {
+      title: 'Run conversion',
+      detail: 'Mobile or fixed-kiln systems selected for the market, feedstock, and throughput.',
+    },
+    {
+      title: 'Verify output',
+      detail: 'Monitoring, traceability, and registry-aligned verification built into operations.',
+    },
+    {
+      title: 'Clear revenue',
+      detail: 'Waste contracts, biochar offtake, and carbon buyers connected from launch.',
+    },
+  ],
   narrative: [
     'BRG converts agricultural waste, invasive species, and municipal organics into durable biochar through an operating system designed for difficult markets.',
     'The moat is not a single kiln. It is the field layer: feedstock contracts, logistics, local teams, verification workflows, and buyer relationships that hold up under real operating conditions.',
@@ -303,6 +321,20 @@ export const contact = {
   signal:
     'Direct routes for capital deployment, carbon offtake, and project delivery conversations.',
   summaryChips: ['Capital', 'Carbon offtake', 'Project delivery'],
+  routeSteps: [
+    {
+      title: 'Choose the route',
+      detail: 'Capital, carbon offtake, or project delivery each open a different BRG path.',
+    },
+    {
+      title: 'Share the scope',
+      detail: 'Include market, mandate, timeline, and the decision you need to make next.',
+    },
+    {
+      title: 'Reach the right team',
+      detail: 'BRG routes the message to the operator, buyer, or capital contact who can act on it.',
+    },
+  ],
   audiences: [
     {
       audience: 'Investors',

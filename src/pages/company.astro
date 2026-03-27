@@ -31,7 +31,25 @@ const structuredData = {
     ]}
     meta={['Field proof', 'Operator depth', 'Standards infrastructure']}
     compact
-  />
+  >
+    <div slot="visual" class="hero-panel hero-panel--metrics">
+      <div class="hero-panel__header">
+        <p class="hero-panel__label">Evidence snapshot</p>
+        <h2 class="hero-panel__title">Proof is operational, not only narrative.</h2>
+      </div>
+      <div class="hero-evidence-grid">
+        {
+          impact.stats.map((stat) => (
+            <article class="hero-evidence-card">
+              <strong>{stat.value}</strong>
+              <h3>{stat.label}</h3>
+              <p>{stat.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </PageHero>
 
   <section class="signal-strip signal-strip--page">
     <div class="container signal-strip__inner">

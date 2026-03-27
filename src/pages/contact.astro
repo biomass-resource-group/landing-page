@@ -30,7 +30,27 @@ const structuredData = {
     ]}
     meta={contact.summaryChips}
     compact
-  />
+  >
+    <div slot="visual" class="hero-panel hero-panel--flow">
+      <div class="hero-panel__header">
+        <p class="hero-panel__label">How routing works</p>
+        <h2 class="hero-panel__title">Three steps from first outreach to the right BRG team.</h2>
+      </div>
+      <ol class="hero-flow">
+        {
+          contact.routeSteps.map((step, index) => (
+            <li class="hero-flow__item">
+              <span class="hero-flow__count">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <strong>{step.title}</strong>
+                <p>{step.detail}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </PageHero>
 
   <section class="section section--tinted pathways-section" id="pathways">
     <div class="container">

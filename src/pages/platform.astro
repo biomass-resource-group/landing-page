@@ -31,7 +31,27 @@ const structuredData = {
     ]}
     meta={platform.signals.map((signal) => signal.label)}
     compact
-  />
+  >
+    <div slot="visual" class="hero-panel hero-panel--flow">
+      <div class="hero-panel__header">
+        <p class="hero-panel__label">Operating sequence</p>
+        <h2 class="hero-panel__title">Each asset runs through the same four-part loop.</h2>
+      </div>
+      <ol class="hero-flow">
+        {
+          platform.sequence.map((step, index) => (
+            <li class="hero-flow__item">
+              <span class="hero-flow__count">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <strong>{step.title}</strong>
+                <p>{step.detail}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </PageHero>
 
   <section class="section section--tinted" id="platform">
     <div class="container">

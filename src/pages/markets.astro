@@ -31,7 +31,40 @@ const structuredData = {
     ]}
     meta={['East Africa', 'Saudi Arabia', '5-country pipeline']}
     compact
-  />
+  >
+    <div slot="visual" class="hero-panel hero-panel--markets">
+      <div class="hero-panel__header">
+        <p class="hero-panel__label">Active corridors</p>
+        <h2 class="hero-panel__title">The live footprint is already in market.</h2>
+      </div>
+      <div class="hero-corridors">
+        {
+          regions.markets.map((market) => (
+            <article class:list={['hero-corridor', `hero-corridor--${market.theme}`]}>
+              <p class="hero-corridor__status">
+                <span></span>
+                {market.status}
+              </p>
+              <h3>{market.name}</h3>
+              <dl>
+                <div>
+                  <dt>Entity</dt>
+                  <dd>{market.detail[0]?.value}</dd>
+                </div>
+                <div>
+                  <dt>Feedstock</dt>
+                  <dd>{market.detail[2]?.value}</dd>
+                </div>
+              </dl>
+            </article>
+          ))
+        }
+      </div>
+      <div class="hero-panel__chips">
+        {regions.expansion.regions.map((region) => <span>{region}</span>)}
+      </div>
+    </div>
+  </PageHero>
 
   <section class="section section--dark" id="regions">
     <div class="container">
