@@ -62,6 +62,20 @@ export const platform = {
     'BRG converts agricultural waste, invasive species, and municipal organics into durable biochar through an operating system designed for difficult markets.',
     'The moat is not a single kiln. It is the field layer: feedstock contracts, logistics, local teams, verification workflows, and buyer relationships that hold up under real operating conditions.',
   ],
+  signals: [
+    {
+      label: 'Owner-operated entities',
+      detail: 'Local execution teams and operating vehicles already in-market.',
+    },
+    {
+      label: 'Verification-ready output',
+      detail: 'Monitoring and registry workflows built into the operating loop.',
+    },
+    {
+      label: 'Buyer and contract access',
+      detail: 'Offtake, procurement, and market channels connected from launch.',
+    },
+  ],
   capabilities: [
     {
       title: 'Biomass Sourcing and Logistics',
@@ -194,6 +208,7 @@ export const impact = {
   label: 'Why BRG',
   title: 'Operational proof, not speculative narrative.',
   intro: 'Every metric is tied to production, permanence, or market execution. We report only what we can verify.',
+  evidenceLabel: 'Measured in the field',
   narrative: [
     'Every tonne of BRG biochar is traceable to a specific production run and aligned with third-party verification. In parallel, operations create jobs, divert waste, and support agricultural productivity in the markets where they run.',
   ],
@@ -262,6 +277,9 @@ export const contact = {
   title: 'Start a partnership conversation with BRG.',
   intro:
     'Pick the fastest route to the right BRG team for capital, offtake, or operating partnerships.',
+  signal:
+    'Direct routes for capital deployment, carbon offtake, and project delivery conversations.',
+  summaryChips: ['Capital', 'Carbon offtake', 'Project delivery'],
   audiences: [
     {
       audience: 'Investors',

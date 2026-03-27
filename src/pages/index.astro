@@ -212,8 +212,24 @@ const structuredData = {
     <div class="container">
       <SectionIntro label={platform.label} title={platform.title} intro={platform.intro} />
       <div class="platform-layout">
-        <div class="platform-layout__narrative" data-reveal>
-          {platform.narrative.map((paragraph) => <p>{paragraph}</p>)}
+        <div class="platform-layout__lead">
+          <div class="platform-layout__narrative" data-reveal>
+            <p>{platform.narrative[0]}</p>
+          </div>
+          <div class="platform-callout" data-reveal>
+            <p class="platform-callout__label">Operating moat</p>
+            <p class="platform-callout__copy">{platform.narrative[1]}</p>
+            <div class="platform-callout__signals">
+              {
+                platform.signals.map((signal) => (
+                  <article class="platform-callout__signal">
+                    <span>{signal.label}</span>
+                    <strong>{signal.detail}</strong>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
         </div>
         <div class="stacked-list">
           {
@@ -357,13 +373,14 @@ const structuredData = {
       <div class="proof-shell">
         <div class="proof-shell__lead">
           <SectionIntro label={impact.label} title={impact.title} intro={impact.intro} />
+          <div class="impact-evidence" data-reveal>
+            <p class="proof-shell__label">{impact.evidenceLabel}</p>
+            {impact.narrative.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
           <div class="proof-shell__operator" data-reveal>
             <p class="proof-shell__label">{leadership.label}</p>
             <h3>{leadership.title}</h3>
             {leadership.narrative.map((paragraph) => <p>{paragraph}</p>)}
-          </div>
-          <div class="impact-layout__narrative" data-reveal>
-            {impact.narrative.map((paragraph) => <p>{paragraph}</p>)}
           </div>
         </div>
         <div class="impact-stats">
@@ -403,40 +420,48 @@ const structuredData = {
   <section class="section cta-section" id="contact">
     <div class="container">
       <div class="cta-panel" data-reveal>
-        <SectionIntro
-          label={contact.label}
-          title={contact.title}
-          intro={contact.intro}
-          tone="dark"
-        />
-        <div class="cta-panel__actions">
-          <a class="button button--primary" href={`mailto:${siteMeta.email}`}>
-            Email BRG
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 12h14M13 5l7 7-7 7"></path>
-            </svg>
-          </a>
-          <a class="button button--secondary" href="#pathways">
-            Choose your path
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-            </svg>
-          </a>
-        </div>
-        <div class="cta-panel__contacts">
-          {
-            contact.audiences.map((audience) => (
-              <a class="cta-panel__contact" href={audience.href}>
-                <div>
-                  <span>{audience.audience}</span>
-                  <strong>{audience.action}</strong>
-                </div>
+        <div class="cta-panel__layout">
+          <div class="cta-panel__main">
+            <SectionIntro
+              label={contact.label}
+              title={contact.title}
+              intro={contact.intro}
+              tone="dark"
+            />
+            <div class="cta-panel__actions">
+              <a class="button button--primary" href={`mailto:${siteMeta.email}`}>
+                Email BRG
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14M13 5l7 7-7 7"></path>
                 </svg>
               </a>
-            ))
-          }
+              <a class="button button--secondary" href="#pathways">
+                Choose your path
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+                </svg>
+              </a>
+            </div>
+            <p class="cta-panel__signal">{contact.signal}</p>
+            <div class="cta-panel__chips">
+              {contact.summaryChips.map((chip) => <span>{chip}</span>)}
+            </div>
+          </div>
+          <div class="cta-panel__contacts">
+            {
+              contact.audiences.map((audience) => (
+                <a class="cta-panel__contact" href={audience.href}>
+                  <div>
+                    <span>{audience.audience}</span>
+                    <strong>{audience.action}</strong>
+                  </div>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M13 5l7 7-7 7"></path>
+                  </svg>
+                </a>
+              ))
+            }
+          </div>
         </div>
         <div class="cta-section__footer">
           <span>General inquiries</span>
