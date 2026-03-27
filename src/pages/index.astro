@@ -1,20 +1,15 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageCta from '../components/PageCta.astro';
 import SectionIntro from '../components/SectionIntro.astro';
-import UpdateCard from '../components/UpdateCard.astro';
 import { formatFullDate, formatMonthYear } from '../utils/formatDate';
 import {
-  affiliations,
   commercialModel,
-  contact,
+  exploreLinks,
   hero,
-  impact,
-  leadership,
-  platform,
   regions,
   siteMeta,
-  technology,
 } from '../data/site';
 
 const updates = (await getCollection('updates', ({ data }) => !data.draft))
@@ -22,6 +17,7 @@ const updates = (await getCollection('updates', ({ data }) => !data.draft))
   .slice(0, 3);
 
 const latestUpdate = updates[0];
+const remainingUpdates = updates.slice(1);
 const latestUpdateMonthLabel = latestUpdate ? formatMonthYear(latestUpdate.data.publishedAt) : '';
 const latestUpdateFullLabel = latestUpdate ? formatFullDate(latestUpdate.data.publishedAt) : '';
 
@@ -75,27 +71,16 @@ const structuredData = {
 
         {latestUpdate && (
           <p class="home-hero__microcopy">
-            <span>Last platform update</span>
-            <a href="#updates">{latestUpdateMonthLabel}</a>
+            <span>Latest milestone</span>
+            <a href="/updates/">{latestUpdateMonthLabel}</a>
           </p>
         )}
-
-        <dl class="home-hero__proof">
-          {
-            hero.metrics.map((metric) => (
-              <div class="home-hero__proof-item">
-                <dt>{metric.label}</dt>
-                <dd>{metric.value}</dd>
-              </div>
-            ))
-          }
-        </dl>
       </div>
 
       <div class="home-hero__stage" data-reveal>
         <div class="home-hero__stage-header">
-          <h2 class="home-hero__stage-title">Active operating corridors</h2>
-          <span>Operator-led assets in Kenya and Saudi Arabia, with a broader pipeline underway.</span>
+          <h2 class="home-hero__stage-title">Operating today</h2>
+          <span>Two live corridors, three revenue layers, and a broader pipeline already underway.</span>
         </div>
 
         <div class="home-hero__market-list">
@@ -122,85 +107,41 @@ const structuredData = {
           }
         </div>
 
-        <div class="home-hero__loop">
-          <h3 class="home-hero__loop-title">Operating loop</h3>
-          <ol>
-            {
-              hero.flywheel.map((step, index) => (
-                <li>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <strong>{step}</strong>
-                </li>
-              ))
-            }
-          </ol>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="signal-strip">
-    <div class="container signal-strip__inner">
-      <p class="signal-strip__title">Affiliations and standards</p>
-      <div class="signal-strip__list">
-        {
-          affiliations.map((item) => (
-            <div class="signal-strip__item" data-reveal>
-              <strong>{item.label}</strong>
-              <span>{item.detail}</span>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section activity-section" id="updates">
-    <div class="container">
-      <div class="activity-section__header">
-        <SectionIntro
-          label="Latest Activity"
-          title="The platform is active now, not archival."
-          intro={`Last updated ${latestUpdateMonthLabel}. These are the most recent milestones across BRG's operating platform.`}
-        />
         {latestUpdate && (
-          <div class="activity-section__stamp" data-reveal>
-            <span>Latest milestone</span>
-            <strong>{latestUpdateFullLabel}</strong>
-            <p>{latestUpdate.data.category}</p>
-          </div>
+          <a class="home-hero__milestone" href={`/updates/${latestUpdate.id}/`}>
+            <span>Latest update</span>
+            <strong>{latestUpdate.data.title}</strong>
+            <p>
+              {latestUpdateFullLabel} · {latestUpdate.data.category}
+            </p>
+          </a>
         )}
       </div>
-      <div class="updates-grid updates-grid--activity">
-        {updates.map((update, index) => <UpdateCard update={update} featured={index === 0} />)}
-      </div>
     </div>
   </section>
 
-  <section class="section section--tinted pathways-section" id="pathways">
+  <section class="section home-destinations">
     <div class="container">
       <div class="section-heading-row">
         <SectionIntro
-          label="Start Here"
-          title="Choose the path that matches your role."
-          intro="BRG is built for capital partners, carbon buyers, and infrastructure operators who need a real operating platform."
+          label="Explore BRG"
+          title="Follow the page that matches the question."
+          intro="The homepage stays brief. Deeper platform detail, market context, and company proof now live on dedicated pages."
         />
-        <p class="pathways-section__note">Each path leads straight to the right team.</p>
       </div>
-      <div class="pathways-grid">
+      <div class="destination-list">
         {
-          contact.audiences.map((audience, index) => (
-            <a class="pathway-card" href={audience.href} data-reveal>
-              <span class="pathway-card__index">{String(index + 1).padStart(2, '0')}</span>
-              <span class="pathway-card__audience">{audience.audience}</span>
-              <h3>{audience.title}</h3>
-              <p>{audience.description}</p>
-              <span class="pathway-card__action">
-                {audience.action}
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14M13 5l7 7-7 7"></path>
-                </svg>
-              </span>
+          exploreLinks.map((link, index) => (
+            <a class="destination-link" href={link.href} data-reveal>
+              <span class="destination-link__index">{String(index + 1).padStart(2, '0')}</span>
+              <div class="destination-link__body">
+                <p class="destination-link__label">{link.label}</p>
+                <h3>{link.title}</h3>
+                <p>{link.description}</p>
+              </div>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+              </svg>
             </a>
           ))
         }
@@ -208,68 +149,78 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section section--tinted" id="platform">
+  <section class="section section--tinted home-activity-preview">
     <div class="container">
-      <SectionIntro label={platform.label} title={platform.title} intro={platform.intro} />
-      <div class="platform-layout">
-        <div class="platform-layout__lead">
-          <div class="platform-layout__narrative" data-reveal>
-            <p>{platform.narrative[0]}</p>
-          </div>
-          <div class="platform-callout" data-reveal>
-            <p class="platform-callout__label">Operating moat</p>
-            <p class="platform-callout__copy">{platform.narrative[1]}</p>
-            <div class="platform-callout__signals">
-              {
-                platform.signals.map((signal) => (
-                  <article class="platform-callout__signal">
-                    <span>{signal.label}</span>
-                    <strong>{signal.detail}</strong>
-                  </article>
-                ))
-              }
-            </div>
-          </div>
-        </div>
-        <div class="stacked-list">
+      <div class="section-heading-row">
+        <SectionIntro
+          label="Latest Activity"
+          title="Recent movement across the operating platform."
+          intro={`Last updated ${latestUpdateMonthLabel}. The current signals live here, with the full archive on the updates page.`}
+        />
+        <a class="section-heading-row__link" href="/updates/">
+          View all updates
+        </a>
+      </div>
+
+      <div class="activity-preview">
+        {
+          latestUpdate && (
+            <a class="activity-preview__feature" href={`/updates/${latestUpdate.id}/`} data-reveal>
+              <div class="activity-preview__meta">
+                <span>{latestUpdate.data.category}</span>
+                <time datetime={latestUpdate.data.publishedAt.toISOString()}>{latestUpdateFullLabel}</time>
+              </div>
+              <h3>{latestUpdate.data.title}</h3>
+              <p>{latestUpdate.data.summary}</p>
+              <span class="activity-preview__action">Read the update</span>
+            </a>
+          )
+        }
+
+        <div class="activity-preview__rail">
           {
-            platform.capabilities.map((capability, index) => (
-              <article class="stacked-list__item" data-reveal>
-                <span class="stacked-list__index">{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3>{capability.title}</h3>
-                  <p>{capability.description}</p>
+            remainingUpdates.map((update) => (
+              <a class="activity-preview__item" href={`/updates/${update.id}/`} data-reveal>
+                <div class="activity-preview__meta">
+                  <span>{update.data.category}</span>
+                  <time datetime={update.data.publishedAt.toISOString()}>
+                    {formatFullDate(update.data.publishedAt)}
+                  </time>
                 </div>
-              </article>
+                <h3>{update.data.title}</h3>
+                <p>{update.data.summary}</p>
+              </a>
             ))
           }
+          <a class="activity-preview__browse" href="/updates/" data-reveal>
+            Browse the full updates archive
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="model">
+  <section class="section home-model-preview">
     <div class="container">
-      <SectionIntro
-        label={commercialModel.label}
-        title={commercialModel.title}
-        intro={commercialModel.intro}
-      />
-      <div class="model-lines">
+      <div class="section-heading-row">
+        <SectionIntro
+          label={commercialModel.label}
+          title="One asset, three aligned revenue layers."
+          intro="BRG projects are designed to monetize waste processing, biochar product output, and carbon removal rather than relying on a single market."
+        />
+        <a class="section-heading-row__link" href="/platform/">
+          See the full operating model
+        </a>
+      </div>
+
+      <div class="home-model-preview__grid">
         {
           commercialModel.lines.map((line, index) => (
-            <article class="model-line" data-reveal>
-              <div class="model-line__lead">
-                <span class="model-line__index">{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <p class="model-line__phase">{line.phase}</p>
-                  <h3>{line.title}</h3>
-                </div>
-              </div>
-              <p class="model-line__description">{line.description}</p>
-              <ul class="model-line__revenue">
-                {line.revenue.map((item) => <li>{item}</li>)}
-              </ul>
+            <article class="home-model-preview__item" data-reveal>
+              <span class="home-model-preview__index">{String(index + 1).padStart(2, '0')}</span>
+              <p class="home-model-preview__phase">{line.phase}</p>
+              <h3>{line.title}</h3>
+              <p>{line.description}</p>
             </article>
           ))
         }
@@ -277,197 +228,11 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section section--tinted" id="technology">
-    <div class="container">
-      <SectionIntro label={technology.label} title={technology.title} intro={technology.intro} />
-      <div class="technology-grid">
-        {
-          technology.systems.map((system, index) => (
-            <article
-              class:list={[
-                'technology-card',
-                `technology-card--${system.theme}`,
-                index === 0 && 'technology-card--featured',
-              ]}
-              data-reveal
-            >
-              <div class="technology-card__topline">
-                <span class="technology-card__tag">{system.tag}</span>
-                <div class="technology-card__signal">
-                  <span>{system.specs[0]?.value}</span>
-                  <strong>{system.specs[3]?.value}</strong>
-                </div>
-              </div>
-              <div class="technology-card__body">
-                <h3>{system.title}</h3>
-                <p>{system.summary}</p>
-                <dl class="technology-card__specs">
-                  {system.specs.map((spec) => (
-                    <div>
-                      <dt>{spec.label}</dt>
-                      <dd>{spec.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--dark" id="regions">
-    <div class="container">
-      <SectionIntro
-        label={regions.label}
-        title={regions.title}
-        intro={regions.intro}
-        tone="dark"
-      />
-      <div class="market-list">
-        {
-          regions.markets.map((market) => (
-            <article class:list={['market-band', `market-band--${market.theme}`]} data-reveal>
-              <div class="market-band__visual">
-                <div class="market-band__visual-copy">
-                  <span>{market.detail[0]?.value}</span>
-                  <strong>{market.detail[2]?.value}</strong>
-                </div>
-              </div>
-              <div class="market-band__body">
-                <p class="market-band__status">
-                  <span></span>
-                  {market.status}
-                </p>
-                <h3>{market.name}</h3>
-                <p>{market.description}</p>
-                <dl class="market-band__details">
-                  {market.detail.map((item) => (
-                    <div>
-                      <dt>{item.label}</dt>
-                      <dd>{item.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-
-      <div class="expansion-banner" data-reveal>
-        <div>
-          <h3>{regions.expansion.title}</h3>
-          <p>{regions.expansion.description}</p>
-        </div>
-        <div class="expansion-banner__chips">
-          {regions.expansion.regions.map((label) => <span>{label}</span>)}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--tinted" id="impact">
-    <div class="container">
-      <div class="proof-shell">
-        <div class="proof-shell__lead">
-          <SectionIntro label={impact.label} title={impact.title} intro={impact.intro} />
-          <div class="impact-evidence" data-reveal>
-            <p class="proof-shell__label">{impact.evidenceLabel}</p>
-            {impact.narrative.map((paragraph) => <p>{paragraph}</p>)}
-          </div>
-          <div class="proof-shell__operator" data-reveal>
-            <p class="proof-shell__label">{leadership.label}</p>
-            <h3>{leadership.title}</h3>
-            {leadership.narrative.map((paragraph) => <p>{paragraph}</p>)}
-          </div>
-        </div>
-        <div class="impact-stats">
-          {
-            impact.stats.map((stat) => (
-              <article class="impact-stats__item" data-reveal>
-                <strong>{stat.value}</strong>
-                <h3>{stat.label}</h3>
-                <p>{stat.description}</p>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-      <div class="principles-shell" data-reveal>
-        <div class="principles-shell__intro">
-          <p class="proof-shell__label">Operating principles</p>
-          <h3>{leadership.intro}</h3>
-        </div>
-        <div class="principles principles--grid">
-          {
-            leadership.principles.map((principle) => (
-              <article class="principles__item" data-reveal>
-                <span class="principles__bar" aria-hidden="true"></span>
-                <div>
-                  <h3>{principle.title}</h3>
-                  <p>{principle.description}</p>
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section cta-section" id="contact">
-    <div class="container">
-      <div class="cta-panel" data-reveal>
-        <div class="cta-panel__layout">
-          <div class="cta-panel__main">
-            <SectionIntro
-              label={contact.label}
-              title={contact.title}
-              intro={contact.intro}
-              tone="dark"
-            />
-            <div class="cta-panel__actions">
-              <a class="button button--primary" href={`mailto:${siteMeta.email}`}>
-                Email BRG
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14M13 5l7 7-7 7"></path>
-                </svg>
-              </a>
-              <a class="button button--secondary" href="#pathways">
-                Choose your path
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-                </svg>
-              </a>
-            </div>
-            <p class="cta-panel__signal">{contact.signal}</p>
-            <div class="cta-panel__chips">
-              {contact.summaryChips.map((chip) => <span>{chip}</span>)}
-            </div>
-          </div>
-          <div class="cta-panel__contacts">
-            {
-              contact.audiences.map((audience) => (
-                <a class="cta-panel__contact" href={audience.href}>
-                  <div>
-                    <span>{audience.audience}</span>
-                    <strong>{audience.action}</strong>
-                  </div>
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M5 12h14M13 5l7 7-7 7"></path>
-                  </svg>
-                </a>
-              ))
-            }
-          </div>
-        </div>
-        <div class="cta-section__footer">
-          <span>General inquiries</span>
-          <a href={`mailto:${siteMeta.email}`}>{siteMeta.email}</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <PageCta
+    label="Contact"
+    title="Bring the right BRG team into the conversation."
+    intro="Investor, carbon buyer, and operating-partner routes now live on a dedicated contact page."
+    primaryAction={{ label: 'Open contact page', href: '/contact/' }}
+    secondaryAction={{ label: 'Review markets', href: '/markets/', variant: 'secondary' }}
+  />
 </BaseLayout>

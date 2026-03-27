@@ -8,6 +8,10 @@ const distDir = join(repoRoot, 'dist');
 const siteUrl = 'https://biomassresourcegroup.com';
 const requiredFiles = [
   'index.html',
+  join('platform', 'index.html'),
+  join('markets', 'index.html'),
+  join('company', 'index.html'),
+  join('contact', 'index.html'),
   join('updates', 'index.html'),
   'robots.txt',
   'sitemap-index.xml',
@@ -203,23 +207,31 @@ for (const relativePath of htmlPaths) {
 
 const updatesArchiveHtml = read(join('updates', 'index.html'));
 const homeHtml = read('index.html');
+const contactHtml = read(join('contact', 'index.html'));
 const updateEntries = matchAll(
   updatesArchiveHtml,
   /<article[^>]*class="updates-list__entry"[^>]*>([\s\S]*?)<\/article>/g,
 );
 
 expect(
-  /<h2 class="home-hero__stage-title">\s*Active operating corridors\s*<\/h2>/.test(homeHtml),
+  /<h2 class="home-hero__stage-title">\s*Operating today\s*<\/h2>/.test(homeHtml),
   'index.html is missing the hero stage h2 heading',
 );
 expect(
-  /<h3 class="home-hero__loop-title">\s*Operating loop\s*<\/h3>/.test(homeHtml),
-  'index.html is missing the hero loop h3 heading',
+  homeHtml.includes('href="/platform/"') &&
+    homeHtml.includes('href="/markets/"') &&
+    homeHtml.includes('href="/company/"') &&
+    homeHtml.includes('href="/contact/"'),
+  'index.html is missing one or more primary architecture links',
 );
 expect(updateEntries.length > 0, 'updates/index.html is missing updates archive entries');
 expect(
   !/<a\b[^>]*>\s*Read\s*<\/a>/i.test(updatesArchiveHtml),
   'updates/index.html still contains generic "Read" links',
+);
+expect(
+  matchAll(contactHtml, /class="pathway-card"/g).length === 3,
+  'contact/index.html is missing one or more audience pathway cards',
 );
 
 for (const [index, entry] of updateEntries.entries()) {

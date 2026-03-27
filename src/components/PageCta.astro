@@ -1,0 +1,53 @@
+---
+interface Action {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary';
+}
+
+interface Props {
+  label: string;
+  title: string;
+  intro: string;
+  primaryAction: Action;
+  secondaryAction?: Action;
+}
+
+const { label, title, intro, primaryAction, secondaryAction } = Astro.props;
+---
+
+<section class="section page-cta">
+  <div class="container">
+    <div class="page-cta__panel" data-reveal>
+      <p class="page-cta__label">{label}</p>
+      <h2>{title}</h2>
+      <p>{intro}</p>
+      <div class="page-cta__actions">
+        <a
+          class:list={[
+            'button',
+            primaryAction.variant === 'secondary' ? 'button--secondary' : 'button--primary',
+          ]}
+          href={primaryAction.href}
+        >
+          {primaryAction.label}
+        </a>
+        {
+          secondaryAction && (
+            <a
+              class:list={[
+                'button',
+                secondaryAction.variant === 'secondary'
+                  ? 'button--secondary'
+                  : 'button--primary',
+              ]}
+              href={secondaryAction.href}
+            >
+              {secondaryAction.label}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

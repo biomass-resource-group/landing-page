@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageCta from '../../components/PageCta.astro';
 import { siteMeta } from '../../data/site';
 import { formatFullDate } from '../../utils/formatDate';
 
@@ -62,4 +63,12 @@ const structuredData = {
       </article>
     </div>
   </section>
+
+  <PageCta
+    label="Next Step"
+    title="Use this update as the starting point for the right BRG conversation."
+    intro="The contact page separates investor, buyer, and operating routes so follow-up goes to the right team."
+    primaryAction={{ label: 'Open contact page', href: '/contact/' }}
+    secondaryAction={{ label: 'Back to updates', href: '/updates/', variant: 'secondary' }}
+  />
 </BaseLayout>

@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageCta from '../components/PageCta.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import { affiliations, impact, leadership, siteMeta } from '../data/site';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Company',
+  url: `${siteMeta.siteUrl}/company/`,
+  description:
+    'Why BRG is credible: field proof, operator depth, and the standards infrastructure behind the platform.',
+};
+---
+
+<BaseLayout
+  title="Company"
+  description="Why BRG is credible, how it operates, and the standards and principles behind the platform."
+  path="/company/"
+  structuredData={structuredData}
+>
+  <PageHero
+    eyebrow="Company"
+    title="Built by operators, backed by field proof."
+    intro="This page holds the company layer that was crowding the homepage: measurable operating proof, leadership depth, and the standards infrastructure around the platform."
+    actions={[
+      { label: 'Read updates', href: '/updates/' },
+      { label: 'Contact BRG', href: '/contact/', variant: 'secondary' },
+    ]}
+    meta={['Field proof', 'Operator depth', 'Standards infrastructure']}
+  />
+
+  <section class="signal-strip signal-strip--page">
+    <div class="container signal-strip__inner">
+      <p class="signal-strip__title">Affiliations and standards</p>
+      <div class="signal-strip__list">
+        {
+          affiliations.map((item) => (
+            <div class="signal-strip__item" data-reveal>
+              <strong>{item.label}</strong>
+              <span>{item.detail}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="impact">
+    <div class="container">
+      <div class="proof-shell">
+        <div class="proof-shell__lead">
+          <SectionIntro label={impact.label} title={impact.title} intro={impact.intro} />
+          <div class="impact-evidence" data-reveal>
+            <p class="proof-shell__label">{impact.evidenceLabel}</p>
+            {impact.narrative.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <div class="proof-shell__operator" data-reveal>
+            <p class="proof-shell__label">{leadership.label}</p>
+            <h3>{leadership.title}</h3>
+            {leadership.narrative.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </div>
+        <div class="impact-stats">
+          {
+            impact.stats.map((stat) => (
+              <article class="impact-stats__item" data-reveal>
+                <strong>{stat.value}</strong>
+                <h3>{stat.label}</h3>
+                <p>{stat.description}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+      <div class="principles-shell" data-reveal>
+        <div class="principles-shell__intro">
+          <p class="proof-shell__label">Operating principles</p>
+          <h3>{leadership.intro}</h3>
+        </div>
+        <div class="principles principles--grid">
+          {
+            leadership.principles.map((principle) => (
+              <article class="principles__item" data-reveal>
+                <span class="principles__bar" aria-hidden="true"></span>
+                <div>
+                  <h3>{principle.title}</h3>
+                  <p>{principle.description}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <PageCta
+    label="Next Step"
+    title="If the proof is credible, move to the relevant BRG team."
+    intro="The contact page separates investor, buyer, and operating conversations so the next message goes to the right place."
+    primaryAction={{ label: 'Open contact page', href: '/contact/' }}
+    secondaryAction={{ label: 'Review markets', href: '/markets/', variant: 'secondary' }}
+  />
+</BaseLayout>

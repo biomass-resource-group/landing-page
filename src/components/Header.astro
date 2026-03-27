@@ -3,6 +3,17 @@ import { navLinks, siteMeta } from '../data/site';
 
 const resolveHref = (href: string) =>
   href.startsWith('#') && Astro.url.pathname !== '/' ? `/${href}` : href;
+
+const normalizePath = (value: string) => {
+  if (value === '/') return '/';
+  return value.endsWith('/') ? value : `${value}/`;
+};
+
+const currentPath = normalizePath(Astro.url.pathname);
+const isActive = (href: string) => {
+  if (href.startsWith('#')) return currentPath === '/';
+  return currentPath === normalizePath(href);
+};
 ---
 
 <header class="site-header" data-site-header>
@@ -24,9 +35,11 @@ const resolveHref = (href: string) =>
               <a
                 class:list={[
                   'site-nav__link',
+                  isActive(link.href) && 'site-nav__link--active',
                   'primary' in link && link.primary && 'site-nav__link--primary',
                 ]}
                 href={resolveHref(link.href)}
+                aria-current={isActive(link.href) ? 'page' : undefined}
               >
                 {link.label}
               </a>
@@ -56,7 +69,11 @@ const resolveHref = (href: string) =>
         {
           navLinks.map((link) => (
             <li>
-              <a class="mobile-menu__link" href={resolveHref(link.href)}>
+              <a
+                class:list={['mobile-menu__link', isActive(link.href) && 'mobile-menu__link--active']}
+                href={resolveHref(link.href)}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
                 {link.label}
               </a>
             </li>

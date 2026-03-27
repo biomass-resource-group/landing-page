@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageCta from '../components/PageCta.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import { commercialModel, platform, siteMeta, technology } from '../data/site';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Platform',
+  url: `${siteMeta.siteUrl}/platform/`,
+  description:
+    'The BRG operating backbone for biomass sourcing, pyrolysis operations, carbon verification, and market access.',
+};
+---
+
+<BaseLayout
+  title="Platform"
+  description="How BRG sources feedstock, operates pyrolysis systems, verifies output, and connects projects to revenue."
+  path="/platform/"
+  structuredData={structuredData}
+>
+  <PageHero
+    eyebrow="Platform"
+    title="The operating backbone behind each BRG asset."
+    intro="This is where the site holds the deeper operating detail: how feedstock is secured, how conversion runs, how output is verified, and how each project is connected to paying markets."
+    actions={[
+      { label: 'Contact BRG', href: '/contact/' },
+      { label: 'Review markets', href: '/markets/', variant: 'secondary' },
+    ]}
+    meta={platform.signals.map((signal) => signal.label)}
+  />
+
+  <section class="section section--tinted" id="platform">
+    <div class="container">
+      <SectionIntro label={platform.label} title={platform.title} intro={platform.intro} />
+      <div class="platform-layout">
+        <div class="platform-layout__lead">
+          <div class="platform-layout__narrative" data-reveal>
+            <p>{platform.narrative[0]}</p>
+          </div>
+          <div class="platform-callout" data-reveal>
+            <p class="platform-callout__label">Operating moat</p>
+            <p class="platform-callout__copy">{platform.narrative[1]}</p>
+            <div class="platform-callout__signals">
+              {
+                platform.signals.map((signal) => (
+                  <article class="platform-callout__signal">
+                    <span>{signal.label}</span>
+                    <strong>{signal.detail}</strong>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <div class="stacked-list">
+          {
+            platform.capabilities.map((capability, index) => (
+              <article class="stacked-list__item" data-reveal>
+                <span class="stacked-list__index">{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{capability.title}</h3>
+                  <p>{capability.description}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="model">
+    <div class="container">
+      <SectionIntro
+        label={commercialModel.label}
+        title={commercialModel.title}
+        intro={commercialModel.intro}
+      />
+      <div class="model-lines">
+        {
+          commercialModel.lines.map((line, index) => (
+            <article class="model-line" data-reveal>
+              <div class="model-line__lead">
+                <span class="model-line__index">{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <p class="model-line__phase">{line.phase}</p>
+                  <h3>{line.title}</h3>
+                </div>
+              </div>
+              <p class="model-line__description">{line.description}</p>
+              <ul class="model-line__revenue">
+                {line.revenue.map((item) => <li>{item}</li>)}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="technology">
+    <div class="container">
+      <SectionIntro label={technology.label} title={technology.title} intro={technology.intro} />
+      <div class="technology-grid">
+        {
+          technology.systems.map((system, index) => (
+            <article
+              class:list={[
+                'technology-card',
+                `technology-card--${system.theme}`,
+                index === 0 && 'technology-card--featured',
+              ]}
+              data-reveal
+            >
+              <div class="technology-card__topline">
+                <span class="technology-card__tag">{system.tag}</span>
+                <div class="technology-card__signal">
+                  <span>{system.specs[0]?.value}</span>
+                  <strong>{system.specs[3]?.value}</strong>
+                </div>
+              </div>
+              <div class="technology-card__body">
+                <h3>{system.title}</h3>
+                <p>{system.summary}</p>
+                <dl class="technology-card__specs">
+                  {system.specs.map((spec) => (
+                    <div>
+                      <dt>{spec.label}</dt>
+                      <dd>{spec.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <PageCta
+    label="Next Step"
+    title="Move from platform detail into a live conversation."
+    intro="When the operating model makes sense, the next step is matching you with the right BRG team."
+    primaryAction={{ label: 'Open contact page', href: '/contact/' }}
+    secondaryAction={{ label: 'See active markets', href: '/markets/', variant: 'secondary' }}
+  />
+</BaseLayout>

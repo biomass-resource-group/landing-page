@@ -1,0 +1,57 @@
+---
+interface Action {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary';
+}
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  actions?: Action[];
+  meta?: string[];
+  compact?: boolean;
+}
+
+const {
+  eyebrow,
+  title,
+  intro,
+  actions = [],
+  meta = [],
+  compact = false,
+} = Astro.props;
+---
+
+<section class:list={['page-hero', compact && 'page-hero--compact']}>
+  <div class="container page-hero__inner" data-reveal>
+    <p class="page-hero__eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <p>{intro}</p>
+    {
+      actions.length > 0 && (
+        <div class="page-hero__actions">
+          {actions.map((action) => (
+            <a
+              class:list={[
+                'button',
+                action.variant === 'secondary' ? 'button--secondary' : 'button--primary',
+              ]}
+              href={action.href}
+            >
+              {action.label}
+            </a>
+          ))}
+        </div>
+      )
+    }
+    {
+      meta.length > 0 && (
+        <div class="page-hero__meta" aria-label="Page highlights">
+          {meta.map((item) => <span>{item}</span>)}
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import { contact, siteMeta } from '../data/site';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact',
+  url: `${siteMeta.siteUrl}/contact/`,
+  description:
+    'Contact Biomass Resource Group for investor, carbon buyer, and project delivery conversations.',
+};
+---
+
+<BaseLayout
+  title="Contact"
+  description="Start the right conversation with BRG across capital, carbon offtake, and project delivery."
+  path="/contact/"
+  structuredData={structuredData}
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Choose the BRG conversation you need to have."
+    intro="This page is the dedicated conversion surface. Pick the route that matches your role and it goes straight to the relevant BRG team."
+    actions={[
+      { label: 'Email BRG', href: `mailto:${siteMeta.email}` },
+      { label: 'Review markets', href: '/markets/', variant: 'secondary' },
+    ]}
+    meta={contact.summaryChips}
+  />
+
+  <section class="section section--tinted pathways-section" id="pathways">
+    <div class="container">
+      <div class="section-heading-row">
+        <SectionIntro
+          label="Routes"
+          title="Select the path that matches your mandate."
+          intro="Each route is written for a distinct conversation: capital deployment, carbon offtake, or project delivery."
+        />
+      </div>
+      <div class="pathways-grid">
+        {
+          contact.audiences.map((audience, index) => (
+            <a class="pathway-card" href={audience.href} data-reveal>
+              <span class="pathway-card__index">{String(index + 1).padStart(2, '0')}</span>
+              <span class="pathway-card__audience">{audience.audience}</span>
+              <h3>{audience.title}</h3>
+              <p>{audience.description}</p>
+              <span class="pathway-card__action">
+                {audience.action}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 5l7 7-7 7"></path>
+                </svg>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section" id="contact">
+    <div class="container">
+      <div class="cta-panel" data-reveal>
+        <div class="cta-panel__layout">
+          <div class="cta-panel__main">
+            <SectionIntro
+              label={contact.label}
+              title={contact.title}
+              intro={contact.intro}
+              tone="dark"
+            />
+            <div class="cta-panel__actions">
+              <a class="button button--primary" href={`mailto:${siteMeta.email}`}>
+                Email BRG
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 5l7 7-7 7"></path>
+                </svg>
+              </a>
+              <a class="button button--secondary" href="/platform/">
+                Review the platform
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+                </svg>
+              </a>
+            </div>
+            <p class="cta-panel__signal">{contact.signal}</p>
+            <div class="cta-panel__chips">
+              {contact.summaryChips.map((chip) => <span>{chip}</span>)}
+            </div>
+          </div>
+          <div class="cta-panel__contacts">
+            {
+              contact.audiences.map((audience) => (
+                <a class="cta-panel__contact" href={audience.href}>
+                  <div>
+                    <span>{audience.audience}</span>
+                    <strong>{audience.action}</strong>
+                  </div>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M13 5l7 7-7 7"></path>
+                  </svg>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+        <div class="cta-section__footer">
+          <span>General inquiries</span>
+          <a href={`mailto:${siteMeta.email}`}>{siteMeta.email}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageCta from '../components/PageCta.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import { regions, siteMeta } from '../data/site';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Markets',
+  url: `${siteMeta.siteUrl}/markets/`,
+  description:
+    'The active BRG markets, local operating entities, and expansion pipeline across East Africa and the Middle East.',
+};
+---
+
+<BaseLayout
+  title="Markets"
+  description="Current BRG operating corridors, local entities, and the wider regional pipeline."
+  path="/markets/"
+  structuredData={structuredData}
+>
+  <PageHero
+    eyebrow="Markets"
+    title="Operator-led corridors in market, with a wider regional pipeline."
+    intro="BRG runs the same operating backbone across different local conditions. This page keeps the current markets and the expansion logic in one place."
+    actions={[
+      { label: 'Read updates', href: '/updates/' },
+      { label: 'Contact BRG', href: '/contact/', variant: 'secondary' },
+    ]}
+    meta={['East Africa', 'Saudi Arabia', '5-country pipeline']}
+  />
+
+  <section class="section section--dark" id="regions">
+    <div class="container">
+      <SectionIntro
+        label={regions.label}
+        title={regions.title}
+        intro={regions.intro}
+        tone="dark"
+      />
+      <div class="market-list">
+        {
+          regions.markets.map((market) => (
+            <article class:list={['market-band', `market-band--${market.theme}`]} data-reveal>
+              <div class="market-band__visual">
+                <div class="market-band__visual-copy">
+                  <span>{market.detail[0]?.value}</span>
+                  <strong>{market.detail[2]?.value}</strong>
+                </div>
+              </div>
+              <div class="market-band__body">
+                <p class="market-band__status">
+                  <span></span>
+                  {market.status}
+                </p>
+                <h3>{market.name}</h3>
+                <p>{market.description}</p>
+                <dl class="market-band__details">
+                  {market.detail.map((item) => (
+                    <div>
+                      <dt>{item.label}</dt>
+                      <dd>{item.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="expansion-banner" data-reveal>
+        <div>
+          <h3>{regions.expansion.title}</h3>
+          <p>{regions.expansion.description}</p>
+        </div>
+        <div class="expansion-banner__chips">
+          {regions.expansion.regions.map((label) => <span>{label}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <PageCta
+    label="Next Step"
+    title="Talk with BRG about the market that matters to you."
+    intro="Buyer, operator, and capital conversations each route to the right team from the contact page."
+    primaryAction={{ label: 'Open contact page', href: '/contact/' }}
+    secondaryAction={{ label: 'See platform detail', href: '/platform/', variant: 'secondary' }}
+  />
+</BaseLayout>

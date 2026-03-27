@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageCta from '../../components/PageCta.astro';
 import { formatFullDate } from '../../utils/formatDate';
 
 const updates = (await getCollection('updates', ({ data }) => !data.draft)).sort(
@@ -62,4 +63,12 @@ const updates = (await getCollection('updates', ({ data }) => !data.draft)).sort
       </div>
     </div>
   </section>
+
+  <PageCta
+    label="Next Step"
+    title="If an update opens a conversation, take it forward."
+    intro="BRG keeps the updates archive public, but investor, buyer, and operator routes live on the dedicated contact page."
+    primaryAction={{ label: 'Open contact page', href: '/contact/' }}
+    secondaryAction={{ label: 'Review markets', href: '/markets/', variant: 'secondary' }}
+  />
 </BaseLayout>

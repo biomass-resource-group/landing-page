@@ -9,11 +9,11 @@ export const siteMeta = {
 };
 
 export const navLinks = [
-  { label: 'Platform', href: '#platform' },
-  { label: 'Economics', href: '#model' },
-  { label: 'Markets', href: '#regions' },
-  { label: 'Activity', href: '#updates' },
-  { label: 'Contact', href: '#contact', primary: true },
+  { label: 'Platform', href: '/platform/' },
+  { label: 'Markets', href: '/markets/' },
+  { label: 'Company', href: '/company/' },
+  { label: 'Updates', href: '/updates/' },
+  { label: 'Contact', href: '/contact/', primary: true },
 ] as const;
 
 export const hero = {
@@ -25,11 +25,11 @@ export const hero = {
     'BRG builds and operates owner-led biochar systems that earn from waste processing, biochar product sales, and verified carbon removal credits.',
   primaryAction: {
     label: 'Start a conversation',
-    href: '#contact',
+    href: '/contact/',
   },
   secondaryAction: {
-    label: 'See latest activity',
-    href: '#updates',
+    label: 'Explore the platform',
+    href: '/platform/',
   },
   metrics: [
     { value: '2', label: 'Active operating markets' },
@@ -51,6 +51,30 @@ export const affiliations = [
   { label: 'Kiln Technology', detail: 'Field-validated platform partners' },
   { label: 'Government Procurement', detail: 'Tender and contract channels' },
   { label: 'Research', detail: 'Agronomy and permanence testing' },
+] as const;
+
+export const exploreLinks = [
+  {
+    label: 'Platform',
+    href: '/platform/',
+    title: 'See the operating backbone.',
+    description:
+      'Sourcing, conversion, verification, and offtake organized as one repeatable system.',
+  },
+  {
+    label: 'Markets',
+    href: '/markets/',
+    title: 'Review the live corridors.',
+    description:
+      'Current operating markets, local entities, and the expansion pipeline in view.',
+  },
+  {
+    label: 'Company',
+    href: '/company/',
+    title: 'Understand why BRG is credible.',
+    description:
+      'Operator depth, field proof, and the standards infrastructure behind the platform.',
+  },
 ] as const;
 
 export const platform = {
@@ -310,20 +334,19 @@ export const contact = {
 
 export const footerGroups = [
   {
-    title: 'Company',
+    title: 'Explore',
     links: [
-      { label: 'Platform', href: '#platform' },
-      { label: 'Commercial Model', href: '#model' },
-      { label: 'Technology', href: '#technology' },
-      { label: 'Where We Operate', href: '#regions' },
-      { label: 'Impact', href: '#impact' },
+      { label: 'Home', href: '/' },
+      { label: 'Platform', href: '/platform/' },
+      { label: 'Markets', href: '/markets/' },
+      { label: 'Company', href: '/company/' },
     ],
   },
   {
     title: 'Connect',
     links: [
       { label: 'Updates', href: '/updates/' },
-      { label: 'Contact', href: '#contact' },
+      { label: 'Contact', href: '/contact/' },
       { label: siteMeta.email, href: `mailto:${siteMeta.email}` },
     ],
   },
