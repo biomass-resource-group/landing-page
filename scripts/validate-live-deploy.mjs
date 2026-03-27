@@ -98,6 +98,10 @@ const main = async () => {
     const asset = await fetchText(`${siteUrl}${assetMatch[1]}`);
     expect(asset.response.ok, `CSS asset request failed with ${asset.response.status}`);
     compareHeaders(asset.response, assetHeaders, 'CSS asset');
+    expect(
+      !asset.text.includes('data:font/'),
+      'CSS asset still contains inlined font data URLs that violate the site CSP',
+    );
   } else {
     failures.push('Could not find a built CSS asset in the home page HTML');
   }

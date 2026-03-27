@@ -125,6 +125,16 @@ expect(
   '_headers is missing immutable caching for /_astro/* assets',
 );
 
+const cssAssets = collectRelativePaths(join(distDir, '_astro'), (relativePath) =>
+  relativePath.endsWith('.css'),
+);
+
+for (const cssAsset of cssAssets) {
+  const stylesheet = readFileSync(join(distDir, '_astro', cssAsset), 'utf8');
+
+  expect(!stylesheet.includes('data:font/'), `${cssAsset} still contains inlined font data URLs`);
+}
+
 for (const relativePath of htmlPaths) {
   const html = read(relativePath);
   const routePattern = toRoutePattern(relativePath);
@@ -184,6 +194,14 @@ for (const relativePath of htmlPaths) {
   expect(
     csp.includes("script-src 'self'"),
     `${relativePath} CSP is missing script-src 'self'`,
+  );
+  expect(
+    csp.includes('https://static.cloudflareinsights.com'),
+    `${relativePath} CSP is missing Cloudflare Insights script allowance`,
+  );
+  expect(
+    csp.includes("connect-src 'self' https://cloudflareinsights.com"),
+    `${relativePath} CSP is missing Cloudflare Insights connect allowance`,
   );
   expect(
     csp.includes("style-src 'self'"),

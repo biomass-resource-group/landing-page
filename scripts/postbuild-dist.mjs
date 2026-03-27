@@ -53,12 +53,17 @@ const toRoutePattern = (relativePath) => {
 const hashScript = (content) => createHash('sha256').update(content).digest('base64');
 
 const buildContentSecurityPolicy = (hashes) => {
-  const scriptSources = [`'self'`, ...hashes.map((hash) => `'sha256-${hash}'`)].join(' ');
+  const connectSources = [`'self'`, 'https://cloudflareinsights.com'].join(' ');
+  const scriptSources = [
+    `'self'`,
+    'https://static.cloudflareinsights.com',
+    ...hashes.map((hash) => `'sha256-${hash}'`),
+  ].join(' ');
 
   return [
     "default-src 'self'",
     "base-uri 'self'",
-    "connect-src 'self'",
+    `connect-src ${connectSources}`,
     "font-src 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
