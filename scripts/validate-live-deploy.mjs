@@ -40,6 +40,19 @@ const fetchText = async (url) => {
   return { response, text };
 };
 
+const expectReachablePage = async (path) => {
+  const page = await fetchText(`${siteUrl}${path}`);
+  expect(page.response.ok, `${path} request failed with ${page.response.status}`);
+  expect(page.response.url === `${siteUrl}${path}`, `${path} unexpectedly redirected`);
+  expect(
+    page.text.includes(`<link rel="canonical" href="${siteUrl}${path}"`),
+    `${path} canonical does not match production URL`,
+  );
+  expect(!/noindex/i.test(page.text), `${path} contains an unexpected noindex directive`);
+
+  return page;
+};
+
 const compareHeaders = (response, expectedHeaders, label) => {
   for (const [name, expectedValue] of expectedHeaders.entries()) {
     const actualValue = response.headers.get(name);
@@ -85,11 +98,30 @@ const main = async () => {
     home.response.headers.get('content-security-policy') !== null,
     'Home page is missing Content-Security-Policy',
   );
+  expect(
+    home.text.indexOf('home-model-preview') !== -1 &&
+      home.text.indexOf('home-destinations') !== -1 &&
+      home.text.indexOf('home-model-preview') < home.text.indexOf('home-destinations'),
+    'Home page does not place the commercial model ahead of the diligence-path section',
+  );
+  expect(
+    !home.text.includes('See the full operating model'),
+    'Home page still exposes the duplicate platform CTA copy',
+  );
+  expect(
+    !home.text.includes('/cdn-cgi/l/email-protection') && !home.text.includes('__cf_email__'),
+    'Home page still contains Cloudflare email obfuscation markup',
+  );
   expect(!home.text.includes('/updates/'), 'Home page still links to a removed /updates route');
   expect(
     !/Latest Activity|View all updates|Read the update|Latest milestone|Latest update/.test(home.text),
     'Home page still exposes removed updates language',
   );
+
+  await expectReachablePage('/platform/');
+  await expectReachablePage('/markets/');
+  await expectReachablePage('/company/');
+  await expectReachablePage('/contact/');
 
   const updates = await fetchText(`${siteUrl}/updates/`);
   expect(updates.response.ok, `/updates/ request failed with ${updates.response.status}`);

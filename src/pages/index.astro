@@ -57,6 +57,17 @@ const structuredData = {
             </svg>
           </a>
         </div>
+
+        <dl class="home-hero__proof">
+          {
+            hero.metrics.map((metric) => (
+              <div class="home-hero__proof-item">
+                <dt>{metric.label}</dt>
+                <dd>{metric.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
       </div>
 
       <div class="home-hero__stage" data-reveal>
@@ -93,13 +104,38 @@ const structuredData = {
     </div>
   </section>
 
+  <section class="section home-model-preview">
+    <div class="container">
+      <div class="section-heading-row">
+        <SectionIntro
+          label={commercialModel.label}
+          title="One asset, three aligned revenue layers."
+          intro="BRG projects are designed to monetize waste processing, biochar product output, and carbon removal rather than relying on a single market."
+        />
+      </div>
+
+      <div class="home-model-preview__grid">
+        {
+          commercialModel.lines.map((line, index) => (
+            <article class="home-model-preview__item" data-reveal>
+              <span class="home-model-preview__index">{String(index + 1).padStart(2, '0')}</span>
+              <p class="home-model-preview__phase">{line.phase}</p>
+              <h3>{line.title}</h3>
+              <p>{line.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <section class="section home-destinations">
     <div class="container">
       <div class="section-heading-row">
         <SectionIntro
-          label="Explore BRG"
-          title="Follow the page that matches the question."
-          intro="Start with the operating model, live markets, or company proof depending on what you need to assess."
+          label="Evaluate BRG"
+          title="Move next to the page that answers the diligence question."
+          intro="The operating model, active markets, and company proof now live on focused pages instead of one crowded homepage."
         />
       </div>
       <div class="destination-list">
@@ -116,34 +152,6 @@ const structuredData = {
                 <path d="M7 17 17 7M17 7H8M17 7v9"></path>
               </svg>
             </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section home-model-preview">
-    <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label={commercialModel.label}
-          title="One asset, three aligned revenue layers."
-          intro="BRG projects are designed to monetize waste processing, biochar product output, and carbon removal rather than relying on a single market."
-        />
-        <a class="section-heading-row__link" href="/platform/">
-          See the full operating model
-        </a>
-      </div>
-
-      <div class="home-model-preview__grid">
-        {
-          commercialModel.lines.map((line, index) => (
-            <article class="home-model-preview__item" data-reveal>
-              <span class="home-model-preview__index">{String(index + 1).padStart(2, '0')}</span>
-              <p class="home-model-preview__phase">{line.phase}</p>
-              <h3>{line.title}</h3>
-              <p>{line.description}</p>
-            </article>
           ))
         }
       </div>

@@ -5,6 +5,7 @@ const setupSiteUi = () => {
   const menu = document.querySelector('[data-menu]');
   const toggle = document.querySelector('[data-menu-toggle]');
   const hero = document.querySelector('[data-hero]');
+  const emailLinks = Array.from(document.querySelectorAll('[data-email-link]'));
   const content = document.getElementById('content');
   const skipLink = document.querySelector('.skip-link');
   const body = document.body;
@@ -60,6 +61,19 @@ const setupSiteUi = () => {
       closeMenu();
     }
   };
+
+  emailLinks.forEach((link) => {
+    if (!(link instanceof HTMLAnchorElement)) return;
+
+    const localPart = link.dataset.emailLocal;
+    const domain = link.dataset.emailDomain;
+
+    if (!localPart || !domain) return;
+
+    const address = `${localPart}@${domain}`;
+    link.href = `mailto:${address}`;
+    link.textContent = address;
+  });
 
   syncScrollState();
   syncViewportState();

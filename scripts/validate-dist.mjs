@@ -232,10 +232,16 @@ for (const relativePath of htmlPaths) {
 
 const homeHtml = read('index.html');
 const contactHtml = read(join('contact', 'index.html'));
+const modelPreviewPosition = homeHtml.indexOf('home-model-preview');
+const destinationsPosition = homeHtml.indexOf('home-destinations');
 
 expect(
   /<h2 class="home-hero__stage-title">\s*Operating today\s*<\/h2>/.test(homeHtml),
   'index.html is missing the hero stage h2 heading',
+);
+expect(
+  /<dl class="home-hero__proof">/.test(homeHtml),
+  'index.html is missing the homepage proof stat strip',
 );
 expect(
   homeHtml.includes('href="/platform/"') &&
@@ -245,8 +251,20 @@ expect(
   'index.html is missing one or more primary architecture links',
 );
 expect(
+  modelPreviewPosition !== -1 && destinationsPosition !== -1 && modelPreviewPosition < destinationsPosition,
+  'index.html does not place the commercial model ahead of the diligence-path section',
+);
+expect(
+  !homeHtml.includes('See the full operating model'),
+  'index.html still includes the duplicate platform CTA',
+);
+expect(
   !/Latest Activity|View all updates|Read the update|Latest milestone|Latest update/.test(homeHtml),
   'index.html still exposes removed updates language',
+);
+expect(
+  !homeHtml.includes('/cdn-cgi/l/email-protection') && !homeHtml.includes('__cf_email__'),
+  'index.html still contains Cloudflare email obfuscation markup',
 );
 expect(
   matchAll(contactHtml, /class="pathway-card"/g).length === 3,

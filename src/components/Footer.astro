@@ -3,6 +3,8 @@ import { footerGroups, siteMeta } from '../data/site';
 
 const resolveHref = (href: string) =>
   href.startsWith('#') && Astro.url.pathname !== '/' ? `/${href}` : href;
+
+const [emailLocalPart, emailDomain] = siteMeta.email.split('@');
 ---
 
 <footer class="site-footer">
@@ -36,5 +38,24 @@ const resolveHref = (href: string) =>
         </div>
       ))
     }
+
+    <div class="site-footer__group">
+      <p class="site-footer__title">Email</p>
+      <a
+        class="site-footer__email"
+        href="/contact/"
+        data-email-link
+        data-email-local={emailLocalPart}
+        data-email-domain={emailDomain}
+        aria-label={`Email ${siteMeta.name}`}
+      >
+        Contact via email
+      </a>
+      <noscript>
+        <p class="site-footer__email-fallback">
+          {emailLocalPart} [at] {emailDomain.replace('.', ' [dot] ')}
+        </p>
+      </noscript>
+    </div>
   </div>
 </footer>

@@ -23,12 +23,12 @@ export const hero = {
   summary:
     'BRG builds and operates owner-led biochar systems that earn from waste processing, biochar product sales, and verified carbon removal credits.',
   primaryAction: {
-    label: 'Start a conversation',
-    href: '/contact/',
-  },
-  secondaryAction: {
     label: 'Explore the platform',
     href: '/platform/',
+  },
+  secondaryAction: {
+    label: 'Contact BRG',
+    href: '/contact/',
   },
   metrics: [
     { value: '2', label: 'Active operating markets' },
@@ -345,7 +345,6 @@ export const footerGroups = [
     title: 'Connect',
     links: [
       { label: 'Contact', href: '/contact/' },
-      { label: siteMeta.email, href: `mailto:${siteMeta.email}` },
     ],
   },
 ] as const;
