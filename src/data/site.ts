@@ -208,7 +208,7 @@ export const technology = {
 
 export const regions = {
   label: 'Where We Operate',
-  title: 'Two active operating markets with a wider pipeline underway.',
+  title: 'Two active markets, with a wider pipeline underway.',
   intro:
     'Each region runs on the same backbone while adapting to local feedstock, policy, and buyer conditions.',
   markets: [
@@ -240,7 +240,7 @@ export const regions = {
   expansion: {
     title: 'Expansion pipeline under active evaluation',
     description:
-      'The model is being assessed for markets where feedstock, carbon demand, and local partners line up.',
+      'The model is being assessed for markets where feedstock, demand, and local partners line up.',
     regions: ['Pakistan', 'MENA', 'Sub-Saharan Africa'],
   },
 };
