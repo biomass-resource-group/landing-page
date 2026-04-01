@@ -19,7 +19,7 @@
     "@astrojs/sitemap": "^3.7.1",
     "@fontsource/cormorant-garamond": "^5.2.11",
     "@fontsource-variable/manrope": "^5.2.8",
-    "astro": "^6.0.8"
+    "astro": "^6.1.2"
   },
   "devDependencies": {
     "typescript": "^6.0.2"
