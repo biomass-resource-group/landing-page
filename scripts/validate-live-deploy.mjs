@@ -120,8 +120,12 @@ const main = async () => {
 
   await expectReachablePage('/platform/');
   await expectReachablePage('/markets/');
-  await expectReachablePage('/company/');
+  await expectReachablePage('/about/');
   await expectReachablePage('/contact/');
+
+  const company = await fetchText(`${siteUrl}/company/`);
+  expect(company.response.ok, `/company/ request failed with ${company.response.status}`);
+  expect(company.response.url === `${siteUrl}/about/`, '/company/ did not redirect to /about/');
 
   const updates = await fetchText(`${siteUrl}/updates/`);
   expect(updates.response.ok, `/updates/ request failed with ${updates.response.status}`);

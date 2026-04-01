@@ -1,241 +1,30 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageCta from '../components/PageCta.astro';
-import PageHero from '../components/PageHero.astro';
-import SectionIntro from '../components/SectionIntro.astro';
-import { about, affiliations, impact, leadership, siteMeta } from '../data/site';
 
-const structuredData = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: 'About BRG',
-    url: `${siteMeta.siteUrl}/company/`,
-    description:
-      'Meet the leadership behind BRG and review the field proof, operator depth, and standards infrastructure behind the platform.',
-  },
-  ...about.team.map((person) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: person.name,
-    jobTitle: person.role,
-    url: person.href,
-    sameAs: [person.href],
-    worksFor: {
-      '@type': 'Organization',
-      name: siteMeta.name,
-      url: siteMeta.siteUrl,
-    },
-  })),
-];
+const destination = '/about/';
 ---
 
 <BaseLayout
   title="About BRG"
-  description="Meet the leadership behind BRG and review the field proof, operator depth, and standards infrastructure behind the platform."
-  path="/company/"
-  structuredData={structuredData}
+  description="The About BRG page has moved to /about/."
+  path={destination}
+  noindex
 >
-  <PageHero
-    eyebrow="About BRG"
-    title="Executive leadership, backed by field proof."
-    intro="BRG combines visible company leadership, measurable operating proof, and standards infrastructure designed for durable scale."
-    actions={[
-      { label: 'Contact BRG', href: '/contact/' },
-      { label: 'Review markets', href: '/markets/', variant: 'secondary' },
-    ]}
-    meta={['Julie Brown, CEO', 'Cody Danet, Co-Founder', 'Operator-led execution']}
-    compact
-  >
-    <div slot="visual" class="hero-panel hero-panel--leadership">
-      <div class="hero-panel__header">
-        <p class="hero-panel__label">Leadership</p>
-        <h2 class="hero-panel__title">Leadership is now part of the diligence story.</h2>
-      </div>
-      <div class="leadership-spotlight">
-        {
-          about.team.map((person) => {
-            const initials = person.name
-              .split(' ')
-              .map((part) => part[0])
-              .join('')
-              .slice(0, 2);
-
-            return (
-              <article class:list={['leadership-card', person.featured && 'leadership-card--featured']}>
-                <div class="leadership-card__topline">
-                  <div class="leadership-card__avatar" aria-hidden="true">
-                    {initials}
-                  </div>
-                  <div class="leadership-card__identity">
-                    <span>{person.focus}</span>
-                    <h3>{person.name}</h3>
-                    <p>{person.role}</p>
-                  </div>
-                </div>
-                <p class="leadership-card__summary">{person.summary}</p>
-                <a
-                  class="leadership-card__link"
-                  href={person.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${person.name} on LinkedIn`}
-                >
-                  LinkedIn
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-                  </svg>
-                </a>
-              </article>
-            );
-          })
-        }
-      </div>
-    </div>
-  </PageHero>
-
-  <section class="signal-strip signal-strip--page">
-    <div class="container signal-strip__inner">
-      <p class="signal-strip__title">Affiliations and standards</p>
-      <div class="signal-strip__list">
-        {
-          affiliations.map((item) => (
-            <div class="signal-strip__item" data-reveal>
-              <strong>{item.label}</strong>
-              <span>{item.detail}</span>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--tinted" id="about">
+  <section class="section">
     <div class="container">
-      <div class="about-grid">
-        <div class="about-grid__copy">
-          <SectionIntro label={about.label} title={about.title} intro={about.intro} />
-          <div class="about-grid__narrative" data-reveal>
-            {about.narrative.map((paragraph) => <p>{paragraph}</p>)}
-          </div>
-          <div class="about-highlights about-highlights--stack">
-            {
-              about.highlights.map((item) => (
-                <article class="about-highlight" data-reveal>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
-              ))
-            }
-          </div>
+      <div class="contact-direct__panel">
+        <div class="contact-direct__copy">
+          <p class="page-cta__label">Page moved</p>
+          <h1>About BRG now lives at /about/.</h1>
+          <p>
+            Existing links to /company/ are kept for compatibility, but the canonical BRG About page now uses the
+            clearer /about/ path.
+          </p>
         </div>
-
-        <div class="about-grid__proof">
-          <div class="about-grid__proof-intro" data-reveal>
-            <p class="proof-shell__label">Evidence snapshot</p>
-            <h3>Proof is operational, not only narrative.</h3>
-            <p>{impact.intro}</p>
-          </div>
-          <div class="impact-stats">
-            {
-              impact.stats.map((stat) => (
-                <article class="impact-stats__item" data-reveal>
-                  <strong>{stat.value}</strong>
-                  <h3>{stat.label}</h3>
-                  <p>{stat.description}</p>
-                </article>
-              ))
-            }
-          </div>
-        </div>
+        <a class="button button--primary" href={destination}>Open About BRG</a>
       </div>
     </div>
   </section>
 
-  <section class="section" id="leadership">
-    <div class="container">
-      <div class="leadership-section">
-        <div class="leadership-section__lead">
-          <SectionIntro label={leadership.label} title={leadership.title} intro={leadership.intro} />
-          <div class="leadership-layout__narrative" data-reveal>
-            {leadership.narrative.map((paragraph) => <p>{paragraph}</p>)}
-          </div>
-        </div>
-        <div class="leadership-spotlight leadership-spotlight--grid">
-          {
-            about.team.map((person) => {
-              const initials = person.name
-                .split(' ')
-                .map((part) => part[0])
-                .join('')
-                .slice(0, 2);
-
-              return (
-                <article
-                  class:list={[
-                    'leadership-card',
-                    'leadership-card--profile',
-                    person.featured && 'leadership-card--featured',
-                  ]}
-                  data-reveal
-                >
-                  <div class="leadership-card__topline">
-                    <div class="leadership-card__avatar" aria-hidden="true">
-                      {initials}
-                    </div>
-                    <div class="leadership-card__identity">
-                      <span>{person.focus}</span>
-                      <h3>{person.name}</h3>
-                      <p>{person.role}</p>
-                    </div>
-                  </div>
-                  <p class="leadership-card__summary">{person.summary}</p>
-                  <a
-                    class="leadership-card__link"
-                    href={person.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${person.name} on LinkedIn`}
-                  >
-                    LinkedIn
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-                    </svg>
-                  </a>
-                </article>
-              );
-            })
-          }
-        </div>
-      </div>
-
-      <div class="principles-shell" data-reveal>
-        <div class="principles-shell__intro">
-          <p class="proof-shell__label">Operating principles</p>
-          <h3>{leadership.intro}</h3>
-        </div>
-        <div class="principles principles--grid">
-          {
-            leadership.principles.map((principle) => (
-              <article class="principles__item" data-reveal>
-                <span class="principles__bar" aria-hidden="true"></span>
-                <div>
-                  <h3>{principle.title}</h3>
-                  <p>{principle.description}</p>
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <PageCta
-    label="Next Step"
-    title="If the proof is credible, move to the relevant BRG team."
-    intro="The contact page separates investor, buyer, and operating conversations so the next message goes to the right place."
-    primaryAction={{ label: 'Open contact page', href: '/contact/' }}
-    secondaryAction={{ label: 'Review markets', href: '/markets/', variant: 'secondary' }}
-  />
+  <script src="/scripts/company-redirect.js" defer data-redirect-target={destination}></script>
 </BaseLayout>

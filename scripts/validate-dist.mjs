@@ -8,6 +8,7 @@ const distDir = join(repoRoot, 'dist');
 const siteUrl = 'https://biomassresourcegroup.com';
 const requiredFiles = [
   'index.html',
+  join('about', 'index.html'),
   join('platform', 'index.html'),
   join('markets', 'index.html'),
   join('company', 'index.html'),
@@ -17,6 +18,7 @@ const requiredFiles = [
   '_headers',
   '_redirects',
   'og-default.jpg',
+  join('scripts', 'company-redirect.js'),
   join('scripts', 'site-ui.js'),
 ];
 const retiredSelectors = [
@@ -31,6 +33,7 @@ const retiredSelectors = [
 ];
 
 const failures = [];
+const canonicalOverrides = new Map([['/company/', `${siteUrl}/about/`]]);
 
 const expect = (condition, message) => {
   if (!condition) failures.push(message);
@@ -144,7 +147,7 @@ for (const cssAsset of cssAssets) {
 for (const relativePath of htmlPaths) {
   const html = read(relativePath);
   const routePattern = toRoutePattern(relativePath);
-  const canonical = `${siteUrl}${routePattern}`;
+  const canonical = canonicalOverrides.get(routePattern) ?? `${siteUrl}${routePattern}`;
   const routeHeaders = headersBlocks.get(routePattern);
   const scripts = extractScripts(html);
   const executableInlineScripts = scripts.filter(
@@ -246,7 +249,7 @@ expect(
 expect(
   homeHtml.includes('href="/platform/"') &&
     homeHtml.includes('href="/markets/"') &&
-    homeHtml.includes('href="/company/"') &&
+    homeHtml.includes('href="/about/"') &&
     homeHtml.includes('href="/contact/"'),
   'index.html is missing one or more primary architecture links',
 );
@@ -295,6 +298,18 @@ const robots = read('robots.txt');
 expect(
   robots.includes(`Sitemap: ${siteUrl}/sitemap-index.xml`),
   'robots.txt is missing the production sitemap reference',
+);
+
+const sitemapXml = collectRelativePaths(distDir, (relativePath) => /sitemap-.*\.xml$/.test(relativePath))
+  .map((relativePath) => read(relativePath))
+  .join('\n');
+expect(sitemapXml.includes('/about/'), 'Sitemap output is missing the canonical /about/ route');
+expect(!sitemapXml.includes('/company/'), 'Sitemap output still includes the legacy /company/ route');
+
+const redirectsFile = read('_redirects');
+expect(
+  redirectsFile.includes('/company /about 301') && redirectsFile.includes('/company/ /about/ 301'),
+  '_redirects is missing the company-to-about compatibility redirects',
 );
 
 if (failures.length > 0) {

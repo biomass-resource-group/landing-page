@@ -11,7 +11,7 @@ export const siteMeta = {
 export const navLinks = [
   { label: 'Platform', href: '/platform/' },
   { label: 'Markets', href: '/markets/' },
-  { label: 'About', href: '/company/' },
+  { label: 'About', href: '/about/' },
   { label: 'Contact', href: '/contact/', primary: true },
 ] as const;
 
@@ -28,7 +28,7 @@ export const hero = {
   },
   secondaryAction: {
     label: 'About BRG',
-    href: '/company/',
+    href: '/about/',
   },
   metrics: [
     { value: '2', label: 'Active operating markets' },
@@ -69,7 +69,7 @@ export const exploreLinks = [
   },
   {
     label: 'About',
-    href: '/company/',
+    href: '/about/',
     title: 'Meet the leadership behind BRG.',
     description:
       'Julie Brown, Cody Danet, and the operator-led story behind BRG in one view.',
@@ -418,7 +418,7 @@ export const footerGroups = [
       { label: 'Home', href: '/' },
       { label: 'Platform', href: '/platform/' },
       { label: 'Markets', href: '/markets/' },
-      { label: 'About', href: '/company/' },
+      { label: 'About', href: '/about/' },
     ],
   },
   {
