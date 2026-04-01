@@ -11,7 +11,7 @@ export const siteMeta = {
 export const navLinks = [
   { label: 'Platform', href: '/platform/' },
   { label: 'Markets', href: '/markets/' },
-  { label: 'Company', href: '/company/' },
+  { label: 'About', href: '/company/' },
   { label: 'Contact', href: '/contact/', primary: true },
 ] as const;
 
@@ -27,8 +27,8 @@ export const hero = {
     href: '/platform/',
   },
   secondaryAction: {
-    label: 'Contact BRG',
-    href: '/contact/',
+    label: 'About BRG',
+    href: '/company/',
   },
   metrics: [
     { value: '2', label: 'Active operating markets' },
@@ -68,13 +68,61 @@ export const exploreLinks = [
       'Current operating markets, local entities, and the expansion pipeline in view.',
   },
   {
-    label: 'Company',
+    label: 'About',
     href: '/company/',
-    title: 'Understand why BRG is credible.',
+    title: 'Meet the leadership behind BRG.',
     description:
-      'Operator depth, field proof, and the standards infrastructure behind the platform.',
+      'Julie Brown, Cody Danet, and the operator-led story behind BRG in one view.',
   },
 ] as const;
+
+export const about = {
+  label: 'About BRG',
+  title: 'Visible leadership, backed by field proof.',
+  intro:
+    'BRG is easier to evaluate when the people behind the company sit next to the operating proof, not behind it.',
+  narrative: [
+    'The company story now pairs executive leadership, operator depth, and measurable proof in one place. That makes BRG feel more accountable, more legible, and more credible during diligence.',
+    'Instead of asking visitors to infer who is behind the platform, the site can name the people leading the company and connect them directly to the operating model, live markets, and standards discipline already on display elsewhere.',
+  ],
+  highlights: [
+    {
+      title: 'Executive visibility',
+      description:
+        'Julie Brown is featured as CEO so the site has a clear, human point of leadership.',
+    },
+    {
+      title: 'Founder continuity',
+      description:
+        'Cody Danet remains visible as co-founder, connecting the company story to the operator-led platform.',
+    },
+    {
+      title: 'Diligence clarity',
+      description:
+        'Leadership is framed alongside revenue design, active corridors, and verification readiness.',
+    },
+  ],
+  team: [
+    {
+      name: 'Julie Brown',
+      role: 'CEO',
+      focus: 'Executive leadership',
+      summary:
+        'Company direction, partner relationships, and growth leadership for BRG.',
+      href: 'https://www.linkedin.com/in/julieajbrown/',
+      featured: true,
+    },
+    {
+      name: 'Cody Danet',
+      role: 'Co-Founder',
+      focus: 'Co-founder continuity',
+      summary:
+        'Operator-led platform development and market footprint continuity across BRG.',
+      href: 'https://www.linkedin.com/in/cody-danet/',
+      featured: false,
+    },
+  ],
+} as const;
 
 export const platform = {
   label: 'Our Platform',
@@ -370,7 +418,7 @@ export const footerGroups = [
       { label: 'Home', href: '/' },
       { label: 'Platform', href: '/platform/' },
       { label: 'Markets', href: '/markets/' },
-      { label: 'Company', href: '/company/' },
+      { label: 'About', href: '/company/' },
     ],
   },
   {
