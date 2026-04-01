@@ -2532,8 +2532,14 @@ section[id] {
 
 .site-footer__email,
 .site-footer__email-fallback {
-  color: rgba(247, 241, 227, 0.78);
+  color: var(--cream);
   line-height: 1.8;
+}
+
+.site-footer__email {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
 }
 
 .page-hero {
