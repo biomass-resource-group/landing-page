@@ -21,7 +21,7 @@ export const hero = {
   emphasis: 'carbon removal assets',
   tail: '.',
   summary:
-    'BRG builds and operates owner-led biochar systems that earn from waste processing, biochar product sales, and verified carbon removal credits.',
+    'BRG builds and operates owner-led biochar systems that earn from biochar product sales, verified carbon removal credits, and kiln technology sales and licensing.',
   primaryAction: {
     label: 'Explore the platform',
     href: '/platform/',
@@ -78,12 +78,12 @@ export const exploreLinks = [
 
 export const about = {
   label: 'About BRG',
-  title: 'Visible leadership, backed by field proof.',
+  title: 'Leadership and field proof in one view.',
   intro:
-    'BRG is easier to evaluate when the people behind the company sit next to the operating proof, not behind it.',
+    'BRG combines visible executive leadership, operator-led execution, and measurable operating proof across its active markets.',
   narrative: [
-    'The company story now pairs executive leadership, operator depth, and measurable proof in one place. That makes BRG feel more accountable, more legible, and more credible during diligence.',
-    'Instead of asking visitors to infer who is behind the platform, the site can name the people leading the company and connect them directly to the operating model, live markets, and standards discipline already on display elsewhere.',
+    'BRG pairs company leadership with teams that have built local entities, logistics systems, and market relationships in East Africa and the Middle East.',
+    'The company story is grounded in active operations, technology deployment, and verification readiness, so counterparties can evaluate both who is leading BRG and how the platform performs in the field.',
   ],
   highlights: [
     {
@@ -99,7 +99,7 @@ export const about = {
     {
       title: 'Diligence clarity',
       description:
-        'Leadership is framed alongside revenue design, active corridors, and verification readiness.',
+        'Leadership is framed alongside active corridors, commercial design, and verification readiness.',
     },
   ],
   team: [
@@ -144,7 +144,7 @@ export const platform = {
     },
     {
       title: 'Clear revenue',
-      detail: 'Waste contracts, biochar offtake, and carbon buyers connected from launch.',
+      detail: 'Biochar offtake and carbon buyers connected from launch.',
     },
   ],
   narrative: [
@@ -191,9 +191,9 @@ export const platform = {
 
 export const commercialModel = {
   label: 'Commercial Model',
-  title: 'Each asset earns from waste, product, and carbon.',
+  title: 'Each asset supports product, carbon, and technology revenue.',
   intro:
-    'The same operating loop monetizes feedstock processing, biochar output, and carbon removal credits.',
+    'The operating platform earns from biochar product output, carbon removal, and kiln technology sales and licensing.',
   lines: [
     {
       phase: 'Production',
@@ -210,11 +210,11 @@ export const commercialModel = {
       revenue: ['Spot carbon sales', 'Forward offtake agreements'],
     },
     {
-      phase: 'Procurement',
-      title: 'Waste processing contracts',
+      phase: 'Technology',
+      title: 'Kiln technology',
       description:
-        'Municipal and industrial operators pay for waste diversion, creating recurring revenue independent of carbon pricing.',
-      revenue: ['Government tenders', 'Municipal contracts', 'Industrial waste fees'],
+        "Riziki's proprietary mobile kilns are available for purchase and licensing by third-party operators, generating capital revenue and expanding the platform's geographic reach without direct operating overhead.",
+      revenue: ['Kiln unit sales', 'Licensing agreements', 'Third-party operator support'],
     },
   ],
 };
@@ -341,7 +341,7 @@ export const leadership = {
     {
       title: 'Revenue before scale',
       description:
-        'Every project is structured to generate revenue from day one through waste processing contracts, biochar sales, and carbon credits. The model does not depend on grant funding.',
+        'Every project is structured to generate revenue through multiple commercial channels from day one. The model does not depend on grant funding.',
     },
     {
       title: 'Logistics first',
@@ -402,9 +402,9 @@ export const contact = {
     },
     {
       audience: 'Governments and Operators',
-      title: 'Partner on waste processing and biochar infrastructure',
+      title: 'Partner on biochar and biomass infrastructure',
       description:
-        'Contract waste processing, biogas co-production, and biochar supply for municipalities and industrial operators.',
+        'Biochar deployment, biogas co-production, feedstock sourcing, and supply partnerships for municipalities and industrial operators.',
       href: 'mailto:partnerships@biomassresourcegroup.com',
       action: 'Partnership inquiries',
     },
