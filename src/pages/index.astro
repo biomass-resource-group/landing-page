@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageCta from '../components/PageCta.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import {
+  about,
   commercialModel,
   exploreLinks,
   hero,
@@ -146,6 +147,81 @@ const structuredData = {
     </div>
   </section>
 
+  <section class="section section--tinted home-about-preview">
+    <div class="container">
+      <div class="home-about-preview__shell">
+        <div class="home-about-preview__lead">
+          <SectionIntro
+            label={about.label}
+            title={about.title}
+            intro={about.intro}
+          />
+          <div class="about-highlights">
+            {
+              about.highlights.map((item) => (
+                <article class="about-highlight" data-reveal>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </article>
+              ))
+            }
+          </div>
+          <div class="home-about-preview__actions" data-reveal>
+            <a class="button button--primary" href="/company/">
+              Meet the leadership
+            </a>
+          </div>
+        </div>
+
+        <div class="leadership-spotlight leadership-spotlight--home">
+          {
+            about.team.map((person) => {
+              const initials = person.name
+                .split(' ')
+                .map((part) => part[0])
+                .join('')
+                .slice(0, 2);
+
+              return (
+                <article
+                  class:list={[
+                    'leadership-card',
+                    person.featured && 'leadership-card--featured',
+                  ]}
+                  data-reveal
+                >
+                  <div class="leadership-card__topline">
+                    <div class="leadership-card__avatar" aria-hidden="true">
+                      {initials}
+                    </div>
+                    <div class="leadership-card__identity">
+                      <span>{person.focus}</span>
+                      <h3>{person.name}</h3>
+                      <p>{person.role}</p>
+                    </div>
+                  </div>
+                  <p class="leadership-card__summary">{person.summary}</p>
+                  <a
+                    class="leadership-card__link"
+                    href={person.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${person.name} on LinkedIn`}
+                  >
+                    LinkedIn
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+                    </svg>
+                  </a>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section home-destinations">
     <div class="container">
       <div class="section-heading-row">
@@ -180,6 +256,6 @@ const structuredData = {
     title="Bring the right BRG team into the conversation."
     intro="BRG routes investor, carbon buyer, and operating-partner conversations to the team that can act on them."
     primaryAction={{ label: 'Open contact page', href: '/contact/' }}
-    secondaryAction={{ label: 'Review markets', href: '/markets/', variant: 'secondary' }}
+    secondaryAction={{ label: 'About BRG', href: '/company/', variant: 'secondary' }}
   />
 </BaseLayout>
