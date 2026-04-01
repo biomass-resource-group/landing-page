@@ -70,36 +70,36 @@ export const exploreLinks = [
   {
     label: 'About',
     href: '/about/',
-    title: 'Meet the leadership behind BRG.',
+    title: 'Meet the team behind BRG.',
     description:
-      'Julie Brown, Cody Danet, and the operator-led story behind BRG in one view.',
+      'Leadership, company background, and operating context behind the platform.',
   },
 ] as const;
 
 export const about = {
   label: 'About BRG',
-  title: 'Leadership and field proof in one view.',
+  title: 'Leadership, operations, and proof.',
   intro:
     'BRG combines visible executive leadership, operator-led execution, and measurable operating proof across its active markets.',
   narrative: [
-    'BRG pairs company leadership with teams that have built local entities, logistics systems, and market relationships in East Africa and the Middle East.',
-    'The company story is grounded in active operations, technology deployment, and verification readiness, so counterparties can evaluate both who is leading BRG and how the platform performs in the field.',
+    'BRG has built local entities, logistics systems, feedstock relationships, and buyer channels in East Africa and the Middle East.',
+    'That operating base supports technology deployment, commercialization, and verification as the platform expands into new markets.',
   ],
   highlights: [
     {
-      title: 'Executive visibility',
+      title: 'Executive leadership',
       description:
-        'Julie Brown is featured as CEO so the site has a clear, human point of leadership.',
+        'Julie Brown leads company strategy, partnerships, and growth across BRG.',
     },
     {
-      title: 'Founder continuity',
+      title: 'Founder experience',
       description:
-        'Cody Danet remains visible as co-founder, connecting the company story to the operator-led platform.',
+        "Cody Danet brings founding operating context to BRG's platform and market buildout.",
     },
     {
-      title: 'Diligence clarity',
+      title: 'Operating discipline',
       description:
-        'Leadership is framed alongside active corridors, commercial design, and verification readiness.',
+        'BRG combines active corridors, commercial channels, and verification readiness in one model.',
     },
   ],
   team: [
@@ -115,7 +115,7 @@ export const about = {
     {
       name: 'Cody Danet',
       role: 'Co-Founder',
-      focus: 'Co-founder continuity',
+      focus: 'Platform and markets',
       summary:
         'Operator-led platform development and market footprint continuity across BRG.',
       href: 'https://www.linkedin.com/in/cody-danet/',

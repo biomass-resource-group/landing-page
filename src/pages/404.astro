@@ -5,7 +5,7 @@ import PageHero from '../components/PageHero.astro';
 
 <BaseLayout
   title="Page not found"
-  description="The requested page could not be found. Return to the Biomass Resource Group homepage or continue to the platform, markets, or contact page."
+  description="The requested route could not be found. Return to the Biomass Resource Group homepage or continue to the platform, markets, or contact information."
   noindex={true}
   path="/404.html"
 >
@@ -15,14 +15,14 @@ import PageHero from '../components/PageHero.astro';
     intro="Return to the main site to review the platform, active markets, and the right BRG contact path."
     actions={[
       { label: 'Back to homepage', href: '/' },
-      { label: 'Open contact page', href: '/contact/', variant: 'secondary' },
+      { label: 'Contact BRG', href: '/contact/', variant: 'secondary' },
     ]}
     compact
   >
     <div slot="visual" class="hero-panel hero-panel--routes">
       <div class="hero-panel__header">
         <p class="hero-panel__label">Suggested routes</p>
-        <h2 class="hero-panel__title">Continue from one of the core BRG pages.</h2>
+        <h2 class="hero-panel__title">Continue from one of the core BRG routes.</h2>
       </div>
       <div class="hero-route-list">
         <a class="hero-route" href="/platform/">
