@@ -118,7 +118,7 @@ export const about = {
       focus: 'Platform and markets',
       summary:
         'Operator-led platform development and market footprint continuity across BRG.',
-      href: 'https://www.linkedin.com/in/cody-danet/',
+      href: undefined,
       featured: false,
     },
   ],

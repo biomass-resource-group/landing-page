@@ -19,8 +19,12 @@ const structuredData = [
     '@type': 'Person',
     name: person.name,
     jobTitle: person.role,
-    url: person.href,
-    sameAs: [person.href],
+    ...(person.href
+      ? {
+          url: person.href,
+          sameAs: [person.href],
+        }
+      : {}),
     worksFor: {
       '@type': 'Organization',
       name: siteMeta.name,
@@ -74,18 +78,22 @@ const structuredData = [
                   </div>
                 </div>
                 <p class="leadership-card__summary">{person.summary}</p>
-                <a
-                  class="leadership-card__link"
-                  href={person.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${person.name} on LinkedIn`}
-                >
-                  LinkedIn
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-                  </svg>
-                </a>
+                {
+                  person.href ? (
+                    <a
+                      class="leadership-card__link"
+                      href={person.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${person.name} on LinkedIn`}
+                    >
+                      LinkedIn
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+                      </svg>
+                    </a>
+                  ) : null
+                }
               </article>
             );
           })
@@ -190,18 +198,22 @@ const structuredData = [
                     </div>
                   </div>
                   <p class="leadership-card__summary">{person.summary}</p>
-                  <a
-                    class="leadership-card__link"
-                    href={person.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${person.name} on LinkedIn`}
-                  >
-                    LinkedIn
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-                    </svg>
-                  </a>
+                  {
+                    person.href ? (
+                      <a
+                        class="leadership-card__link"
+                        href={person.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${person.name} on LinkedIn`}
+                      >
+                        LinkedIn
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+                        </svg>
+                      </a>
+                    ) : null
+                  }
                 </article>
               );
             })

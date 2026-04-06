@@ -117,11 +117,23 @@ const main = async () => {
     !/Latest Activity|View all updates|Read the update|Latest milestone|Latest update/.test(home.text),
     'Home page still exposes removed updates language',
   );
+  expect(
+    !home.text.includes('https://www.linkedin.com/in/cody-danet/'),
+    'Home page still includes Cody Danet LinkedIn link markup',
+  );
 
   await expectReachablePage('/platform/');
   await expectReachablePage('/markets/');
-  await expectReachablePage('/about/');
+  const about = await expectReachablePage('/about/');
   await expectReachablePage('/contact/');
+  expect(
+    about.text.includes('https://www.linkedin.com/in/julieajbrown/'),
+    'About page is missing Julie Brown LinkedIn markup',
+  );
+  expect(
+    !about.text.includes('https://www.linkedin.com/in/cody-danet/'),
+    'About page still includes Cody Danet LinkedIn link markup',
+  );
 
   const company = await fetchText(`${siteUrl}/company/`);
   expect(company.response.ok, `/company/ request failed with ${company.response.status}`);

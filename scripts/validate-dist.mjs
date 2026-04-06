@@ -233,6 +233,7 @@ for (const relativePath of htmlPaths) {
   }
 }
 
+const aboutHtml = read(join('about', 'index.html'));
 const homeHtml = read('index.html');
 const contactHtml = read(join('contact', 'index.html'));
 const modelPreviewPosition = homeHtml.indexOf('home-model-preview');
@@ -268,6 +269,18 @@ expect(
 expect(
   !homeHtml.includes('/cdn-cgi/l/email-protection') && !homeHtml.includes('__cf_email__'),
   'index.html still contains Cloudflare email obfuscation markup',
+);
+expect(
+  !homeHtml.includes('https://www.linkedin.com/in/cody-danet/'),
+  'index.html still includes Cody Danet LinkedIn link markup',
+);
+expect(
+  aboutHtml.includes('https://www.linkedin.com/in/julieajbrown/'),
+  'about/index.html is missing Julie Brown LinkedIn markup',
+);
+expect(
+  !aboutHtml.includes('https://www.linkedin.com/in/cody-danet/'),
+  'about/index.html still includes Cody Danet LinkedIn link markup',
 );
 expect(
   matchAll(contactHtml, /class="pathway-card"/g).length === 3,
