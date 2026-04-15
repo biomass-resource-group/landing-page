@@ -42,65 +42,15 @@ const structuredData = [
 >
   <PageHero
     eyebrow="About BRG"
-    title="Executive leadership, backed by field proof."
-    intro="BRG combines visible company leadership, measurable operating proof, and standards infrastructure designed for durable scale."
+    title="An operator-led platform expanding internationally."
+    intro="BRG combines measurable operating proof, in-market entities, and standards infrastructure designed for durable scale across emerging markets."
     actions={[
       { label: 'Contact BRG', href: '/contact/' },
       { label: 'Review markets', href: '/markets/', variant: 'secondary' },
     ]}
-    meta={['Julie Brown, CEO', 'Cody Danet, Co-Founder', 'Operator-led execution']}
+    meta={['Two active corridors', '5-country pipeline', 'Operator-led execution']}
     compact
-  >
-    <div slot="visual" class="hero-panel hero-panel--leadership">
-      <div class="hero-panel__header">
-        <p class="hero-panel__label">Leadership</p>
-        <h2 class="hero-panel__title">Leadership backed by field execution.</h2>
-      </div>
-      <div class="leadership-spotlight">
-        {
-          about.team.map((person) => {
-            const initials = person.name
-              .split(' ')
-              .map((part) => part[0])
-              .join('')
-              .slice(0, 2);
-
-            return (
-              <article class:list={['leadership-card', person.featured && 'leadership-card--featured']}>
-                <div class="leadership-card__topline">
-                  <div class="leadership-card__avatar" aria-hidden="true">
-                    {initials}
-                  </div>
-                  <div class="leadership-card__identity">
-                    <span>{person.focus}</span>
-                    <h3>{person.name}</h3>
-                    <p>{person.role}</p>
-                  </div>
-                </div>
-                <p class="leadership-card__summary">{person.summary}</p>
-                {
-                  person.href ? (
-                    <a
-                      class="leadership-card__link"
-                      href={person.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`${person.name} on LinkedIn`}
-                    >
-                      LinkedIn
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-                      </svg>
-                    </a>
-                  ) : null
-                }
-              </article>
-            );
-          })
-        }
-      </div>
-    </div>
-  </PageHero>
+  />
 
   <section class="signal-strip signal-strip--page">
     <div class="container signal-strip__inner">
@@ -197,7 +147,7 @@ const structuredData = [
                       <p>{person.role}</p>
                     </div>
                   </div>
-                  <p class="leadership-card__summary">{person.summary}</p>
+                  <p class="leadership-card__bio">{person.bio}</p>
                   {
                     person.href ? (
                       <a
