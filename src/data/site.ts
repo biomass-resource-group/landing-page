@@ -17,11 +17,11 @@ export const navLinks = [
 
 export const hero = {
   label: 'Biochar Carbon Removal Infrastructure',
-  lead: 'Waste biomass into',
-  emphasis: 'carbon removal assets',
-  tail: '.',
+  lead: 'We build and operate',
+  emphasis: 'carbon removal infrastructure',
+  tail: 'in emerging markets.',
   summary:
-    'BRG builds and operates owner-led biochar systems that earn from biochar product sales, verified carbon removal credits, and kiln technology sales and licensing.',
+    'BRG converts waste biomass into verified carbon removal and agricultural biochar at industrial scale across East Africa and the Middle East.',
   primaryAction: {
     label: 'Explore the platform',
     href: '/platform/',
@@ -56,21 +56,21 @@ export const exploreLinks = [
   {
     label: 'Platform',
     href: '/platform/',
-    title: 'See the operating backbone.',
+    title: 'Understand the operating model.',
     description:
       'Sourcing, conversion, verification, and offtake organized as one repeatable system.',
   },
   {
     label: 'Markets',
     href: '/markets/',
-    title: 'Review the live corridors.',
+    title: 'See where BRG operates now.',
     description:
       'Current operating markets, local entities, and the expansion pipeline in view.',
   },
   {
     label: 'About',
     href: '/about/',
-    title: 'Meet the team behind BRG.',
+    title: 'Meet the leadership team.',
     description:
       'Leadership, company background, and operating context behind the platform.',
   },

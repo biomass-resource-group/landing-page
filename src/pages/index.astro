@@ -70,7 +70,47 @@ const structuredData = {
           }
         </dl>
       </div>
+    </div>
+  </section>
 
+  <section class="section home-model-preview">
+    <div class="container">
+      <div class="section-heading-row">
+        <SectionIntro
+          label={commercialModel.label}
+          title="One asset, three aligned revenue layers."
+          intro="BRG projects are designed to monetize biochar product output, carbon removal, and kiln technology sales and licensing rather than relying on a single market."
+        />
+      </div>
+
+      <div class="home-model-preview__grid">
+        {
+          commercialModel.lines.map((line, index) => (
+            <article class="home-model-preview__item" data-reveal>
+              <span class="home-model-preview__index">{String(index + 1).padStart(2, '0')}</span>
+              <p class="home-model-preview__phase">{line.phase}</p>
+              <h3>{line.title}</h3>
+              <p>{line.description}</p>
+              <ul class="home-model-preview__revenue">
+                {line.revenue.map((item) => <li>{item}</li>)}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark home-operating-today" id="operating-today">
+    <div class="container">
+      <div class="section-heading-row">
+        <SectionIntro
+          label="Operating today"
+          title="Live operations in two markets, with a broader pipeline underway."
+          intro="BRG is currently operating in East Africa and Saudi Arabia using one shared operating flow from feedstock sourcing through market access."
+          tone="dark"
+        />
+      </div>
       <div class="home-hero__stage" data-reveal>
         <div class="home-hero__stage-header">
           <h2 class="home-hero__stage-title">Operating today</h2>
@@ -114,35 +154,6 @@ const structuredData = {
             ))
           }
         </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="section home-model-preview">
-    <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label={commercialModel.label}
-          title="One asset, three aligned revenue layers."
-          intro="BRG projects are designed to monetize biochar product output, carbon removal, and kiln technology sales and licensing rather than relying on a single market."
-        />
-      </div>
-
-      <div class="home-model-preview__grid">
-        {
-          commercialModel.lines.map((line, index) => (
-            <article class="home-model-preview__item" data-reveal>
-              <span class="home-model-preview__index">{String(index + 1).padStart(2, '0')}</span>
-              <p class="home-model-preview__phase">{line.phase}</p>
-              <h3>{line.title}</h3>
-              <p>{line.description}</p>
-              <ul class="home-model-preview__revenue">
-                {line.revenue.map((item) => <li>{item}</li>)}
-              </ul>
-            </article>
-          ))
-        }
       </div>
     </div>
   </section>
@@ -232,7 +243,7 @@ const structuredData = {
         <SectionIntro
           label="Explore BRG"
           title="Start with the part of BRG most relevant to you."
-          intro="Choose between the platform, active markets, and company background based on the question you need answered."
+          intro="Use these pages to review BRG's platform, current markets, and leadership background."
         />
       </div>
       <div class="destination-list">

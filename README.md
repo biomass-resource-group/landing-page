@@ -25,6 +25,15 @@ Astro-based marketing site for `biomassresourcegroup.com`, designed for static d
 - `npm run validate:live-deploy` compares production headers and critical metadata against the repo's expected state
 - `npm run preview` serves the production build locally
 
+## AI harness (Claude + Codex)
+
+- The repository includes a reusable AI execution harness in [`harness/`](./harness) to support consistent planning, implementation, and UI/UX governance.
+- Start with [`harness/README.md`](./harness/README.md) for the operating model and required checks.
+- Use:
+  - [`harness/claude/system-prompt.md`](./harness/claude/system-prompt.md) for strategy/spec/review orchestration
+  - [`harness/codex/system-prompt.md`](./harness/codex/system-prompt.md) for implementation and verification execution
+  - [`harness/checklists/ui-ux-scorecard.md`](./harness/checklists/ui-ux-scorecard.md) as a mandatory merge gate for UI/UX quality
+
 ## Content editing
 
 - Shared page content lives in [`src/data/site.ts`](./src/data/site.ts).
