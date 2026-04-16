@@ -25,14 +25,23 @@ Astro-based marketing site for `biomassresourcegroup.com`, designed for static d
 - `npm run validate:live-deploy` compares production headers and critical metadata against the repo's expected state
 - `npm run preview` serves the production build locally
 
-## AI harness (Claude + Codex)
+## AI harness (Claude Code, multi-agent)
 
-- The repository includes a reusable AI execution harness in [`harness/`](./harness) to support consistent planning, implementation, and UI/UX governance.
-- Start with [`harness/README.md`](./harness/README.md) for the operating model and required checks.
-- Use:
-  - [`harness/claude/system-prompt.md`](./harness/claude/system-prompt.md) for strategy/spec/review orchestration
-  - [`harness/codex/system-prompt.md`](./harness/codex/system-prompt.md) for implementation and verification execution
-  - [`harness/checklists/ui-ux-scorecard.md`](./harness/checklists/ui-ux-scorecard.md) as a mandatory merge gate for UI/UX quality
+The repository includes a multi-agent harness so future website
+improvements happen via a consistent pipeline rather than ad-hoc edits.
+
+- Read [`CLAUDE.md`](./CLAUDE.md) first — it is the operating guide.
+- Subagents and slash commands live in [`.claude/`](./.claude/).
+- Playbooks and the UI/UX scorecard live in [`harness/`](./harness/).
+- Standard pipeline:
+  ```
+  /incorporate-feedback "<paste from stakeholder>"
+  /improve "<short summary>"
+  ```
+  This runs translate → plan → (visual design) → implement → review →
+  validate → ship as a single multi-agent flow.
+- For a standalone audit: `/audit all`.
+- For a single-route spec: `/route-spec /<route>/`.
 
 ## Content editing
 

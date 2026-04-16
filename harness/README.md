@@ -1,75 +1,108 @@
-# Biomass Resource Group AI Harness
+# BRG site harness
 
-This harness defines a production-oriented collaboration model for **Claude + Codex** to work safely and quickly in `biomass-resource-group/landing-page`, with a built-in quality gate for consistently high-end UI/UX.
+The harness is the operating system for changing
+`biomass-resource-group/landing-page`. It packages a project-level
+[`CLAUDE.md`](../CLAUDE.md), a set of subagents and slash commands
+under [`.claude/`](../.claude/), reusable scoring and brand artifacts
+under [`harness/checklists/`](./checklists), and standard playbooks
+under [`harness/playbooks/`](./playbooks).
 
-## Objectives
+## Mental model
 
-1. Preserve brand and messaging integrity while shipping fast.
-2. Enforce repeatable engineering and review workflows.
-3. Continuously improve UI quality, accessibility, and conversion-focused UX.
-4. Keep future contributors aligned through explicit, reusable instructions.
-
-## Harness Components
-
-- `harness/claude/system-prompt.md`  
-  Strategic orchestrator prompt for architecture, planning, UX strategy, release notes, and cross-page consistency.
-- `harness/codex/system-prompt.md`  
-  Delivery executor prompt for implementation, validation, and code-quality discipline.
-- `harness/workflows/ui-ux-release-gate.md`  
-  Required release workflow with quantitative UI/UX gate.
-- `harness/checklists/ui-ux-scorecard.md`  
-  Scoring rubric used by both agents before merge.
-
-## Operating Model (Recommended)
-
-1. **Claude: plan + spec**
-   - Expands a request into scope, constraints, acceptance criteria, and UX impact map.
-   - Produces implementation plan and test plan.
-2. **Codex: implement + verify**
-   - Executes atomic change sets.
-   - Runs static checks/build/validation.
-   - Produces artifacts for review.
-3. **Claude: polish + governance review**
-   - Applies scorecard.
-   - Confirms cross-route consistency, content clarity, accessibility, and conversion path quality.
-4. **Codex: finalize**
-   - Applies final adjustments and prepares merge-ready branch output.
-
-## Minimum Quality Bar (Do Not Merge Below)
-
-- Accessibility scorecard category average: **>= 4/5**
-- Visual consistency category average: **>= 4/5**
-- Conversion clarity category average: **>= 4/5**
-- No blocking issues in keyboard navigation, semantics, or critical CTA paths.
-
-## Execution Contract
-
-Both agents should follow this order on each task:
-
-1. Restate goal + impacted routes/components.
-2. List assumptions and unknowns.
-3. Produce or update a short plan.
-4. Implement smallest safe change.
-5. Run required checks.
-6. Score with `harness/checklists/ui-ux-scorecard.md`.
-7. Report diffs, risks, and recommended follow-up.
-
-## Required Repo Checks
-
-Run all applicable checks before merge:
-
-```bash
-npm run check
-npm run build
-npm run validate:dist
+```
+stakeholder feedback
+        │
+        ▼
+/incorporate-feedback   → feedback-translator
+        │
+        ▼
+       /improve         → site-planner
+                          (optional) visual-designer
+                          astro-implementer
+                          ux-reviewer + accessibility-auditor (parallel)
+                          dist-validator
+                          git-shipper
+                                │
+                                ▼
+                              PR opened on `main`
+                                │
+                          CI + Cloudflare Pages preview
+                                │
+                          PR-event subscription auto-handles
+                          Copilot review comments and CI failures
 ```
 
-If a task modifies production behavior, also run:
+## What lives where
 
-```bash
-npm run validate:live-deploy
-```
+| Path                                            | Purpose                                        |
+| ----------------------------------------------- | ---------------------------------------------- |
+| [`../CLAUDE.md`](../CLAUDE.md)                  | Operating guide. Read first.                   |
+| [`../.claude/settings.json`](../.claude/settings.json) | Permissions, env, hooks.                |
+| [`../.claude/agents/`](../.claude/agents/)      | Subagent definitions.                          |
+| [`../.claude/commands/`](../.claude/commands/)  | Slash commands.                                |
+| [`./orchestration/`](./orchestration/)          | Hook scripts (SessionStart / PostToolUse / Stop). |
+| [`./playbooks/`](./playbooks/)                  | End-to-end workflows for common requests.      |
+| [`./checklists/ui-ux-scorecard.md`](./checklists/ui-ux-scorecard.md) | The scoring rubric `ux-reviewer` applies. |
+| [`./claude/system-prompt.md`](./claude/system-prompt.md) | Legacy strategic-orchestrator prompt (kept for non-Claude-Code harnesses). |
+| [`./codex/system-prompt.md`](./codex/system-prompt.md) | Legacy implementation prompt (kept for non-Claude-Code harnesses). |
 
-## Notes on Referenced Local Files
+## Subagents at a glance
 
-This harness is designed so it works even when external local machine artifacts are not accessible in CI/remote agent runtimes. If local config/PDF files are available, agents should map any additional constraints into the scorecard and prompts without weakening existing quality gates.
+| Agent                    | Role                                          | Model |
+| ------------------------ | --------------------------------------------- | ----- |
+| `feedback-translator`    | Raw stakeholder text → structured items       | sonnet |
+| `site-planner`           | Items → spec with acceptance criteria         | opus  |
+| `visual-designer`        | Layout/branding spec → CSS proposal           | opus  |
+| `copy-editor`            | Brand-voice review of any user-visible string | sonnet |
+| `astro-implementer`      | Spec → focused `.astro` / `.ts` / `.css` edits | sonnet |
+| `ux-reviewer`            | Routes → scorecard with merge decision        | opus  |
+| `accessibility-auditor`  | Routes → blocker/major/minor a11y findings    | sonnet |
+| `dist-validator`         | Runs `check`/`build`/`validate:dist`          | sonnet |
+| `git-shipper`            | Branch → commit → push → PR (no merge)        | sonnet |
+
+## Slash commands
+
+| Command                    | What it does                                     |
+| -------------------------- | ------------------------------------------------ |
+| `/improve "<request>"`     | Full pipeline: plan → implement → review → ship  |
+| `/incorporate-feedback`    | Translate raw stakeholder text into items        |
+| `/audit <routes>`          | Score routes against the UI/UX scorecard         |
+| `/route-spec <route>`      | Generate a baseline acceptance spec for a route  |
+| `/ship "<summary>"`        | Validate, commit, push, PR (no merge)            |
+
+## Hooks
+
+`harness/orchestration/` contains three Node scripts wired in from
+`.claude/settings.json`:
+
+- `session-context.mjs` — SessionStart. Surfaces branch, git status,
+  recent commits, and routes in scope.
+- `track-edit.mjs` — PostToolUse on Edit/Write. Reminds Claude that
+  validation is pending whenever a watched path changes.
+- `stop-reminder.mjs` — Stop. If `src/`, `public/`, or `scripts/` have
+  uncommitted changes, suggests `/ship`.
+
+## Quality bar (hard floor)
+
+A change cannot ship unless:
+
+- `npm run check` passes
+- `npm run build` passes
+- `npm run validate:dist` passes
+- `ux-reviewer` per-category averages ≥ 4.0
+- `accessibility-auditor` returns no blockers
+
+These are enforced by the `/improve` and `/ship` pipelines. Don't
+loosen them; raise the change to the user instead.
+
+## Extending the harness
+
+- New agent → drop a markdown file in `.claude/agents/` with frontmatter
+  (`name`, `description`, `tools`, `model`). Reference it from the
+  appropriate slash command.
+- New slash command → drop a markdown file in `.claude/commands/` with
+  frontmatter (`description`, `argument-hint`, `allowed-tools`).
+- New hard rule → add it to `CLAUDE.md` and (if mechanically checkable)
+  to `scripts/validate-dist.mjs`.
+- New playbook → drop a markdown file in `harness/playbooks/` and
+  cross-link from the relevant slash command.

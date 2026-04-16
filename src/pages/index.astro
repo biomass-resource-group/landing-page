@@ -28,20 +28,14 @@ const structuredData = {
 >
   <section class="home-hero" data-hero>
     <div class="home-hero__backdrop" aria-hidden="true">
-      <span class="home-hero__terrain home-hero__terrain--north"></span>
-      <span class="home-hero__terrain home-hero__terrain--south"></span>
       <span class="home-hero__grain"></span>
       <span class="home-hero__glow home-hero__glow--primary"></span>
-      <span class="home-hero__glow home-hero__glow--secondary"></span>
     </div>
 
     <div class="container home-hero__inner">
       <div class="home-hero__copy" data-reveal>
         <p class="home-hero__eyebrow">{hero.label}</p>
-        <p class="home-hero__brand">{siteMeta.name}</p>
-        <h1 class="home-hero__title">
-          {hero.lead} <em>{hero.emphasis}</em> {hero.tail}
-        </h1>
+        <h1 class="home-hero__title">{hero.title}</h1>
         <p class="home-hero__summary">{hero.summary}</p>
 
         <div class="hero__actions">
@@ -184,55 +178,20 @@ const structuredData = {
           </div>
         </div>
 
-        <div class="leadership-spotlight leadership-spotlight--home">
-          {
-            about.team.map((person) => {
-              const initials = person.name
-                .split(' ')
-                .map((part) => part[0])
-                .join('')
-                .slice(0, 2);
-
-              return (
-                <article
-                  class:list={[
-                    'leadership-card',
-                    person.featured && 'leadership-card--featured',
-                  ]}
-                  data-reveal
-                >
-                  <div class="leadership-card__topline">
-                    <div class="leadership-card__avatar" aria-hidden="true">
-                      {initials}
-                    </div>
-                    <div class="leadership-card__identity">
-                      <span>{person.focus}</span>
-                      <h3>{person.name}</h3>
-                      <p>{person.role}</p>
-                    </div>
-                  </div>
-                  <p class="leadership-card__summary">{person.summary}</p>
-                  {
-                    person.href ? (
-                      <a
-                        class="leadership-card__link"
-                        href={person.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={`${person.name} on LinkedIn`}
-                      >
-                        LinkedIn
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                          <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-                        </svg>
-                      </a>
-                    ) : null
-                  }
-                </article>
-              );
-            })
-          }
-        </div>
+        <aside class="leadership-mini" data-reveal aria-label="People behind BRG">
+          <p class="leadership-mini__label">People behind BRG</p>
+          <ul class="leadership-mini__list">
+            {
+              about.team.map((person) => (
+                <li class="leadership-mini__item">
+                  <strong>{person.name}</strong>
+                  <span>{person.role}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <a class="leadership-mini__link" href="/about/#leadership">Read leadership bios</a>
+        </aside>
       </div>
     </div>
   </section>
