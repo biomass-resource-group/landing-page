@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Stop hook. Fires when Claude is about to stop responding.
-// If src/ or public/ has uncommitted changes, surface a one-line
+// If src/, public/, or scripts/ has uncommitted changes, surface a one-line
 // reminder so we don't end a session with unshipped work or
 // unvalidated edits sitting in the working tree.
 

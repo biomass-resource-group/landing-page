@@ -11,6 +11,9 @@
       "Bash(npm run preview:*)",
       "Bash(npm run dev:*)",
       "Bash(node ./scripts/*)",
+      "Bash(node ./harness/orchestration/*)",
+      "Bash(node $CLAUDE_PROJECT_DIR/scripts/*)",
+      "Bash(node $CLAUDE_PROJECT_DIR/harness/orchestration/*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -45,18 +48,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node ./harness/orchestration/session-context.mjs"
+            "command": "node $CLAUDE_PROJECT_DIR/harness/orchestration/session-context.mjs"
           }
         ]
       }
     ],
     "PostToolUse": [
       {
-        "matcher": "Edit|Write",
+        "matcher": "Edit|Write|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "node ./harness/orchestration/track-edit.mjs"
+            "command": "node $CLAUDE_PROJECT_DIR/harness/orchestration/track-edit.mjs"
           }
         ]
       }
@@ -67,7 +70,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node ./harness/orchestration/stop-reminder.mjs"
+            "command": "node $CLAUDE_PROJECT_DIR/harness/orchestration/stop-reminder.mjs"
           }
         ]
       }

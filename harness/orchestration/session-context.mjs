@@ -41,8 +41,12 @@ const pagesDir = join(repoRoot, 'src', 'pages');
 if (existsSync(pagesDir)) {
   const routes = readdirSync(pagesDir)
     .filter((entry) => entry.endsWith('.astro') && entry !== '404.astro')
-    .map((entry) => `/${entry.replace(/\.astro$/, '').replace('index', '')}`)
-    .map((route) => (route.endsWith('/') ? route : `${route}/`));
+    .map((entry) => {
+      const page = entry.replace(/\.astro$/, '');
+      if (page === 'index') return '/';
+      const route = `/${page}`.replace(/\/index$/, '');
+      return route.endsWith('/') ? route : `${route}/`;
+    });
   if (routes.length > 0) {
     lines.push(`- Routes in scope: ${routes.join(', ')}`);
   }
