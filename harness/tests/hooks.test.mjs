@@ -44,9 +44,6 @@ for (const hook of hooks) {
   if (result.status === 0) {
     console.log(`  PASS  ${hook.name}`);
     passed++;
-  } else if (result.status === 2 && hook.name === 'pre-bash-guard') {
-    console.log(`  PASS  ${hook.name} (exit 2 = blocked, expected for empty input)`);
-    passed++;
   } else {
     console.log(`  FAIL  ${hook.name}: exit ${result.status}`);
     if (result.stderr) console.log(`        stderr: ${result.stderr.slice(0, 200)}`);
