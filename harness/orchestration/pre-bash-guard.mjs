@@ -20,7 +20,7 @@ if (!command) {
 
 const rules = [
   {
-    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?(?:[^ ]+:)?main\b/,
+    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?(?:(?:[^ :]+:)?refs\/heads\/)?main(?:\s|$)/,
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   {

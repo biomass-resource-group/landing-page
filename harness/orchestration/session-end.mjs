@@ -10,7 +10,7 @@
 // Useful as a "did we ship what we meant to ship?" mirror at session
 // close.
 
-import { execSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
 
 const repoRoot = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
 
@@ -22,12 +22,20 @@ const safeExec = (command) => {
   }
 };
 
+const safeGit = (...args) => {
+  try {
+    return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf8' }).trim();
+  } catch {
+    return '';
+  }
+};
+
 const branch = safeExec('git rev-parse --abbrev-ref HEAD');
 if (!branch || branch === 'main') {
   process.exit(0);
 }
 
-const ahead = safeExec(`git log --oneline main..${branch} 2>/dev/null`);
+const ahead = safeGit('log', '--oneline', `main..${branch}`);
 const dirty = safeExec('git status --porcelain -- src public scripts harness .claude');
 
 const lines = [];
