@@ -74,6 +74,52 @@ export const exploreLinks = [
   },
 ] as const;
 
+export const audiencePaths = [
+  {
+    audience: 'Investors',
+    title: 'Review the operating and commercialization model.',
+    description:
+      'Understand how BRG structures feedstock access, project ramp, and three-layer monetization in active markets.',
+    href: '/platform/',
+    cta: 'See platform model',
+  },
+  {
+    audience: 'Carbon Buyers',
+    title: 'Evaluate durability, monitoring, and delivery pathways.',
+    description:
+      'Assess biochar permanence, verification readiness, and the corridors currently positioned for offtake.',
+    href: '/markets/',
+    cta: 'Review active markets',
+  },
+  {
+    audience: 'Operating Partners',
+    title: 'Engage on deployment, procurement, and local execution.',
+    description:
+      'Connect with the BRG team on corridor buildout, kiln deployment, and in-country operating partnerships.',
+    href: '/contact/',
+    cta: 'Start a conversation',
+  },
+] as const;
+
+export const trustSignals = [
+  {
+    label: 'Operating footprint',
+    value: 'East Africa + Saudi Arabia',
+  },
+  {
+    label: 'Durability profile',
+    value: '100+ year carbon storage',
+  },
+  {
+    label: 'Commercial model',
+    value: 'Product + carbon + technology',
+  },
+  {
+    label: 'Expansion pipeline',
+    value: '5 additional countries',
+  },
+] as const;
+
 export const about = {
   label: 'About BRG',
   title: 'Leadership, operations, and proof.',
