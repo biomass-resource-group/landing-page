@@ -40,21 +40,26 @@ Does not block the stop — just nudges.
 Tracks tool-call count for the session. After ~50 tool calls, suggests
 running `/compact` to preserve context capacity. Silent otherwise.
 
-## `pre-bash-guard.mjs` — PreToolUse on Bash (optional)
+## `pre-bash-guard.mjs` — PreToolUse on Bash
 
-Blocks known-dangerous commands before they run:
+Blocks known-dangerous or policy-violating commands before they run:
 
-- `git push … main` (enforces the no-push-to-main rule mechanically).
-- `rm -rf …` of anything under `src/`, `public/`, `scripts/`.
-- `git reset --hard` (prevents accidental blown work).
+- `git push … main` / `HEAD:refs/heads/main` (no-push-to-main rule).
+- `git push --force` (allows `--force-with-lease`).
+- `git reset --hard`.
+- `rm -r[f]` / `rm -fr` of `src/`, `public/`, `scripts/`, `harness/`,
+  `.claude/`.
+- `npm publish`.
+- `git commit --no-verify` / `git rebase --no-verify`.
 
-Exits non-zero with a reason, which Claude sees and acts on.
+Exits with code 2 and a reason message, which Claude sees and acts on.
 
 ## Authoring new hooks
 
 - Hooks are Node 20+ ESM scripts under `harness/orchestration/`.
-- Use `process.env.CLAUDE_PROJECT_DIR` to locate the repo root — never
-  `process.cwd()`. The session's cwd may not be the repo root.
+- Prefer `process.env.CLAUDE_PROJECT_DIR` to locate the repo root.
+  Fall back to `process.cwd()` for local testing, but be aware the
+  session's cwd may differ from the repo root.
 - Silent success (exit 0 with no stdout) is the default. Only emit output
   when action is warranted.
 - For `execSync(git …)` calls, always pass `cwd: repoRoot`.

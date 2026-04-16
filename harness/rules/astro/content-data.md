@@ -1,48 +1,40 @@
 # astro/content-data.md
 
-[`src/data/site.ts`](../../../src/data/site.ts) is the single source of
-truth for all user-visible copy and structured content on the site.
+[`src/data/site.ts`](../../../src/data/site.ts) is the primary source of
+truth for user-visible copy and structured content on the site.
 
 ## Rule zero
 
-**Never hardcode marketing copy in an `.astro` template.** If a template
-contains user-visible strings, they belong in `site.ts` instead.
+**Prefer `site.ts` for marketing copy over `.astro` templates.** Short
+utility pages (404, redirects) may inline minimal strings, but
+route-level content (hero, sections, CTAs) belongs in `site.ts`.
 
 ## Shape
 
-`site.ts` exports a `site` object and related constants. Top-level keys
-match page routes (`site.home`, `site.about`, `site.platform`, …) plus
-shared pieces (`site.nav`, `site.footer`, `site.leadership`).
-
-Each route's slice follows the same pattern:
+`site.ts` exports individual named constants — one per content domain:
 
 ```ts
-export const site = {
-  home: {
-    hero: { eyebrow: "…", headline: "…", subline: "…", actions: [...] },
-    sections: [
-      { id: "operating-today", eyebrow: "…", heading: "…", body: "…" },
-      // …
-    ],
-  },
-  // …
-} as const;
+export const siteMeta = { name: '…', title: '…', description: '…', … };
+export const navLinks = [ { label: '…', href: '…' }, … ] as const;
+export const hero = { label: '…', title: '…', summary: '…', … };
+export const about = { hero: {…}, sections: […], … };
+export const platform = { hero: {…}, sections: […], … };
+export const leadership = { members: [{…}, …] };
+export const contact = { hero: {…}, form: {…}, … };
+// etc.
 ```
 
-`as const` keeps the types narrow — consumers get literal string types,
-which catches typos and enables exhaustive `switch` on section IDs.
+`as const` on array constants keeps types narrow — consumers get literal
+string types, which catches typos.
 
 ## Editing rules
 
 - Preserve structural keys. Adding a section? Add the same shape as its
-  siblings.
-- Don't rename an existing key in a drive-by. That breaks every consumer.
-  Rename + update all references in one commit, or not at all.
+  siblings in the relevant export.
+- Don't rename an existing export or key in a drive-by. That breaks
+  every consumer. Rename + update all references in one commit.
 - Keep copy under the budgets enforced in
-  [`scripts/validate-dist.mjs`](../../../scripts/validate-dist.mjs):
-  - H1 ≤ 12 words.
-  - Hero subline ≤ 30 words.
-  - Section body ≤ 60 words (unless the route page explicitly whitelists longer).
+  [`scripts/validate-dist.mjs`](../../../scripts/validate-dist.mjs).
 - No emojis unless the brand voice rule explicitly permits.
 - Follow sentence case for headings; never title-case the H1.
 

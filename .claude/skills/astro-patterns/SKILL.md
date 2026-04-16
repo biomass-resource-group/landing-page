@@ -1,6 +1,6 @@
 ---
 name: astro-patterns
-description: Canonical Astro component patterns used in this repo — BaseLayout, Hero, Section, LeadershipCard. Triggers when adding a new page or component. Keep existing patterns over introducing new ones.
+description: Canonical Astro component patterns used in this repo — BaseLayout, PageHero, SectionIntro, PageCta. Triggers when adding a new page or component. Keep existing patterns over introducing new ones.
 ---
 
 # Astro patterns
@@ -12,70 +12,55 @@ composition over these primitives, not new components.
 
 ```astro
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Hero from '@/components/Hero.astro';
-import Section from '@/components/Section.astro';
-import { site } from '@/data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import { hero, about } from '../data/site';
 ---
 
-<BaseLayout title={site.<route>.meta.title} description={site.<route>.meta.description}>
-  <Hero {...site.<route>.hero} />
-  {site.<route>.sections.map((section) => (
-    <Section id={section.id} eyebrow={section.eyebrow} heading={section.heading}>
-      <Fragment set:html={section.body} />
-    </Section>
-  ))}
+<BaseLayout title={about.hero.title} description={about.hero.summary}>
+  <PageHero label={hero.label} title={hero.title} summary={hero.summary} />
+  <SectionIntro eyebrow="…" heading="…">
+    <p>Body copy here, pulled from site.ts.</p>
+  </SectionIntro>
 </BaseLayout>
 ```
 
-## Hero
+## PageHero
 
 ```astro
-<Hero
-  eyebrow="Operating today"
-  headline="12 MW across three commissioned sites."
-  subline="Biomass generators we've built, commissioned, and run ourselves."
-  primaryAction={{ href: '/platform/', label: 'See the platform' }}
-  secondaryAction={{ href: '/contact/', label: 'Talk to us' }}
+<PageHero
+  label="Biochar Carbon Removal Infrastructure"
+  title="We build and operate carbon removal infrastructure."
+  summary="Short, operator-grounded summary."
 />
 ```
 
 Constraints:
-- One H1 per page (Hero renders the H1).
+- One H1 per page (PageHero renders the H1).
 - ≤ 2 actions.
 - One optional metric strip.
 - No decorative overlays competing with the headline.
 
-## Section
+## SectionIntro
 
 ```astro
-<Section
-  id="operating-today"
-  eyebrow="Operating today"
-  heading="Three commissioned sites, 12 MW total."
->
+<SectionIntro eyebrow="Operating today" heading="Three commissioned sites.">
   <p>Body copy here, pulled from site.ts.</p>
-</Section>
+</SectionIntro>
 ```
 
-Section handles vertical rhythm, max-width, and eyebrow/heading
+SectionIntro handles vertical rhythm, max-width, and eyebrow/heading
 hierarchy. Never re-implement.
 
-## LeadershipCard
+## Content loading
 
-```astro
-<LeadershipCard
-  name="Julie Brown"
-  role="CEO"
-  bio="Short, operator-grounded bio."
-  headshot="/images/leadership/julie-brown.jpg"
-  linkedinUrl="https://www.linkedin.com/in/julie-brown"
-/>
-```
-
-Constraints:
-- Cody Danet's card must NOT pass `linkedinUrl`.
-- Render inside a grid container; never inline dimensions.
+- Marketing copy is in [`src/data/site.ts`](../../../src/data/site.ts),
+  exported as individual named constants (`hero`, `about`, `platform`,
+  `leadership`, `contact`, etc.).
+- Components import the relevant constant in their frontmatter.
+- Prefer `site.ts` for user-visible strings over hardcoding in
+  templates.
 
 ## When to introduce a new component
 

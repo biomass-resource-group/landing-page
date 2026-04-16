@@ -5,7 +5,7 @@
 // Tests verify each hook is syntactically valid and runs without error
 // under normal conditions (clean repo, no stdin payload).
 
-import { execSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -27,35 +27,30 @@ let failed = 0;
 
 for (const hook of hooks) {
   const scriptPath = join(orchestrationDir, hook.file);
-  const stdinPayload = hook.expectsStdin ? '{}' : '';
   const env = {
     ...process.env,
     CLAUDE_PROJECT_DIR: repoRoot,
     CLAUDE_SESSION_ID: 'test-session',
   };
 
-  try {
-    execSync(`echo '${stdinPayload}' | node "${scriptPath}"`, {
-      cwd: repoRoot,
-      env,
-      encoding: 'utf8',
-      timeout: 10_000,
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
+  const result = spawnSync('node', [scriptPath], {
+    cwd: repoRoot,
+    env,
+    input: hook.expectsStdin ? '{}' : '',
+    encoding: 'utf8',
+    timeout: 10_000,
+  });
+
+  if (result.status === 0) {
     console.log(`  PASS  ${hook.name}`);
     passed++;
-  } catch (error) {
-    if (error.status === 2 && hook.name === 'pre-bash-guard') {
-      console.log(`  PASS  ${hook.name} (exit 2 = blocked, expected for empty input)`);
-      passed++;
-    } else if (error.status === 0) {
-      console.log(`  PASS  ${hook.name}`);
-      passed++;
-    } else {
-      console.log(`  FAIL  ${hook.name}: exit ${error.status}`);
-      if (error.stderr) console.log(`        stderr: ${error.stderr.slice(0, 200)}`);
-      failed++;
-    }
+  } else if (result.status === 2 && hook.name === 'pre-bash-guard') {
+    console.log(`  PASS  ${hook.name} (exit 2 = blocked, expected for empty input)`);
+    passed++;
+  } else {
+    console.log(`  FAIL  ${hook.name}: exit ${result.status}`);
+    if (result.stderr) console.log(`        stderr: ${result.stderr.slice(0, 200)}`);
+    failed++;
   }
 }
 

@@ -9,39 +9,41 @@ Every route under [`src/pages/`](../../src/pages/) follows:
 
 ```
 <BaseLayout title="…" description="…">
-  <Hero … />
-  <Section id="…" eyebrow="…" heading="…">
+  <PageHero label="…" title="…" summary="…" />
+  <SectionIntro eyebrow="…" heading="…">
     <!-- content -->
-  </Section>
-  <!-- more <Section> blocks -->
+  </SectionIntro>
+  <!-- more <SectionIntro> blocks -->
 </BaseLayout>
 ```
 
-- `BaseLayout` handles `<head>`, `<Navigation>`, `<Footer>`.
-- `Section` is the canonical content band — vertical rhythm, max-width,
-  and eyebrow/heading are handled once there.
-- Hero is route-specific but always uses `components/Hero.astro` as the
-  primitive.
+- `BaseLayout` handles `<head>`, `<Header>`, `<Footer>`.
+- `SectionIntro` is the canonical content band — vertical rhythm,
+  max-width, and eyebrow/heading are handled once there.
+- `PageHero` is route-specific but always uses
+  `components/PageHero.astro` as the primitive.
 
 ## Hero
 
 - Single `<h1>`. Never two.
 - ≤ 2 actions (primary + secondary).
-- One supporting metric strip ("Operating today: …") or none.
+- One supporting metric strip or none.
 - No decorative overlays that draw the eye before the headline.
 
 ## Cards
 
-- `components/LeadershipCard.astro` is the canonical card. Copy its
-  structure for any new card kind.
+- Leadership bios are rendered inline on the `/about/` page. Copy the
+  existing bio pattern for any new card kind.
 - Cards are always rendered inside a CSS grid in the parent section,
   never with inline widths.
 
 ## Content loading
 
-- All marketing copy is in [`src/data/site.ts`](../../src/data/site.ts).
-- Components destructure typed slices of that data in their frontmatter.
-- Never hardcode user-visible strings in an `.astro` template.
+- Marketing copy is in [`src/data/site.ts`](../../src/data/site.ts),
+  exported as individual constants (`hero`, `about`, `platform`, etc.).
+- Components import the relevant constant in their frontmatter.
+- Prefer `site.ts` for user-visible strings. Some utility/redirect
+  pages may hardcode short strings — keep those minimal.
 
 ## Icons
 

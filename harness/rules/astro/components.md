@@ -61,11 +61,11 @@ Not allowed:
 
 | Component           | Purpose                                  |
 | ------------------- | ---------------------------------------- |
-| `BaseLayout.astro`  | `<head>`, Navigation, Footer, metadata.  |
-| `Navigation.astro`  | Primary nav; routes pulled from data.    |
+| `BaseLayout.astro`  | `<head>`, Header, Footer, metadata.      |
+| `Header.astro`      | Primary nav; routes pulled from data.    |
 | `Footer.astro`      | Contact / legal / social links.          |
-| `Hero.astro`        | Route hero primitive.                    |
-| `Section.astro`     | Content band with eyebrow + heading.     |
-| `LeadershipCard.astro` | Canonical bio card.                   |
+| `PageHero.astro`    | Route hero primitive.                    |
+| `SectionIntro.astro`| Content band with eyebrow + heading.     |
+| `PageCta.astro`     | Call-to-action band.                     |
 
 Copy one of these before writing a new component from scratch.

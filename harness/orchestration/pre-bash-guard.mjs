@@ -24,7 +24,7 @@ const rules = [
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   {
-    pattern: /git\s+push\s+(?:.*)?--force/,
+    pattern: /git\s+push\s+(?:.*)?--force(?!-with-lease)\b/,
     message: 'Blocked: `git push --force`. Use `--force-with-lease` if you must, and never to main.',
   },
   {
@@ -32,7 +32,7 @@ const rules = [
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
-    pattern: /rm\s+-rf?\s+(?:\.\/)?(?:src|public|scripts|harness|\.claude)\b/,
+    pattern: /rm\s+-[a-zA-Z]*r[a-zA-Z]*\s+(?:\.\/)?(?:src|public|scripts|harness|\.claude)(?:\/|\s|$)/,
     message: 'Blocked: `rm -rf` on a protected directory. If you really mean to delete, do it through a targeted `git rm`.',
   },
   {

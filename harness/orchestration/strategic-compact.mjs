@@ -10,7 +10,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 
-const sessionId = process.env.CLAUDE_SESSION_ID ?? 'local';
+const rawId = process.env.CLAUDE_SESSION_ID ?? 'local';
+const sessionId = rawId.replace(/[^A-Za-z0-9_-]/g, '_');
 const stateDir = join(tmpdir(), 'brg-harness');
 const stateFile = join(stateDir, `${sessionId}.json`);
 
@@ -18,10 +19,14 @@ if (!existsSync(stateDir)) {
   mkdirSync(stateDir, { recursive: true });
 }
 
-let state = { count: 0, lastSuggestion: 0 };
+const defaultState = { count: 0, lastSuggestion: 0 };
+let state = { ...defaultState };
 try {
   if (existsSync(stateFile)) {
-    state = JSON.parse(readFileSync(stateFile, 'utf8'));
+    const parsed = JSON.parse(readFileSync(stateFile, 'utf8'));
+    if (parsed && typeof parsed.count === 'number' && typeof parsed.lastSuggestion === 'number') {
+      state = parsed;
+    }
   }
 } catch {
   // fresh state
