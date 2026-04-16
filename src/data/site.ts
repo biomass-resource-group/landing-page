@@ -17,9 +17,7 @@ export const navLinks = [
 
 export const hero = {
   label: 'Biochar Carbon Removal Infrastructure',
-  lead: 'We build and operate',
-  emphasis: 'carbon removal infrastructure',
-  tail: 'in emerging markets.',
+  title: 'We build and operate carbon removal infrastructure in emerging markets.',
   summary:
     'BRG converts waste biomass into verified carbon removal and agricultural biochar at industrial scale across East Africa and the Middle East.',
   primaryAction: {
@@ -109,6 +107,7 @@ export const about = {
       focus: 'Executive leadership',
       summary:
         'Company direction, partner relationships, and growth leadership for BRG.',
+      bio: 'Julie leads BRG as CEO, setting company direction across strategy, partnerships, and growth. She works across capital, commercial, and government channels to advance BRG\u2019s biochar carbon removal infrastructure in active markets and the broader pipeline.',
       href: 'https://www.linkedin.com/in/julieajbrown/',
       featured: true,
     },
@@ -118,6 +117,7 @@ export const about = {
       focus: 'Platform and markets',
       summary:
         'Operator-led platform development and market footprint continuity across BRG.',
+      bio: 'Cody is the founding operator behind BRG\u2019s platform. He leads market buildout, technology deployment, and operating execution across the corridors where BRG works, with continuity from the original Riziki NBS field operations into BRG\u2019s broader market footprint.',
       href: undefined,
       featured: false,
     },
