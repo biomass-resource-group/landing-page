@@ -53,6 +53,17 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $CLAUDE_PROJECT_DIR/harness/orchestration/pre-bash-guard.mjs"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
@@ -60,6 +71,15 @@
           {
             "type": "command",
             "command": "node $CLAUDE_PROJECT_DIR/harness/orchestration/track-edit.mjs"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $CLAUDE_PROJECT_DIR/harness/orchestration/strategic-compact.mjs"
           }
         ]
       }
@@ -71,6 +91,17 @@
           {
             "type": "command",
             "command": "node $CLAUDE_PROJECT_DIR/harness/orchestration/stop-reminder.mjs"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $CLAUDE_PROJECT_DIR/harness/orchestration/session-end.mjs"
           }
         ]
       }
