@@ -1141,7 +1141,6 @@ section[id] {
   color: var(--forest);
 }
 
-.leadership-card__summary,
 .leadership-card__bio {
   line-height: 1.72;
   color: var(--ink-soft);
@@ -1255,10 +1254,6 @@ section[id] {
 }
 
 .leadership-card--featured .leadership-card__identity h3 {
-  color: var(--cream);
-}
-
-.leadership-card--featured .leadership-card__summary {
   color: var(--cream);
 }
 
