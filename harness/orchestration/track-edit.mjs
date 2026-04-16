@@ -28,8 +28,9 @@ if (!path) {
   process.exit(0);
 }
 
-const relative = path.startsWith(process.cwd())
-  ? path.slice(process.cwd().length + 1)
+const repoRoot = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
+const relative = path.startsWith(repoRoot)
+  ? path.slice(repoRoot.length + 1)
   : path;
 
 const isWatched = watched.some((pattern) => pattern.test(relative));

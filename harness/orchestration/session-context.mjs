@@ -10,7 +10,7 @@ import { execSync } from 'node:child_process';
 import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const repoRoot = process.cwd();
+const repoRoot = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
 const lines = [];
 
 const safeExec = (command) => {

@@ -6,9 +6,11 @@
 
 import { execSync } from 'node:child_process';
 
+const repoRoot = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
+
 const safeExec = (command) => {
   try {
-    return execSync(command, { encoding: 'utf8' }).trim();
+    return execSync(command, { cwd: repoRoot, encoding: 'utf8' }).trim();
   } catch {
     return '';
   }
