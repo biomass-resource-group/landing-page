@@ -27,6 +27,8 @@ const tests = [
   ['git push "--force" origin feat/x', 2, 'double-quoted --force blocked'],
   ['git push origin --all', 2, '--all push blocked'],
   ['git push --mirror origin', 2, '--mirror push blocked'],
+  ['git push origin :main', 2, 'deletion refspec :main blocked'],
+  ['git push origin :refs/heads/main', 2, 'deletion refspec :refs/heads/main blocked'],
 ];
 
 let failed = 0;

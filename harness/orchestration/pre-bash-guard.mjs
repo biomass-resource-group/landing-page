@@ -20,7 +20,7 @@ if (!rawCommand) {
 
 // Normalize: strip git global options (e.g. -c key=value, --no-pager, -C path)
 // that appear between `git` and the subcommand, so rules reliably match.
-// Also strip quotes around flag-like tokens so "—force" is caught.
+// Also strip quotes around flag-like tokens so "--force" is caught.
 const command = rawCommand
   .replace(
     /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
@@ -30,7 +30,7 @@ const command = rawCommand
 
 const rules = [
   {
-    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?(?:(?:\S+:)?(?:refs\/heads\/)?)?main(?:\s|$)/,
+    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?(?::?(?:\S*:)?(?:refs\/heads\/)?)?main(?:\s|$)/,
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   {
