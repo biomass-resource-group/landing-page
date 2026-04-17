@@ -20,10 +20,13 @@ if (!rawCommand) {
 
 // Normalize: strip git global options (e.g. -c key=value, --no-pager, -C path)
 // that appear between `git` and the subcommand, so rules reliably match.
-const command = rawCommand.replace(
-  /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
-  'git ',
-);
+// Also strip quotes around flag-like tokens so "—force" is caught.
+const command = rawCommand
+  .replace(
+    /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
+    'git ',
+  )
+  .replace(/["'](-{1,2}[a-zA-Z][a-zA-Z-]*)["']/g, '$1');
 
 const rules = [
   {
@@ -33,6 +36,10 @@ const rules = [
   {
     pattern: /git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)(?:\s|$)/,
     message: 'Blocked: `git push --force`. Use `--force-with-lease` if you must, and never to main.',
+  },
+  {
+    pattern: /git\s+push\s+(?:.*\s)?(?:--all|--mirror)(?:\s|$)/,
+    message: 'Blocked: `git push --all/--mirror`. These push all branches including main. Push specific branches.',
   },
   {
     pattern: /git\s+reset\s+--hard/,

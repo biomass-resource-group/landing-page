@@ -23,6 +23,10 @@ const tests = [
   ["git -c user.name='A B' push origin main", 2, 'git -c quoted value push main blocked'],
   ['rm -rf -- src', 2, 'rm -rf -- src blocked'],
   ['rm -rf -- public/', 2, 'rm -rf -- public/ blocked'],
+  ['git push \'--force\' origin feat/x', 2, 'quoted --force blocked'],
+  ['git push "--force" origin feat/x', 2, 'double-quoted --force blocked'],
+  ['git push origin --all', 2, '--all push blocked'],
+  ['git push --mirror origin', 2, '--mirror push blocked'],
 ];
 
 let failed = 0;
