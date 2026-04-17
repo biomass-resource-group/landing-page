@@ -19,7 +19,7 @@ stakeholder feedback
                           (optional) visual-designer
                           astro-implementer
                           parallel(ux-reviewer, accessibility-auditor,
-                                   performance-reviewer)
+                                   performance-reviewer, code-reviewer)
                           dist-validator
                           git-shipper
                                 │
@@ -49,7 +49,8 @@ stakeholder feedback
 | [`./contexts/`](./contexts/)                      | Operational mode configs (dev/review/research).|
 | [`./playbooks/`](./playbooks/)                    | End-to-end workflow guides (6 total).      |
 | [`./checklists/ui-ux-scorecard.md`](./checklists/ui-ux-scorecard.md) | UX scoring rubric. |
-| [`./tests/`](./tests/)                            | Hook smoke tests.                          |
+| [`./tests/`](./tests/)                            | Hook smoke tests + guard verification.     |
+| [`./_archive/`](./_archive/)                      | Superseded Claude+Codex orchestration.     |
 
 ## Subagents at a glance (18)
 

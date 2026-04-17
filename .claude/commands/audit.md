@@ -10,7 +10,8 @@ changes. Treat $ARGUMENTS as the routes in scope (default: `all`).
 ## Steps
 
 1. Ensure `dist/` is fresh — run `npm run build` if absent or stale.
-2. Dispatch `ux-reviewer` and `accessibility-auditor` in parallel.
+2. Dispatch `ux-reviewer`, `accessibility-auditor`, and
+   `performance-reviewer` in parallel.
 3. Synthesize their reports into one combined scorecard:
    - Per-route averages
    - Overall site average

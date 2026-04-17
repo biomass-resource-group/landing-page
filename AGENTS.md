@@ -36,14 +36,41 @@ Proactively delegate — don't wait to be asked.
 
 - `/improve` runs: feedback-translator (if raw) → site-planner → [optional:
   visual-designer] → astro-implementer → parallel(ux-reviewer,
-  accessibility-auditor) → dist-validator → git-shipper.
+  accessibility-auditor, performance-reviewer, code-reviewer) →
+  dist-validator → git-shipper.
 - `/audit` runs: parallel(ux-reviewer, accessibility-auditor,
-  performance-reviewer) → synthesis.
+  performance-reviewer) → synthesized scorecard.
 - `/ship` runs: dist-validator → git-shipper.
 
 Agents run in **parallel** whenever their inputs don't depend on each other
 (typically review-class agents). The main loop sends one message with
 multiple `Agent` tool calls.
+
+## Inter-agent communication
+
+Agents cannot see each other's output. The orchestrator (you) must
+bridge them:
+
+1. **Planning → Implementation.** Pass the full spec from
+   `site-planner` to `astro-implementer` verbatim in the prompt.
+   Include file paths and acceptance criteria.
+
+2. **Review → Revision.** Summarize reviewer findings with file:line
+   references. Include severity and the reviewer's exact suggestion.
+   Don't paraphrase — `astro-implementer` needs precise context.
+
+3. **Implementation → Review.** Tell reviewers what changed: which
+   files, which routes, what the spec asked for. Include the diff
+   summary or `git log --oneline main..HEAD` output.
+
+4. **Error → Recovery.** When `build-error-resolver` produces a fix,
+   pass the diagnosis and fix diff to `astro-implementer` to apply.
+   Don't let the resolver edit directly — it may lack full context.
+
+5. **Parallel review synthesis.** When multiple reviewers return in
+   parallel, merge their findings into a single prioritized list
+   before sending to the implementer. Deduplicate and resolve
+   contradictions.
 
 ## When NOT to delegate
 

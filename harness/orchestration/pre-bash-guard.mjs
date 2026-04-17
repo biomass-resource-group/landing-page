@@ -40,7 +40,7 @@ try {
 
 const rules = [
   {
-    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?(?::?(?:\S*:)?(?:refs\/heads\/)?)?main(?:\s|$)/,
+    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?\+?(?::?(?:\S*:)?(?:refs\/heads\/)?)?main(?:\s|$)/,
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
@@ -50,6 +50,10 @@ const rules = [
   {
     pattern: /git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)(?:\s|$)/,
     message: 'Blocked: `git push --force`. Use `--force-with-lease` if you must, and never to main.',
+  },
+  {
+    pattern: /git\s+push\s+(?:.*\s)?\+\S/,
+    message: 'Blocked: `git push +<refspec>` (force via refspec prefix). Use `--force-with-lease` if you must.',
   },
   {
     pattern: /git\s+push\s+(?:.*\s)?(?:--all|--mirror)(?:\s|$)/,

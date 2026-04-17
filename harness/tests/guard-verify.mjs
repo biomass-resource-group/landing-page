@@ -34,6 +34,8 @@ const tests = [
   ['git merge --no-verify feat', 2, 'merge --no-verify blocked'],
   ['rm -rf /workspace/landing-page/src', 2, 'absolute path rm blocked'],
   ['rm -rf /home/user/landing-page/harness/', 2, 'absolute path rm harness blocked'],
+  ['git push origin +main', 2, '+refspec force push to main blocked'],
+  ['git push origin +feat/x', 2, '+refspec force push blocked'],
 ];
 
 let failed = 0;
