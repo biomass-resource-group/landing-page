@@ -20,6 +20,9 @@ const tests = [
   ['git -c core.pager=cat push origin main', 2, 'git -c push main blocked'],
   ['git --no-pager push' + ' -f origin feat/x', 2, 'git --no-pager push -f blocked'],
   ['git -C /tmp push origin main', 2, 'git -C push main blocked'],
+  ["git -c user.name='A B' push origin main", 2, 'git -c quoted value push main blocked'],
+  ['rm -rf -- src', 2, 'rm -rf -- src blocked'],
+  ['rm -rf -- public/', 2, 'rm -rf -- public/ blocked'],
 ];
 
 let failed = 0;

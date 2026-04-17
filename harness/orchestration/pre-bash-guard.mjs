@@ -21,7 +21,7 @@ if (!rawCommand) {
 // Normalize: strip git global options (e.g. -c key=value, --no-pager, -C path)
 // that appear between `git` and the subcommand, so rules reliably match.
 const command = rawCommand.replace(
-  /\bgit\s+((?:(?:-[cC]\s+\S+|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
+  /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
   'git ',
 );
 
@@ -39,7 +39,7 @@ const rules = [
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
-    pattern: /\brm\s+(?:(?:-[a-zA-Z]+|--[a-zA-Z-]+)\s+)*(?:\.\/)?["']?(?:src|public|scripts|harness|\.claude)["']?(?:\/|\s|$)/,
+    pattern: /\brm\s+(?:(?:-[a-zA-Z]+|--[a-zA-Z-]+)\s+)*(?:--\s+)?(?:\.\/)?["']?(?:src|public|scripts|harness|\.claude)["']?(?:\/|\s|$)/,
     message: 'Blocked: `rm -rf` on a protected directory. If you really mean to delete, do it through a targeted `git rm`.',
   },
   {
