@@ -17,6 +17,9 @@ const tests = [
   ['git push origin main-fix', 0, 'main-fix not blocked'],
   ['git push origin HEAD:main', 2, 'refspec HEAD:main blocked'],
   ['git push origin HEAD:refs/heads/main', 2, 'refspec refs/heads/main blocked'],
+  ['git -c core.pager=cat push origin main', 2, 'git -c push main blocked'],
+  ['git --no-pager push' + ' -f origin feat/x', 2, 'git --no-pager push -f blocked'],
+  ['git -C /tmp push origin main', 2, 'git -C push main blocked'],
 ];
 
 let failed = 0;

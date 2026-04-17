@@ -13,10 +13,17 @@ try {
   process.exit(0);
 }
 
-const command = payload?.tool_input?.command ?? '';
-if (!command) {
+const rawCommand = payload?.tool_input?.command ?? '';
+if (!rawCommand) {
   process.exit(0);
 }
+
+// Normalize: strip git global options (e.g. -c key=value, --no-pager, -C path)
+// that appear between `git` and the subcommand, so rules reliably match.
+const command = rawCommand.replace(
+  /\bgit\s+((?:(?:-[cC]\s+\S+|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
+  'git ',
+);
 
 const rules = [
   {
