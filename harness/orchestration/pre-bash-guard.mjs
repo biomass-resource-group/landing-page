@@ -5,6 +5,7 @@
 // non-zero exit and will not execute the command.
 
 import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
 let payload = {};
 try {
@@ -28,11 +29,24 @@ const command = rawCommand
   )
   .replace(/["'](-{1,2}[a-zA-Z][a-zA-Z-]*)["']/g, '$1');
 
+// Detect bare `git push` (no refspec) when on main — would implicitly push main.
+let currentBranch = '';
+try {
+  const repoRoot = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
+  currentBranch = execFileSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+    cwd: repoRoot, encoding: 'utf8', timeout: 3000,
+  }).trim();
+} catch { /* not in a git repo or git not available — skip branch check */ }
+
 const rules = [
   {
     pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?(?::?(?:\S*:)?(?:refs\/heads\/)?)?main(?:\s|$)/,
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
+  ...(currentBranch === 'main' ? [{
+    pattern: /git\s+push(?:\s+(?:origin|-u\s+origin))?(?:\s|$)/,
+    message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
+  }] : []),
   {
     pattern: /git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)(?:\s|$)/,
     message: 'Blocked: `git push --force`. Use `--force-with-lease` if you must, and never to main.',
@@ -46,7 +60,7 @@ const rules = [
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
-    pattern: /\brm\s+(?:(?:-[a-zA-Z]+|--[a-zA-Z-]+)\s+)*(?:--\s+)?(?:\.\/)?["']?(?:src|public|scripts|harness|\.claude)["']?(?:\/|\s|$)/,
+    pattern: /\brm\s+(?:(?:-[a-zA-Z]+|--[a-zA-Z-]+)\s+)*(?:--\s+)?(?:\.\/|(?:\/\S+\/)?)?["']?(?:src|public|scripts|harness|\.claude)["']?(?:\/|\s|$)/,
     message: 'Blocked: `rm -rf` on a protected directory. If you really mean to delete, do it through a targeted `git rm`.',
   },
   {

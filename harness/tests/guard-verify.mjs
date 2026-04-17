@@ -32,6 +32,8 @@ const tests = [
   ['git reset -q --hard', 2, 'reset -q --hard blocked'],
   ['git push --no-verify origin feat', 2, 'push --no-verify blocked'],
   ['git merge --no-verify feat', 2, 'merge --no-verify blocked'],
+  ['rm -rf /workspace/landing-page/src', 2, 'absolute path rm blocked'],
+  ['rm -rf /home/user/landing-page/harness/', 2, 'absolute path rm harness blocked'],
 ];
 
 let failed = 0;
