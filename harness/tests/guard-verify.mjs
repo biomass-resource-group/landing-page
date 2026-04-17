@@ -7,12 +7,16 @@ const guard = resolve(dirname(fileURLToPath(import.meta.url)), '../orchestration
 
 const tests = [
   ['git push' + ' -f origin feat/thing', 2, 'short -f blocked'],
+  ['git push' + ' -fu origin feat/thing', 2, 'grouped -fu blocked'],
   ['git push --force-with-lease origin feat/thing', 0, '--force-with-lease allowed'],
   ['rm -f' + ' -r src', 2, 'split flags blocked'],
   ['rm -fr public/', 2, 'rm -fr blocked'],
+  ['rm --recursive --force "src"', 2, 'long-option rm blocked'],
   ['rm src/', 2, 'bare rm of protected dir blocked'],
   ['rm -rf src-old', 0, 'src-old not blocked'],
   ['git push origin main-fix', 0, 'main-fix not blocked'],
+  ['git push origin HEAD:main', 2, 'refspec HEAD:main blocked'],
+  ['git push origin HEAD:refs/heads/main', 2, 'refspec refs/heads/main blocked'],
 ];
 
 let failed = 0;

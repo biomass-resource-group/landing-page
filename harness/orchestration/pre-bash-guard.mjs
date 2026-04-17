@@ -20,11 +20,11 @@ if (!command) {
 
 const rules = [
   {
-    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?(?:(?:[^ :]+:)?refs\/heads\/)?main(?:\s|$)/,
+    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?(?:(?:\S+:)?(?:refs\/heads\/)?)?main(?:\s|$)/,
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   {
-    pattern: /git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-f)(?:\s|$)/,
+    pattern: /git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)(?:\s|$)/,
     message: 'Blocked: `git push --force`. Use `--force-with-lease` if you must, and never to main.',
   },
   {
@@ -32,7 +32,7 @@ const rules = [
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
-    pattern: /\brm\s+(?:-[a-zA-Z]+\s+)*(?:\.\/)?(?:src|public|scripts|harness|\.claude)(?:\/|\s|$)/,
+    pattern: /\brm\s+(?:(?:-[a-zA-Z]+|--[a-zA-Z-]+)\s+)*(?:\.\/)?["']?(?:src|public|scripts|harness|\.claude)["']?(?:\/|\s|$)/,
     message: 'Blocked: `rm -rf` on a protected directory. If you really mean to delete, do it through a targeted `git rm`.',
   },
   {
