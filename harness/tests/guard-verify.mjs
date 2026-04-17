@@ -29,6 +29,9 @@ const tests = [
   ['git push --mirror origin', 2, '--mirror push blocked'],
   ['git push origin :main', 2, 'deletion refspec :main blocked'],
   ['git push origin :refs/heads/main', 2, 'deletion refspec :refs/heads/main blocked'],
+  ['git reset -q --hard', 2, 'reset -q --hard blocked'],
+  ['git push --no-verify origin feat', 2, 'push --no-verify blocked'],
+  ['git merge --no-verify feat', 2, 'merge --no-verify blocked'],
 ];
 
 let failed = 0;

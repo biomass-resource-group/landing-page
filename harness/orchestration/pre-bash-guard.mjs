@@ -42,7 +42,7 @@ const rules = [
     message: 'Blocked: `git push --all/--mirror`. These push all branches including main. Push specific branches.',
   },
   {
-    pattern: /git\s+reset\s+--hard/,
+    pattern: /git\s+reset\s+(?:\S+\s+)*--hard/,
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
@@ -54,7 +54,7 @@ const rules = [
     message: 'Blocked: `npm publish`. This repo is not an npm package.',
   },
   {
-    pattern: /git\s+(?:commit|rebase).*--no-verify/,
+    pattern: /git\s+(?:commit|rebase|push|merge|cherry-pick).*--no-verify/,
     message: 'Blocked: `--no-verify`. Fix the failing hook instead of bypassing it.',
   },
 ];
