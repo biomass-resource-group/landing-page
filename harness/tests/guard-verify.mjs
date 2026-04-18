@@ -46,6 +46,9 @@ const tests = [
   ['git push origin main;echo done', 2, 'push main with semicolon blocked'],
   ['git push origin main&&echo ok', 2, 'push main with && blocked'],
   ['rm -rf src;echo done', 2, 'rm src with semicolon blocked'],
+  ['git push origin main&', 2, 'push main with background & blocked'],
+  ['rm -rf src>/dev/null', 2, 'rm src with redirect blocked'],
+  ["git --work-tree \"/tmp/a b\" push origin main", 2, 'git --work-tree quoted push blocked'],
 ];
 
 let failed = 0;

@@ -24,7 +24,7 @@ if (!rawCommand) {
 // Also strip quotes around flag-like tokens so "--force" is caught.
 const command = rawCommand
   .replace(
-    /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--(?:exec-path|git-dir|work-tree|namespace)\s+\S+|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
+    /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--(?:exec-path|git-dir|work-tree|namespace)\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
     'git ',
   )
   .replace(/["'](-{1,2}[a-zA-Z][a-zA-Z-]*)["']/g, '$1');
@@ -39,7 +39,7 @@ try {
 } catch { /* not in a git repo or git not available — skip branch check */ }
 
 // Boundary pattern: matches end-of-token including shell separators.
-const B = '(?:\\s|$|;|&&|\\|\\||\\|)';
+const B = '(?:\\s|$|[;&|><])';
 
 const rules = [
   {
@@ -47,7 +47,7 @@ const rules = [
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
-    pattern: /git\s+push(?:\s+(?:origin|-u\s+origin|--set-upstream\s+origin))?\s*(?:$|;|&&|\|\||\|)/,
+    pattern: /git\s+push(?:\s+(?:origin|-u\s+origin|--set-upstream\s+origin))?\s*(?:$|[;&|><])/,
     message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
   }] : []),
   {
@@ -67,7 +67,7 @@ const rules = [
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
-    pattern: new RegExp(`\\brm\\s+.*(?:\\b(?:src|public|scripts|harness)|\\.claude)(?:\\/|\\s|$|["';]|&&|\\|\\||\\|)`),
+    pattern: new RegExp(`\\brm\\s+.*(?:\\b(?:src|public|scripts|harness)|\\.claude)(?:\\/|\\s|$|[;&|><"'])`),
     message: 'Blocked: `rm -rf` on a protected directory. If you really mean to delete, do it through a targeted `git rm`.',
   },
   {
