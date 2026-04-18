@@ -40,6 +40,7 @@ const tests = [
   ['rm -rf foo public bar', 2, 'rm with protected dir as middle operand blocked'],
   ['rm -rf my-src-file', 0, 'rm of non-protected file not blocked'],
   ['git --exec-path /tmp push origin' + ' main', 2, 'git --exec-path push blocked'],
+  ['git commit -n -m test', 2, 'commit -n (short --no-verify) blocked'],
 ];
 
 let failed = 0;
