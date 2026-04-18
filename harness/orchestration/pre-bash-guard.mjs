@@ -40,10 +40,12 @@ for (const m of collapsed.matchAll(/`([^`]+)`/g)) substitutions.push(m[1]);
 // Split on shell separators to get individual command segments.
 // This prevents matching inside echo/grep/heredoc content.
 const rawSegments = collapsed.split(/;|&&|\|\||\n|&|[|]/).concat(substitutions);
-const segments = rawSegments.map(s => {
-  // Strip shell prefixes: env/assignment prefixes, builtins, control-flow.
-  return s.replace(/^\s*(?:(?:\S+=\S+\s+)+|env\s+(?:\S+=\S+\s+)*|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/, '').trim();
-}).filter(Boolean);
+const stripQuotes = (s) => s.replace(/(?<=^|\s)["']([^"']+)["'](?=\s|$)/g, '$1');
+const stripPrefixes = (s) => s.replace(
+  /^\s*(?:(?:\S+=\S+\s+)+|env\s+(?:\S+=\S+\s+)*|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
+  '',
+).trim();
+const segments = rawSegments.map(s => stripPrefixes(s)).filter(Boolean);
 
 // Detect bare `git push` (no refspec) when on main.
 let currentBranch = '';
@@ -80,7 +82,7 @@ const rules = [
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
-    pattern: /^rm\s+.*(?:\b(?:src|public|scripts|harness)|\.claude)(?:\/|\s|$|[;&|><"'])/,
+    pattern: /^rm\s+.*(?:\b(?:src|public|scripts|harness)|\.claude)(?:\/|\s|$|[;&|><"'*?])/,
     message: 'Blocked: `rm -rf` on a protected directory. If you really mean to delete, do it through a targeted `git rm`.',
   },
   {
@@ -90,12 +92,15 @@ const rules = [
   {
     pattern: /^git\s+(?:(?:commit).*(?:--no-verify|-[a-zA-Z]*n[a-zA-Z]*(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
     message: 'Blocked: `--no-verify`. Fix the failing hook instead of bypassing it.',
+    preprocess: (s) => s.replace(/-[mMcCFt]\s+(?:"[^"]*"|'[^']*'|\S+)/g, ''),
   },
 ];
 
 for (const segment of segments) {
-  for (const { pattern, message } of rules) {
-    if (pattern.test(segment)) {
+  for (const { pattern, message, preprocess } of rules) {
+    const preprocessed = preprocess ? preprocess(segment) : segment;
+    const text = stripQuotes(preprocessed);
+    if (pattern.test(text)) {
       process.stderr.write(`${message}\n`);
       process.exit(2);
     }

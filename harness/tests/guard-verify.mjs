@@ -65,6 +65,10 @@ const tests = [
   ['FOO=1 rm -rf src', 2, 'assignment-prefixed rm blocked'],
   ['env A=1 B=2 git push origin main', 2, 'multi-env push blocked'],
   ['echo $(git push origin main)', 2, 'command substitution push blocked'],
+  ['git push origin "main"', 2, 'quoted refspec main blocked'],
+  ['rm -rf src*', 2, 'glob rm src* blocked'],
+  ['git commit -m "fix -n bug"', 0, 'commit message containing -n not blocked'],
+  ['git commit -n -m "fix bug"', 2, 'commit -n before -m blocked'],
 ];
 
 let failed = 0;
