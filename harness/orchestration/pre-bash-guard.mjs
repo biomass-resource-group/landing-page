@@ -44,7 +44,7 @@ const rules = [
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
-    pattern: /git\s+push(?:\s+(?:origin|-u\s+origin))?(?:\s|$)/,
+    pattern: /git\s+push(?:\s+(?:origin|-u\s+origin))?\s*$/,
     message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
   }] : []),
   {
