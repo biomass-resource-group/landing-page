@@ -34,7 +34,10 @@ const collapsed = command.replace(/\\\n/g, '');
 
 // Split on shell separators to get individual command segments.
 // This prevents matching inside echo/grep/heredoc content.
-const segments = collapsed.split(/;|&&|\|\||\n|&|[|]/).map(s => s.trim()).filter(Boolean);
+const segments = collapsed.split(/;|&&|\|\||\n|&|[|]/).map(s => {
+  // Strip common shell prefixes/control-flow so anchored rules match.
+  return s.replace(/^\s*(?:env\s+\S+=\S+\s+|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/, '').trim();
+}).filter(Boolean);
 
 // Detect bare `git push` (no refspec) when on main.
 let currentBranch = '';

@@ -58,6 +58,9 @@ const tests = [
   ['git commit -nm "msg"', 2, 'commit -nm (grouped no-verify) blocked'],
   ['git commit -nS -m msg', 2, 'commit -nS (uppercase grouped) blocked'],
   ['git push origin ma\\\nin', 2, 'escaped newline push blocked'],
+  ['env X=1 git push origin main', 2, 'env-prefixed push blocked'],
+  ['command rm -rf src', 2, 'command-prefixed rm blocked'],
+  ['sudo git push origin main', 2, 'sudo-prefixed push blocked'],
 ];
 
 let failed = 0;
