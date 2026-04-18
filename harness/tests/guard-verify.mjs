@@ -49,6 +49,9 @@ const tests = [
   ['git push origin main&', 2, 'push main with background & blocked'],
   ['rm -rf src>/dev/null', 2, 'rm src with redirect blocked'],
   ["git --work-tree \"/tmp/a b\" push origin main", 2, 'git --work-tree quoted push blocked'],
+  ['git --config-env user.name=MY_ENV push origin main', 2, 'git --config-env push blocked'],
+  ['echo git push origin main', 0, 'echo of git push not blocked'],
+  ['echo "rm -rf src"', 0, 'echo of rm not blocked'],
 ];
 
 let failed = 0;

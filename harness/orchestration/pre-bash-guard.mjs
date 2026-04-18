@@ -24,12 +24,16 @@ if (!rawCommand) {
 // Also strip quotes around flag-like tokens so "--force" is caught.
 const command = rawCommand
   .replace(
-    /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--(?:exec-path|git-dir|work-tree|namespace)\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
+    /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--(?:exec-path|git-dir|work-tree|namespace|config-env)\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
     'git ',
   )
   .replace(/["'](-{1,2}[a-zA-Z][a-zA-Z-]*)["']/g, '$1');
 
-// Detect bare `git push` (no refspec) when on main — would implicitly push main.
+// Split on shell separators to get individual command segments.
+// This prevents matching inside echo/grep/heredoc content.
+const segments = command.split(/;|&&|\|\||[|]/).map(s => s.trim());
+
+// Detect bare `git push` (no refspec) when on main.
 let currentBranch = '';
 try {
   const repoRoot = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
@@ -38,52 +42,51 @@ try {
   }).trim();
 } catch { /* not in a git repo or git not available — skip branch check */ }
 
-// Boundary pattern: matches end-of-token including shell separators.
-const B = '(?:\\s|$|[;&|><])';
-
 const rules = [
   {
-    pattern: new RegExp(`git\\s+push\\s+(?:.*\\s+)?(?:origin\\s+)?\\+?(?::?(?:\\S*:)?(?:refs\\/heads\\/)?)?main${B}`),
+    pattern: /^git\s+push\s+(?:.*\s+)?(?:origin\s+)?\+?(?::?(?:\S*:)?(?:refs\/heads\/)?)?main(?:\s|$|[;&|><])/,
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
-    pattern: /git\s+push(?:\s+(?:origin|-u\s+origin|--set-upstream\s+origin))?\s*(?:$|[;&|><])/,
+    pattern: /^git\s+push(?:\s+(?:origin|-u\s+origin|--set-upstream\s+origin))?\s*$/,
     message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
   }] : []),
   {
-    pattern: new RegExp(`git\\s+push\\s+(?:.*\\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)${B}`),
+    pattern: /^git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)(?:\s|$|[;&|><])/,
     message: 'Blocked: `git push --force`. Use `--force-with-lease` if you must, and never to main.',
   },
   {
-    pattern: /git\s+push\s+(?:.*\s)?\+\S/,
+    pattern: /^git\s+push\s+(?:.*\s)?\+\S/,
     message: 'Blocked: `git push +<refspec>` (force via refspec prefix). Use `--force-with-lease` if you must.',
   },
   {
-    pattern: new RegExp(`git\\s+push\\s+(?:.*\\s)?(?:--all|--mirror)${B}`),
+    pattern: /^git\s+push\s+(?:.*\s)?(?:--all|--mirror)(?:\s|$|[;&|><])/,
     message: 'Blocked: `git push --all/--mirror`. These push all branches including main. Push specific branches.',
   },
   {
-    pattern: /git\s+reset\s+(?:\S+\s+)*--hard/,
+    pattern: /^git\s+reset\s+(?:\S+\s+)*--hard/,
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
-    pattern: new RegExp(`\\brm\\s+.*(?:\\b(?:src|public|scripts|harness)|\\.claude)(?:\\/|\\s|$|[;&|><"'])`),
+    pattern: /^rm\s+.*(?:\b(?:src|public|scripts|harness)|\.claude)(?:\/|\s|$|[;&|><"'])/,
     message: 'Blocked: `rm -rf` on a protected directory. If you really mean to delete, do it through a targeted `git rm`.',
   },
   {
-    pattern: /^\s*npm\s+publish/,
+    pattern: /^npm\s+publish/,
     message: 'Blocked: `npm publish`. This repo is not an npm package.',
   },
   {
-    pattern: /git\s+(?:(?:commit).*(?:--no-verify|-n(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
+    pattern: /^git\s+(?:(?:commit).*(?:--no-verify|-n(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
     message: 'Blocked: `--no-verify`. Fix the failing hook instead of bypassing it.',
   },
 ];
 
-for (const { pattern, message } of rules) {
-  if (pattern.test(command)) {
-    process.stderr.write(`${message}\n`);
-    process.exit(2);
+for (const segment of segments) {
+  for (const { pattern, message } of rules) {
+    if (pattern.test(segment)) {
+      process.stderr.write(`${message}\n`);
+      process.exit(2);
+    }
   }
 }
 
