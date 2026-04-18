@@ -52,6 +52,8 @@ const tests = [
   ['git --config-env user.name=MY_ENV push origin main', 2, 'git --config-env push blocked'],
   ['echo git push origin main', 0, 'echo of git push not blocked'],
   ['echo "rm -rf src"', 0, 'echo of rm not blocked'],
+  ['echo ok\ngit push origin main', 2, 'newline-separated push blocked'],
+  ['echo ok' + ' & git push origin main', 2, 'background &-separated push blocked'],
 ];
 
 let failed = 0;

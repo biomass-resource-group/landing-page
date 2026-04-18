@@ -31,7 +31,7 @@ const command = rawCommand
 
 // Split on shell separators to get individual command segments.
 // This prevents matching inside echo/grep/heredoc content.
-const segments = command.split(/;|&&|\|\||[|]/).map(s => s.trim());
+const segments = command.split(/;|&&|\|\||\n|&|[|]/).map(s => s.trim()).filter(Boolean);
 
 // Detect bare `git push` (no refspec) when on main.
 let currentBranch = '';
