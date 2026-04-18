@@ -41,6 +41,8 @@ const tests = [
   ['rm -rf my-src-file', 0, 'rm of non-protected file not blocked'],
   ['git --exec-path /tmp push origin' + ' main', 2, 'git --exec-path push blocked'],
   ['git commit -n -m test', 2, 'commit -n (short --no-verify) blocked'],
+  ['git push -n origin feature', 0, 'push -n (dry-run) not blocked'],
+  ['git merge -n feature', 0, 'merge -n (no-stat) not blocked'],
 ];
 
 let failed = 0;

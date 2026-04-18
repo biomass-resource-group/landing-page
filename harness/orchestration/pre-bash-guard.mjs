@@ -72,7 +72,7 @@ const rules = [
     message: 'Blocked: `npm publish`. This repo is not an npm package.',
   },
   {
-    pattern: /git\s+(?:commit|rebase|push|merge|cherry-pick).*(?:--no-verify|-n(?:\s|$))/,
+    pattern: /git\s+(?:(?:commit).*(?:--no-verify|-n(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
     message: 'Blocked: `--no-verify`. Fix the failing hook instead of bypassing it.',
   },
 ];
