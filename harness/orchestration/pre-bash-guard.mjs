@@ -32,11 +32,17 @@ const command = rawCommand
 // Collapse escaped newlines (bash line continuations) before splitting.
 const collapsed = command.replace(/\\\n/g, '');
 
+// Extract command substitutions ($(...) and `...`) as additional segments.
+const substitutions = [];
+for (const m of collapsed.matchAll(/\$\(([^)]+)\)/g)) substitutions.push(m[1]);
+for (const m of collapsed.matchAll(/`([^`]+)`/g)) substitutions.push(m[1]);
+
 // Split on shell separators to get individual command segments.
 // This prevents matching inside echo/grep/heredoc content.
-const segments = collapsed.split(/;|&&|\|\||\n|&|[|]/).map(s => {
-  // Strip common shell prefixes/control-flow so anchored rules match.
-  return s.replace(/^\s*(?:env\s+\S+=\S+\s+|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/, '').trim();
+const rawSegments = collapsed.split(/;|&&|\|\||\n|&|[|]/).concat(substitutions);
+const segments = rawSegments.map(s => {
+  // Strip shell prefixes: env/assignment prefixes, builtins, control-flow.
+  return s.replace(/^\s*(?:(?:\S+=\S+\s+)+|env\s+(?:\S+=\S+\s+)*|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/, '').trim();
 }).filter(Boolean);
 
 // Detect bare `git push` (no refspec) when on main.

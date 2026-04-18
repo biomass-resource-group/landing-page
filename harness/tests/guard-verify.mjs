@@ -61,6 +61,10 @@ const tests = [
   ['env X=1 git push origin main', 2, 'env-prefixed push blocked'],
   ['command rm -rf src', 2, 'command-prefixed rm blocked'],
   ['sudo git push origin main', 2, 'sudo-prefixed push blocked'],
+  ['FOO=1 git push origin main', 2, 'assignment-prefixed push blocked'],
+  ['FOO=1 rm -rf src', 2, 'assignment-prefixed rm blocked'],
+  ['env A=1 B=2 git push origin main', 2, 'multi-env push blocked'],
+  ['echo $(git push origin main)', 2, 'command substitution push blocked'],
 ];
 
 let failed = 0;
