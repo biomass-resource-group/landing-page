@@ -36,6 +36,10 @@ const tests = [
   ['rm -rf /home/user/landing-page/harness/', 2, 'absolute path rm harness blocked'],
   ['git push origin +main', 2, '+refspec force push to main blocked'],
   ['git push origin +feat/x', 2, '+refspec force push blocked'],
+  ['rm -rf tmp src', 2, 'rm with protected dir as second operand blocked'],
+  ['rm -rf foo public bar', 2, 'rm with protected dir as middle operand blocked'],
+  ['rm -rf my-src-file', 0, 'rm of non-protected file not blocked'],
+  ['git --exec-path /tmp push origin' + ' main', 2, 'git --exec-path push blocked'],
 ];
 
 let failed = 0;
