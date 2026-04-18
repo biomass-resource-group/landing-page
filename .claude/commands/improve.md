@@ -24,10 +24,15 @@ synthesize their outputs.
    `accessibility-auditor`, and `performance-reviewer` in a single
    message so they run in parallel. If the diff touches `.ts` files,
    also dispatch `code-reviewer` in the same parallel batch.
-6. **Iterate** — if either reviewer returns `needs revision`, send
-   the findings back to `astro-implementer` for one revision pass,
-   then re-review. Cap at two revision cycles; if still failing,
-   escalate to the user.
+6. **Iterate** — if any reviewer returns `needs revision`:
+   a. Merge all reviewer findings into a single prioritized list.
+      Deduplicate overlapping items. Resolve contradictions by
+      favoring the more conservative position.
+   b. Send the merged findings back to `astro-implementer` for one
+      revision pass, then re-review.
+   c. Cap at **3 revision cycles** (or 4 in unattended/overnight
+      mode). If still failing after the cap, escalate to the user
+      or skip the item (in overnight mode).
 7. **Validate** — dispatch `dist-validator` for the final pass.
 8. **Ship** — dispatch `git-shipper` to commit, push, and open a PR.
    Report the PR URL to the user. Do **not** merge.
@@ -55,8 +60,13 @@ If a stage fails:
   `astro-implementer` (step 6 handles this with up to 2 cycles).
 - **Validation failure** — dispatch `build-error-resolver`. If the fix
   requires a validation contract change, escalate to the user.
-- **Ship failure** — usually a git issue. Report the error; don't retry
-  automatically.
+- **Ship failure** — usually a git issue. Retry once after 30 seconds.
+  If still failing, commit locally and report — the user can push
+  manually.
+- **GitHub API failure** — retry once after 30 seconds. If still
+  failing, fall back to local-only mode (commit without PR).
+- **Network timeout** — retry the failed operation once. If the session
+  has no network, work locally and defer ship to the user.
 
 To resume from a prior stage, use `/checkpoint` to save progress
 mid-pipeline, then re-run `/improve` with the narrowed request.

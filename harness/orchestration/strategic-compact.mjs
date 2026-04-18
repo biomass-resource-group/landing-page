@@ -34,16 +34,22 @@ try {
 
 state.count += 1;
 
-const INTERVAL = 50;
+const isOvernight = process.env.BRG_OVERNIGHT === '1';
+const INTERVAL = isOvernight ? 30 : 50;
 const shouldSuggest = state.count - state.lastSuggestion >= INTERVAL;
 
 if (shouldSuggest) {
   state.lastSuggestion = state.count;
   writeFileSync(stateFile, JSON.stringify(state));
+  const urgency = state.count > 150
+    ? 'URGENT: Context is likely running low.'
+    : 'Heads up:';
   process.stdout.write(
     [
-      `Heads up: ~${state.count} tool calls into this session.`,
-      'Consider running `/compact` to preserve context capacity.',
+      `${urgency} ~${state.count} tool calls into this session.`,
+      isOvernight
+        ? 'Persist state to harness/.overnight-state.json, then run `/compact` immediately.'
+        : 'Consider running `/compact` to preserve context capacity.',
     ].join('\n'),
   );
   process.exit(0);

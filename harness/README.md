@@ -41,7 +41,7 @@ stakeholder feedback
 | [`../RULES.md`](../RULES.md)                      | Rulebook index with scope breakdown.       |
 | [`../.claude/settings.json`](../.claude/settings.json) | Permissions, env, hooks.              |
 | [`../.claude/agents/`](../.claude/agents/)        | Subagent definitions (18 total).           |
-| [`../.claude/commands/`](../.claude/commands/)    | Slash commands (15 total).                 |
+| [`../.claude/commands/`](../.claude/commands/)    | Slash commands (18 total).                 |
 | [`../.claude/skills/`](../.claude/skills/)        | Project-level skills (6 total).            |
 | [`../.claude-plugin/`](../.claude-plugin/)        | Plugin manifest.                           |
 | [`./orchestration/`](./orchestration/)            | Hook scripts (6 total).                    |
@@ -101,6 +101,9 @@ stakeholder feedback
 | `/checkpoint "<label>"`    | Midway save (commit + push, no PR)               |
 | `/perf-audit <routes>`     | Performance audit with Lighthouse                |
 | `/deploy-check [url]`      | Post-deploy sanity probe                         |
+| `/overnight "<goal>"`      | Autonomous batch improvement with convergence     |
+| `/babysit-prs [PR#]`       | Monitor PRs, auto-fix CI, respond to reviews     |
+| `/resume [state-file]`     | Resume interrupted overnight/pipeline run        |
 
 ## Skills (6)
 
@@ -120,19 +123,20 @@ stakeholder feedback
 | `session-context.mjs`  | SessionStart | Surfaces branch, status, routes, dist     |
 | `pre-bash-guard.mjs`   | PreToolUse   | Blocks push-to-main, force-push, rm -rf   |
 | `track-edit.mjs`       | PostToolUse  | Reminds validation pending on watched edits |
-| `strategic-compact.mjs`| PostToolUse  | Suggests /compact every ~50 tool calls    |
+| `strategic-compact.mjs`| PostToolUse  | Suggests /compact every ~50 calls (30 overnight)|
 | `stop-reminder.mjs`    | Stop         | Nudges /ship if uncommitted changes exist |
 | `session-end.mjs`      | SessionEnd   | Emits session summary (branch, commits)   |
 
-## Contexts (3)
+## Contexts (4)
 
-| Context      | When to use                                    |
-| ------------ | ---------------------------------------------- |
-| `dev.md`     | Implementation mode — writing code             |
-| `review.md`  | Review mode — evaluating quality               |
-| `research.md`| Exploration mode — understanding, not shipping |
+| Context        | When to use                                    |
+| -------------- | ---------------------------------------------- |
+| `dev.md`       | Implementation mode — writing code             |
+| `review.md`    | Review mode — evaluating quality               |
+| `research.md`  | Exploration mode — understanding, not shipping |
+| `overnight.md` | Unattended autonomous mode — no human present  |
 
-## Playbooks (6)
+## Playbooks (7)
 
 | Playbook                           | When to use                           |
 | ---------------------------------- | ------------------------------------- |
@@ -142,6 +146,7 @@ stakeholder feedback
 | `handle-ci-failure`                | PR checks fail                        |
 | `ship-hotfix`                      | Live-site regression                  |
 | `onboard-new-contributor`          | New human or AI starts working        |
+| `converge-to-excellence`          | Push quality beyond "passes" to 4.5+  |
 
 ## Rules (15 files)
 
@@ -165,6 +170,47 @@ A change cannot ship unless:
 
 These are enforced by the `/improve` and `/ship` pipelines. Don't
 loosen them; raise the change to the user instead.
+
+## Overnight autonomous operation
+
+The harness supports unattended overnight runs via `/overnight`. Key
+infrastructure:
+
+- **`/overnight "<goal>"`** — batch orchestration with convergence loops,
+  circuit breakers, and a morning summary.
+- **`/babysit-prs`** — monitors open PRs for CI failures and review
+  comments. Auto-fixes CI, responds to reviews.
+- **`/resume`** — picks up an interrupted overnight run from saved state.
+- **`harness/contexts/overnight.md`** — decision framework for when no
+  human is available.
+- **`harness/playbooks/converge-to-excellence.md`** — how to push quality
+  from "passes" (4.0) to "exceptional" (4.5+).
+- **`harness/.overnight-state.json`** — persisted pipeline state for
+  resume capability.
+- **`harness/codex-interop.md`** — protocol for Codex-driven parallel
+  execution.
+
+### Circuit breakers
+
+| Breaker | Threshold | Action |
+| ------- | --------- | ------ |
+| Max iterations | 20 `/improve` cycles | Stop, report |
+| Diminishing returns | 2 iterations < 0.1 improvement | Stop, report |
+| Repeated failures | Same item fails twice | Skip, log, continue |
+| Context pressure | ~30 tool calls (overnight) | Persist state, compact |
+
+### Starting an overnight run
+
+```
+/overnight "Bring all routes to 4.5+ on UX scorecard with zero a11y blockers"
+```
+
+The pipeline will:
+1. Baseline audit all routes.
+2. Plan improvements per route.
+3. Implement, review, and ship each.
+4. Convergence-loop until targets met or breakers trip.
+5. Produce morning summary.
 
 ## Extending the harness
 
