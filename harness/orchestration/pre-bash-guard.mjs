@@ -38,17 +38,20 @@ try {
   }).trim();
 } catch { /* not in a git repo or git not available — skip branch check */ }
 
+// Boundary pattern: matches end-of-token including shell separators.
+const B = '(?:\\s|$|;|&&|\\|\\||\\|)';
+
 const rules = [
   {
-    pattern: /git\s+push\s+(?:.*\s+)?(?:origin\s+)?\+?(?::?(?:\S*:)?(?:refs\/heads\/)?)?main(?:\s|$)/,
+    pattern: new RegExp(`git\\s+push\\s+(?:.*\\s+)?(?:origin\\s+)?\\+?(?::?(?:\\S*:)?(?:refs\\/heads\\/)?)?main${B}`),
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
-    pattern: /git\s+push(?:\s+(?:origin|-u\s+origin|--set-upstream\s+origin))?\s*$/,
+    pattern: /git\s+push(?:\s+(?:origin|-u\s+origin|--set-upstream\s+origin))?\s*(?:$|;|&&|\|\||\|)/,
     message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
   }] : []),
   {
-    pattern: /git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)(?:\s|$)/,
+    pattern: new RegExp(`git\\s+push\\s+(?:.*\\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)${B}`),
     message: 'Blocked: `git push --force`. Use `--force-with-lease` if you must, and never to main.',
   },
   {
@@ -56,7 +59,7 @@ const rules = [
     message: 'Blocked: `git push +<refspec>` (force via refspec prefix). Use `--force-with-lease` if you must.',
   },
   {
-    pattern: /git\s+push\s+(?:.*\s)?(?:--all|--mirror)(?:\s|$)/,
+    pattern: new RegExp(`git\\s+push\\s+(?:.*\\s)?(?:--all|--mirror)${B}`),
     message: 'Blocked: `git push --all/--mirror`. These push all branches including main. Push specific branches.',
   },
   {
@@ -64,7 +67,7 @@ const rules = [
     message: 'Blocked: `git reset --hard`. Use `git stash` + targeted `git checkout -- <file>` instead.',
   },
   {
-    pattern: /\brm\s+.*(?:\b(?:src|public|scripts|harness)|\.claude)(?:\/|\s|$|["'])/,
+    pattern: new RegExp(`\\brm\\s+.*(?:\\b(?:src|public|scripts|harness)|\\.claude)(?:\\/|\\s|$|["';]|&&|\\|\\||\\|)`),
     message: 'Blocked: `rm -rf` on a protected directory. If you really mean to delete, do it through a targeted `git rm`.',
   },
   {

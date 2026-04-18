@@ -43,6 +43,9 @@ const tests = [
   ['git commit -n -m test', 2, 'commit -n (short --no-verify) blocked'],
   ['git push -n origin feature', 0, 'push -n (dry-run) not blocked'],
   ['git merge -n feature', 0, 'merge -n (no-stat) not blocked'],
+  ['git push origin main;echo done', 2, 'push main with semicolon blocked'],
+  ['git push origin main&&echo ok', 2, 'push main with && blocked'],
+  ['rm -rf src;echo done', 2, 'rm src with semicolon blocked'],
 ];
 
 let failed = 0;
