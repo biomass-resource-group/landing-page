@@ -29,9 +29,12 @@ const command = rawCommand
   )
   .replace(/["'](-{1,2}[a-zA-Z][a-zA-Z-]*)["']/g, '$1');
 
+// Collapse escaped newlines (bash line continuations) before splitting.
+const collapsed = command.replace(/\\\n/g, '');
+
 // Split on shell separators to get individual command segments.
 // This prevents matching inside echo/grep/heredoc content.
-const segments = command.split(/;|&&|\|\||\n|&|[|]/).map(s => s.trim()).filter(Boolean);
+const segments = collapsed.split(/;|&&|\|\||\n|&|[|]/).map(s => s.trim()).filter(Boolean);
 
 // Detect bare `git push` (no refspec) when on main.
 let currentBranch = '';
@@ -48,7 +51,7 @@ const rules = [
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
-    pattern: /^git\s+push(?:\s+(?:-u|--set-upstream))?(?:\s+origin)?\s*$/,
+    pattern: /^git\s+push(?:\s+(?:-u|--set-upstream))?(?:\s+\S+)?\s*$/,
     message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
   }] : []),
   {
@@ -76,7 +79,7 @@ const rules = [
     message: 'Blocked: `npm publish`. This repo is not an npm package.',
   },
   {
-    pattern: /^git\s+(?:(?:commit).*(?:--no-verify|-[a-mo-z]*n[a-mo-z]*(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
+    pattern: /^git\s+(?:(?:commit).*(?:--no-verify|-[a-zA-Z]*n[a-zA-Z]*(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
     message: 'Blocked: `--no-verify`. Fix the failing hook instead of bypassing it.',
   },
 ];

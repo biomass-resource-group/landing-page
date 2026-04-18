@@ -56,6 +56,8 @@ const tests = [
   ['echo ok' + ' & git push origin main', 2, 'background &-separated push blocked'],
   ['git --work-tree="/tmp/a b" push origin main', 2, 'git --opt=quoted push blocked'],
   ['git commit -nm "msg"', 2, 'commit -nm (grouped no-verify) blocked'],
+  ['git commit -nS -m msg', 2, 'commit -nS (uppercase grouped) blocked'],
+  ['git push origin ma\\\nin', 2, 'escaped newline push blocked'],
 ];
 
 let failed = 0;
