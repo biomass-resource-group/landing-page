@@ -54,6 +54,8 @@ const tests = [
   ['echo "rm -rf src"', 0, 'echo of rm not blocked'],
   ['echo ok\ngit push origin main', 2, 'newline-separated push blocked'],
   ['echo ok' + ' & git push origin main', 2, 'background &-separated push blocked'],
+  ['git --work-tree="/tmp/a b" push origin main', 2, 'git --opt=quoted push blocked'],
+  ['git commit -nm "msg"', 2, 'commit -nm (grouped no-verify) blocked'],
 ];
 
 let failed = 0;

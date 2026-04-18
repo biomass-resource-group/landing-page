@@ -24,7 +24,7 @@ if (!rawCommand) {
 // Also strip quotes around flag-like tokens so "--force" is caught.
 const command = rawCommand
   .replace(
-    /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--(?:exec-path|git-dir|work-tree|namespace|config-env)\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+(?:=\S+)?|-[a-zA-Z])\s+)+)/g,
+    /\bgit\s+((?:(?:-[cC]\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--(?:exec-path|git-dir|work-tree|namespace|config-env)\s+(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+=(?:\S*'[^']*'\S*|\S*"[^"]*"\S*|\S+)|--[a-z-]+|-[a-zA-Z])\s+)+)/g,
     'git ',
   )
   .replace(/["'](-{1,2}[a-zA-Z][a-zA-Z-]*)["']/g, '$1');
@@ -48,7 +48,7 @@ const rules = [
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
-    pattern: /^git\s+push(?:\s+(?:origin|-u\s+origin|--set-upstream\s+origin))?\s*$/,
+    pattern: /^git\s+push(?:\s+(?:-u|--set-upstream))?(?:\s+origin)?\s*$/,
     message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
   }] : []),
   {
@@ -76,7 +76,7 @@ const rules = [
     message: 'Blocked: `npm publish`. This repo is not an npm package.',
   },
   {
-    pattern: /^git\s+(?:(?:commit).*(?:--no-verify|-n(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
+    pattern: /^git\s+(?:(?:commit).*(?:--no-verify|-[a-mo-z]*n[a-mo-z]*(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
     message: 'Blocked: `--no-verify`. Fix the failing hook instead of bypassing it.',
   },
 ];
