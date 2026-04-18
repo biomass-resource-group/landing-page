@@ -44,7 +44,7 @@ const stripQuotes = (s) => s.replace(/(?<=^|\s)["']([^"']+)["'](?=\s|$)/g, '$1')
 const stripPrefixes = (s) => s.replace(
   /^\s*(?:(?:\S+=\S+\s+)+|env\s+(?:\S+=\S+\s+)*|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
   '',
-).trim();
+).replace(/^[()\s]+|[()]+$/g, '').trim();
 const segments = rawSegments.map(s => stripPrefixes(s)).filter(Boolean);
 
 // Detect bare `git push` (no refspec) when on main.
@@ -62,7 +62,7 @@ const rules = [
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
-    pattern: /^git\s+push(?:\s+(?:-u|--set-upstream))?(?:\s+\S+)?\s*$/,
+    pattern: /^git\s+push(?:\s+(?:-u|--set-upstream))?(?:\s+\S+)?(?:\s+HEAD)?\s*$/,
     message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
   }] : []),
   {
