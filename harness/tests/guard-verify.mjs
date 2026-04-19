@@ -71,6 +71,9 @@ const tests = [
   ['git commit -n -m "fix bug"', 2, 'commit -n before -m blocked'],
   ['(git push origin main)', 2, 'subshell push blocked'],
   ['(rm -rf src)', 2, 'subshell rm blocked'],
+  ['/usr/bin/git push origin main', 2, 'absolute path git blocked'],
+  ['/bin/rm -rf src', 2, 'absolute path rm blocked'],
+  ['git commit --message "fix -n bug"', 0, 'commit --message with -n not blocked'],
 ];
 
 let failed = 0;

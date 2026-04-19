@@ -44,7 +44,9 @@ const stripQuotes = (s) => s.replace(/(?<=^|\s)["']([^"']+)["'](?=\s|$)/g, '$1')
 const stripPrefixes = (s) => s.replace(
   /^\s*(?:(?:\S+=\S+\s+)+|env\s+(?:\S+=\S+\s+)*|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
   '',
-).replace(/^[()\s]+|[()]+$/g, '').trim();
+).replace(/^[()\s]+|[()]+$/g, '')
+  // Normalize absolute paths to bare command names (/usr/bin/git → git).
+  .replace(/^\/\S*\/(\w+)/, '$1').trim();
 const segments = rawSegments.map(s => stripPrefixes(s)).filter(Boolean);
 
 // Detect bare `git push` (no refspec) when on main.
@@ -62,7 +64,7 @@ const rules = [
     message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
   },
   ...(currentBranch === 'main' ? [{
-    pattern: /^git\s+push(?:\s+(?:-u|--set-upstream))?(?:\s+\S+)?(?:\s+HEAD)?\s*$/,
+    pattern: /^git\s+push(?:\s+(?:-[a-zA-Z]+|--[a-z-]+))*(?:\s+\S+)?(?:\s+HEAD)?\s*$/,
     message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
   }] : []),
   {
@@ -92,7 +94,7 @@ const rules = [
   {
     pattern: /^git\s+(?:(?:commit).*(?:--no-verify|-[a-zA-Z]*n[a-zA-Z]*(?:\s|$))|(?:rebase|push|merge|cherry-pick).*--no-verify)/,
     message: 'Blocked: `--no-verify`. Fix the failing hook instead of bypassing it.',
-    preprocess: (s) => s.replace(/-[mMcCFt]\s+(?:"[^"]*"|'[^']*'|\S+)/g, ''),
+    preprocess: (s) => s.replace(/(?:-[mMcCFt]|--(?:message|reuse-message|reedit-message|fixup|squash|file|template))[=\s]+(?:"[^"]*"|'[^']*'|\S+)/g, ''),
   },
 ];
 
