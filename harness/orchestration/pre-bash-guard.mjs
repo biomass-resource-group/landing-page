@@ -53,6 +53,10 @@ const extractSubs = (text) => {
   for (const m of text.matchAll(/(?:bash|sh|zsh)\s+(?:-[a-zA-Z]*c[a-zA-Z]*)\s+(?:"([^"]+)"|'([^']+)')/g)) {
     substitutions.push(m[1] || m[2]);
   }
+  // eval payloads: eval "...", eval '...'
+  for (const m of text.matchAll(/\beval\s+(?:"([^"]+)"|'([^']+)')/g)) {
+    substitutions.push(m[1] || m[2]);
+  }
 };
 extractSubs(collapsed);
 
@@ -61,7 +65,7 @@ extractSubs(collapsed);
 const rawSegments = collapsed.split(/;|&&|\|\||\n|&|[|]/).concat(substitutions);
 const stripQuotes = (s) => s.replace(/(?<=^|\s)["']([^"']+)["'](?=\s|$)/g, '$1');
 const stripPrefixes = (s) => s.replace(
-  /^\s*(?:(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)+|env\s+(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)*|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
+  /^\s*(?:(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)+|env\s+(?:-\S+\s+)*(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)*|command\s+(?:-\S+\s+)*|exec\s+(?:-\S+\s+)*|sudo\s+(?:-\S+(?:\s+(?!-)\S+)?\s+)*|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
   '',
 ).replace(/^[()\s]+|[()]+$/g, '')
   // Normalize absolute paths to bare command names (/usr/bin/git → git).

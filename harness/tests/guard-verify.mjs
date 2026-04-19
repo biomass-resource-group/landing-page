@@ -80,6 +80,10 @@ const tests = [
   ['cat <(git push origin main)', 2, 'process substitution push blocked'],
   ["bash -c 'git push origin main'", 2, 'bash -c push blocked'],
   ['sh -c "rm -rf src"', 2, 'sh -c rm blocked'],
+  ['eval "git push origin main"', 2, 'eval push blocked'],
+  ['env -i git push origin main', 2, 'env -i push blocked'],
+  ['sudo -u root rm -rf src', 2, 'sudo -u rm blocked'],
+  ['command -- git push origin main', 2, 'command -- push blocked'],
 ];
 
 let failed = 0;
