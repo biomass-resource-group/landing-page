@@ -32,33 +32,36 @@ const command = rawCommand
 // Collapse escaped newlines (bash line continuations) before splitting.
 const collapsed = command.replace(/\\\n/g, '');
 
+// Strip single-quoted strings before extraction (single quotes prevent expansion in bash).
+const forExtraction = collapsed.replace(/'[^']*'/g, "''");
+
 // Extract command substitutions ($(...) and `...`) recursively.
+// Use forExtraction (single quotes stripped) for $() and backticks.
+// Use collapsed (original) for shell -c and eval which intentionally read quoted payloads.
 const substitutions = [];
-let remaining = collapsed;
-const extractSubs = (text) => {
+const extractExpansions = (text) => {
   for (const m of text.matchAll(/\$\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g)) {
     substitutions.push(m[1]);
-    extractSubs(m[1]);
+    extractExpansions(m[1]);
   }
   for (const m of text.matchAll(/`([^`]+)`/g)) {
     substitutions.push(m[1]);
-    extractSubs(m[1]);
+    extractExpansions(m[1]);
   }
-  // Process substitutions: <(...) and >(...)
   for (const m of text.matchAll(/[<>]\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g)) {
     substitutions.push(m[1]);
-    extractSubs(m[1]);
-  }
-  // Shell -c payloads: bash -c '...', sh -c "..."
-  for (const m of text.matchAll(/(?:bash|sh|zsh)\s+(?:-[a-zA-Z]*c[a-zA-Z]*)\s+(?:"([^"]+)"|'([^']+)')/g)) {
-    substitutions.push(m[1] || m[2]);
-  }
-  // eval payloads: eval "...", eval '...'
-  for (const m of text.matchAll(/\beval\s+(?:"([^"]+)"|'([^']+)')/g)) {
-    substitutions.push(m[1] || m[2]);
+    extractExpansions(m[1]);
   }
 };
-extractSubs(collapsed);
+extractExpansions(forExtraction);
+
+// Shell -c and eval payloads (run on original to capture quoted args).
+for (const m of collapsed.matchAll(/(?:bash|sh|zsh)\s+(?:-[a-zA-Z]*c[a-zA-Z]*)\s+(?:"([^"]+)"|'([^']+)')/g)) {
+  substitutions.push(m[1] || m[2]);
+}
+for (const m of collapsed.matchAll(/\beval\s+(?:"([^"]+)"|'([^']+)')/g)) {
+  substitutions.push(m[1] || m[2]);
+}
 
 // Strip quoted strings before splitting so separators inside quotes don't cause false splits.
 const forSplitting = collapsed.replace(/"[^"]*"|'[^']*'/g, '""');
@@ -78,7 +81,7 @@ const stripQuotes = (s) => s.replace(/(?<=^|\s)["']([^"']+)["'](?=\s|$)/g, '$1')
 const stripPrefixes = (s) => s.replace(
   /^\s*(?:(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)+|env\s+(?:-\S+\s+)*(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)*|command\s+(?:-\S+\s+)*|exec\s+(?:-\S+\s+)*|sudo\s+(?:-\S+(?:\s+(?!-)\S+)?\s+)*|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
   '',
-).replace(/^[()\s]+|[()]+$/g, '')
+).replace(/^[(){}\s!]+|[(){}]+$/g, '')
   // Normalize absolute paths and backslash escapes.
   .replace(/^\/\S*\/(\w+)/, '$1')
   .replace(/^\\(\w)/, '$1')

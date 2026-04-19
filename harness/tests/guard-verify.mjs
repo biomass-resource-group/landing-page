@@ -87,6 +87,9 @@ const tests = [
   ['\\git push origin main', 2, 'backslash-escaped git blocked'],
   ['\\rm -rf src', 2, 'backslash-escaped rm blocked'],
   ['echo "hello|rm -rf src"', 0, 'quoted separator not split'],
+  ['! git push origin main', 2, 'negated push blocked'],
+  ['{ git push origin main; }', 2, 'brace-grouped push blocked'],
+  ["echo '$(git push origin main)'", 0, 'single-quoted substitution not blocked'],
 ];
 
 let failed = 0;
