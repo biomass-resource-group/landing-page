@@ -32,17 +32,27 @@ const command = rawCommand
 // Collapse escaped newlines (bash line continuations) before splitting.
 const collapsed = command.replace(/\\\n/g, '');
 
-// Extract command substitutions ($(...) and `...`) as additional segments.
+// Extract command substitutions ($(...) and `...`) recursively.
 const substitutions = [];
-for (const m of collapsed.matchAll(/\$\(([^)]+)\)/g)) substitutions.push(m[1]);
-for (const m of collapsed.matchAll(/`([^`]+)`/g)) substitutions.push(m[1]);
+let remaining = collapsed;
+const extractSubs = (text) => {
+  for (const m of text.matchAll(/\$\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g)) {
+    substitutions.push(m[1]);
+    extractSubs(m[1]);
+  }
+  for (const m of text.matchAll(/`([^`]+)`/g)) {
+    substitutions.push(m[1]);
+    extractSubs(m[1]);
+  }
+};
+extractSubs(collapsed);
 
 // Split on shell separators to get individual command segments.
 // This prevents matching inside echo/grep/heredoc content.
 const rawSegments = collapsed.split(/;|&&|\|\||\n|&|[|]/).concat(substitutions);
 const stripQuotes = (s) => s.replace(/(?<=^|\s)["']([^"']+)["'](?=\s|$)/g, '$1');
 const stripPrefixes = (s) => s.replace(
-  /^\s*(?:(?:\S+=\S+\s+)+|env\s+(?:\S+=\S+\s+)*|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
+  /^\s*(?:(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)+|env\s+(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)*|command\s+|exec\s+|sudo\s+|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
   '',
 ).replace(/^[()\s]+|[()]+$/g, '')
   // Normalize absolute paths to bare command names (/usr/bin/git → git).

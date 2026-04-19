@@ -74,6 +74,9 @@ const tests = [
   ['/usr/bin/git push origin main', 2, 'absolute path git blocked'],
   ['/bin/rm -rf src', 2, 'absolute path rm blocked'],
   ['git commit --message "fix -n bug"', 0, 'commit --message with -n not blocked'],
+  ['echo $(echo $(git push origin main))', 2, 'nested substitution push blocked'],
+  ['FOO="a b" git push origin main', 2, 'quoted assignment prefix push blocked'],
+  ['env FOO="a b" rm -rf src', 2, 'quoted env assignment rm blocked'],
 ];
 
 let failed = 0;
