@@ -77,6 +77,9 @@ const tests = [
   ['echo $(echo $(git push origin main))', 2, 'nested substitution push blocked'],
   ['FOO="a b" git push origin main', 2, 'quoted assignment prefix push blocked'],
   ['env FOO="a b" rm -rf src', 2, 'quoted env assignment rm blocked'],
+  ['cat <(git push origin main)', 2, 'process substitution push blocked'],
+  ["bash -c 'git push origin main'", 2, 'bash -c push blocked'],
+  ['sh -c "rm -rf src"', 2, 'sh -c rm blocked'],
 ];
 
 let failed = 0;

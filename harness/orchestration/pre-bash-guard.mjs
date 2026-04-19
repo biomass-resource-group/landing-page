@@ -44,6 +44,15 @@ const extractSubs = (text) => {
     substitutions.push(m[1]);
     extractSubs(m[1]);
   }
+  // Process substitutions: <(...) and >(...)
+  for (const m of text.matchAll(/[<>]\(([^()]*(?:\([^()]*\)[^()]*)*)\)/g)) {
+    substitutions.push(m[1]);
+    extractSubs(m[1]);
+  }
+  // Shell -c payloads: bash -c '...', sh -c "..."
+  for (const m of text.matchAll(/(?:bash|sh|zsh)\s+(?:-[a-zA-Z]*c[a-zA-Z]*)\s+(?:"([^"]+)"|'([^']+)')/g)) {
+    substitutions.push(m[1] || m[2]);
+  }
 };
 extractSubs(collapsed);
 
