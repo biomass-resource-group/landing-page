@@ -41,14 +41,15 @@ stakeholder feedback
 | [`../RULES.md`](../RULES.md)                      | Rulebook index with scope breakdown.       |
 | [`../.claude/settings.json`](../.claude/settings.json) | Permissions, env, hooks.              |
 | [`../.claude/agents/`](../.claude/agents/)        | Subagent definitions (18 total).           |
-| [`../.claude/commands/`](../.claude/commands/)    | Slash commands (18 total).                 |
-| [`../.claude/skills/`](../.claude/skills/)        | Project-level skills (6 total).            |
+| [`../.claude/commands/`](../.claude/commands/)    | Slash commands (21 total).                 |
+| [`../.claude/skills/`](../.claude/skills/)        | Project-level skills (7 total).            |
 | [`../.claude-plugin/`](../.claude-plugin/)        | Plugin manifest.                           |
 | [`./orchestration/`](./orchestration/)            | Hook scripts (6 total).                    |
 | [`./rules/`](./rules/)                            | Scoped rules (common + astro + typescript).|
-| [`./contexts/`](./contexts/)                      | Operational mode configs (dev/review/research).|
-| [`./playbooks/`](./playbooks/)                    | End-to-end workflow guides (6 total).      |
-| [`./checklists/ui-ux-scorecard.md`](./checklists/ui-ux-scorecard.md) | UX scoring rubric. |
+| [`./contexts/`](./contexts/)                      | Operational mode configs (4 total).        |
+| [`./playbooks/`](./playbooks/)                    | End-to-end workflow guides (7 total).      |
+| [`./checklists/`](./checklists/)                  | UX scorecard + route excellence criteria.  |
+| [`./codex-interop.md`](./codex-interop.md)        | Codex parallel execution protocol.         |
 | [`./tests/`](./tests/)                            | Hook smoke tests + guard verification.     |
 | [`./_archive/`](./_archive/)                      | Superseded Claude+Codex orchestration.     |
 
@@ -82,7 +83,7 @@ stakeholder feedback
 | `build-error-resolver`   | Diagnoses + fixes failing builds              | sonnet |
 | `performance-reviewer`   | LCP / CLS / bundle / image audit per route    | sonnet |
 
-## Slash commands (18)
+## Slash commands (21)
 
 | Command                    | What it does                                     |
 | -------------------------- | ------------------------------------------------ |
@@ -104,8 +105,11 @@ stakeholder feedback
 | `/overnight "<goal>"`      | Autonomous batch improvement with convergence     |
 | `/babysit-prs [PR#]`       | Monitor PRs, auto-fix CI, respond to reviews     |
 | `/resume [state-file]`     | Resume interrupted overnight/pipeline run        |
+| `/optimize "<goal>"`       | 7-phase UI/UX optimization (structural→visual→copy→a11y→perf→consistency→converge) |
+| `/polish <routes>`         | Visual polish loop until hierarchy scores ≥4.5   |
+| `/consistency-check`       | Cross-route visual consistency audit             |
 
-## Skills (6)
+## Skills (7)
 
 | Skill                    | Triggers on                                    |
 | ------------------------ | ---------------------------------------------- |
@@ -115,6 +119,7 @@ stakeholder feedback
 | `csp-headers`            | Touching CSP / `_headers` / inline scripts     |
 | `accessibility-patterns` | Adding or editing visible components            |
 | `cloudflare-deploy`      | Editing deploy-adjacent config                  |
+| `design-system`          | Making any visual/CSS decision                  |
 
 ## Hooks (6)
 

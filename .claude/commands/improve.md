@@ -21,9 +21,10 @@ synthesize their outputs.
 4. **Implement** — dispatch `astro-implementer` with the spec and any
    visual proposal. Confirm the implementer ran the validation suite.
 5. **Review (parallel)** — dispatch `ux-reviewer`,
-   `accessibility-auditor`, and `performance-reviewer` in a single
-   message so they run in parallel. If the diff touches `.ts` files,
-   also dispatch `code-reviewer` in the same parallel batch.
+   `accessibility-auditor`, `performance-reviewer`, and `copy-editor`
+   in a single message so they run in parallel. If the diff touches
+   `.ts` files, also dispatch `code-reviewer` in the same batch.
+   Tell all reviewers to reference the `design-system` skill.
 6. **Iterate** — if any reviewer returns `needs revision`:
    a. Merge all reviewer findings into a single prioritized list.
       Deduplicate overlapping items. Resolve contradictions by
