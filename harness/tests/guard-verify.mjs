@@ -84,6 +84,9 @@ const tests = [
   ['env -i git push origin main', 2, 'env -i push blocked'],
   ['sudo -u root rm -rf src', 2, 'sudo -u rm blocked'],
   ['command -- git push origin main', 2, 'command -- push blocked'],
+  ['\\git push origin main', 2, 'backslash-escaped git blocked'],
+  ['\\rm -rf src', 2, 'backslash-escaped rm blocked'],
+  ['echo "hello|rm -rf src"', 0, 'quoted separator not split'],
 ];
 
 let failed = 0;

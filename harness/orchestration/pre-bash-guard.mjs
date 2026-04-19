@@ -60,16 +60,29 @@ const extractSubs = (text) => {
 };
 extractSubs(collapsed);
 
+// Strip quoted strings before splitting so separators inside quotes don't cause false splits.
+const forSplitting = collapsed.replace(/"[^"]*"|'[^']*'/g, '""');
+
 // Split on shell separators to get individual command segments.
-// This prevents matching inside echo/grep/heredoc content.
-const rawSegments = collapsed.split(/;|&&|\|\||\n|&|[|]/).concat(substitutions);
+const rawSegments = [];
+const splitPositions = [...forSplitting.matchAll(/;|&&|\|\||\n|&|[|]/g)].map(m => m.index);
+let prev = 0;
+for (const pos of splitPositions) {
+  rawSegments.push(collapsed.slice(prev, pos));
+  prev = pos + forSplitting.slice(pos).match(/^(?:;|&&|\|\||\n|&|[|])/)[0].length;
+}
+rawSegments.push(collapsed.slice(prev));
+rawSegments.push(...substitutions);
+
 const stripQuotes = (s) => s.replace(/(?<=^|\s)["']([^"']+)["'](?=\s|$)/g, '$1');
 const stripPrefixes = (s) => s.replace(
   /^\s*(?:(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)+|env\s+(?:-\S+\s+)*(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)*|command\s+(?:-\S+\s+)*|exec\s+(?:-\S+\s+)*|sudo\s+(?:-\S+(?:\s+(?!-)\S+)?\s+)*|nohup\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
   '',
 ).replace(/^[()\s]+|[()]+$/g, '')
-  // Normalize absolute paths to bare command names (/usr/bin/git → git).
-  .replace(/^\/\S*\/(\w+)/, '$1').trim();
+  // Normalize absolute paths and backslash escapes.
+  .replace(/^\/\S*\/(\w+)/, '$1')
+  .replace(/^\\(\w)/, '$1')
+  .trim();
 const segments = rawSegments.map(s => stripPrefixes(s)).filter(Boolean);
 
 // Detect bare `git push` (no refspec) when on main.
