@@ -82,7 +82,7 @@ stakeholder feedback
 | `build-error-resolver`   | Diagnoses + fixes failing builds              | sonnet |
 | `performance-reviewer`   | LCP / CLS / bundle / image audit per route    | sonnet |
 
-## Slash commands (15)
+## Slash commands (18)
 
 | Command                    | What it does                                     |
 | -------------------------- | ------------------------------------------------ |
