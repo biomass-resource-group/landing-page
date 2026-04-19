@@ -36,7 +36,8 @@ Proactively delegate — don't wait to be asked.
 
 - `/improve` runs: feedback-translator (if raw) → site-planner → [optional:
   visual-designer] → astro-implementer → parallel(ux-reviewer,
-  accessibility-auditor, performance-reviewer, code-reviewer) →
+  accessibility-auditor, performance-reviewer, code-reviewer,
+  copy-editor) →
   dist-validator → git-shipper.
 - `/audit` runs: parallel(ux-reviewer, accessibility-auditor,
   performance-reviewer) → synthesized scorecard.

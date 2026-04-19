@@ -19,7 +19,8 @@ stakeholder feedback
                           (optional) visual-designer
                           astro-implementer
                           parallel(ux-reviewer, accessibility-auditor,
-                                   performance-reviewer, code-reviewer)
+                                   performance-reviewer, code-reviewer,
+                                   copy-editor)
                           dist-validator
                           git-shipper
                                 │
