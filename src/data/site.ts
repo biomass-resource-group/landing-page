@@ -85,7 +85,7 @@ export const about = {
   label: 'About BRG',
   title: 'Leadership, operations, and proof.',
   intro:
-    'BRG combines visible executive leadership, operator-led execution, and measurable operating proof across its active markets.',
+    'The people behind the operating platform — leadership, operating history, and the principles driving how BRG executes.',
   narrative: [
     'BRG has built local entities, logistics systems, feedstock relationships, and buyer channels in East Africa and the Middle East.',
     'That operating base supports technology deployment, commercialization, and verification as the platform expands into new markets.',
@@ -135,7 +135,7 @@ export const platform = {
   label: 'Our Platform',
   title: 'One operating platform from feedstock to offtake.',
   intro:
-    'BRG controls sourcing, conversion, monitoring, and market access so each project launches on the same repeatable operating backbone.',
+    'The operating mechanism: how feedstock becomes verified biochar and three revenue streams across every deployment.',
   sequence: [
     {
       title: 'Secure feedstock',
@@ -289,7 +289,7 @@ export const regions = {
   label: 'Where We Operate',
   title: 'Two active markets, with a wider pipeline underway.',
   intro:
-    'Each region runs on the same backbone while adapting to local feedstock, policy, and buyer conditions.',
+    'Proof per corridor: named entities, feedstock sources, kiln platforms, verification pathways, and current operating status.',
   markets: [
     {
       name: 'East Africa',
