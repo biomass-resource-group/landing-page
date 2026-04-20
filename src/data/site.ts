@@ -107,7 +107,7 @@ export const about = {
       focus: 'Executive leadership',
       summary:
         'Company direction, partner relationships, and growth leadership for BRG.',
-      bio: 'Julie leads BRG as CEO, setting company direction across strategy, partnerships, and growth. She works across capital, commercial, and government channels to advance BRG\u2019s biochar carbon removal infrastructure in active markets and the broader pipeline.',
+      bio: 'Julie leads BRG as CEO, setting company direction across strategy, partnerships, and growth. She brings deep experience working across capital markets, government procurement, and commercial channels in emerging-market infrastructure contexts. Her background spans the deal and partnership structures that underpin BRG\u2019s three revenue lines\u2014product, carbon, and technology. That cross-channel fluency is what connects BRG\u2019s operating proof in East Africa and Saudi Arabia to the buyers, investors, and institutional partners the platform depends on.',
       href: 'https://www.linkedin.com/in/julieajbrown/',
       featured: true,
     },
@@ -117,7 +117,7 @@ export const about = {
       focus: 'Platform and markets',
       summary:
         'Operator-led platform development and market footprint continuity across BRG.',
-      bio: 'Cody is the founding operator behind BRG\u2019s platform. He leads market buildout, technology deployment, and operating execution across the corridors where BRG works, with continuity from the original Riziki NBS field operations into BRG\u2019s broader market footprint.',
+      bio: 'Cody is the founding operator behind BRG\u2019s platform, with direct operating continuity from the original Riziki NBS field work in East Africa through to the Saudi Biochar corridor. He brings hands-on experience in feedstock logistics, mobile kiln deployment, and local team development across markets where infrastructure is built from the ground up rather than adapted from established systems. That field depth\u2014operating kilns, negotiating feedstock contracts, building local entities\u2014gives BRG an operational foundation that is difficult to replicate without having run it. He leads market buildout, technology deployment, and day-to-day execution across BRG\u2019s active corridors.',
       href: undefined,
       featured: false,
     },
@@ -357,22 +357,22 @@ export const leadership = {
     {
       title: 'Revenue before scale',
       description:
-        'Every project is structured to generate revenue through multiple commercial channels from day one. The model does not depend on grant funding.',
+        'Every project is structured to generate revenue across three commercial channels\u2014biochar product sales, carbon removal credits, and kiln technology\u2014before the platform scales. Both active corridors, East Africa and Saudi Arabia, run on this multi-stream model from day one. The model does not depend on grant funding.',
     },
     {
       title: 'Logistics first',
       description:
-        'The hardest problem in biochar is not chemistry. It is moving feedstock to the kiln and product to the buyer reliably and at cost. We solve that before scaling.',
+        'The hardest problem in biochar is not chemistry. It is moving feedstock to the kiln and product to the buyer reliably and at cost. In East Africa, that means Prosopis mesquite collection and transport to distributed mobile kilns across rural corridors. In Saudi Arabia, it means integrating municipal sewage sludge into fixed-kiln operations tied to national water infrastructure. We solve logistics before scaling.',
     },
     {
       title: 'Replicable by design',
       description:
-        'Operational systems, contract structures, and monitoring protocols are designed to transfer into new markets with minimal adaptation.',
+        'The same operating backbone\u2014feedstock contracting, kiln deployment, verification workflows, and offtake channels\u2014runs across both the East Africa and Saudi Arabia corridors. Operational systems, contract structures, and monitoring protocols are designed to transfer into new markets with minimal adaptation.',
     },
     {
       title: 'Community integration',
       description:
-        'We build with local teams, not around them. Employment, community feedstock sourcing, and agricultural co-benefits create long-term operating durability.',
+        'We build with local teams, not around them. In East Africa, Riziki NBS operates community-scale mobile kilns with local feedstock collectors and field staff. In Saudi Arabia, Saudi Biochar integrates with national infrastructure and local industrial partners. Employment, community feedstock sourcing, and agricultural co-benefits create long-term operating durability.',
     },
   ],
 };
