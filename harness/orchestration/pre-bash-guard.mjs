@@ -79,7 +79,7 @@ rawSegments.push(...substitutions);
 
 const stripQuotes = (s) => s.replace(/(?<=^|\s)["']([^"']+)["'](?=\s|$)/g, '$1');
 const stripPrefixes = (s) => s.replace(
-  /^\s*(?:(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)+|env\s+(?:-\S+\s+)*(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)*|command\s+(?:-\S+\s+)*|exec\s+(?:-\S+\s+)*|sudo\s+(?:-\S+(?:\s+(?!-)\S+)?\s+)*|nohup\s+|time\s+|builtin\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
+  /^\s*(?:case\s+\S+\s+in\s+|\S+\)\s*|(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)+|env\s+(?:(?:-[CuS]\s+\S+|-\S+)\s+)*(?:\S+=(?:"[^"]*"|'[^']*'|\S+)\s+)*|command\s+(?:-\S+\s+)*|exec\s+(?:-\S+\s+)*|sudo\s+(?:(?:-[uUgGhrtTpAC]\s+\S+|-\S+)\s+)*|nohup\s+|time\s+|builtin\s+|if\s+.*?;\s*then\s+|while\s+.*?;\s*do\s+|do\s+|then\s+|else\s+)*/,
   '',
 ).replace(/^[(){}\s!]+|[(){}]+$/g, '')
   // Normalize absolute paths and backslash escapes.
