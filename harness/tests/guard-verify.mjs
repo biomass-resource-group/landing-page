@@ -92,6 +92,7 @@ const tests = [
   ['sudo -u root -n git push origin main', 2, 'sudo with multiple flags blocked'],
   ['env -C /tmp rm -rf src', 2, 'env -C with arg blocked'],
   ['case x in x) git push origin main ;; esac', 2, 'case arm push blocked'],
+  ["echo 'a'; git push origin main", 2, 'quote-then-separator push blocked'],
   ['! git push origin main', 2, 'negated push blocked'],
   ['{ git push origin main; }', 2, 'brace-grouped push blocked'],
   ["echo '$(git push origin main)'", 0, 'single-quoted substitution not blocked'],

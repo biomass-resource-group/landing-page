@@ -4,6 +4,11 @@ import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import { contact, siteMeta } from '../data/site';
 
+// Form is only rendered once a real Formspree ID is configured.
+// When the placeholder is present, the mailto fallbacks become the
+// primary contact path so the page remains fully functional.
+const formEnabled = !contact.form.action.includes('FORM_ID_PLACEHOLDER');
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
@@ -52,6 +57,7 @@ const structuredData = {
     </div>
   </PageHero>
 
+  {formEnabled && (
   <section class="section contact-form-section" id="inquiry-form">
     <div class="container">
       <div class="contact-form-wrap" data-reveal>
@@ -216,6 +222,7 @@ const structuredData = {
       </div>
     </div>
   </section>
+  )}
 
   <section class="section section--tinted pathways-section" id="pathways">
     <div class="container">
@@ -225,7 +232,7 @@ const structuredData = {
           title="Select the path that matches your mandate."
           intro="Each route is written for a distinct conversation: capital deployment, carbon offtake, or project delivery."
         />
-        <p class="contact-form-fallback-label">{contact.form.fallbackLabel}</p>
+        {formEnabled && <p class="contact-form-fallback-label">{contact.form.fallbackLabel}</p>}
       </div>
       <div class="pathways-grid">
         {

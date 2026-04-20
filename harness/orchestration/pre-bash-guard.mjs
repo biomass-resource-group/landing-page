@@ -64,7 +64,8 @@ for (const m of collapsed.matchAll(/\beval\s+(?:"([^"]+)"|'([^']+)')/g)) {
 }
 
 // Strip quoted strings before splitting so separators inside quotes don't cause false splits.
-const forSplitting = collapsed.replace(/"[^"]*"|'[^']*'/g, '""');
+// Use equal-length placeholders so indices stay aligned with `collapsed`.
+const forSplitting = collapsed.replace(/"[^"]*"|'[^']*'/g, (m) => 'x'.repeat(m.length));
 
 // Split on shell separators to get individual command segments.
 const rawSegments = [];

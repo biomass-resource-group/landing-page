@@ -478,7 +478,9 @@ export const contact = {
   form: {
     title: 'Tell us about your inquiry.',
     intro: 'Every field helps BRG route your message to the right team.',
-    // TODO before deploy: replace FORM_ID_PLACEHOLDER with the real Formspree form ID
+    // The form is hidden until a real Formspree form ID is set here.
+    // When this value is FORM_ID_PLACEHOLDER, contact.astro renders the
+    // mailto fallback cards as the primary path instead of the form.
     action: 'https://formspree.io/f/FORM_ID_PLACEHOLDER',
     actionLabel: 'Send inquiry',
     fallbackLabel: 'Or email directly',
