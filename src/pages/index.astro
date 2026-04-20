@@ -7,6 +7,7 @@ import {
   commercialModel,
   exploreLinks,
   hero,
+  operatingProof,
   regions,
   siteMeta,
 } from '../data/site';
@@ -63,6 +64,32 @@ const structuredData = {
             ))
           }
         </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section home-proof">
+    <div class="container">
+      <SectionIntro
+        label={operatingProof.label}
+        title={operatingProof.title}
+      />
+      <div class="home-proof__grid">
+        {operatingProof.corridors.map((corridor) => (
+          <article class="home-proof__card" data-reveal>
+            <div class="home-proof__card-header">
+              <span class="home-proof__status"></span>
+              <p class="home-proof__entity">{corridor.entity}</p>
+            </div>
+            <h3>{corridor.name}</h3>
+            <dl class="home-proof__details">
+              <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
+              <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
+              <div><dt>Status</dt><dd>{corridor.status}</dd></div>
+              <div><dt>Verification</dt><dd>{corridor.verification}</dd></div>
+            </dl>
+          </article>
+        ))}
       </div>
     </div>
   </section>

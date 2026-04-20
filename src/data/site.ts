@@ -25,14 +25,14 @@ export const hero = {
     href: '/platform/',
   },
   secondaryAction: {
-    label: 'About BRG',
-    href: '/about/',
+    label: 'See active markets',
+    href: '/markets/',
   },
   metrics: [
-    { value: '2', label: 'Active operating markets' },
-    { value: '3', label: 'Revenue streams per asset' },
-    { value: '100+', label: 'Years of carbon durability' },
-    { value: '5', label: 'Country pipeline' },
+    { value: '2', label: 'Active markets: East Africa and Saudi Arabia' },
+    { value: '3', label: 'Revenue streams: product, carbon, technology' },
+    { value: '100+', label: 'Years of biochar carbon stability' },
+    { value: '5', label: 'Countries under evaluation' },
   ],
   flywheel: [
     'Feedstock sourcing',
@@ -383,6 +383,7 @@ export const contact = {
       detail: 'BRG routes the message to the operator, buyer, or capital contact who can act on it.',
     },
   ],
+  reassurance: 'BRG routes every inquiry to the relevant capital, carbon, or project team. Expect a response within two business days.',
   audiences: [
     {
       audience: 'Investors',
@@ -407,6 +408,29 @@ export const contact = {
         'Biochar deployment, biogas co-production, feedstock sourcing, and supply partnerships for municipalities and industrial operators.',
       href: 'mailto:partnerships@biomassresourcegroup.com',
       action: 'Partnership inquiries',
+    },
+  ],
+};
+
+export const operatingProof = {
+  label: 'Operating proof',
+  title: 'Active infrastructure in two markets.',
+  corridors: [
+    {
+      name: 'East Africa',
+      entity: 'Riziki NBS',
+      feedstock: 'Invasive Prosopis mesquite',
+      technology: 'Mobile kiln fleet',
+      status: 'Producing biochar and carbon removal credits',
+      verification: 'Third-party verification pathway in progress',
+    },
+    {
+      name: 'Saudi Arabia',
+      entity: 'Saudi Biochar',
+      feedstock: 'Municipal sewage sludge',
+      technology: 'Fixed kiln installation',
+      status: 'Industrial biochar and biogas production',
+      verification: 'Integrated with national waste infrastructure',
     },
   ],
 };
