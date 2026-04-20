@@ -37,12 +37,41 @@ const setupSiteUi = () => {
     scrollFrame = window.requestAnimationFrame(syncScrollState);
   };
 
-  const closeMenu = () => {
+  const closeMenu = (returnFocus) => {
     if (!(menu instanceof HTMLElement) || !(toggle instanceof HTMLElement)) return;
 
     menu.classList.remove('is-open');
+    menu.setAttribute('aria-hidden', 'true');
     toggle.setAttribute('aria-expanded', 'false');
     body.classList.remove('menu-open');
+
+    if (returnFocus) {
+      toggle.focus();
+    }
+  };
+
+  const trapFocus = (event) => {
+    if (!(menu instanceof HTMLElement) || !menu.classList.contains('is-open')) return;
+
+    const focusable = Array.from(menu.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])'));
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.key === 'Tab') {
+      if (event.shiftKey) {
+        if (document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    }
   };
 
   const subscribeToViewportChanges = (handler) => {
@@ -92,18 +121,20 @@ const setupSiteUi = () => {
     if (!(menu instanceof HTMLElement) || !(toggle instanceof HTMLElement)) return;
 
     const isOpen = menu.classList.toggle('is-open');
+    menu.setAttribute('aria-hidden', String(!isOpen));
     toggle.setAttribute('aria-expanded', String(isOpen));
     body.classList.toggle('menu-open', isOpen);
   });
 
   menu?.querySelectorAll('a').forEach((anchor) => {
-    anchor.addEventListener('click', closeMenu);
+    anchor.addEventListener('click', () => closeMenu(true));
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      closeMenu();
+    if (event.key === 'Escape' && menu instanceof HTMLElement && menu.classList.contains('is-open')) {
+      closeMenu(true);
     }
+    trapFocus(event);
   });
 
   document.addEventListener('click', (event) => {
@@ -112,7 +143,7 @@ const setupSiteUi = () => {
     if (!(event.target instanceof Node)) return;
     if (menu.contains(event.target) || toggle.contains(event.target)) return;
 
-    closeMenu();
+    closeMenu(true);
   });
 
   if (prefersReducedMotion || !('IntersectionObserver' in window)) {
