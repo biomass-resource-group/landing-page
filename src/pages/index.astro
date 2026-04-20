@@ -8,6 +8,7 @@ import {
   commercialModel,
   exploreLinks,
   hero,
+  operatingProof,
   regions,
   siteMeta,
   trustSignals,
@@ -117,6 +118,32 @@ const structuredData = {
     </div>
   </section>
 
+  <section class="section home-proof">
+    <div class="container">
+      <SectionIntro
+        label={operatingProof.label}
+        title={operatingProof.title}
+      />
+      <div class="home-proof__grid">
+        {operatingProof.corridors.map((corridor) => (
+          <article class="home-proof__card" data-reveal>
+            <div class="home-proof__card-header">
+              <span class="home-proof__status"></span>
+              <p class="home-proof__entity">{corridor.entity}</p>
+            </div>
+            <h3>{corridor.name}</h3>
+            <dl class="home-proof__details">
+              <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
+              <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
+              <div><dt>Status</dt><dd>{corridor.status}</dd></div>
+              <div><dt>Verification</dt><dd>{corridor.verification}</dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="section home-model-preview">
     <div class="container">
       <div class="section-heading-row">
@@ -145,11 +172,40 @@ const structuredData = {
     </div>
   </section>
 
+  <section class="section home-destinations">
+    <div class="container">
+      <div class="section-heading-row">
+        <SectionIntro
+          label="Explore BRG"
+          title="Start with the part of BRG most relevant to you."
+          intro="Use these pages to review BRG's platform, current markets, and leadership background."
+        />
+      </div>
+      <div class="destination-list">
+        {
+          exploreLinks.map((link, index) => (
+            <a class="destination-link" href={link.href} data-reveal>
+              <span class="destination-link__index">{String(index + 1).padStart(2, '0')}</span>
+              <div class="destination-link__body">
+                <p class="destination-link__label">{link.label}</p>
+                <h3>{link.title}</h3>
+                <p>{link.description}</p>
+              </div>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+              </svg>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <section class="section section--dark home-operating-today" id="operating-today">
     <div class="container">
       <div class="section-heading-row">
         <SectionIntro
-          label="Operating today"
+          label="Live infrastructure"
           title="Live operations in two markets, with a broader pipeline underway."
           intro="BRG is currently operating in East Africa and Saudi Arabia using one shared operating flow from feedstock sourcing through market access."
           tone="dark"
@@ -211,16 +267,6 @@ const structuredData = {
             title={about.title}
             intro={about.intro}
           />
-          <div class="about-highlights">
-            {
-              about.highlights.map((item) => (
-                <article class="about-highlight" data-reveal>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
-              ))
-            }
-          </div>
           <div class="home-about-preview__actions" data-reveal>
             <a class="button button--primary" href="/about/">
               Meet the leadership
@@ -242,35 +288,6 @@ const structuredData = {
           </ul>
           <a class="leadership-mini__link" href="/about/#leadership">Read leadership bios</a>
         </aside>
-      </div>
-    </div>
-  </section>
-
-  <section class="section home-destinations">
-    <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label="Explore BRG"
-          title="Start with the part of BRG most relevant to you."
-          intro="Use these pages to review BRG's platform, current markets, and leadership background."
-        />
-      </div>
-      <div class="destination-list">
-        {
-          exploreLinks.map((link, index) => (
-            <a class="destination-link" href={link.href} data-reveal>
-              <span class="destination-link__index">{String(index + 1).padStart(2, '0')}</span>
-              <div class="destination-link__body">
-                <p class="destination-link__label">{link.label}</p>
-                <h3>{link.title}</h3>
-                <p>{link.description}</p>
-              </div>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-              </svg>
-            </a>
-          ))
-        }
       </div>
     </div>
   </section>

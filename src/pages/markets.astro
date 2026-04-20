@@ -91,6 +91,16 @@ const structuredData = {
                 </p>
                 <h3>{market.name}</h3>
                 <p>{market.description}</p>
+                {'metrics' in market && market.metrics && (
+                  <dl class="market-band__metrics">
+                    {market.metrics.map((m) => (
+                      <div>
+                        <dt>{m.label}</dt>
+                        <dd>{m.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
                 <dl class="market-band__details">
                   {market.detail.map((item) => (
                     <div>
@@ -105,13 +115,17 @@ const structuredData = {
         }
       </div>
 
+      <div class="pipeline-divider" aria-hidden="true"></div>
+
+      <SectionIntro
+        label="Pipeline"
+        title="Under evaluation, not yet operating"
+        intro={regions.expansion.description}
+        tone="dark"
+      />
       <div class="expansion-banner" data-reveal>
-        <div>
-          <h3>{regions.expansion.title}</h3>
-          <p>{regions.expansion.description}</p>
-        </div>
         <div class="expansion-banner__chips">
-          {regions.expansion.regions.map((label) => <span>{label}</span>)}
+          {regions.expansion.regions.map((label) => <span class="pipeline-chip">{label}</span>)}
         </div>
       </div>
     </div>

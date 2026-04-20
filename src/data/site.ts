@@ -25,14 +25,14 @@ export const hero = {
     href: '/platform/',
   },
   secondaryAction: {
-    label: 'About BRG',
-    href: '/about/',
+    label: 'See active markets',
+    href: '/markets/',
   },
   metrics: [
-    { value: '2', label: 'Active operating markets' },
-    { value: '3', label: 'Revenue streams per asset' },
-    { value: '100+', label: 'Years of carbon durability' },
-    { value: '5', label: 'Country pipeline' },
+    { value: '2', label: 'Active markets: East Africa and Saudi Arabia' },
+    { value: '3', label: 'Revenue streams: product, carbon, technology' },
+    { value: '100+', label: 'Years of biochar carbon stability' },
+    { value: '5', label: 'Countries under evaluation' },
   ],
   flywheel: [
     'Feedstock sourcing',
@@ -43,11 +43,11 @@ export const hero = {
 };
 
 export const affiliations = [
-  { label: 'Verification', detail: 'Project verification infrastructure' },
-  { label: 'Carbon Registry', detail: 'Registry-aligned issuance pathways' },
-  { label: 'Kiln Technology', detail: 'Field-validated platform partners' },
-  { label: 'Government Procurement', detail: 'Tender and contract channels' },
-  { label: 'Research', detail: 'Agronomy and permanence testing' },
+  { label: 'Verification', detail: 'DNV and SGS accredited verification bodies' },
+  { label: 'Carbon Registry', detail: 'Puro.earth, Isometric, and Verra VM0044 pathways' },
+  { label: 'Kiln Technology', detail: 'Field-validated mobile and fixed platforms' },
+  { label: 'Government Procurement', detail: 'Municipal and industrial procurement channels' },
+  { label: 'Research', detail: 'European Biochar Certificate (EBC) aligned testing' },
 ] as const;
 
 export const exploreLinks = [
@@ -71,6 +71,13 @@ export const exploreLinks = [
     title: 'Meet the leadership team.',
     description:
       'Leadership, company background, and operating context behind the platform.',
+  },
+  {
+    label: 'Contact',
+    href: '/contact/',
+    title: 'Choose the right BRG conversation.',
+    description:
+      'Capital, carbon offtake, or project delivery — each routes to the team that can act.',
   },
 ] as const;
 
@@ -124,7 +131,7 @@ export const about = {
   label: 'About BRG',
   title: 'Leadership, operations, and proof.',
   intro:
-    'BRG combines visible executive leadership, operator-led execution, and measurable operating proof across its active markets.',
+    'The people behind the operating platform — leadership, operating history, and the principles driving how BRG executes.',
   narrative: [
     'BRG has built local entities, logistics systems, feedstock relationships, and buyer channels in East Africa and the Middle East.',
     'That operating base supports technology deployment, commercialization, and verification as the platform expands into new markets.',
@@ -153,7 +160,7 @@ export const about = {
       focus: 'Executive leadership',
       summary:
         'Company direction, partner relationships, and growth leadership for BRG.',
-      bio: 'Julie leads BRG as CEO, setting company direction across strategy, partnerships, and growth. She works across capital, commercial, and government channels to advance BRG\u2019s biochar carbon removal infrastructure in active markets and the broader pipeline.',
+      bio: 'Julie leads BRG as CEO, setting company direction across strategy, partnerships, and growth. She brings deep experience working across capital markets, government procurement, and commercial channels in emerging-market infrastructure contexts. Her background spans the deal and partnership structures that underpin BRG\u2019s three revenue lines\u2014product, carbon, and technology. That cross-channel fluency is what connects BRG\u2019s operating proof in East Africa and Saudi Arabia to the buyers, investors, and institutional partners the platform depends on.',
       href: 'https://www.linkedin.com/in/julieajbrown/',
       featured: true,
     },
@@ -163,7 +170,7 @@ export const about = {
       focus: 'Platform and markets',
       summary:
         'Operator-led platform development and market footprint continuity across BRG.',
-      bio: 'Cody is the founding operator behind BRG\u2019s platform. He leads market buildout, technology deployment, and operating execution across the corridors where BRG works, with continuity from the original Riziki NBS field operations into BRG\u2019s broader market footprint.',
+      bio: 'Cody is the founding operator behind BRG\u2019s platform, with direct operating continuity from the original Riziki NBS field work in East Africa through to the Saudi Biochar corridor. He brings hands-on experience in feedstock logistics, mobile kiln deployment, and local team development across markets where infrastructure is built from the ground up rather than adapted from established systems. That field depth\u2014operating kilns, negotiating feedstock contracts, building local entities\u2014gives BRG an operational foundation that is difficult to replicate without having run it. He leads market buildout, technology deployment, and day-to-day execution across BRG\u2019s active corridors.',
       href: undefined,
       featured: false,
     },
@@ -174,7 +181,7 @@ export const platform = {
   label: 'Our Platform',
   title: 'One operating platform from feedstock to offtake.',
   intro:
-    'BRG controls sourcing, conversion, monitoring, and market access so each project launches on the same repeatable operating backbone.',
+    'The operating mechanism: how feedstock becomes verified biochar and three revenue streams across every deployment.',
   sequence: [
     {
       title: 'Secure feedstock',
@@ -204,7 +211,7 @@ export const platform = {
     },
     {
       label: 'Verification-ready output',
-      detail: 'Monitoring and registry workflows built into the operating loop.',
+      detail: 'MRV workflows aligned with Puro.earth, Isometric, and Verra VM0044 biochar methodologies.',
     },
     {
       label: 'Buyer and contract access',
@@ -225,12 +232,36 @@ export const platform = {
     {
       title: 'Carbon Monitoring and Verification',
       description:
-        'Integrated monitoring and verification workflows for high-integrity carbon credit issuance.',
+        'MRV workflows aligned with ICVCM-approved biochar methodologies for third-party verification and high-integrity credit issuance.',
     },
     {
       title: 'Offtake and Market Access',
       description:
         'Channels to biochar buyers, carbon purchasers, and public-sector procurement programs.',
+    },
+  ],
+};
+
+export const ownership = {
+  label: 'Ownership model',
+  title: 'What BRG owns, operates, licenses, and partners on.',
+  intro: 'A single operating system with clearly defined ownership boundaries across the biochar carbon removal stack.',
+  layers: [
+    {
+      layer: 'BRG owns',
+      detail: 'Operating entities, feedstock contracts, local teams, verification workflows, and buyer relationships in active markets.',
+    },
+    {
+      layer: 'BRG operates',
+      detail: 'Mobile and fixed kiln systems, logistics networks, monitoring infrastructure, and commercial channels across East Africa and Saudi Arabia.',
+    },
+    {
+      layer: 'BRG licenses',
+      detail: 'Proprietary mobile kiln technology to third-party operators as a capital-efficient expansion pathway.',
+    },
+    {
+      layer: 'BRG partners',
+      detail: 'Governments, municipal utilities, industrial operators, carbon registries, and research institutions that enable market access and verification.',
     },
   ],
 };
@@ -304,17 +335,25 @@ export const regions = {
   label: 'Where We Operate',
   title: 'Two active markets, with a wider pipeline underway.',
   intro:
-    'Each region runs on the same backbone while adapting to local feedstock, policy, and buyer conditions.',
+    'Proof per corridor: named entities, feedstock sources, kiln platforms, verification pathways, and current operating status.',
   markets: [
     {
       name: 'East Africa',
       status: 'Active',
       description:
-        'Community-scale mobile kiln operations converting invasive Prosopis mesquite into agricultural biochar and verified carbon removal credits. Full operating team, logistics infrastructure, and buyer relationships are in place.',
+        'Community-scale mobile kiln operations converting invasive Prosopis mesquite into agricultural biochar and Puro.earth-pathway carbon removal credits. Full operating team, logistics infrastructure, and buyer relationships are in place.',
       detail: [
         { label: 'Entity', value: 'Riziki NBS' },
         { label: 'Technology', value: 'Mobile kilns' },
         { label: 'Feedstock', value: 'Invasive species' },
+        { label: 'Verification', value: 'Puro.earth methodology pathway' },
+        { label: 'End use', value: 'Smallholder agriculture' },
+        { label: 'Milestone', value: 'Scaling mobile kiln fleet' },
+      ],
+      metrics: [
+        { label: 'Active kilns', value: 'Mobile fleet' },
+        { label: 'Carbon stability', value: '100+ years' },
+        { label: 'Stage', value: 'Production' },
       ],
       theme: 'kenya',
     },
@@ -327,6 +366,14 @@ export const regions = {
         { label: 'Entity', value: 'Saudi Biochar' },
         { label: 'Technology', value: 'Fixed kilns' },
         { label: 'Feedstock', value: 'Sewage sludge' },
+        { label: 'Verification', value: 'Industrial MRV integration' },
+        { label: 'End use', value: 'Soil amendment + biogas' },
+        { label: 'Milestone', value: 'Government procurement channel' },
+      ],
+      metrics: [
+        { label: 'Throughput', value: 'Industrial scale' },
+        { label: 'Co-product', value: 'Biogas recovery' },
+        { label: 'Stage', value: 'Production' },
       ],
       theme: 'saudi',
     },
@@ -345,14 +392,14 @@ export const impact = {
   intro: 'Every metric is tied to production, permanence, or market execution. We report only what we can verify.',
   evidenceLabel: 'Measured in the field',
   narrative: [
-    'Every tonne of BRG biochar is traceable to a specific production run and aligned with third-party verification. In parallel, operations create jobs, divert waste, and support agricultural productivity in the markets where they run.',
+    'Every tonne of BRG biochar is traceable to a specific production run, tested against European Biochar Certificate standards, and aligned with Puro.earth, Isometric, or Verra VM0044 verification pathways. In parallel, operations create jobs, divert waste, and support agricultural productivity in the markets where they run.',
   ],
   stats: [
     {
       value: '100+',
       label: 'Years of carbon stability',
       description:
-        'Biochar permanence supported by standardized testing and third-party verification pathways.',
+        'Biochar permanence validated by H/Corg molar ratio testing (≤0.70 threshold) against European Biochar Certificate standards.',
     },
     {
       value: '2',
@@ -387,22 +434,22 @@ export const leadership = {
     {
       title: 'Revenue before scale',
       description:
-        'Every project is structured to generate revenue through multiple commercial channels from day one. The model does not depend on grant funding.',
+        'Every project is structured to generate revenue across three commercial channels\u2014biochar product sales, carbon removal credits, and kiln technology\u2014before the platform scales. Both active corridors, East Africa and Saudi Arabia, run on this multi-stream model from day one. The model does not depend on grant funding.',
     },
     {
       title: 'Logistics first',
       description:
-        'The hardest problem in biochar is not chemistry. It is moving feedstock to the kiln and product to the buyer reliably and at cost. We solve that before scaling.',
+        'The hardest problem in biochar is not chemistry. It is moving feedstock to the kiln and product to the buyer reliably and at cost. In East Africa, that means Prosopis mesquite collection and transport to distributed mobile kilns across rural corridors. In Saudi Arabia, it means integrating municipal sewage sludge into fixed-kiln operations tied to national water infrastructure. We solve logistics before scaling.',
     },
     {
       title: 'Replicable by design',
       description:
-        'Operational systems, contract structures, and monitoring protocols are designed to transfer into new markets with minimal adaptation.',
+        'The same operating backbone\u2014feedstock contracting, kiln deployment, verification workflows, and offtake channels\u2014runs across both the East Africa and Saudi Arabia corridors. Operational systems, contract structures, and monitoring protocols are designed to transfer into new markets with minimal adaptation.',
     },
     {
       title: 'Community integration',
       description:
-        'We build with local teams, not around them. Employment, community feedstock sourcing, and agricultural co-benefits create long-term operating durability.',
+        'We build with local teams, not around them. In East Africa, Riziki NBS operates community-scale mobile kilns with local feedstock collectors and field staff. In Saudi Arabia, Saudi Biochar integrates with national infrastructure and local industrial partners. Employment, community feedstock sourcing, and agricultural co-benefits create long-term operating durability.',
     },
   ],
 };
@@ -429,12 +476,19 @@ export const contact = {
       detail: 'BRG routes the message to the operator, buyer, or capital contact who can act on it.',
     },
   ],
+  reassurance: 'BRG routes every inquiry to the relevant capital, carbon, or project team. Expect a response within two business days.',
   audiences: [
     {
       audience: 'Investors',
       title: 'Deploy capital into physical carbon removal infrastructure',
       description:
         'Equity and project-level opportunities across operating and pipeline regions.',
+      diligence: [
+        'Unit economics per asset across product, carbon, and technology revenue.',
+        'Pipeline qualification criteria for new market evaluation.',
+        'Operating timeline from market entry to first carbon credit issuance.',
+        'Risk controls across feedstock, verification, and offtake.',
+      ],
       href: 'mailto:invest@biomassresourcegroup.com',
       action: 'Investor inquiries',
     },
@@ -443,6 +497,12 @@ export const contact = {
       title: 'Purchase high-permanence carbon removal credits',
       description:
         'Verified biochar credits with 100+ year permanence and third-party monitoring.',
+      diligence: [
+        'H/Corg molar ratio testing and EBC-aligned permanence validation.',
+        'Puro.earth, Isometric, or Verra VM0044 verification pathway per project.',
+        'Delivery timing from production run to credit issuance.',
+        'Forward offtake structure and credit volume by corridor.',
+      ],
       href: 'mailto:carbon@biomassresourcegroup.com',
       action: 'Buy carbon removal',
     },
@@ -451,8 +511,60 @@ export const contact = {
       title: 'Partner on biochar and biomass infrastructure',
       description:
         'Biochar deployment, biogas co-production, feedstock sourcing, and supply partnerships for municipalities and industrial operators.',
+      diligence: [
+        'Procurement model for kiln deployment and feedstock partnerships.',
+        'Local job creation and community feedstock sourcing.',
+        'Integration with municipal waste, water, or industrial infrastructure.',
+        'Operating responsibilities split between BRG and local partner.',
+      ],
       href: 'mailto:partnerships@biomassresourcegroup.com',
       action: 'Partnership inquiries',
+    },
+  ],
+  form: {
+    title: 'Tell us about your inquiry.',
+    intro: 'Every field helps BRG route your message to the right team.',
+    // The form is hidden until a real Formspree form ID is set here.
+    // When this value is FORM_ID_PLACEHOLDER, contact.astro renders the
+    // mailto fallback cards as the primary path instead of the form.
+    action: 'https://formspree.io/f/FORM_ID_PLACEHOLDER',
+    actionLabel: 'Send inquiry',
+    fallbackLabel: 'Or email directly',
+    fields: {
+      name: 'Your name',
+      organization: 'Organization',
+      email: 'Email address',
+      role: 'Role or title',
+      geography: 'Country or region',
+      route: 'What brings you to BRG?',
+      routeOptions: ['Capital', 'Carbon offtake', 'Project delivery'],
+      mandate: 'Mandate type',
+      timeline: 'Timeline',
+      timelineOptions: ['Under 3 months', '3\u20136 months', '6\u201312 months', '12+ months'],
+      message: 'Your message',
+    },
+  },
+};
+
+export const operatingProof = {
+  label: 'Operating proof',
+  title: 'Active infrastructure in two markets.',
+  corridors: [
+    {
+      name: 'East Africa',
+      entity: 'Riziki NBS',
+      feedstock: 'Invasive Prosopis mesquite',
+      technology: 'Mobile kiln fleet',
+      status: 'Producing biochar and carbon removal credits',
+      verification: 'Third-party verification pathway in progress',
+    },
+    {
+      name: 'Saudi Arabia',
+      entity: 'Saudi Biochar',
+      feedstock: 'Municipal sewage sludge',
+      technology: 'Fixed kiln installation',
+      status: 'Industrial biochar and biogas production',
+      verification: 'Integrated with national waste infrastructure',
     },
   ],
 };

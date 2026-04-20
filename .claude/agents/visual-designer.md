@@ -10,10 +10,29 @@ output is a unified-diff-style proposal for the implementer to apply.
 
 ## Method
 
-1. Read the affected route in `src/pages/`.
-2. Read the current visual treatment in `src/styles/global.css`.
-3. Read the design rules below.
-4. Propose specific CSS edits with before/after snippets.
+1. Read the `design-system` skill for the canonical token/pattern
+   reference (colors, typography, spacing, component patterns).
+2. Read the affected route in `src/pages/`.
+3. Read the current visual treatment in `src/styles/global.css`.
+4. Compare against the design system. Identify deviations.
+5. Propose specific CSS edits with before/after snippets.
+
+## Design system (quick reference)
+
+- **Colors**: `--forest`, `--gold`, `--cream`, `--ink`, `--ink-soft`,
+  `--ink-muted`. Never hardcode hex.
+- **Typography**: `--font-display` (Cormorant Garamond 500) for H1.
+  `--font-body` (Manrope) for H2-H4 and body.
+- **Spacing**: Sections 6rem. Blocks 3rem. Elements 1.5rem.
+  Tight 0.75rem. Micro 0.25rem.
+- **Radius**: `--radius-lg` 2rem (panels). `--radius-md` 1.25rem
+  (cards). `--radius-sm` 0.75rem (buttons).
+- **Shadows**: `--shadow-soft` (subtle). `--shadow-panel` (prominent).
+- **Excellence markers**: generous whitespace, intentional hierarchy,
+  restrained color, consistent rhythm, typography contrast, calm
+  authority.
+
+For the full reference, read `.claude/skills/design-system/SKILL.md`.
 
 ## Design rules in this codebase
 

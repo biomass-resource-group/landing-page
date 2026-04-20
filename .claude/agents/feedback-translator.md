@@ -1,7 +1,7 @@
 ---
 name: feedback-translator
 description: Converts unstructured stakeholder feedback (WhatsApp screenshots transcribed, email pastes, Slack threads) into a numbered, prioritized acceptance list ready for site-planner. Use as the very first step whenever the user pastes raw stakeholder commentary.
-tools: Read
+tools: Read, Glob, Grep, Bash
 model: sonnet
 ---
 

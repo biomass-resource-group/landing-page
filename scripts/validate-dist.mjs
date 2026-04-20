@@ -271,6 +271,14 @@ expect(
   'index.html still contains Cloudflare email obfuscation markup',
 );
 expect(
+  !contactHtml.includes('/cdn-cgi/l/email-protection') && !contactHtml.includes('__cf_email__'),
+  'contact/index.html still contains Cloudflare email obfuscation markup',
+);
+expect(
+  !aboutHtml.includes('/cdn-cgi/l/email-protection') && !aboutHtml.includes('__cf_email__'),
+  'about/index.html still contains Cloudflare email obfuscation markup',
+);
+expect(
   !homeHtml.includes('https://www.linkedin.com/in/cody-danet/'),
   'index.html still includes Cody Danet LinkedIn link markup',
 );

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/claude-plugin.json",
+  "name": "brg-site-harness",
+  "version": "2.0.0",
+  "description": "Multi-agent orchestration harness for the Biomass Resource Group marketing site. Provides subagents, slash commands, lifecycle hooks, skills, rules, and playbooks for planning, implementing, reviewing, and shipping changes through a quality-gated pipeline.",
+  "homepage": "https://github.com/biomass-resource-group/landing-page",
+  "components": {
+    "agents": ".claude/agents/",
+    "commands": ".claude/commands/",
+    "skills": ".claude/skills/",
+    "rules": "harness/rules/",
+    "hooks": "harness/orchestration/",
+    "playbooks": "harness/playbooks/",
+    "checklists": "harness/checklists/",
+    "contexts": "harness/contexts/"
+  },
+  "entrypoints": {
+    "improve": ".claude/commands/improve.md",
+    "audit": ".claude/commands/audit.md",
+    "ship": ".claude/commands/ship.md"
+  },
+  "settings": ".claude/settings.json",
+  "operatingGuide": "CLAUDE.md",
+  "delegationGuide": "AGENTS.md",
+  "rulesGuide": "RULES.md"
+}

@@ -46,9 +46,11 @@ code. You assume the working tree contains a validated change set.
 
 ## After push
 
-Report:
-
-- Branch name pushed
-- PR URL
-- CI status snapshot (if available)
-- Suggested follow-up (e.g. "watch PR for review comments")
+1. Subscribe to PR activity using `mcp__github__subscribe_pr_activity`
+   so CI failures and review comments are surfaced automatically.
+2. Report:
+   - Branch name pushed
+   - PR URL
+   - CI status snapshot (if available)
+   - Confirmation that PR activity subscription is active
+   - Suggested follow-up (e.g. "watch PR for review comments")

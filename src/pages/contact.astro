@@ -4,6 +4,11 @@ import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import { contact, siteMeta } from '../data/site';
 
+// Form is only rendered once a real Formspree ID is configured.
+// When the placeholder is present, the mailto fallbacks become the
+// primary contact path so the page remains fully functional.
+const formEnabled = !contact.form.action.includes('FORM_ID_PLACEHOLDER');
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
@@ -52,6 +57,173 @@ const structuredData = {
     </div>
   </PageHero>
 
+  {formEnabled && (
+  <section class="section contact-form-section" id="inquiry-form">
+    <div class="container">
+      <div class="contact-form-wrap" data-reveal>
+        <div class="contact-form-header">
+          <h2 class="contact-form-header__title">{contact.form.title}</h2>
+          <p class="contact-form-header__intro">{contact.form.intro}</p>
+        </div>
+        <form
+          class="contact-form"
+          method="POST"
+          action={contact.form.action}
+          novalidate
+          aria-label="Contact inquiry form"
+        >
+          <fieldset class="contact-form__fieldset">
+            <legend class="contact-form__legend">Your details</legend>
+            <div class="contact-form__grid">
+              <div class="contact-form__field">
+                <label class="contact-form__label" for="cf-name">
+                  {contact.form.fields.name}
+                  <span class="contact-form__required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  class="contact-form__input"
+                  id="cf-name"
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+              <div class="contact-form__field">
+                <label class="contact-form__label" for="cf-org">
+                  {contact.form.fields.organization}
+                  <span class="contact-form__required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  class="contact-form__input"
+                  id="cf-org"
+                  name="organization"
+                  type="text"
+                  autocomplete="organization"
+                  required
+                />
+              </div>
+              <div class="contact-form__field">
+                <label class="contact-form__label" for="cf-email">
+                  {contact.form.fields.email}
+                  <span class="contact-form__required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  class="contact-form__input"
+                  id="cf-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <div class="contact-form__field">
+                <label class="contact-form__label" for="cf-role">
+                  {contact.form.fields.role}
+                  <span class="contact-form__optional sr-only">(optional)</span>
+                </label>
+                <input
+                  class="contact-form__input"
+                  id="cf-role"
+                  name="role"
+                  type="text"
+                  autocomplete="organization-title"
+                />
+              </div>
+              <div class="contact-form__field">
+                <label class="contact-form__label" for="cf-geography">
+                  {contact.form.fields.geography}
+                  <span class="contact-form__optional sr-only">(optional)</span>
+                </label>
+                <input
+                  class="contact-form__input"
+                  id="cf-geography"
+                  name="geography"
+                  type="text"
+                  autocomplete="country-name"
+                />
+              </div>
+              <div class="contact-form__field">
+                <label class="contact-form__label" for="cf-mandate">
+                  {contact.form.fields.mandate}
+                  <span class="contact-form__optional sr-only">(optional)</span>
+                </label>
+                <input
+                  class="contact-form__input"
+                  id="cf-mandate"
+                  name="mandate"
+                  type="text"
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="contact-form__fieldset">
+            <legend class="contact-form__legend">Inquiry type</legend>
+            <div class="contact-form__grid">
+              <div class="contact-form__field contact-form__field--full">
+                <label class="contact-form__label" for="cf-route">
+                  {contact.form.fields.route}
+                  <span class="contact-form__required" aria-hidden="true">*</span>
+                </label>
+                <select
+                  class="contact-form__input contact-form__select"
+                  id="cf-route"
+                  name="route"
+                  required
+                >
+                  <option value="" disabled selected>Select a route</option>
+                  {contact.form.fields.routeOptions.map((opt) => (
+                    <option value={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+              <div class="contact-form__field">
+                <label class="contact-form__label" for="cf-timeline">
+                  {contact.form.fields.timeline}
+                  <span class="contact-form__optional sr-only">(optional)</span>
+                </label>
+                <select
+                  class="contact-form__input contact-form__select"
+                  id="cf-timeline"
+                  name="timeline"
+                >
+                  <option value="">No preference</option>
+                  {contact.form.fields.timelineOptions.map((opt) => (
+                    <option value={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="contact-form__field contact-form__field--full contact-form__field--message">
+            <label class="contact-form__label" for="cf-message">
+              {contact.form.fields.message}
+              <span class="contact-form__required" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              class="contact-form__input contact-form__textarea"
+              id="cf-message"
+              name="message"
+              rows="5"
+              required></textarea>
+          </div>
+
+          <div class="contact-form__footer">
+            <p class="contact-form__required-note">
+              <span aria-hidden="true">*</span> Required fields
+            </p>
+            <button class="button button--primary contact-form__submit" type="submit">
+              {contact.form.actionLabel}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  )}
+
   <section class="section section--tinted pathways-section" id="pathways">
     <div class="container">
       <div class="section-heading-row">
@@ -60,6 +232,7 @@ const structuredData = {
           title="Select the path that matches your mandate."
           intro="Each route is written for a distinct conversation: capital deployment, carbon offtake, or project delivery."
         />
+        {formEnabled && <p class="contact-form-fallback-label">{contact.form.fallbackLabel}</p>}
       </div>
       <div class="pathways-grid">
         {
@@ -69,6 +242,11 @@ const structuredData = {
               <span class="pathway-card__audience">{audience.audience}</span>
               <h3>{audience.title}</h3>
               <p>{audience.description}</p>
+              <ul class="pathway-card__diligence">
+                {audience.diligence.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
               <span class="pathway-card__action">
                 {audience.action}
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -81,6 +259,8 @@ const structuredData = {
       </div>
     </div>
   </section>
+
+  <p class="contact-reassurance container">{contact.reassurance}</p>
 
   <section class="section contact-direct" id="contact">
     <div class="container">
