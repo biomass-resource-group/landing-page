@@ -1,5 +1,11 @@
 document.documentElement.classList.add('js');
 
+// When JS is available, hide the mobile menu from assistive tech by default.
+// Without JS, the menu is visible as a fallback (via html:not(.js) .mobile-menu)
+// and must remain reachable, so aria-hidden is set here rather than in HTML.
+const initialMenu = document.querySelector('[data-menu]');
+if (initialMenu) initialMenu.setAttribute('aria-hidden', 'true');
+
 const setupSiteUi = () => {
   const header = document.querySelector('[data-site-header]');
   const menu = document.querySelector('[data-menu]');
