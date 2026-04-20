@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
-import { commercialModel, platform, siteMeta, technology } from '../data/site';
+import { commercialModel, ownership, platform, siteMeta, technology } from '../data/site';
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -35,21 +35,39 @@ const structuredData = {
     <div slot="visual" class="hero-panel hero-panel--flow">
       <div class="hero-panel__header">
         <p class="hero-panel__label">Operating sequence</p>
-        <h2 class="hero-panel__title">Each asset runs through the same four-part loop.</h2>
+        <h2 class="hero-panel__title">From feedstock to revenue in one loop.</h2>
       </div>
-      <ol class="hero-flow">
-        {
-          platform.sequence.map((step, index) => (
-            <li class="hero-flow__item">
-              <span class="hero-flow__count">{String(index + 1).padStart(2, '0')}</span>
-              <div>
-                <strong>{step.title}</strong>
-                <p>{step.detail}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
+      <div class="platform-flow" aria-label="BRG operating flow">
+        <div class="platform-flow__node">
+          <span class="platform-flow__label">Feedstock sourcing</span>
+          <p class="platform-flow__detail">Local contracts, logistics, and collection infrastructure in active markets.</p>
+        </div>
+        <span class="platform-flow__arrow" aria-hidden="true"></span>
+        <div class="platform-flow__node">
+          <span class="platform-flow__label">Pyrolysis conversion</span>
+          <p class="platform-flow__detail">Mobile or fixed kilns matched to feedstock type and market throughput.</p>
+        </div>
+        <span class="platform-flow__arrow" aria-hidden="true"></span>
+        <div class="platform-flow__node">
+          <span class="platform-flow__label">Carbon monitoring</span>
+          <p class="platform-flow__detail">MRV workflows aligned with Puro.earth, Isometric, and Verra VM0044 methodologies.</p>
+        </div>
+        <span class="platform-flow__arrow" aria-hidden="true"></span>
+        <div class="platform-flow__fork">
+          <p class="platform-flow__fork-label">Revenue</p>
+          <div class="platform-flow__branches">
+            <div class="platform-flow__branch">
+              <span class="platform-flow__label">Biochar sales</span>
+            </div>
+            <div class="platform-flow__branch">
+              <span class="platform-flow__label">Carbon credits</span>
+            </div>
+            <div class="platform-flow__branch">
+              <span class="platform-flow__label">Kiln licensing</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </PageHero>
 
@@ -89,6 +107,22 @@ const structuredData = {
             ))
           }
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="ownership">
+    <div class="container">
+      <SectionIntro label={ownership.label} title={ownership.title} intro={ownership.intro} />
+      <div class="ownership-layers">
+        {
+          ownership.layers.map((item) => (
+            <article class="ownership-layer" data-reveal>
+              <p class="ownership-layer__name">{item.layer}</p>
+              <p class="ownership-layer__detail">{item.detail}</p>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>

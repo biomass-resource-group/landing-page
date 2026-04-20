@@ -65,7 +65,7 @@ const buildContentSecurityPolicy = (hashes) => {
     "base-uri 'self'",
     `connect-src ${connectSources}`,
     "font-src 'self'",
-    "form-action 'self'",
+    "form-action 'self' https://formspree.io",
     "frame-ancestors 'none'",
     "frame-src 'none'",
     "img-src 'self' data:",

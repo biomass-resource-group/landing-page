@@ -43,11 +43,11 @@ export const hero = {
 };
 
 export const affiliations = [
-  { label: 'Verification', detail: 'Project verification infrastructure' },
-  { label: 'Carbon Registry', detail: 'Registry-aligned issuance pathways' },
-  { label: 'Kiln Technology', detail: 'Field-validated platform partners' },
-  { label: 'Government Procurement', detail: 'Tender and contract channels' },
-  { label: 'Research', detail: 'Agronomy and permanence testing' },
+  { label: 'Verification', detail: 'DNV and SGS accredited verification bodies' },
+  { label: 'Carbon Registry', detail: 'Puro.earth, Isometric, and Verra VM0044 pathways' },
+  { label: 'Kiln Technology', detail: 'Field-validated mobile and fixed platforms' },
+  { label: 'Government Procurement', detail: 'Municipal and industrial procurement channels' },
+  { label: 'Research', detail: 'European Biochar Certificate (EBC) aligned testing' },
 ] as const;
 
 export const exploreLinks = [
@@ -158,7 +158,7 @@ export const platform = {
     },
     {
       label: 'Verification-ready output',
-      detail: 'Monitoring and registry workflows built into the operating loop.',
+      detail: 'MRV workflows aligned with Puro.earth, Isometric, and Verra VM0044 biochar methodologies.',
     },
     {
       label: 'Buyer and contract access',
@@ -179,12 +179,36 @@ export const platform = {
     {
       title: 'Carbon Monitoring and Verification',
       description:
-        'Integrated monitoring and verification workflows for high-integrity carbon credit issuance.',
+        'MRV workflows aligned with ICVCM-approved biochar methodologies for third-party verification and high-integrity credit issuance.',
     },
     {
       title: 'Offtake and Market Access',
       description:
         'Channels to biochar buyers, carbon purchasers, and public-sector procurement programs.',
+    },
+  ],
+};
+
+export const ownership = {
+  label: 'Ownership model',
+  title: 'What BRG owns, operates, licenses, and partners on.',
+  intro: 'A single operating system with clearly defined ownership boundaries across the biochar carbon removal stack.',
+  layers: [
+    {
+      layer: 'BRG owns',
+      detail: 'Operating entities, feedstock contracts, local teams, verification workflows, and buyer relationships in active markets.',
+    },
+    {
+      layer: 'BRG operates',
+      detail: 'Mobile and fixed kiln systems, logistics networks, monitoring infrastructure, and commercial channels across East Africa and Saudi Arabia.',
+    },
+    {
+      layer: 'BRG licenses',
+      detail: 'Proprietary mobile kiln technology to third-party operators as a capital-efficient expansion pathway.',
+    },
+    {
+      layer: 'BRG partners',
+      detail: 'Governments, municipal utilities, industrial operators, carbon registries, and research institutions that enable market access and verification.',
     },
   ],
 };
@@ -264,7 +288,7 @@ export const regions = {
       name: 'East Africa',
       status: 'Active',
       description:
-        'Community-scale mobile kiln operations converting invasive Prosopis mesquite into agricultural biochar and verified carbon removal credits. Full operating team, logistics infrastructure, and buyer relationships are in place.',
+        'Community-scale mobile kiln operations converting invasive Prosopis mesquite into agricultural biochar and Puro.earth-pathway carbon removal credits. Full operating team, logistics infrastructure, and buyer relationships are in place.',
       detail: [
         { label: 'Entity', value: 'Riziki NBS' },
         { label: 'Technology', value: 'Mobile kilns' },
@@ -315,14 +339,14 @@ export const impact = {
   intro: 'Every metric is tied to production, permanence, or market execution. We report only what we can verify.',
   evidenceLabel: 'Measured in the field',
   narrative: [
-    'Every tonne of BRG biochar is traceable to a specific production run and aligned with third-party verification. In parallel, operations create jobs, divert waste, and support agricultural productivity in the markets where they run.',
+    'Every tonne of BRG biochar is traceable to a specific production run, tested against European Biochar Certificate standards, and aligned with Puro.earth, Isometric, or Verra VM0044 verification pathways. In parallel, operations create jobs, divert waste, and support agricultural productivity in the markets where they run.',
   ],
   stats: [
     {
       value: '100+',
       label: 'Years of carbon stability',
       description:
-        'Biochar permanence supported by standardized testing and third-party verification pathways.',
+        'Biochar permanence validated by H/Corg molar ratio testing (≤0.70 threshold) against European Biochar Certificate standards.',
     },
     {
       value: '2',
@@ -426,6 +450,27 @@ export const contact = {
       action: 'Partnership inquiries',
     },
   ],
+  form: {
+    title: 'Tell us about your inquiry.',
+    intro: 'Every field helps BRG route your message to the right team.',
+    // TODO before deploy: replace FORM_ID_PLACEHOLDER with the real Formspree form ID
+    action: 'https://formspree.io/f/FORM_ID_PLACEHOLDER',
+    actionLabel: 'Send inquiry',
+    fallbackLabel: 'Or email directly',
+    fields: {
+      name: 'Your name',
+      organization: 'Organization',
+      email: 'Email address',
+      role: 'Role or title',
+      geography: 'Country or region',
+      route: 'What brings you to BRG?',
+      routeOptions: ['Capital', 'Carbon offtake', 'Project delivery'],
+      mandate: 'Mandate type',
+      timeline: 'Timeline',
+      timelineOptions: ['Under 3 months', '3\u20136 months', '6\u201312 months', '12+ months'],
+      message: 'Your message',
+    },
+  },
 };
 
 export const operatingProof = {
