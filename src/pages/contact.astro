@@ -235,6 +235,11 @@ const structuredData = {
               <span class="pathway-card__audience">{audience.audience}</span>
               <h3>{audience.title}</h3>
               <p>{audience.description}</p>
+              <ul class="pathway-card__diligence">
+                {audience.diligence.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
               <span class="pathway-card__action">
                 {audience.action}
                 <svg viewBox="0 0 24 24" aria-hidden="true">

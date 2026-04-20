@@ -1676,6 +1676,16 @@ section[id] {
   color: var(--ink-soft);
 }
 
+.pathway-card__diligence {
+  list-style: disc;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
 .pathway-card__action,
 .cta-panel__contact strong {
   display: inline-flex;

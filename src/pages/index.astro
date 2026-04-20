@@ -122,6 +122,35 @@ const structuredData = {
     </div>
   </section>
 
+  <section class="section home-destinations">
+    <div class="container">
+      <div class="section-heading-row">
+        <SectionIntro
+          label="Explore BRG"
+          title="Start with the part of BRG most relevant to you."
+          intro="Use these pages to review BRG's platform, current markets, and leadership background."
+        />
+      </div>
+      <div class="destination-list">
+        {
+          exploreLinks.map((link, index) => (
+            <a class="destination-link" href={link.href} data-reveal>
+              <span class="destination-link__index">{String(index + 1).padStart(2, '0')}</span>
+              <div class="destination-link__body">
+                <p class="destination-link__label">{link.label}</p>
+                <h3>{link.title}</h3>
+                <p>{link.description}</p>
+              </div>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 17 17 7M17 7H8M17 7v9"></path>
+              </svg>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <section class="section section--dark home-operating-today" id="operating-today">
     <div class="container">
       <div class="section-heading-row">
@@ -188,16 +217,6 @@ const structuredData = {
             title={about.title}
             intro={about.intro}
           />
-          <div class="about-highlights">
-            {
-              about.highlights.map((item) => (
-                <article class="about-highlight" data-reveal>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
-              ))
-            }
-          </div>
           <div class="home-about-preview__actions" data-reveal>
             <a class="button button--primary" href="/about/">
               Meet the leadership
@@ -219,35 +238,6 @@ const structuredData = {
           </ul>
           <a class="leadership-mini__link" href="/about/#leadership">Read leadership bios</a>
         </aside>
-      </div>
-    </div>
-  </section>
-
-  <section class="section home-destinations">
-    <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label="Explore BRG"
-          title="Start with the part of BRG most relevant to you."
-          intro="Use these pages to review BRG's platform, current markets, and leadership background."
-        />
-      </div>
-      <div class="destination-list">
-        {
-          exploreLinks.map((link, index) => (
-            <a class="destination-link" href={link.href} data-reveal>
-              <span class="destination-link__index">{String(index + 1).padStart(2, '0')}</span>
-              <div class="destination-link__body">
-                <p class="destination-link__label">{link.label}</p>
-                <h3>{link.title}</h3>
-                <p>{link.description}</p>
-              </div>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-              </svg>
-            </a>
-          ))
-        }
       </div>
     </div>
   </section>

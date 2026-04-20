@@ -72,6 +72,13 @@ export const exploreLinks = [
     description:
       'Leadership, company background, and operating context behind the platform.',
   },
+  {
+    label: 'Contact',
+    href: '/contact/',
+    title: 'Choose the right BRG conversation.',
+    description:
+      'Capital, carbon offtake, or project delivery — each routes to the team that can act.',
+  },
 ] as const;
 
 export const about = {
@@ -430,6 +437,12 @@ export const contact = {
       title: 'Deploy capital into physical carbon removal infrastructure',
       description:
         'Equity and project-level opportunities across operating and pipeline regions.',
+      diligence: [
+        'Unit economics per asset across product, carbon, and technology revenue.',
+        'Pipeline qualification criteria for new market evaluation.',
+        'Operating timeline from market entry to first carbon credit issuance.',
+        'Risk controls across feedstock, verification, and offtake.',
+      ],
       href: 'mailto:invest@biomassresourcegroup.com',
       action: 'Investor inquiries',
     },
@@ -438,6 +451,12 @@ export const contact = {
       title: 'Purchase high-permanence carbon removal credits',
       description:
         'Verified biochar credits with 100+ year permanence and third-party monitoring.',
+      diligence: [
+        'H/Corg molar ratio testing and EBC-aligned permanence validation.',
+        'Puro.earth, Isometric, or Verra VM0044 verification pathway per project.',
+        'Delivery timing from production run to credit issuance.',
+        'Forward offtake structure and credit volume by corridor.',
+      ],
       href: 'mailto:carbon@biomassresourcegroup.com',
       action: 'Buy carbon removal',
     },
@@ -446,6 +465,12 @@ export const contact = {
       title: 'Partner on biochar and biomass infrastructure',
       description:
         'Biochar deployment, biogas co-production, feedstock sourcing, and supply partnerships for municipalities and industrial operators.',
+      diligence: [
+        'Procurement model for kiln deployment and feedstock partnerships.',
+        'Local job creation and community feedstock sourcing.',
+        'Integration with municipal waste, water, or industrial infrastructure.',
+        'Operating responsibilities split between BRG and local partner.',
+      ],
       href: 'mailto:partnerships@biomassresourcegroup.com',
       action: 'Partnership inquiries',
     },
