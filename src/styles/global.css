@@ -1414,10 +1414,6 @@ section[id] {
   text-transform: uppercase;
 }
 
-.section {
-  padding: 6rem 0;
-}
-
 .model-lines {
   display: grid;
   border-top: 1px solid var(--line-strong);
