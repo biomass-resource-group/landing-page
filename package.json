@@ -22,7 +22,7 @@
     "astro": "^6.1.6"
   },
   "devDependencies": {
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   },
   "overrides": {
     "yaml": "^2.8.3"
