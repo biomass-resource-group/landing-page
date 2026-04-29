@@ -13,6 +13,7 @@ const href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}`;
 ---
 
 <article class="contact-route-card" data-contact-route-card data-route={keyName} data-reveal>
+  <!--email_off-->
   <button class="contact-route-card__button" type="button" data-contact-route={keyName}>
     <span>{label}</span>
     <strong>{title}</strong>
@@ -25,4 +26,5 @@ const href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}`;
       <path d="M5 12h14M13 5l7 7-7 7"></path>
     </svg>
   </a>
+  <!--/email_off-->
 </article>
