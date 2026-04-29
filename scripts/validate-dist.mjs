@@ -267,6 +267,8 @@ expect(contactHtml.includes('info@biomassresourcegroup.com'), 'Contact page is m
 expect(contactHtml.includes('invest@biomassresourcegroup.com'), 'Contact page is missing visible investor email');
 expect(contactHtml.includes('carbon@biomassresourcegroup.com'), 'Contact page is missing visible carbon email');
 expect(contactHtml.includes('partnerships@biomassresourcegroup.com'), 'Contact page is missing visible partnerships email');
+expect(homeHtml.includes('<!--email_off-->'), 'Home page footer email is not protected from Cloudflare email obfuscation');
+expect(contactHtml.includes('<!--email_off-->'), 'Contact page email routes are not protected from Cloudflare email obfuscation');
 
 expect(notFoundHtml.includes('Page not found.'), '404 page is missing the required heading');
 expect(notFoundHtml.includes('/platform/') && notFoundHtml.includes('/markets/') && notFoundHtml.includes('/contact/') && notFoundHtml.includes('href="/"'), '404 page is missing recovery links');

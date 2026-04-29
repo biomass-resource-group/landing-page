@@ -75,7 +75,9 @@ const structuredData = {
           contact.directEmails.map((email) => (
             <article class="email-card" data-reveal>
               <span>{email.label}</span>
+              <!--email_off-->
               <a href={`mailto:${email.address}`}>{email.address}</a>
+              <!--/email_off-->
               <CopyEmailButton address={email.address} />
             </article>
           ))
