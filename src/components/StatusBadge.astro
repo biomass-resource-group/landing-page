@@ -1,0 +1,15 @@
+---
+interface Props {
+  status: string;
+  label: string;
+  description?: string;
+}
+
+const { status, label, description } = Astro.props;
+---
+
+<span class:list={['status-badge', `status-badge--${status}`]}>
+  <span class="status-badge__dot" aria-hidden="true"></span>
+  <span>{label}</span>
+  {description && <span class="sr-only">: {description}</span>}
+</span>

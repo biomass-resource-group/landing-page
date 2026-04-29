@@ -1,0 +1,54 @@
+---
+import EvidenceNote from './EvidenceNote.astro';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  name: string;
+  region: string;
+  operatingEntity: string;
+  status: string;
+  statusLabel: string;
+  feedstock: string;
+  technology: string;
+  productChannel: string;
+  carbonPathway: string;
+  nextMilestone: string;
+  description: string;
+  evidenceNote?: string;
+}
+
+const {
+  name,
+  region,
+  operatingEntity,
+  status,
+  statusLabel,
+  feedstock,
+  technology,
+  productChannel,
+  carbonPathway,
+  nextMilestone,
+  description,
+  evidenceNote,
+} = Astro.props;
+---
+
+<article class="corridor-card" data-reveal>
+  <div class="corridor-card__header">
+    <div>
+      <span class="corridor-card__region">{region}</span>
+      <h3>{name}</h3>
+    </div>
+    <StatusBadge status={status} label={statusLabel} />
+  </div>
+  <p>{description}</p>
+  <dl class="definition-grid">
+    <div><dt>Operating entity</dt><dd>{operatingEntity}</dd></div>
+    <div><dt>Feedstock</dt><dd>{feedstock}</dd></div>
+    <div><dt>Technology</dt><dd>{technology}</dd></div>
+    <div><dt>Product channel</dt><dd>{productChannel}</dd></div>
+    <div><dt>Carbon pathway</dt><dd>{carbonPathway}</dd></div>
+    <div><dt>Next commercial milestone</dt><dd>{nextMilestone}</dd></div>
+  </dl>
+  {evidenceNote && <EvidenceNote text={evidenceNote} status="underVerification" />}
+</article>

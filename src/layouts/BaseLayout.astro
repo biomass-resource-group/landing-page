@@ -32,16 +32,18 @@ const {
 const fullTitle = title.includes(siteMeta.name) ? title : `${title} | ${siteMeta.name}`;
 const canonicalUrl = new URL(path, Astro.site ?? siteMeta.siteUrl);
 const ogImageUrl = imagePath ? new URL(imagePath, canonicalUrl).toString() : undefined;
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteMeta.name,
+  url: siteMeta.siteUrl,
+  email: siteMeta.email,
+  description: siteMeta.description,
+  ...(siteMeta.sameAs.length > 0 ? { sameAs: siteMeta.sameAs } : {}),
+};
 
 const baseStructuredData = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: siteMeta.name,
-    url: siteMeta.siteUrl,
-    email: siteMeta.email,
-    description: siteMeta.description,
-  },
+  organizationSchema,
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',

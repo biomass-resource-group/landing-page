@@ -1,10 +1,9 @@
 ---
-import { footerGroups, siteMeta } from '../data/site';
+import { footer, siteMeta } from '../data/site';
 
 const resolveHref = (href: string) =>
   href.startsWith('#') && Astro.url.pathname !== '/' ? `/${href}` : href;
 
-const [emailLocalPart, emailDomain] = siteMeta.email.split('@');
 ---
 
 <footer class="site-footer">
@@ -20,12 +19,12 @@ const [emailLocalPart, emailDomain] = siteMeta.email.split('@');
       </div>
       <p class="site-footer__legal">
         &copy; {new Date().getFullYear()} {siteMeta.name}.<br />
-        Carbon removal infrastructure designed for durable growth.
+        {footer.description}
       </p>
     </div>
 
     {
-      footerGroups.map((group) => (
+      footer.groups.map((group) => (
         <div class="site-footer__group">
           <p class="site-footer__title">{group.title}</p>
           <ul class="site-footer__links">
@@ -40,21 +39,14 @@ const [emailLocalPart, emailDomain] = siteMeta.email.split('@');
     }
 
     <div class="site-footer__group">
-      <p class="site-footer__title">Email</p>
+      <p class="site-footer__title">Direct email</p>
       <a
         class="site-footer__email"
-        href="/contact/"
-        data-email-link
-        data-email-local={emailLocalPart}
-        data-email-domain={emailDomain}
+        href={`mailto:${siteMeta.email}`}
       >
-        Contact via email
+        {siteMeta.email}
       </a>
-      <noscript>
-        <p class="site-footer__email-fallback">
-          {emailLocalPart} [at] {emailDomain.replace('.', ' [dot] ')}
-        </p>
-      </noscript>
+      <a class="site-footer__contact" href="/contact/">Contact BRG</a>
     </div>
   </div>
 </footer>

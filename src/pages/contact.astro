@@ -1,281 +1,87 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import ContactRouteCard from '../components/ContactRouteCard.astro';
+import CopyEmailButton from '../components/CopyEmailButton.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
-import { contact, siteMeta } from '../data/site';
+import { contact, pageMeta, siteMeta } from '../data/site';
 
-// Form is only rendered once a real Formspree ID is configured.
-// When the placeholder is present, the mailto fallbacks become the
-// primary contact path so the page remains fully functional.
-const formEnabled = !contact.form.action.includes('FORM_ID_PLACEHOLDER');
-
+const meta = pageMeta.contact;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
-  name: 'Contact',
-  url: `${siteMeta.siteUrl}/contact/`,
-  description:
-    'Contact Biomass Resource Group for investor, carbon buyer, and project delivery conversations.',
+  name: meta.title,
+  url: `${siteMeta.siteUrl}${meta.path}`,
+  description: meta.description,
 };
 ---
 
-<BaseLayout
-  title="Contact"
-  description="Start the right conversation with BRG across capital, carbon offtake, and project delivery."
-  path="/contact/"
-  structuredData={structuredData}
->
+<BaseLayout title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData}>
   <PageHero
-    eyebrow="Contact"
-    title="Choose the BRG conversation you need to have."
-    intro="Pick the route that matches your role and it goes straight to the relevant BRG team."
-    actions={[
-      { label: 'Email BRG', href: `mailto:${siteMeta.email}` },
-      { label: 'Review markets', href: '/markets/', variant: 'secondary' },
-    ]}
-    meta={contact.summaryChips}
+    eyebrow={contact.label}
+    title={contact.hero.title}
+    intro={contact.hero.intro}
+    actions={[contact.hero.primaryAction, contact.hero.secondaryAction]}
+    meta={contact.hero.meta}
     compact
   >
-    <div slot="visual" class="hero-panel hero-panel--flow">
+    <div slot="visual" class="hero-panel hero-panel--routes">
       <div class="hero-panel__header">
-        <p class="hero-panel__label">How routing works</p>
-        <h2 class="hero-panel__title">Three steps from first outreach to the right BRG team.</h2>
+        <p class="hero-panel__label">Routes</p>
+        <h2 class="hero-panel__title">Select a route or use direct email.</h2>
       </div>
-      <ol class="hero-flow">
-        {
-          contact.routeSteps.map((step, index) => (
-            <li class="hero-flow__item">
-              <span class="hero-flow__count">{String(index + 1).padStart(2, '0')}</span>
-              <div>
-                <strong>{step.title}</strong>
-                <p>{step.detail}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
+      <div class="hero-route-list">
+        {contact.routes.map((route) => <a class="hero-route" href={`?type=${route.key}#inquiry-form`}><span>{route.label}</span><strong>{route.subject}</strong></a>)}
+      </div>
     </div>
   </PageHero>
 
-  {formEnabled && (
-  <section class="section contact-form-section" id="inquiry-form">
+  <section class="section section--tinted" id="routes">
     <div class="container">
-      <div class="contact-form-wrap" data-reveal>
-        <div class="contact-form-header">
-          <h2 class="contact-form-header__title">{contact.form.title}</h2>
-          <p class="contact-form-header__intro">{contact.form.intro}</p>
-        </div>
-        <form
-          class="contact-form"
-          method="POST"
-          action={contact.form.action}
-          novalidate
-          aria-label="Contact inquiry form"
-        >
-          <fieldset class="contact-form__fieldset">
-            <legend class="contact-form__legend">Your details</legend>
-            <div class="contact-form__grid">
-              <div class="contact-form__field">
-                <label class="contact-form__label" for="cf-name">
-                  {contact.form.fields.name}
-                  <span class="contact-form__required" aria-hidden="true">*</span>
-                </label>
-                <input
-                  class="contact-form__input"
-                  id="cf-name"
-                  name="name"
-                  type="text"
-                  autocomplete="name"
-                  required
-                />
-              </div>
-              <div class="contact-form__field">
-                <label class="contact-form__label" for="cf-org">
-                  {contact.form.fields.organization}
-                  <span class="contact-form__required" aria-hidden="true">*</span>
-                </label>
-                <input
-                  class="contact-form__input"
-                  id="cf-org"
-                  name="organization"
-                  type="text"
-                  autocomplete="organization"
-                  required
-                />
-              </div>
-              <div class="contact-form__field">
-                <label class="contact-form__label" for="cf-email">
-                  {contact.form.fields.email}
-                  <span class="contact-form__required" aria-hidden="true">*</span>
-                </label>
-                <input
-                  class="contact-form__input"
-                  id="cf-email"
-                  name="email"
-                  type="email"
-                  autocomplete="email"
-                  required
-                />
-              </div>
-              <div class="contact-form__field">
-                <label class="contact-form__label" for="cf-role">
-                  {contact.form.fields.role}
-                  <span class="contact-form__optional sr-only">(optional)</span>
-                </label>
-                <input
-                  class="contact-form__input"
-                  id="cf-role"
-                  name="role"
-                  type="text"
-                  autocomplete="organization-title"
-                />
-              </div>
-              <div class="contact-form__field">
-                <label class="contact-form__label" for="cf-geography">
-                  {contact.form.fields.geography}
-                  <span class="contact-form__optional sr-only">(optional)</span>
-                </label>
-                <input
-                  class="contact-form__input"
-                  id="cf-geography"
-                  name="geography"
-                  type="text"
-                  autocomplete="country-name"
-                />
-              </div>
-              <div class="contact-form__field">
-                <label class="contact-form__label" for="cf-mandate">
-                  {contact.form.fields.mandate}
-                  <span class="contact-form__optional sr-only">(optional)</span>
-                </label>
-                <input
-                  class="contact-form__input"
-                  id="cf-mandate"
-                  name="mandate"
-                  type="text"
-                />
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset class="contact-form__fieldset">
-            <legend class="contact-form__legend">Inquiry type</legend>
-            <div class="contact-form__grid">
-              <div class="contact-form__field contact-form__field--full">
-                <label class="contact-form__label" for="cf-route">
-                  {contact.form.fields.route}
-                  <span class="contact-form__required" aria-hidden="true">*</span>
-                </label>
-                <select
-                  class="contact-form__input contact-form__select"
-                  id="cf-route"
-                  name="route"
-                  required
-                >
-                  <option value="" disabled selected>Select a route</option>
-                  {contact.form.fields.routeOptions.map((opt) => (
-                    <option value={opt}>{opt}</option>
-                  ))}
-                </select>
-              </div>
-              <div class="contact-form__field">
-                <label class="contact-form__label" for="cf-timeline">
-                  {contact.form.fields.timeline}
-                  <span class="contact-form__optional sr-only">(optional)</span>
-                </label>
-                <select
-                  class="contact-form__input contact-form__select"
-                  id="cf-timeline"
-                  name="timeline"
-                >
-                  <option value="">No preference</option>
-                  {contact.form.fields.timelineOptions.map((opt) => (
-                    <option value={opt}>{opt}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </fieldset>
-
-          <div class="contact-form__field contact-form__field--full contact-form__field--message">
-            <label class="contact-form__label" for="cf-message">
-              {contact.form.fields.message}
-              <span class="contact-form__required" aria-hidden="true">*</span>
-            </label>
-            <textarea
-              class="contact-form__input contact-form__textarea"
-              id="cf-message"
-              name="message"
-              rows="5"
-              required></textarea>
-          </div>
-
-          <div class="contact-form__footer">
-            <p class="contact-form__required-note">
-              <span aria-hidden="true">*</span> Required fields
-            </p>
-            <button class="button button--primary contact-form__submit" type="submit">
-              {contact.form.actionLabel}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </section>
-  )}
-
-  <section class="section section--tinted pathways-section" id="pathways">
-    <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label="Routes"
-          title="Select the path that matches your mandate."
-          intro="Each route is written for a distinct conversation: capital deployment, carbon offtake, or project delivery."
-        />
-        {formEnabled && <p class="contact-form-fallback-label">{contact.form.fallbackLabel}</p>}
-      </div>
-      <div class="pathways-grid">
+      <SectionIntro
+        label="Contact route selector"
+        title="Choose the team path before you write."
+        intro="Selecting a route updates the inquiry form when JavaScript is available. Without JavaScript, each card still includes a direct email link."
+      />
+      <div class="card-grid card-grid--four">
         {
-          contact.audiences.map((audience, index) => (
-            <a class="pathway-card" href={audience.href} data-reveal>
-              <span class="pathway-card__index">{String(index + 1).padStart(2, '0')}</span>
-              <span class="pathway-card__audience">{audience.audience}</span>
-              <h3>{audience.title}</h3>
-              <p>{audience.description}</p>
-              <ul class="pathway-card__diligence">
-                {audience.diligence.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-              <span class="pathway-card__action">
-                {audience.action}
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14M13 5l7 7-7 7"></path>
-                </svg>
-              </span>
-            </a>
+          contact.routes.map((route) => (
+            <ContactRouteCard
+              keyName={route.key}
+              label={route.label}
+              title={route.title}
+              description={route.description}
+              recipient={route.recipient}
+              subject={route.subject}
+            />
           ))
         }
       </div>
     </div>
   </section>
 
-  <p class="contact-reassurance container">{contact.reassurance}</p>
+  <ContactForm />
 
-  <section class="section contact-direct" id="contact">
+  <section class="section section--tinted" id="direct-emails">
     <div class="container">
-      <div class="contact-direct__panel" data-reveal>
-        <div class="contact-direct__copy">
-          <p class="page-cta__label">General inquiries</p>
-          <h2>Need a broader conversation?</h2>
-          <p>
-            For requests that do not fit the investor, carbon buyer, or operator routes above, reach BRG directly.
-          </p>
-        </div>
-        <a class="contact-direct__email" href={`mailto:${siteMeta.email}`}>
-          {siteMeta.email}
-        </a>
+      <SectionIntro
+        label="Direct emails"
+        title="Email addresses remain visible and copyable."
+        intro="Copy buttons are progressive enhancement. If JavaScript fails, the addresses are still plain, selectable text."
+      />
+      <div class="email-grid">
+        {
+          contact.directEmails.map((email) => (
+            <article class="email-card" data-reveal>
+              <span>{email.label}</span>
+              <a href={`mailto:${email.address}`}>{email.address}</a>
+              <CopyEmailButton address={email.address} />
+            </article>
+          ))
+        }
       </div>
+      <p class="contact-reassurance">{contact.reassurance}</p>
     </div>
   </section>
 </BaseLayout>

@@ -55,16 +55,17 @@ const isActive = (href: string) => {
       data-menu-toggle
       aria-expanded="false"
       aria-controls="mobile-menu"
+      aria-label="Open navigation"
     >
-      <span class="sr-only">Toggle navigation</span>
+      <span class="sr-only" data-menu-toggle-label>Open navigation</span>
       <span></span>
       <span></span>
       <span></span>
     </button>
   </div>
 
-  <div class="mobile-menu" id="mobile-menu" data-menu>
-    <nav aria-label="Mobile navigation">
+  <div class="mobile-menu" id="mobile-menu" data-menu hidden inert aria-hidden="true">
+    <nav aria-label="Mobile navigation" data-mobile-nav>
       <ul class="mobile-menu__list">
         {
           navLinks.map((link) => (
@@ -82,4 +83,20 @@ const isActive = (href: string) => {
       </ul>
     </nav>
   </div>
+
+  <noscript>
+    <nav class="no-js-nav" aria-label="Mobile navigation fallback">
+      <ul class="no-js-nav__list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={resolveHref(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </noscript>
 </header>

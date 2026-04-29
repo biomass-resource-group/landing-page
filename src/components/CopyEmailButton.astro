@@ -1,0 +1,11 @@
+---
+interface Props {
+  address: string;
+}
+
+const { address } = Astro.props;
+---
+
+<button class="copy-button" type="button" data-copy-value={address}>
+  Copy
+</button>

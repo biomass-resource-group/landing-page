@@ -1,0 +1,126 @@
+---
+import { contact } from '../data/site';
+
+const defaultRoute = contact.routes[0];
+const formAction = contact.form.endpoint || `mailto:${defaultRoute.recipient}`;
+---
+
+<section class="section contact-form-section" id="inquiry-form">
+  <div class="container">
+    <div class="contact-form-wrap" data-reveal>
+      <div class="contact-form-header">
+        <p class="section-intro-block__label">Inquiry form</p>
+        <h2 class="contact-form-header__title">{contact.form.title}</h2>
+        <p class="contact-form-header__intro">{contact.form.intro}</p>
+      </div>
+      <form
+        class="contact-form"
+        method={contact.form.endpoint ? 'POST' : 'GET'}
+        action={formAction}
+        data-contact-form
+        data-form-mode={contact.form.endpoint ? 'endpoint' : contact.form.mode}
+        data-form-endpoint={contact.form.endpoint}
+        novalidate
+        aria-label="Contact inquiry form"
+      >
+        <div class="contact-form__status" data-form-status role="status" aria-live="polite"></div>
+
+        <fieldset class="contact-form__fieldset">
+          <legend class="contact-form__legend">Your details</legend>
+          <div class="contact-form__grid">
+            <div class="contact-form__field">
+              <label class="contact-form__label" for="cf-name">
+                {contact.form.fields.name} <span>(required)</span>
+              </label>
+              <input class="contact-form__input" id="cf-name" name="name" type="text" autocomplete="name" required aria-describedby="cf-name-error" />
+              <p class="contact-form__error" id="cf-name-error" data-error-for="cf-name"></p>
+            </div>
+            <div class="contact-form__field">
+              <label class="contact-form__label" for="cf-org">
+                {contact.form.fields.organization} <span>(required)</span>
+              </label>
+              <input class="contact-form__input" id="cf-org" name="organization" type="text" autocomplete="organization" required aria-describedby="cf-org-error" />
+              <p class="contact-form__error" id="cf-org-error" data-error-for="cf-org"></p>
+            </div>
+            <div class="contact-form__field">
+              <label class="contact-form__label" for="cf-email">
+                {contact.form.fields.email} <span>(required)</span>
+              </label>
+              <input class="contact-form__input" id="cf-email" name="email" type="email" autocomplete="email" required aria-describedby="cf-email-error" />
+              <p class="contact-form__error" id="cf-email-error" data-error-for="cf-email"></p>
+            </div>
+            <div class="contact-form__field">
+              <label class="contact-form__label" for="cf-role">{contact.form.fields.role}</label>
+              <input class="contact-form__input" id="cf-role" name="role" type="text" autocomplete="organization-title" />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="contact-form__fieldset">
+          <legend class="contact-form__legend">Inquiry context</legend>
+          <div class="contact-form__grid">
+            <div class="contact-form__field">
+              <label class="contact-form__label" for="cf-route">
+                {contact.form.fields.inquiryType} <span>(required)</span>
+              </label>
+              <select class="contact-form__input contact-form__select" id="cf-route" name="inquiryType" required aria-describedby="cf-route-error" data-inquiry-type>
+                {
+                  contact.routes.map((route) => (
+                    <option
+                      value={route.key}
+                      data-recipient={route.recipient}
+                      data-subject={route.subject}
+                      data-template={route.bodyTemplate}
+                    >
+                      {route.label}
+                    </option>
+                  ))
+                }
+              </select>
+              <p class="contact-form__error" id="cf-route-error" data-error-for="cf-route"></p>
+            </div>
+            <div class="contact-form__field">
+              <label class="contact-form__label" for="cf-geography">{contact.form.fields.geography}</label>
+              <input class="contact-form__input" id="cf-geography" name="geography" type="text" autocomplete="country-name" />
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="contact-form__field contact-form__field--full contact-form__field--message">
+          <label class="contact-form__label" for="cf-message">
+            {contact.form.fields.message} <span>(required)</span>
+          </label>
+          <textarea class="contact-form__input contact-form__textarea" id="cf-message" name="message" rows="6" required aria-describedby="cf-message-error" data-message></textarea>
+          <p class="contact-form__error" id="cf-message-error" data-error-for="cf-message"></p>
+        </div>
+
+        <div class="contact-form__summary" data-inquiry-summary hidden>
+          <h3>Inquiry summary</h3>
+          <pre data-inquiry-summary-text></pre>
+        </div>
+
+        <div class="contact-form__footer">
+          <p class="contact-form__required-note">Required fields are marked with “required”.</p>
+          <div class="contact-form__actions">
+            <button class="button button--primary contact-form__submit" type="submit">
+              {contact.form.actionLabel}
+            </button>
+            <button class="button button--secondary" type="button" data-copy-inquiry>
+              {contact.form.copySummaryLabel}
+            </button>
+          </div>
+        </div>
+      </form>
+      <p class="contact-form__privacy">{contact.form.privacyNote}</p>
+      <noscript>
+        <div class="no-js-contact">
+          <h3>Direct email fallback</h3>
+          <p>JavaScript is not required to contact BRG. Use the visible direct emails below:</p>
+          <ul>
+            {contact.directEmails.map((email) => <li>{email.label}: {email.address}</li>)}
+          </ul>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</section>

@@ -1,170 +1,130 @@
 ---
+import AudiencePathCard from '../components/AudiencePathCard.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EvidenceNote from '../components/EvidenceNote.astro';
+import MetricCard from '../components/MetricCard.astro';
 import PageCta from '../components/PageCta.astro';
+import ProcessFlow from '../components/ProcessFlow.astro';
+import RevenueStack from '../components/RevenueStack.astro';
 import SectionIntro from '../components/SectionIntro.astro';
+import StatusBadge from '../components/StatusBadge.astro';
 import {
-  about,
   audiencePaths,
   commercialModel,
-  exploreLinks,
-  hero,
-  operatingProof,
-  regions,
+  glossary,
+  home,
+  marketCorridors,
+  pageMeta,
   siteMeta,
-  trustSignals,
+  verification,
 } from '../data/site';
 
+const meta = pageMeta.home;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: siteMeta.title,
-  url: siteMeta.siteUrl,
-  description: siteMeta.description,
+  name: meta.title,
+  url: `${siteMeta.siteUrl}${meta.path}`,
+  description: meta.description,
 };
 ---
 
 <BaseLayout
-  title={siteMeta.title}
-  description={siteMeta.description}
+  title={meta.title}
+  description={meta.description}
+  path={meta.path}
   structuredData={structuredData}
   bodyClass="page--home"
 >
   <section class="home-hero" data-hero>
     <div class="home-hero__backdrop" aria-hidden="true">
       <span class="home-hero__grain"></span>
-      <span class="home-hero__glow home-hero__glow--primary"></span>
     </div>
-
     <div class="container home-hero__inner">
       <div class="home-hero__copy" data-reveal>
-        <p class="home-hero__eyebrow">{hero.label}</p>
-        <h1 class="home-hero__title">{hero.title}</h1>
-        <p class="home-hero__summary">{hero.summary}</p>
-
+        <p class="home-hero__eyebrow">{home.hero.label}</p>
+        <h1 class="home-hero__title">{home.hero.title}</h1>
+        <p class="home-hero__summary">{home.hero.summary}</p>
         <div class="hero__actions">
-          <a class="button button--primary" href={hero.primaryAction.href}>
-            {hero.primaryAction.label}
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 12h14M13 5l7 7-7 7"></path>
-            </svg>
-          </a>
-          <a class="button button--secondary" href={hero.secondaryAction.href}>
-            {hero.secondaryAction.label}
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-            </svg>
-          </a>
+          <a class="button button--primary" href={home.hero.primaryAction.href}>{home.hero.primaryAction.label}</a>
+          <a class="button button--secondary" href={home.hero.secondaryAction.href}>{home.hero.secondaryAction.label}</a>
         </div>
-
         <dl class="home-hero__proof">
           {
-            hero.metrics.map((metric) => (
+            home.hero.metrics.map((metric) => (
               <div class="home-hero__proof-item">
                 <dt>{metric.label}</dt>
                 <dd>{metric.value}</dd>
+                <span>{metric.status}</span>
               </div>
             ))
           }
         </dl>
-
-        <div class="home-hero__quick-links" aria-label="Jump to common paths">
-          <a href="#pathways">Choose your pathway</a>
-          <a href="#operating-today">See live operations</a>
-          <a href="/contact/">Contact BRG</a>
-        </div>
       </div>
     </div>
   </section>
 
-  <section class="home-trust-strip" aria-label="BRG operating proof points">
-    <div class="container home-trust-strip__inner">
-      {
-        trustSignals.map((signal) => (
-          <article class="home-trust-strip__item" data-reveal>
-            <p>{signal.label}</p>
-            <strong>{signal.value}</strong>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="section section--tinted home-pathways" id="pathways">
+  <section class="section" id="what-brg-does">
     <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label="Start here"
-          title="Choose the fastest path based on your role."
-          intro="These pathways are structured for the three most common stakeholder conversations so visitors can quickly access relevant information."
-        />
-      </div>
-      <div class="home-pathways__grid">
-        {
-          audiencePaths.map((path) => (
-            <article class="home-pathways__card" data-reveal>
-              <p class="home-pathways__audience">{path.audience}</p>
-              <h3>{path.title}</h3>
-              <p>{path.description}</p>
-              <a href={path.href}>
-                {path.cta}
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-                </svg>
-              </a>
-            </article>
-          ))
-        }
+      <SectionIntro label={home.whatWeDo.label} title={home.whatWeDo.title} intro={home.whatWeDo.intro} />
+      <ProcessFlow steps={home.whatWeDo.steps} />
+      <div class="glossary-strip" aria-label="Glossary">
+        <details>
+          <summary>Biochar</summary>
+          <p>{glossary.biochar}</p>
+        </details>
+        <details>
+          <summary>Pyrolysis</summary>
+          <p>{glossary.pyrolysis}</p>
+        </details>
+        <details>
+          <summary>MRV</summary>
+          <p>{glossary.mrv}</p>
+        </details>
       </div>
     </div>
   </section>
 
-  <section class="section home-proof">
+  <section class="section section--tinted" id="pathways">
     <div class="container">
       <SectionIntro
-        label={operatingProof.label}
-        title={operatingProof.title}
+        label={home.audienceIntro.label}
+        title={home.audienceIntro.title}
+        intro={home.audienceIntro.intro}
       />
-      <div class="home-proof__grid">
-        {operatingProof.corridors.map((corridor) => (
-          <article class="home-proof__card" data-reveal>
-            <div class="home-proof__card-header">
-              <span class="home-proof__status"></span>
-              <p class="home-proof__entity">{corridor.entity}</p>
-            </div>
-            <h3>{corridor.name}</h3>
-            <dl class="home-proof__details">
-              <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
-              <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
-              <div><dt>Status</dt><dd>{corridor.status}</dd></div>
-              <div><dt>Verification</dt><dd>{corridor.verification}</dd></div>
-            </dl>
-          </article>
-        ))}
+      <div class="card-grid card-grid--three">
+        {
+          audiencePaths.map((path) => (
+            <AudiencePathCard
+              audience={path.audience}
+              title={path.title}
+              description={path.description}
+              href={path.href}
+              cta={path.cta}
+            />
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <section class="section home-model-preview">
+  <section class="section" id="operating-proof">
     <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label={commercialModel.label}
-          title="One asset, three aligned revenue layers."
-          intro="BRG projects are designed to monetize biochar product output, carbon removal, and kiln technology sales and licensing rather than relying on a single market."
-        />
-      </div>
-
-      <div class="home-model-preview__grid">
+      <SectionIntro label={home.proof.label} title={home.proof.title} intro={home.proof.intro} />
+      <div class="proof-summary">
         {
-          commercialModel.lines.map((line, index) => (
-            <article class="home-model-preview__item" data-reveal>
-              <span class="home-model-preview__index">{String(index + 1).padStart(2, '0')}</span>
-              <p class="home-model-preview__phase">{line.phase}</p>
-              <h3>{line.title}</h3>
-              <p>{line.description}</p>
-              <ul class="home-model-preview__revenue">
-                {line.revenue.map((item) => <li>{item}</li>)}
-              </ul>
+          marketCorridors.map((corridor) => (
+            <article class="proof-summary__card" data-reveal>
+              <div class="proof-summary__header">
+                <h3>{corridor.name}</h3>
+                <StatusBadge status={corridor.status} label={corridor.statusLabel} />
+              </div>
+              <dl class="definition-grid definition-grid--compact">
+                <div><dt>Entity</dt><dd>{corridor.operatingEntity}</dd></div>
+                <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
+                <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
+                <div><dt>Verification</dt><dd>{corridor.carbonPathway}</dd></div>
+              </dl>
             </article>
           ))
         }
@@ -172,131 +132,40 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section home-destinations">
+  <section class="section section--dark" id="platform-scales">
     <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label="Explore BRG"
-          title="Start with the part of BRG most relevant to you."
-          intro="Use these pages to review BRG's platform, current markets, and leadership background."
-        />
-      </div>
-      <div class="destination-list">
+      <SectionIntro label={home.scale.label} title={home.scale.title} intro={home.scale.intro} tone="dark" />
+      <RevenueStack lines={commercialModel.lines} caveat={commercialModel.caveat} />
+      <EvidenceNote
+        title="Claim language"
+        status="verificationReady"
+        text={verification.claimLanguage}
+      />
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="home-metrics">
+    <div class="container">
+      <div class="metric-row">
         {
-          exploreLinks.map((link, index) => (
-            <a class="destination-link" href={link.href} data-reveal>
-              <span class="destination-link__index">{String(index + 1).padStart(2, '0')}</span>
-              <div class="destination-link__body">
-                <p class="destination-link__label">{link.label}</p>
-                <h3>{link.title}</h3>
-                <p>{link.description}</p>
-              </div>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M7 17 17 7M17 7H8M17 7v9"></path>
-              </svg>
-            </a>
+          home.hero.metrics.map((metric) => (
+            <MetricCard
+              value={metric.value}
+              label={metric.label}
+              note={metric.status}
+              status={metric.label.includes('pipeline') ? 'pipeline' : metric.label.includes('durability') ? 'tested' : 'operational'}
+            />
           ))
         }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--dark home-operating-today" id="operating-today">
-    <div class="container">
-      <div class="section-heading-row">
-        <SectionIntro
-          label="Live infrastructure"
-          title="Live operations in two markets, with a broader pipeline underway."
-          intro="BRG is currently operating in East Africa and Saudi Arabia using one shared operating flow from feedstock sourcing through market access."
-          tone="dark"
-        />
-      </div>
-      <div class="home-hero__stage" data-reveal>
-        <div class="home-hero__stage-header">
-          <h2 class="home-hero__stage-title">Operating today</h2>
-          <span>Two live corridors, three revenue layers, and a broader pipeline already underway.</span>
-        </div>
-
-        <div class="home-hero__loop">
-          <p class="home-hero__loop-title">Operating flow</p>
-          <ol>
-            {
-              hero.flywheel.map((step, index) => (
-                <li>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <strong>{step}</strong>
-                </li>
-              ))
-            }
-          </ol>
-        </div>
-
-        <div class="home-hero__market-list">
-          {
-            regions.markets.map((market) => (
-              <article class:list={['home-hero__market', `home-hero__market--${market.theme}`]}>
-                <div class="home-hero__market-top">
-                  <p class="home-hero__market-status">
-                    <span></span>
-                    {market.status}
-                  </p>
-                  <h3>{market.name}</h3>
-                </div>
-                <ul class="home-hero__market-details">
-                  {market.detail.map((item) => (
-                    <li>
-                      <span>{item.label}</span>
-                      <strong>{item.value}</strong>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--tinted home-about-preview">
-    <div class="container">
-      <div class="home-about-preview__shell">
-        <div class="home-about-preview__lead">
-          <SectionIntro
-            label={about.label}
-            title={about.title}
-            intro={about.intro}
-          />
-          <div class="home-about-preview__actions" data-reveal>
-            <a class="button button--primary" href="/about/">
-              Meet the leadership
-            </a>
-          </div>
-        </div>
-
-        <aside class="leadership-mini" data-reveal aria-label="People behind BRG">
-          <p class="leadership-mini__label">People behind BRG</p>
-          <ul class="leadership-mini__list">
-            {
-              about.team.map((person) => (
-                <li class="leadership-mini__item">
-                  <strong>{person.name}</strong>
-                  <span>{person.role}</span>
-                </li>
-              ))
-            }
-          </ul>
-          <a class="leadership-mini__link" href="/about/#leadership">Read leadership bios</a>
-        </aside>
       </div>
     </div>
   </section>
 
   <PageCta
-    label="Contact"
-    title="Bring the right BRG team into the conversation."
-    intro="BRG routes investor, carbon buyer, and operating-partner conversations to the team that can act on them."
-    primaryAction={{ label: 'Contact BRG', href: '/contact/' }}
-    secondaryAction={{ label: 'About BRG', href: '/about/', variant: 'secondary' }}
+    label={home.finalCta.label}
+    title={home.finalCta.title}
+    intro={home.finalCta.intro}
+    primaryAction={home.finalCta.primaryAction}
+    secondaryAction={home.finalCta.secondaryAction}
   />
 </BaseLayout>
