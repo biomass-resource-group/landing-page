@@ -1,125 +1,72 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EvidenceNote from '../components/EvidenceNote.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
+import ProcessFlow from '../components/ProcessFlow.astro';
+import RevenueStack from '../components/RevenueStack.astro';
 import SectionIntro from '../components/SectionIntro.astro';
-import { commercialModel, ownership, platform, siteMeta, technology } from '../data/site';
+import StatusBadge from '../components/StatusBadge.astro';
+import {
+  commercialModel,
+  glossary,
+  pageMeta,
+  platformPage,
+  siteMeta,
+} from '../data/site';
 
+const meta = pageMeta.platform;
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: 'Platform',
-  url: `${siteMeta.siteUrl}/platform/`,
-  description:
-    'The BRG operating backbone for biomass sourcing, pyrolysis operations, carbon verification, and market access.',
+  name: meta.title,
+  url: `${siteMeta.siteUrl}${meta.path}`,
+  description: meta.description,
 };
 ---
 
-<BaseLayout
-  title="Platform"
-  description="How BRG sources feedstock, operates pyrolysis systems, verifies output, and connects projects to revenue."
-  path="/platform/"
-  structuredData={structuredData}
->
+<BaseLayout title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData}>
   <PageHero
-    eyebrow="Platform"
-    title="The operating backbone behind each BRG asset."
-    intro="BRG secures feedstock, runs pyrolysis, verifies output, and connects every project to paying markets through one operating system."
-    actions={[
-      { label: 'Contact BRG', href: '/contact/' },
-      { label: 'Review markets', href: '/markets/', variant: 'secondary' },
-    ]}
-    meta={platform.signals.map((signal) => signal.label)}
+    eyebrow={platformPage.hero.label}
+    title={platformPage.hero.title}
+    intro={platformPage.hero.intro}
+    actions={[platformPage.hero.primaryAction, platformPage.hero.secondaryAction]}
+    meta={platformPage.hero.meta}
     compact
   >
     <div slot="visual" class="hero-panel hero-panel--flow">
       <div class="hero-panel__header">
         <p class="hero-panel__label">Operating sequence</p>
-        <h2 class="hero-panel__title">From feedstock to revenue in one loop.</h2>
+        <h2 class="hero-panel__title">The repeatable corridor path.</h2>
       </div>
-      <div class="platform-flow" aria-label="BRG operating flow">
-        <div class="platform-flow__node">
-          <span class="platform-flow__label">Feedstock sourcing</span>
-          <p class="platform-flow__detail">Local contracts, logistics, and collection infrastructure in active markets.</p>
-        </div>
-        <span class="platform-flow__arrow" aria-hidden="true"></span>
-        <div class="platform-flow__node">
-          <span class="platform-flow__label">Pyrolysis conversion</span>
-          <p class="platform-flow__detail">Mobile or fixed kilns matched to feedstock type and market throughput.</p>
-        </div>
-        <span class="platform-flow__arrow" aria-hidden="true"></span>
-        <div class="platform-flow__node">
-          <span class="platform-flow__label">Carbon monitoring</span>
-          <p class="platform-flow__detail">MRV workflows aligned with Puro.earth, Isometric, and Verra VM0044 methodologies.</p>
-        </div>
-        <span class="platform-flow__arrow" aria-hidden="true"></span>
-        <div class="platform-flow__fork">
-          <p class="platform-flow__fork-label">Revenue</p>
-          <div class="platform-flow__branches">
-            <div class="platform-flow__branch">
-              <span class="platform-flow__label">Biochar sales</span>
-            </div>
-            <div class="platform-flow__branch">
-              <span class="platform-flow__label">Carbon credits</span>
-            </div>
-            <div class="platform-flow__branch">
-              <span class="platform-flow__label">Kiln licensing</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProcessFlow steps={platformPage.process.steps} />
     </div>
   </PageHero>
 
-  <section class="section section--tinted" id="platform">
+  <section class="section section--tinted" id="operating-model">
     <div class="container">
-      <SectionIntro label={platform.label} title={platform.title} intro={platform.intro} />
-      <div class="platform-layout">
-        <div class="platform-layout__lead">
-          <div class="platform-layout__narrative" data-reveal>
-            <p>{platform.narrative[0]}</p>
-          </div>
-          <div class="platform-callout" data-reveal>
-            <p class="platform-callout__label">Operating moat</p>
-            <p class="platform-callout__copy">{platform.narrative[1]}</p>
-            <div class="platform-callout__signals">
-              {
-                platform.signals.map((signal) => (
-                  <article class="platform-callout__signal">
-                    <span>{signal.label}</span>
-                    <strong>{signal.detail}</strong>
-                  </article>
-                ))
-              }
-            </div>
-          </div>
-        </div>
-        <div class="stacked-list">
-          {
-            platform.capabilities.map((capability, index) => (
-              <article class="stacked-list__item" data-reveal>
-                <span class="stacked-list__index">{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3>{capability.title}</h3>
-                  <p>{capability.description}</p>
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </div>
+      <SectionIntro
+        label={platformPage.process.label}
+        title={platformPage.process.title}
+        intro={platformPage.process.intro}
+      />
+      <ProcessFlow steps={platformPage.process.steps} />
     </div>
   </section>
 
   <section class="section" id="ownership">
     <div class="container">
-      <SectionIntro label={ownership.label} title={ownership.title} intro={ownership.intro} />
-      <div class="ownership-layers">
+      <SectionIntro
+        label={platformPage.ownership.label}
+        title={platformPage.ownership.title}
+        intro={platformPage.ownership.intro}
+      />
+      <div class="card-grid card-grid--five">
         {
-          ownership.layers.map((item) => (
-            <article class="ownership-layer" data-reveal>
-              <p class="ownership-layer__name">{item.layer}</p>
-              <p class="ownership-layer__detail">{item.detail}</p>
+          platformPage.ownership.layers.map((layer) => (
+            <article class="info-card" data-reveal>
+              <h3>{layer.title}</h3>
+              <p>{layer.description}</p>
             </article>
           ))
         }
@@ -127,68 +74,32 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section" id="model">
+  <section class="section section--dark" id="revenue-stack">
     <div class="container">
-      <SectionIntro
-        label={commercialModel.label}
-        title={commercialModel.title}
-        intro={commercialModel.intro}
-      />
-      <div class="model-lines">
-        {
-          commercialModel.lines.map((line, index) => (
-            <article class="model-line" data-reveal>
-              <div class="model-line__lead">
-                <span class="model-line__index">{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <p class="model-line__phase">{line.phase}</p>
-                  <h3>{line.title}</h3>
-                </div>
-              </div>
-              <p class="model-line__description">{line.description}</p>
-              <ul class="model-line__revenue">
-                {line.revenue.map((item) => <li>{item}</li>)}
-              </ul>
-            </article>
-          ))
-        }
-      </div>
+      <SectionIntro label={commercialModel.label} title={commercialModel.title} intro={commercialModel.intro} tone="dark" />
+      <RevenueStack lines={commercialModel.lines} caveat={commercialModel.caveat} />
     </div>
   </section>
 
   <section class="section section--tinted" id="technology">
     <div class="container">
-      <SectionIntro label={technology.label} title={technology.title} intro={technology.intro} />
-      <div class="technology-grid">
+      <SectionIntro
+        label={platformPage.technology.label}
+        title={platformPage.technology.title}
+        intro={platformPage.technology.intro}
+      />
+      <div class="technology-matrix">
         {
-          technology.systems.map((system, index) => (
-            <article
-              class:list={[
-                'technology-card',
-                `technology-card--${system.theme}`,
-                index === 0 && 'technology-card--featured',
-              ]}
-              data-reveal
-            >
-              <div class="technology-card__topline">
-                <span class="technology-card__tag">{system.tag}</span>
-                <div class="technology-card__signal">
-                  <span>{system.specs[0]?.value}</span>
-                  <strong>{system.specs[3]?.value}</strong>
-                </div>
-              </div>
-              <div class="technology-card__body">
+          platformPage.technology.systems.map((system) => (
+            <article class="technology-row" data-reveal>
+              <div>
+                <StatusBadge status={system.status} label={system.statusLabel} />
                 <h3>{system.title}</h3>
-                <p>{system.summary}</p>
-                <dl class="technology-card__specs">
-                  {system.specs.map((spec) => (
-                    <div>
-                      <dt>{spec.label}</dt>
-                      <dd>{spec.value}</dd>
-                    </div>
-                  ))}
-                </dl>
+                <p>{system.description}</p>
               </div>
+              <dl class="definition-grid definition-grid--compact">
+                {system.details.map((detail) => <div><dt>{detail.label}</dt><dd>{detail.value}</dd></div>)}
+              </dl>
             </article>
           ))
         }
@@ -196,11 +107,42 @@ const structuredData = {
     </div>
   </section>
 
+  <section class="section" id="standards">
+    <div class="container">
+      <SectionIntro
+        label={platformPage.standards.label}
+        title={platformPage.standards.title}
+        intro={platformPage.standards.intro}
+      />
+      <div class="card-grid card-grid--three">
+        {
+          platformPage.standards.notes.map((note) => (
+            <EvidenceNote title={note.title} status={note.status} text={note.text} />
+          ))
+        }
+      </div>
+      <div class="glossary-strip">
+        <details>
+          <summary>Carbon removal credits</summary>
+          <p>{glossary.carbonCredits}</p>
+        </details>
+        <details>
+          <summary>H/Corg and EBC</summary>
+          <p>{glossary.hCorg} {glossary.ebc}</p>
+        </details>
+        <details>
+          <summary>Puro.earth, Isometric, Verra VM0044</summary>
+          <p>{glossary.puro} {glossary.isometric} {glossary.verra}</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <PageCta
-    label="Next Step"
-    title="Move from platform review into a live conversation."
-    intro="When the operating model makes sense, the next step is matching you with the right BRG team."
-    primaryAction={{ label: 'Contact BRG', href: '/contact/' }}
-    secondaryAction={{ label: 'See active markets', href: '/markets/', variant: 'secondary' }}
+    label={platformPage.finalCta.label}
+    title={platformPage.finalCta.title}
+    intro={platformPage.finalCta.intro}
+    primaryAction={platformPage.finalCta.primaryAction}
+    secondaryAction={platformPage.finalCta.secondaryAction}
   />
 </BaseLayout>

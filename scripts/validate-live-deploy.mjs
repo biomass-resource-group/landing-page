@@ -99,14 +99,14 @@ const main = async () => {
     'Home page is missing Content-Security-Policy',
   );
   expect(
-    home.text.indexOf('home-model-preview') !== -1 &&
-      home.text.indexOf('home-destinations') !== -1 &&
-      home.text.indexOf('home-model-preview') < home.text.indexOf('home-destinations'),
-    'Home page does not place the commercial model ahead of the diligence-path section',
+    home.text.includes('What BRG does') &&
+      home.text.includes('Choose your pathway') &&
+      home.text.indexOf('What BRG does') < home.text.indexOf('Choose your pathway'),
+    'Home page does not expose the new executive-summary routing structure',
   );
   expect(
-    !home.text.includes('See the full operating model'),
-    'Home page still exposes the duplicate platform CTA copy',
+    home.text.includes('Start the right BRG conversation'),
+    'Home page is missing the route-specific final CTA',
   );
   expect(
     !home.text.includes('/cdn-cgi/l/email-protection') && !home.text.includes('__cf_email__'),
@@ -122,13 +122,24 @@ const main = async () => {
     'Home page still includes Cody Danet LinkedIn link markup',
   );
 
-  await expectReachablePage('/platform/');
-  await expectReachablePage('/markets/');
+  const platform = await expectReachablePage('/platform/');
+  const markets = await expectReachablePage('/markets/');
   const about = await expectReachablePage('/about/');
-  await expectReachablePage('/contact/');
+  const contact = await expectReachablePage('/contact/');
+  expect(platform.text.includes('Careful claim language is part of the platform.'), 'Platform page is missing standards/verification claim handling');
+  expect(markets.text.includes('Status legend'), 'Markets page is missing the status legend');
+  expect(markets.text.includes('Under evaluation, not yet operating'), 'Markets page is missing pipeline separation');
+  expect(contact.text.includes('data-contact-form'), 'Contact page is missing the inquiry form');
+  expect(contact.text.includes('data-form-mode="mailto"'), 'Contact page is missing the static mailto fallback');
+  expect(contact.text.includes('Copy inquiry summary'), 'Contact page is missing inquiry summary copy support');
+  expect(contact.text.includes('info@biomassresourcegroup.com'), 'Contact page is missing visible direct email');
   expect(
     about.text.includes('https://www.linkedin.com/in/julieajbrown/'),
     'About page is missing Julie Brown LinkedIn markup',
+  );
+  expect(
+    about.text.includes('Standards and verification pathways'),
+    'About page is missing renamed standards and verification pathway language',
   );
   expect(
     !about.text.includes('https://www.linkedin.com/in/cody-danet/'),

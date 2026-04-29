@@ -1,14 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { pageMeta } from '../data/site';
 
 const destination = '/about/';
+const meta = pageMeta.company;
 ---
 
 <BaseLayout
-  title="About BRG"
-  description="The About BRG page has moved to /about/."
-  path={destination}
-  noindex
+  title={meta.title}
+  description={meta.description}
+  path={meta.path}
+  noindex={meta.noindex}
 >
   <section class="section">
     <div class="container">

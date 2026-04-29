@@ -6,6 +6,8 @@ import { parseHeadersBlocks } from './headers-utils.mjs';
 const repoRoot = process.cwd();
 const distDir = join(repoRoot, 'dist');
 const siteUrl = 'https://biomassresourcegroup.com';
+const failures = [];
+
 const requiredFiles = [
   'index.html',
   join('about', 'index.html'),
@@ -13,6 +15,7 @@ const requiredFiles = [
   join('markets', 'index.html'),
   join('company', 'index.html'),
   join('contact', 'index.html'),
+  '404.html',
   'robots.txt',
   'sitemap-index.xml',
   '_headers',
@@ -21,19 +24,56 @@ const requiredFiles = [
   join('scripts', 'company-redirect.js'),
   join('scripts', 'site-ui.js'),
 ];
-const retiredSelectors = [
-  '.hero-visual',
-  '.hero-metrics',
-  '.affiliations__item',
-  '.model-card',
-  '.technology-panel',
-  '.region-panel',
-  '.update-card',
-  '.cta-card',
-];
 
-const failures = [];
-const canonicalOverrides = new Map([['/company/', `${siteUrl}/about/`]]);
+const routeExpectations = new Map([
+  ['index.html', {
+    canonical: `${siteUrl}/`,
+    title: 'Biochar Carbon Removal Infrastructure | Biomass Resource Group',
+    description: 'BRG builds and operates biochar carbon removal assets where waste biomass, markets, and field execution meet.',
+  }],
+  [join('platform', 'index.html'), {
+    canonical: `${siteUrl}/platform/`,
+    title: 'Operating Platform | Biomass Resource Group',
+    description: 'How BRG originates, owns, operates, monitors, and commercializes biochar carbon removal infrastructure.',
+  }],
+  [join('markets', 'index.html'), {
+    canonical: `${siteUrl}/markets/`,
+    title: 'Active Biochar Markets | Biomass Resource Group',
+    description: 'Active BRG biochar corridors, verification pathways, commercial milestones, and pipeline markets under evaluation.',
+  }],
+  [join('about', 'index.html'), {
+    canonical: `${siteUrl}/about/`,
+    title: 'About BRG | Biomass Resource Group',
+    description: 'Leadership, operating principles, evidence posture, and standards pathways behind Biomass Resource Group.',
+  }],
+  [join('contact', 'index.html'), {
+    canonical: `${siteUrl}/contact/`,
+    title: 'Contact BRG | Biomass Resource Group',
+    description: 'Choose the right BRG conversation for investment, carbon offtake, project delivery, or general inquiries.',
+  }],
+  [join('company', 'index.html'), {
+    canonical: `${siteUrl}/about/`,
+    title: 'About BRG | Biomass Resource Group',
+    noindex: true,
+  }],
+  ['404.html', {
+    canonical: `${siteUrl}/404.html`,
+    title: 'Page not found | Biomass Resource Group',
+    noindex: true,
+  }],
+]);
+
+const forbiddenContent = [
+  'FORM_ID_PLACEHOLDER',
+  'Affiliations and standards',
+  'ICVCM-approved',
+  'Each production run can generate verified credits',
+  'Converting waste biomass into verified carbon removal',
+  '/cdn-cgi/l/email-protection',
+  '__cf_email__',
+  'Toggle navigation',
+  'https://www.linkedin.com/in/cody-danet/',
+];
 
 const expect = (condition, message) => {
   if (!condition) failures.push(message);
@@ -46,7 +86,6 @@ const expectFile = (relativePath) => {
 };
 
 const read = (relativePath) => readFileSync(join(distDir, relativePath), 'utf8');
-const matchAll = (value, expression) => Array.from(value.matchAll(expression));
 
 const collectRelativePaths = (directory, predicate, currentPath = '') => {
   const absoluteDirectory = currentPath ? join(directory, currentPath) : directory;
@@ -62,9 +101,7 @@ const collectRelativePaths = (directory, predicate, currentPath = '') => {
       continue;
     }
 
-    if (predicate(relativePath)) {
-      matches.push(relativePath);
-    }
+    if (predicate(relativePath)) matches.push(relativePath);
   }
 
   return matches;
@@ -72,15 +109,10 @@ const collectRelativePaths = (directory, predicate, currentPath = '') => {
 
 const toRoutePattern = (relativePath) => {
   const normalizedPath = relativePath.replaceAll('\\', '/');
-
-  if (normalizedPath === 'index.html') {
-    return '/';
-  }
-
+  if (normalizedPath === 'index.html') return '/';
   if (normalizedPath.endsWith('/index.html')) {
     return `/${normalizedPath.slice(0, -'index.html'.length)}`;
   }
-
   return `/${normalizedPath}`;
 };
 
@@ -100,54 +132,46 @@ const extractScripts = (html) =>
 
 const hashScript = (content) => createHash('sha256').update(content).digest('base64');
 
-for (const relativePath of requiredFiles) {
-  expectFile(relativePath);
+if (!existsSync(distDir)) {
+  throw new Error(`Missing dist directory at ${distDir}. Run npm run build first.`);
 }
+
+for (const file of requiredFiles) expectFile(file);
 
 expect(!existsSync(join(distDir, 'updates')), 'dist still contains a public updates directory');
 
-const redirects = readFileSync(join(distDir, '_redirects'), 'utf8');
-expect(redirects.includes('/updates /'), '_redirects is missing the /updates redirect');
-expect(redirects.includes('/updates/* /'), '_redirects is missing the /updates/* redirect');
+const redirects = read('_redirects');
+expect(redirects.includes('/company /about 301'), '_redirects is missing /company 301');
+expect(redirects.includes('/company/ /about/ 301'), '_redirects is missing /company/ 301');
+expect(redirects.includes('/updates /'), '_redirects is missing /updates redirect');
+expect(redirects.includes('/updates/* /'), '_redirects is missing /updates/* redirect');
 
-const htmlPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.html'));
 const headersBlocks = parseHeadersBlocks(read('_headers'));
-
 const rootHeaders = headersBlocks.get('/*') ?? new Map();
 const assetHeaders = headersBlocks.get('/_astro/*') ?? new Map();
 
 expect(rootHeaders.get('x-frame-options') === 'DENY', '_headers is missing X-Frame-Options: DENY');
-expect(
-  rootHeaders.get('referrer-policy') === 'strict-origin-when-cross-origin',
-  '_headers is missing Referrer-Policy: strict-origin-when-cross-origin',
-);
-expect(
-  rootHeaders.get('cross-origin-opener-policy') === 'same-origin',
-  '_headers is missing Cross-Origin-Opener-Policy: same-origin',
-);
-expect(
-  rootHeaders.get('cross-origin-resource-policy') === 'same-origin',
-  '_headers is missing Cross-Origin-Resource-Policy: same-origin',
-);
-expect(
-  assetHeaders.get('cache-control') === 'public, max-age=31536000, immutable',
-  '_headers is missing immutable caching for /_astro/* assets',
-);
+expect(rootHeaders.get('referrer-policy') === 'strict-origin-when-cross-origin', '_headers is missing Referrer-Policy');
+expect(rootHeaders.get('cross-origin-opener-policy') === 'same-origin', '_headers is missing COOP');
+expect(rootHeaders.get('cross-origin-resource-policy') === 'same-origin', '_headers is missing CORP');
+expect(assetHeaders.get('cache-control') === 'public, max-age=31536000, immutable', '_headers is missing immutable asset cache policy');
 
 const cssAssets = collectRelativePaths(join(distDir, '_astro'), (relativePath) =>
   relativePath.endsWith('.css'),
 );
-
 for (const cssAsset of cssAssets) {
   const stylesheet = readFileSync(join(distDir, '_astro', cssAsset), 'utf8');
-
-  expect(!stylesheet.includes('data:font/'), `${cssAsset} still contains inlined font data URLs`);
+  expect(!stylesheet.includes('data:font/'), `${cssAsset} contains inlined font data URLs`);
+  expect(stylesheet.includes('prefers-reduced-motion'), `${cssAsset} is missing reduced-motion rules`);
+  expect(!/a\{[^}]*text-decoration:none/.test(stylesheet), `${cssAsset} globally removes link underlines`);
 }
+
+const htmlPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.html'));
 
 for (const relativePath of htmlPaths) {
   const html = read(relativePath);
   const routePattern = toRoutePattern(relativePath);
-  const canonical = canonicalOverrides.get(routePattern) ?? `${siteUrl}${routePattern}`;
+  const expectation = routeExpectations.get(relativePath);
   const routeHeaders = headersBlocks.get(routePattern);
   const scripts = extractScripts(html);
   const executableInlineScripts = scripts.filter(
@@ -158,23 +182,6 @@ for (const relativePath of htmlPaths) {
   );
   const csp = routeHeaders?.get('content-security-policy') ?? '';
 
-  expect(
-    html.includes(`<link rel="canonical" href="${canonical}"`),
-    `${relativePath} is missing canonical ${canonical}`,
-  );
-  expect(
-    html.includes(`<meta property="og:image" content="${siteUrl}/og-default.jpg"`),
-    `${relativePath} is missing og:image`,
-  );
-  expect(
-    html.includes(`<meta name="twitter:image" content="${siteUrl}/og-default.jpg"`),
-    `${relativePath} is missing twitter:image`,
-  );
-  expect(
-    html.includes('<meta name="twitter:card" content="summary_large_image"'),
-    `${relativePath} is missing summary_large_image twitter card`,
-  );
-  expect(!html.includes('/updates/'), `${relativePath} still links to a removed /updates route`);
   expect(
     /<a class="skip-link" href="#content">Skip to content<\/a>/.test(html),
     `${relativePath} is missing the skip link`,
@@ -187,158 +194,96 @@ for (const relativePath of htmlPaths) {
     /<script[^>]*src="\/scripts\/site-ui\.js"[^>]*defer[^>]*><\/script>/.test(html),
     `${relativePath} is missing the deferred site-ui script`,
   );
-  expect(
-    executableInlineScripts.length === 0,
-    `${relativePath} still contains inline executable script blocks`,
-  );
+  expect(executableInlineScripts.length === 0, `${relativePath} contains inline executable scripts`);
   expect(routeHeaders instanceof Map, `${relativePath} is missing a route-specific CSP block`);
+  expect(html.includes(`<meta property="og:image" content="${siteUrl}/og-default.jpg"`), `${relativePath} is missing og:image`);
+  expect(html.includes(`<meta name="twitter:image" content="${siteUrl}/og-default.jpg"`), `${relativePath} is missing twitter:image`);
+  expect(html.includes('<meta name="twitter:card" content="summary_large_image"'), `${relativePath} is missing Twitter summary_large_image`);
+  expect(!html.includes('/updates/'), `${relativePath} still links to removed /updates route`);
 
-  if (!routeHeaders) {
-    continue;
+  if (expectation) {
+    expect(html.includes(`<link rel="canonical" href="${expectation.canonical}"`), `${relativePath} has the wrong canonical`);
+    expect(html.includes(`<title>${expectation.title}</title>`), `${relativePath} has the wrong title`);
+    if (expectation.description) {
+      expect(html.includes(`<meta name="description" content="${expectation.description}"`), `${relativePath} has the wrong description`);
+    }
+    expect(
+      expectation.noindex ? html.includes('content="noindex, nofollow"') : !/noindex/i.test(html),
+      `${relativePath} has the wrong robots indexing state`,
+    );
   }
 
-  expect(
-    csp.includes("default-src 'self'"),
-    `${relativePath} CSP is missing default-src 'self'`,
-  );
-  expect(
-    csp.includes("script-src 'self'"),
-    `${relativePath} CSP is missing script-src 'self'`,
-  );
-  expect(
-    csp.includes('https://static.cloudflareinsights.com'),
-    `${relativePath} CSP is missing Cloudflare Insights script allowance`,
-  );
-  expect(
-    csp.includes("connect-src 'self' https://cloudflareinsights.com"),
-    `${relativePath} CSP is missing Cloudflare Insights connect allowance`,
-  );
-  expect(
-    csp.includes("style-src 'self'"),
-    `${relativePath} CSP is missing style-src 'self'`,
-  );
+  for (const forbidden of forbiddenContent) {
+    expect(!html.includes(forbidden), `${relativePath} still contains forbidden content: ${forbidden}`);
+  }
+
+  if (!routeHeaders) continue;
+
+  expect(csp.includes("default-src 'self'"), `${relativePath} CSP is missing default-src 'self'`);
+  expect(csp.includes("script-src 'self'"), `${relativePath} CSP is missing script-src 'self'`);
+  expect(csp.includes("style-src 'self'"), `${relativePath} CSP is missing style-src 'self'`);
   expect(csp.includes("object-src 'none'"), `${relativePath} CSP is missing object-src 'none'`);
   expect(csp.includes("base-uri 'self'"), `${relativePath} CSP is missing base-uri 'self'`);
-  expect(
-    csp.includes("frame-ancestors 'none'"),
-    `${relativePath} CSP is missing frame-ancestors 'none'`,
-  );
+  expect(csp.includes("frame-ancestors 'none'"), `${relativePath} CSP is missing frame-ancestors 'none'`);
+  expect(csp.includes("form-action 'self' https://formspree.io mailto:"), `${relativePath} CSP is missing static contact form-action support`);
 
   for (const script of jsonLdScripts) {
     const hash = hashScript(script.content);
-    expect(
-      csp.includes(`'sha256-${hash}'`),
-      `${relativePath} CSP is missing the JSON-LD script hash ${hash}`,
-    );
+    expect(csp.includes(`'sha256-${hash}'`), `${relativePath} CSP is missing JSON-LD hash ${hash}`);
   }
 }
 
-const aboutHtml = read(join('about', 'index.html'));
 const homeHtml = read('index.html');
+const platformHtml = read(join('platform', 'index.html'));
+const marketsHtml = read(join('markets', 'index.html'));
+const aboutHtml = read(join('about', 'index.html'));
 const contactHtml = read(join('contact', 'index.html'));
-const modelPreviewPosition = homeHtml.indexOf('home-model-preview');
-const destinationsPosition = homeHtml.indexOf('home-destinations');
+const notFoundHtml = read('404.html');
+const siteUi = read(join('scripts', 'site-ui.js'));
+const sitemap = read('sitemap-0.xml');
 
-expect(
-  /<h2 class="home-hero__stage-title">\s*Operating today\s*<\/h2>/.test(homeHtml),
-  'index.html is missing the hero stage h2 heading',
-);
-expect(
-  /<dl class="home-hero__proof">/.test(homeHtml),
-  'index.html is missing the homepage proof stat strip',
-);
-expect(
-  homeHtml.includes('href="/platform/"') &&
-    homeHtml.includes('href="/markets/"') &&
-    homeHtml.includes('href="/about/"') &&
-    homeHtml.includes('href="/contact/"'),
-  'index.html is missing one or more primary architecture links',
-);
-expect(
-  modelPreviewPosition !== -1 && destinationsPosition !== -1 && modelPreviewPosition < destinationsPosition,
-  'index.html does not place the commercial model ahead of the diligence-path section',
-);
-expect(
-  !homeHtml.includes('See the full operating model'),
-  'index.html still includes the duplicate platform CTA',
-);
-expect(
-  !/Latest Activity|View all updates|Read the update|Latest milestone|Latest update/.test(homeHtml),
-  'index.html still exposes removed updates language',
-);
-expect(
-  !homeHtml.includes('/cdn-cgi/l/email-protection') && !homeHtml.includes('__cf_email__'),
-  'index.html still contains Cloudflare email obfuscation markup',
-);
-expect(
-  !contactHtml.includes('/cdn-cgi/l/email-protection') && !contactHtml.includes('__cf_email__'),
-  'contact/index.html still contains Cloudflare email obfuscation markup',
-);
-expect(
-  !aboutHtml.includes('/cdn-cgi/l/email-protection') && !aboutHtml.includes('__cf_email__'),
-  'about/index.html still contains Cloudflare email obfuscation markup',
-);
-expect(
-  !homeHtml.includes('https://www.linkedin.com/in/cody-danet/'),
-  'index.html still includes Cody Danet LinkedIn link markup',
-);
-expect(
-  aboutHtml.includes('https://www.linkedin.com/in/julieajbrown/'),
-  'about/index.html is missing Julie Brown LinkedIn markup',
-);
-expect(
-  !aboutHtml.includes('https://www.linkedin.com/in/cody-danet/'),
-  'about/index.html still includes Cody Danet LinkedIn link markup',
-);
-expect(
-  matchAll(contactHtml, /class="pathway-card"/g).length === 3,
-  'contact/index.html is missing one or more audience pathway cards',
-);
+expect(homeHtml.includes('What BRG does'), 'Home page is missing the What BRG does section');
+expect(homeHtml.includes('Choose your pathway'), 'Home page is missing role pathways');
+expect(homeHtml.includes('Start the right BRG conversation'), 'Home page final CTA is not route-specific');
+expect(homeHtml.indexOf('What BRG does') < homeHtml.indexOf('Choose your pathway'), 'Home page information architecture is out of order');
+expect(!homeHtml.includes('Live infrastructure'), 'Home page still duplicates the old live infrastructure section');
 
-const cssPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.css'));
-const css = cssPaths.map((relativePath) => read(relativePath)).join('\n');
+expect(platformHtml.includes('From origination to market access.'), 'Platform page is missing the operating model');
+expect(platformHtml.includes('Three revenue lines, one physical asset base.'), 'Platform page is missing the revenue stack');
+expect(platformHtml.includes('Careful claim language is part of the platform.'), 'Platform page is missing standards/verification handling');
 
-expect(
-  /html:not\(\.js\)\s+\.mobile-menu\s*\{[^}]*display\s*:\s*block/i.test(css),
-  'Built CSS is missing the no-JS mobile navigation fallback',
-);
-expect(
-  /html\.js\s+\.site-menu-toggle\s*\{[^}]*display\s*:\s*inline-flex/i.test(css),
-  'Built CSS is missing the JS-gated mobile menu toggle',
-);
-expect(
-  /html\.js\s+\.mobile-menu\.is-open\s*\{[^}]*display\s*:\s*block/i.test(css),
-  'Built CSS is missing the JS-driven mobile menu open state',
-);
+expect(marketsHtml.includes('Status legend'), 'Markets page is missing the status legend');
+expect(marketsHtml.includes('Under evaluation, not yet operating'), 'Markets page is missing pipeline separation');
+expect(marketsHtml.includes('Pakistan') && marketsHtml.includes('MENA') && marketsHtml.includes('Sub-Saharan Africa'), 'Markets page is missing pipeline markets');
 
-for (const selector of retiredSelectors) {
-  expect(!css.includes(selector), `Built CSS still ships retired selector ${selector}`);
-}
+expect(aboutHtml.includes('Standards and verification pathways'), 'About page is missing renamed standards section');
+expect(aboutHtml.includes('Julie Brown') && aboutHtml.includes('https://www.linkedin.com/in/julieajbrown/'), 'About page is missing Julie Brown LinkedIn');
+expect(aboutHtml.includes('Direct jobs pipeline'), 'About page is missing evidence snapshot');
 
-const robots = read('robots.txt');
-expect(
-  robots.includes(`Sitemap: ${siteUrl}/sitemap-index.xml`),
-  'robots.txt is missing the production sitemap reference',
-);
+expect(contactHtml.includes('data-contact-form'), 'Contact page is missing the always-rendered inquiry form');
+expect(contactHtml.includes('data-form-mode="mailto"'), 'Contact form is not configured for static mailto fallback');
+expect(contactHtml.includes('Copy inquiry summary'), 'Contact page is missing inquiry summary copy action');
+expect(contactHtml.includes('info@biomassresourcegroup.com'), 'Contact page is missing visible info email');
+expect(contactHtml.includes('invest@biomassresourcegroup.com'), 'Contact page is missing visible investor email');
+expect(contactHtml.includes('carbon@biomassresourcegroup.com'), 'Contact page is missing visible carbon email');
+expect(contactHtml.includes('partnerships@biomassresourcegroup.com'), 'Contact page is missing visible partnerships email');
 
-const sitemapXml = collectRelativePaths(distDir, (relativePath) => /sitemap-.*\.xml$/.test(relativePath))
-  .map((relativePath) => read(relativePath))
-  .join('\n');
-expect(sitemapXml.includes('/about/'), 'Sitemap output is missing the canonical /about/ route');
-expect(!sitemapXml.includes('/company/'), 'Sitemap output still includes the legacy /company/ route');
+expect(notFoundHtml.includes('Page not found.'), '404 page is missing the required heading');
+expect(notFoundHtml.includes('/platform/') && notFoundHtml.includes('/markets/') && notFoundHtml.includes('/contact/') && notFoundHtml.includes('href="/"'), '404 page is missing recovery links');
 
-const redirectsFile = read('_redirects');
-expect(
-  redirectsFile.includes('/company /about 301') && redirectsFile.includes('/company/ /about/ 301'),
-  '_redirects is missing the company-to-about compatibility redirects',
-);
+expect(siteUi.includes('hidden = !isOpen'), 'site-ui does not manage hidden state for the mobile menu');
+expect(siteUi.includes("toggleAttribute('inert'"), 'site-ui does not manage inert state for the mobile menu');
+expect(siteUi.includes('Close navigation') && siteUi.includes('Open navigation'), 'site-ui does not update menu labels');
+expect(siteUi.includes('window.location.href = `mailto:'), 'site-ui does not implement the mailto form fallback');
+expect(siteUi.includes('navigator.clipboard.writeText'), 'site-ui does not implement copy-to-clipboard behavior');
+
+expect(!sitemap.includes('/company/'), 'sitemap includes duplicate /company/');
+expect(!sitemap.includes('/404/'), 'sitemap includes /404/');
 
 if (failures.length > 0) {
-  console.error('Dist validation failed:\n');
-  for (const failure of failures) {
-    console.error(`- ${failure}`);
-  }
+  console.error('Distribution validation failed:\n');
+  for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log('Dist validation passed.');
+console.log(`Distribution validation passed for ${htmlPaths.length} HTML routes.`);

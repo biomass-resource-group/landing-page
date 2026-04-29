@@ -1,0 +1,26 @@
+---
+interface Step {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  steps: readonly Step[];
+  ordered?: boolean;
+}
+
+const { steps, ordered = true } = Astro.props;
+const ListTag = ordered ? 'ol' : 'div';
+---
+
+<ListTag class="process-flow">
+  {
+    steps.map((step, index) => (
+      <li class="process-flow__step" data-reveal>
+        <span class="process-flow__index">{String(index + 1).padStart(2, '0')}</span>
+        <h3>{step.title}</h3>
+        <p>{step.description}</p>
+      </li>
+    ))
+  }
+</ListTag>

@@ -1,0 +1,28 @@
+---
+interface Line {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  lines: readonly Line[];
+  caveat?: string;
+}
+
+const { lines, caveat } = Astro.props;
+---
+
+<div class="revenue-stack" data-reveal>
+  <div class="revenue-stack__grid">
+    {
+      lines.map((line, index) => (
+        <article class="revenue-stack__item">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <h3>{line.title}</h3>
+          <p>{line.description}</p>
+        </article>
+      ))
+    }
+  </div>
+  {caveat && <p class="revenue-stack__caveat">{caveat}</p>}
+</div>

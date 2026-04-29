@@ -1,0 +1,28 @@
+---
+interface Props {
+  keyName: string;
+  label: string;
+  title: string;
+  description: string;
+  recipient: string;
+  subject: string;
+}
+
+const { keyName, label, title, description, recipient, subject } = Astro.props;
+const href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}`;
+---
+
+<article class="contact-route-card" data-contact-route-card data-route={keyName} data-reveal>
+  <button class="contact-route-card__button" type="button" data-contact-route={keyName}>
+    <span>{label}</span>
+    <strong>{title}</strong>
+    <small>{recipient}</small>
+  </button>
+  <p>{description}</p>
+  <a class="text-action" href={href}>
+    Email this route
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h14M13 5l7 7-7 7"></path>
+    </svg>
+  </a>
+</article>
