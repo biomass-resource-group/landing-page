@@ -6,13 +6,12 @@ import PageHero from '../components/PageHero.astro';
 import ProcessFlow from '../components/ProcessFlow.astro';
 import RevenueStack from '../components/RevenueStack.astro';
 import SectionIntro from '../components/SectionIntro.astro';
-import StatusBadge from '../components/StatusBadge.astro';
 import {
   commercialModel,
-  glossary,
   pageMeta,
   platformPage,
   siteMeta,
+  verification,
 } from '../data/site';
 
 const meta = pageMeta.platform;
@@ -31,19 +30,10 @@ const structuredData = {
     title={platformPage.hero.title}
     intro={platformPage.hero.intro}
     actions={[platformPage.hero.primaryAction, platformPage.hero.secondaryAction]}
-    meta={platformPage.hero.meta}
     compact
-  >
-    <div slot="visual" class="hero-panel hero-panel--flow">
-      <div class="hero-panel__header">
-        <p class="hero-panel__label">Operating sequence</p>
-        <h2 class="hero-panel__title">The repeatable corridor path.</h2>
-      </div>
-      <ProcessFlow steps={platformPage.process.steps} />
-    </div>
-  </PageHero>
+  />
 
-  <section class="section section--tinted" id="operating-model">
+  <section class="section" id="operating-model">
     <div class="container">
       <SectionIntro
         label={platformPage.process.label}
@@ -54,56 +44,10 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section" id="ownership">
-    <div class="container">
-      <SectionIntro
-        label={platformPage.ownership.label}
-        title={platformPage.ownership.title}
-        intro={platformPage.ownership.intro}
-      />
-      <div class="card-grid card-grid--five">
-        {
-          platformPage.ownership.layers.map((layer) => (
-            <article class="info-card" data-reveal>
-              <h3>{layer.title}</h3>
-              <p>{layer.description}</p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
   <section class="section section--dark" id="revenue-stack">
     <div class="container">
       <SectionIntro label={commercialModel.label} title={commercialModel.title} intro={commercialModel.intro} tone="dark" />
       <RevenueStack lines={commercialModel.lines} caveat={commercialModel.caveat} />
-    </div>
-  </section>
-
-  <section class="section section--tinted" id="technology">
-    <div class="container">
-      <SectionIntro
-        label={platformPage.technology.label}
-        title={platformPage.technology.title}
-        intro={platformPage.technology.intro}
-      />
-      <div class="technology-matrix">
-        {
-          platformPage.technology.systems.map((system) => (
-            <article class="technology-row" data-reveal>
-              <div>
-                <StatusBadge status={system.status} label={system.statusLabel} />
-                <h3>{system.title}</h3>
-                <p>{system.description}</p>
-              </div>
-              <dl class="definition-grid definition-grid--compact">
-                {system.details.map((detail) => <div><dt>{detail.label}</dt><dd>{detail.value}</dd></div>)}
-              </dl>
-            </article>
-          ))
-        }
-      </div>
     </div>
   </section>
 
@@ -114,27 +58,11 @@ const structuredData = {
         title={platformPage.standards.title}
         intro={platformPage.standards.intro}
       />
-      <div class="card-grid card-grid--three">
-        {
-          platformPage.standards.notes.map((note) => (
-            <EvidenceNote title={note.title} status={note.status} text={note.text} />
-          ))
-        }
-      </div>
-      <div class="glossary-strip">
-        <details>
-          <summary>Carbon removal credits</summary>
-          <p>{glossary.carbonCredits}</p>
-        </details>
-        <details>
-          <summary>H/Corg and EBC</summary>
-          <p>{glossary.hCorg} {glossary.ebc}</p>
-        </details>
-        <details>
-          <summary>Puro.earth, Isometric, Verra VM0044</summary>
-          <p>{glossary.puro} {glossary.isometric} {glossary.verra}</p>
-        </details>
-      </div>
+      <EvidenceNote
+        title="Verification posture"
+        status="verificationReady"
+        text={verification.claimLanguage}
+      />
     </div>
   </section>
 

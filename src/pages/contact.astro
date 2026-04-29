@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
-import ContactRouteCard from '../components/ContactRouteCard.astro';
 import CopyEmailButton from '../components/CopyEmailButton.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
@@ -23,43 +22,8 @@ const structuredData = {
     title={contact.hero.title}
     intro={contact.hero.intro}
     actions={[contact.hero.primaryAction, contact.hero.secondaryAction]}
-    meta={contact.hero.meta}
     compact
-  >
-    <div slot="visual" class="hero-panel hero-panel--routes">
-      <div class="hero-panel__header">
-        <p class="hero-panel__label">Routes</p>
-        <h2 class="hero-panel__title">Select a route or use direct email.</h2>
-      </div>
-      <div class="hero-route-list">
-        {contact.routes.map((route) => <a class="hero-route" href={`?type=${route.key}#inquiry-form`}><span>{route.label}</span><strong>{route.subject}</strong></a>)}
-      </div>
-    </div>
-  </PageHero>
-
-  <section class="section section--tinted" id="routes">
-    <div class="container">
-      <SectionIntro
-        label="Contact route selector"
-        title="Choose the team path before you write."
-        intro="Selecting a route updates the inquiry form when JavaScript is available. Without JavaScript, each card still includes a direct email link."
-      />
-      <div class="card-grid card-grid--four">
-        {
-          contact.routes.map((route) => (
-            <ContactRouteCard
-              keyName={route.key}
-              label={route.label}
-              title={route.title}
-              description={route.description}
-              recipient={route.recipient}
-              subject={route.subject}
-            />
-          ))
-        }
-      </div>
-    </div>
-  </section>
+  />
 
   <ContactForm />
 

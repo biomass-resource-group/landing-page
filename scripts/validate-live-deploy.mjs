@@ -100,14 +100,16 @@ const main = async () => {
   );
   expect(
     home.text.includes('What BRG does') &&
-      home.text.includes('Choose your pathway') &&
-      home.text.indexOf('What BRG does') < home.text.indexOf('Choose your pathway'),
-    'Home page does not expose the new executive-summary routing structure',
+      home.text.includes('Where work is active now') &&
+      home.text.indexOf('What BRG does') < home.text.indexOf('Where work is active now'),
+    'Home page does not expose the simplified executive-summary structure',
   );
   expect(
-    home.text.includes('Start the right BRG conversation'),
-    'Home page is missing the route-specific final CTA',
+    home.text.includes('Start a focused conversation'),
+    'Home page is missing the simplified final CTA',
   );
+  expect(!home.text.includes('Choose your pathway'), 'Home page still contains the removed role-pathway section');
+  expect(!home.text.includes('Why the platform scales'), 'Home page still contains the removed platform-scale section');
   expect(
     !home.text.includes('/cdn-cgi/l/email-protection') && !home.text.includes('__cf_email__'),
     'Home page still contains Cloudflare email obfuscation markup',
@@ -126,9 +128,12 @@ const main = async () => {
   const markets = await expectReachablePage('/markets/');
   const about = await expectReachablePage('/about/');
   const contact = await expectReachablePage('/contact/');
-  expect(platform.text.includes('Careful claim language is part of the platform.'), 'Platform page is missing standards/verification claim handling');
-  expect(markets.text.includes('Status legend'), 'Markets page is missing the status legend');
-  expect(markets.text.includes('Under evaluation, not yet operating'), 'Markets page is missing pipeline separation');
+  expect(platform.text.includes('Verification claims stay narrow'), 'Platform page is missing standards/verification claim handling');
+  expect(!platform.text.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
+  expect(!platform.text.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
+  expect(markets.text.includes('Operating work underway'), 'Markets page is missing active corridors');
+  expect(markets.text.includes('Markets under evaluation'), 'Markets page is missing pipeline separation');
+  expect(!markets.text.includes('Status legend'), 'Markets page still contains the removed status legend');
   expect(contact.text.includes('data-contact-form'), 'Contact page is missing the inquiry form');
   expect(contact.text.includes('data-form-mode="mailto"'), 'Contact page is missing the static mailto fallback');
   expect(contact.text.includes('Copy inquiry summary'), 'Contact page is missing inquiry summary copy support');
@@ -141,6 +146,8 @@ const main = async () => {
     about.text.includes('Standards and verification pathways'),
     'About page is missing renamed standards and verification pathway language',
   );
+  expect(!about.text.includes('Direct jobs pipeline'), 'About page still contains the removed evidence snapshot');
+  expect(!about.text.includes('Operating principles'), 'About page still contains the removed principles section');
   expect(
     !about.text.includes('https://www.linkedin.com/in/cody-danet/'),
     'About page still includes Cody Danet LinkedIn link markup',

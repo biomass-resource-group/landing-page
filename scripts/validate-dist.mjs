@@ -29,27 +29,27 @@ const routeExpectations = new Map([
   ['index.html', {
     canonical: `${siteUrl}/`,
     title: 'Biochar Carbon Removal Infrastructure | Biomass Resource Group',
-    description: 'BRG builds and operates biochar carbon removal assets where waste biomass, markets, and field execution meet.',
+    description: 'BRG builds biochar carbon removal infrastructure from waste biomass in emerging markets.',
   }],
   [join('platform', 'index.html'), {
     canonical: `${siteUrl}/platform/`,
     title: 'Operating Platform | Biomass Resource Group',
-    description: 'How BRG originates, owns, operates, monitors, and commercializes biochar carbon removal infrastructure.',
+    description: 'How BRG turns feedstock, kiln deployment, monitoring, and buyers into operating biochar projects.',
   }],
   [join('markets', 'index.html'), {
     canonical: `${siteUrl}/markets/`,
     title: 'Active Biochar Markets | Biomass Resource Group',
-    description: 'Active BRG biochar corridors, verification pathways, commercial milestones, and pipeline markets under evaluation.',
+    description: 'The BRG corridors currently active and the markets still under evaluation.',
   }],
   [join('about', 'index.html'), {
     canonical: `${siteUrl}/about/`,
     title: 'About BRG | Biomass Resource Group',
-    description: 'Leadership, operating principles, evidence posture, and standards pathways behind Biomass Resource Group.',
+    description: 'Leadership and verification posture behind Biomass Resource Group.',
   }],
   [join('contact', 'index.html'), {
     canonical: `${siteUrl}/contact/`,
     title: 'Contact BRG | Biomass Resource Group',
-    description: 'Choose the right BRG conversation for investment, carbon offtake, project delivery, or general inquiries.',
+    description: 'Contact BRG for investment, carbon offtake, project delivery, or general inquiries.',
   }],
   [join('company', 'index.html'), {
     canonical: `${siteUrl}/about/`,
@@ -243,22 +243,30 @@ const siteUi = read(join('scripts', 'site-ui.js'));
 const sitemap = read('sitemap-0.xml');
 
 expect(homeHtml.includes('What BRG does'), 'Home page is missing the What BRG does section');
-expect(homeHtml.includes('Choose your pathway'), 'Home page is missing role pathways');
-expect(homeHtml.includes('Start the right BRG conversation'), 'Home page final CTA is not route-specific');
-expect(homeHtml.indexOf('What BRG does') < homeHtml.indexOf('Choose your pathway'), 'Home page information architecture is out of order');
+expect(homeHtml.includes('Where work is active now'), 'Home page is missing the active corridors section');
+expect(homeHtml.includes('Start a focused conversation'), 'Home page final CTA is missing');
+expect(homeHtml.indexOf('What BRG does') < homeHtml.indexOf('Where work is active now'), 'Home page information architecture is out of order');
 expect(!homeHtml.includes('Live infrastructure'), 'Home page still duplicates the old live infrastructure section');
+expect(!homeHtml.includes('Choose your pathway'), 'Home page still contains the removed role-pathway section');
+expect(!homeHtml.includes('Why the platform scales'), 'Home page still contains the removed platform-scale section');
+expect(!homeHtml.includes('home-metrics'), 'Home page still contains duplicate metric section markup');
 
-expect(platformHtml.includes('From origination to market access.'), 'Platform page is missing the operating model');
-expect(platformHtml.includes('Three revenue lines, one physical asset base.'), 'Platform page is missing the revenue stack');
-expect(platformHtml.includes('Careful claim language is part of the platform.'), 'Platform page is missing standards/verification handling');
+expect(platformHtml.includes('From feedstock to market'), 'Platform page is missing the operating model');
+expect(platformHtml.includes('Three revenue lines'), 'Platform page is missing the revenue stack');
+expect(platformHtml.includes('Verification claims stay narrow'), 'Platform page is missing standards/verification handling');
+expect(!platformHtml.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
+expect(!platformHtml.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
 
-expect(marketsHtml.includes('Status legend'), 'Markets page is missing the status legend');
-expect(marketsHtml.includes('Under evaluation, not yet operating'), 'Markets page is missing pipeline separation');
+expect(marketsHtml.includes('Operating work underway'), 'Markets page is missing active corridors');
+expect(marketsHtml.includes('Markets under evaluation'), 'Markets page is missing pipeline separation');
 expect(marketsHtml.includes('Pakistan') && marketsHtml.includes('MENA') && marketsHtml.includes('Sub-Saharan Africa'), 'Markets page is missing pipeline markets');
+expect(!marketsHtml.includes('Status legend'), 'Markets page still contains the removed status legend');
+expect(!marketsHtml.includes('Corridor detail'), 'Markets page still contains the removed duplicate corridor-detail section');
 
 expect(aboutHtml.includes('Standards and verification pathways'), 'About page is missing renamed standards section');
 expect(aboutHtml.includes('Julie Brown') && aboutHtml.includes('https://www.linkedin.com/in/julieajbrown/'), 'About page is missing Julie Brown LinkedIn');
-expect(aboutHtml.includes('Direct jobs pipeline'), 'About page is missing evidence snapshot');
+expect(!aboutHtml.includes('Direct jobs pipeline'), 'About page still contains the removed evidence snapshot');
+expect(!aboutHtml.includes('Operating principles'), 'About page still contains the removed principles section');
 
 expect(contactHtml.includes('data-contact-form'), 'Contact page is missing the always-rendered inquiry form');
 expect(contactHtml.includes('data-form-mode="mailto"'), 'Contact form is not configured for static mailto fallback');

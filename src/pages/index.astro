@@ -1,22 +1,14 @@
 ---
-import AudiencePathCard from '../components/AudiencePathCard.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import EvidenceNote from '../components/EvidenceNote.astro';
-import MetricCard from '../components/MetricCard.astro';
 import PageCta from '../components/PageCta.astro';
 import ProcessFlow from '../components/ProcessFlow.astro';
-import RevenueStack from '../components/RevenueStack.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import {
-  audiencePaths,
-  commercialModel,
-  glossary,
   home,
   marketCorridors,
   pageMeta,
   siteMeta,
-  verification,
 } from '../data/site';
 
 const meta = pageMeta.home;
@@ -49,17 +41,6 @@ const structuredData = {
           <a class="button button--primary" href={home.hero.primaryAction.href}>{home.hero.primaryAction.label}</a>
           <a class="button button--secondary" href={home.hero.secondaryAction.href}>{home.hero.secondaryAction.label}</a>
         </div>
-        <dl class="home-hero__proof">
-          {
-            home.hero.metrics.map((metric) => (
-              <div class="home-hero__proof-item">
-                <dt>{metric.label}</dt>
-                <dd class="home-hero__proof-value">{metric.value}</dd>
-                <dd class="home-hero__proof-status">{metric.status}</dd>
-              </div>
-            ))
-          }
-        </dl>
       </div>
     </div>
   </section>
@@ -68,93 +49,26 @@ const structuredData = {
     <div class="container">
       <SectionIntro label={home.whatWeDo.label} title={home.whatWeDo.title} intro={home.whatWeDo.intro} />
       <ProcessFlow steps={home.whatWeDo.steps} />
-      <div class="glossary-strip" aria-label="Glossary">
-        <details>
-          <summary>Biochar</summary>
-          <p>{glossary.biochar}</p>
-        </details>
-        <details>
-          <summary>Pyrolysis</summary>
-          <p>{glossary.pyrolysis}</p>
-        </details>
-        <details>
-          <summary>MRV</summary>
-          <p>{glossary.mrv}</p>
-        </details>
-      </div>
     </div>
   </section>
 
-  <section class="section section--tinted" id="pathways">
-    <div class="container">
-      <SectionIntro
-        label={home.audienceIntro.label}
-        title={home.audienceIntro.title}
-        intro={home.audienceIntro.intro}
-      />
-      <div class="card-grid card-grid--three">
-        {
-          audiencePaths.map((path) => (
-            <AudiencePathCard
-              audience={path.audience}
-              title={path.title}
-              description={path.description}
-              href={path.href}
-              cta={path.cta}
-            />
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="operating-proof">
+  <section class="section section--tinted" id="active-corridors">
     <div class="container">
       <SectionIntro label={home.proof.label} title={home.proof.title} intro={home.proof.intro} />
-      <div class="proof-summary">
+      <div class="card-grid card-grid--two">
         {
           marketCorridors.map((corridor) => (
-            <article class="proof-summary__card" data-reveal>
-              <div class="proof-summary__header">
-                <h3>{corridor.name}</h3>
-                <StatusBadge status={corridor.status} label={corridor.statusLabel} />
-              </div>
-              <dl class="definition-grid definition-grid--compact">
-                <div><dt>Entity</dt><dd>{corridor.operatingEntity}</dd></div>
-                <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
-                <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
-                <div><dt>Verification</dt><dd>{corridor.carbonPathway}</dd></div>
-              </dl>
+            <article class="info-card" data-reveal>
+              <StatusBadge status={corridor.status} label={corridor.statusLabel} />
+              <h3>{corridor.name}</h3>
+              <p>{corridor.description}</p>
+              <a class="text-action" href="/markets/">
+                View market detail
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 5l7 7-7 7"></path>
+                </svg>
+              </a>
             </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--dark" id="platform-scales">
-    <div class="container">
-      <SectionIntro label={home.scale.label} title={home.scale.title} intro={home.scale.intro} tone="dark" />
-      <RevenueStack lines={commercialModel.lines} caveat={commercialModel.caveat} />
-      <EvidenceNote
-        title="Claim language"
-        status="verificationReady"
-        text={verification.claimLanguage}
-      />
-    </div>
-  </section>
-
-  <section class="section section--tinted" id="home-metrics">
-    <div class="container">
-      <div class="metric-row">
-        {
-          home.hero.metrics.map((metric) => (
-            <MetricCard
-              value={metric.value}
-              label={metric.label}
-              note={metric.status}
-              status={metric.label.includes('pipeline') ? 'pipeline' : metric.label.includes('durability') ? 'tested' : 'operational'}
-            />
           ))
         }
       </div>

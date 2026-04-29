@@ -1,16 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ClaimStatus from '../components/ClaimStatus.astro';
 import EvidenceNote from '../components/EvidenceNote.astro';
-import MetricCard from '../components/MetricCard.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import {
   aboutPage,
-  evidenceMetrics,
   leadership,
-  operatingPrinciples,
   pageMeta,
   siteMeta,
   verification,
@@ -46,18 +42,8 @@ const structuredData = [
     title={aboutPage.hero.title}
     intro={aboutPage.hero.intro}
     actions={[aboutPage.hero.primaryAction, aboutPage.hero.secondaryAction]}
-    meta={aboutPage.hero.meta}
     compact
   />
-
-  <section class="section section--tinted" id="story">
-    <div class="container narrow">
-      <SectionIntro label={aboutPage.story.label} title={aboutPage.story.title} intro={aboutPage.story.intro} />
-      <div class="prose-block" data-reveal>
-        {aboutPage.story.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-      </div>
-    </div>
-  </section>
 
   <section class="section" id="leadership">
     <div class="container">
@@ -108,56 +94,17 @@ const structuredData = [
     </div>
   </section>
 
-  <section class="section section--dark" id="standards">
+  <section class="section section--tinted" id="standards">
     <div class="container">
       <SectionIntro
         label={aboutPage.standards.label}
         title={aboutPage.standards.title}
         intro={aboutPage.standards.intro}
-        tone="dark"
       />
       <div class="card-grid card-grid--two">
         {
-          verification.pathways.map((pathway) => (
+          verification.pathways.slice(0, 2).map((pathway) => (
             <EvidenceNote title={pathway.label} status={pathway.status} text={`${pathway.detail} ${pathway.evidenceNote}`} />
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--tinted" id="evidence">
-    <div class="container">
-      <SectionIntro
-        label={aboutPage.evidence.label}
-        title={aboutPage.evidence.title}
-        intro={aboutPage.evidence.intro}
-      />
-      <div class="metric-row">
-        {
-          evidenceMetrics.map((metric) => (
-            <MetricCard value={metric.value} label={metric.label} note={metric.note} status={metric.status} />
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="principles">
-    <div class="container">
-      <SectionIntro
-        label={aboutPage.principles.label}
-        title={aboutPage.principles.title}
-        intro={aboutPage.principles.intro}
-      />
-      <div class="card-grid card-grid--four">
-        {
-          operatingPrinciples.map((principle) => (
-            <article class="principle-card" data-reveal>
-              <ClaimStatus status="operational" />
-              <h3>{principle.title}</h3>
-              <p>{principle.description}</p>
-            </article>
           ))
         }
       </div>

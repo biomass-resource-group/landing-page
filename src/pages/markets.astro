@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import MarketCorridorCard from '../components/MarketCorridorCard.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
@@ -11,7 +10,6 @@ import {
   pageMeta,
   pipelineMarkets,
   siteMeta,
-  statusLegend,
 } from '../data/site';
 
 const meta = pageMeta.markets;
@@ -30,69 +28,28 @@ const structuredData = {
     title={marketsPage.hero.title}
     intro={marketsPage.hero.intro}
     actions={[marketsPage.hero.primaryAction, marketsPage.hero.secondaryAction]}
-    meta={marketsPage.hero.meta}
     compact
-  >
-    <div slot="visual" class="hero-panel hero-panel--markets">
-      <div class="hero-panel__header">
-        <p class="hero-panel__label">Status-led review</p>
-        <h2 class="hero-panel__title">Active, in progress, and pipeline are separate states.</h2>
-      </div>
-      <div class="status-mini-list">
-        {statusLegend.slice(0, 4).map((item) => <StatusBadge status={item.key} label={item.label} description={item.description} />)}
-      </div>
-    </div>
-  </PageHero>
+  />
 
-  <section class="section" id="status-legend">
-    <div class="container">
-      <SectionIntro
-        label="Status legend"
-        title="Market status is not communicated by color alone."
-        intro="Each label states what is active, what is in progress, and what remains pipeline or under evaluation."
-      />
-      <div class="status-legend">
-        {
-          statusLegend.map((item) => (
-            <article class="status-legend__item" data-reveal>
-              <StatusBadge status={item.key} label={item.label} />
-              <p>{item.description}</p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--dark" id="active-corridors">
+  <section class="section" id="active-corridors">
     <div class="container">
       <SectionIntro
         label={marketsPage.activeIntro.label}
         title={marketsPage.activeIntro.title}
         intro={marketsPage.activeIntro.intro}
-        tone="dark"
-      />
-      <div class="corridor-list">
-        {marketCorridors.map((corridor) => <MarketCorridorCard {...corridor} />)}
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--tinted" id="corridor-detail">
-    <div class="container">
-      <SectionIntro
-        label={marketsPage.corridorDetail.label}
-        title={marketsPage.corridorDetail.title}
-        intro={marketsPage.corridorDetail.intro}
       />
       <div class="card-grid card-grid--two">
         {
           marketCorridors.map((corridor) => (
-            <article class="info-card info-card--wide" data-reveal>
+            <article class="info-card" data-reveal>
               <StatusBadge status={corridor.status} label={corridor.statusLabel} />
               <h3>{corridor.name}</h3>
               <p>{corridor.description}</p>
-              <p class="info-card__note">{corridor.evidenceNote}</p>
+              <dl class="definition-grid definition-grid--compact">
+                <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
+                <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
+                <div><dt>Carbon pathway</dt><dd>{corridor.carbonPathway}</dd></div>
+              </dl>
             </article>
           ))
         }
@@ -100,7 +57,7 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section" id="pipeline">
+  <section class="section section--tinted" id="pipeline">
     <div class="container">
       <SectionIntro
         label={marketsPage.pipelineIntro.label}
