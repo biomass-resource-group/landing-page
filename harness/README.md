@@ -127,7 +127,7 @@ stakeholder feedback
 | Hook                   | Event        | Behavior                                  |
 | ---------------------- | ------------ | ----------------------------------------- |
 | `session-context.mjs`  | SessionStart | Surfaces branch, status, routes, dist     |
-| `pre-bash-guard.mjs`   | PreToolUse   | Blocks push-to-main, force-push, rm -rf   |
+| `pre-bash-guard.mjs`   | PreToolUse   | Blocks destructive main updates, force-push, rm -rf |
 | `track-edit.mjs`       | PostToolUse  | Reminds validation pending on watched edits |
 | `strategic-compact.mjs`| PostToolUse  | Suggests /compact every ~50 calls (30 overnight)|
 | `stop-reminder.mjs`    | Stop         | Nudges /ship if uncommitted changes exist |

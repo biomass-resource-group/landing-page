@@ -10,10 +10,11 @@ promotes to `biomassresourcegroup.com` automatically.
 
 ## Pipeline
 
-1. Push to a feature branch → Cloudflare builds a preview.
-2. PR comment from the Cloudflare bot surfaces the preview URL +
+1. Push to `main` for production, or push to a feature branch when a preview
+   should be reviewed first.
+2. For PR branches, the Cloudflare bot surfaces the preview URL +
    build logs.
-3. Merge to `main` → production build runs, deploys to the apex.
+3. Any push or merge to `main` runs the production build and deploys to the apex.
 
 Build command (from Cloudflare settings): `npm ci && npm run build`.
 Output directory: `dist/`.

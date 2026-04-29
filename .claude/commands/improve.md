@@ -35,8 +35,9 @@ synthesize their outputs.
       mode). If still failing after the cap, escalate to the user
       or skip the item (in overnight mode).
 7. **Validate** — dispatch `dist-validator` for the final pass.
-8. **Ship** — dispatch `git-shipper` to commit, push, and open a PR.
-   Report the PR URL to the user. Do **not** merge.
+8. **Ship** — dispatch `git-shipper` to commit and push directly to `main`
+   or open a PR branch, depending on the chosen integration path. Report the
+   pushed commit and PR URL when applicable.
 
 ## Reporting after each phase
 
@@ -44,7 +45,7 @@ Produce a one-line status update to the user between phases so they can
 see progress (e.g. "Plan complete, 4 acceptance criteria, 3 routes
 touched. Implementing now."). Final report includes:
 
-- The PR URL
+- The pushed commit and PR URL when applicable
 - Acceptance criteria → file:line proof
 - Scorecard averages
 - Any deferred follow-ups

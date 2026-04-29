@@ -83,7 +83,8 @@ bridge them:
 
 Enforced repo-wide. Reproduced in each agent's frontmatter where relevant.
 
-1. **Never push directly to `main`.** Always branch, PR, merge.
+1. **Direct pushes to `main` are allowed after validation.** Branch + PR
+   workflows are also allowed. Never force-push or delete `main`.
 2. **Do not weaken `scripts/validate-dist.mjs`** to pass a change.
 3. **Page content lives in `src/data/site.ts`.** Not in `.astro` templates.
 4. **Cody Danet has no LinkedIn link** anywhere on the site.

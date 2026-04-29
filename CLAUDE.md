@@ -15,7 +15,8 @@ components in [`src/components/`](./src/components/). Styles live in a single
 
 Improvements arrive as natural-language feedback (often from Julie, the CEO).
 Claude Code expands each request into a spec, runs it through a chain of
-specialized subagents, ships the change behind a PR, and watches CI.
+specialized subagents, then ships either directly to `main` or through a PR
+branch depending on the task and user preference.
 
 The orchestration model lives under [`.claude/`](./.claude/) and
 [`harness/`](./harness/). The standard pipeline is:
@@ -26,13 +27,15 @@ The orchestration model lives under [`.claude/`](./.claude/) and
 4. **ux-reviewer** + **accessibility-auditor** subagents apply the
    [UI/UX scorecard](./harness/checklists/ui-ux-scorecard.md).
 5. **dist-validator** subagent runs `npm run check && npm run build && npm run validate:dist`.
-6. **git-shipper** subagent commits, pushes, and opens a PR.
+6. **git-shipper** subagent commits, pushes to `main` or a branch, and opens
+   a PR when the branch workflow is chosen.
 
 Slash commands wrap common entrypoints; see [`.claude/commands/`](./.claude/commands/).
 
 ## Hard rules
 
-- **Never push directly to `main`.** Always work on a feature branch and merge via PR.
+- **Direct pushes to `main` are allowed after validation.** PR branches remain
+  available for review-heavy work. Never force-push or delete `main`.
 - **Do not weaken `scripts/validate-dist.mjs` to make a change pass** —
   if validation needs to evolve, that's its own discussion in the PR description.
 - **Page content lives in `src/data/site.ts`.** Don't hardcode marketing copy

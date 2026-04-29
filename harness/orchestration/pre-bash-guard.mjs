@@ -5,7 +5,6 @@
 // non-zero exit and will not execute the command.
 
 import { readFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
 
 let payload = {};
 try {
@@ -89,27 +88,18 @@ const stripPrefixes = (s) => s.replace(
   .trim();
 const segments = rawSegments.map(s => stripPrefixes(s)).filter(Boolean);
 
-// Detect bare `git push` (no refspec) when on main.
-let currentBranch = '';
-try {
-  const repoRoot = process.env.CLAUDE_PROJECT_DIR ?? process.cwd();
-  currentBranch = execFileSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
-    cwd: repoRoot, encoding: 'utf8', timeout: 3000,
-  }).trim();
-} catch { /* not in a git repo or git not available — skip branch check */ }
-
 const rules = [
   {
-    pattern: /^git\s+push\s+(?:.*\s+)?(?:origin\s+)?\+?(?::?(?:\S*:)?(?:refs\/heads\/)?)?main(?:\s|$|[;&|><])/,
-    message: 'Blocked: `git push … main`. Hard rule: never push directly to main. Branch → PR → merge.',
+    pattern: /^git\s+push\s+(?:.*\s+)?(?:origin\s+)?:(?:refs\/heads\/)?main(?:\s|$|[;&|><])/,
+    message: 'Blocked: deleting `main` via push refspec is not allowed.',
   },
-  ...(currentBranch === 'main' ? [{
-    pattern: /^git\s+push(?:\s+(?:-[a-zA-Z]+|--[a-z-]+))*(?:\s+\S+)?(?:\s+HEAD)?\s*$/,
-    message: 'Blocked: bare `git push` while on main. Check out a feature branch first.',
-  }] : []),
+  {
+    pattern: /^git\s+push\s+(?=.*(?:--force-with-lease|--force-if-includes))(?=.*\s(?:origin\s+)?(?:\S+:)?(?:refs\/heads\/)?main(?:\s|$|[;&|><]))/,
+    message: 'Blocked: force-with-lease updates to `main` are not allowed. Use a normal push.',
+  },
   {
     pattern: /^git\s+push\s+(?:.*\s)?(?:--force(?!-with-lease)|-[a-z]*f[a-z]*)(?:\s|$|[;&|><])/,
-    message: 'Blocked: `git push --force`. Use `--force-with-lease` if you must, and never to main.',
+    message: 'Blocked: `git push --force`. Use `--force-with-lease` for non-main branches if you must.',
   },
   {
     pattern: /^git\s+push\s+(?:.*\s)?\+\S/,

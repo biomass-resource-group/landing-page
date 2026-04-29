@@ -44,8 +44,10 @@ running `/compact` to preserve context capacity. Silent otherwise.
 
 Blocks known-dangerous or policy-violating commands before they run:
 
-- `git push … main` / `HEAD:refs/heads/main` (no-push-to-main rule).
-- `git push --force` (allows `--force-with-lease`).
+- Deleting `main` through a push refspec.
+- Force-pushing through `+<refspec>` or `--force`.
+- `git push --force-with-lease … main` (`--force-with-lease` remains
+  available for non-main branches).
 - `git reset --hard`.
 - `rm -r[f]` / `rm -fr` of `src/`, `public/`, `scripts/`, `harness/`,
   `.claude/`.
@@ -53,6 +55,8 @@ Blocks known-dangerous or policy-violating commands before they run:
 - `git commit --no-verify` / `git rebase --no-verify`.
 
 Exits with code 2 and a reason message, which Claude sees and acts on.
+
+Regular validated `git push origin main` is allowed.
 
 ## Authoring new hooks
 

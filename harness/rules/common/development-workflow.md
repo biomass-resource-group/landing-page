@@ -25,10 +25,12 @@ Most changes arrive in one of three shapes:
      astro-implementer → diff
      parallel(ux-reviewer, accessibility-auditor) → scores
      dist-validator → build gate
-     git-shipper → commit, push, PR
+     git-shipper → commit, push main or PR branch
 ```
 
-Human reviews the PR + Cloudflare preview, merges when ready.
+For PR branches, a human reviews the PR + Cloudflare preview and merges when
+ready. For direct `main` ships, CI and the production Cloudflare deployment run
+from the pushed commit.
 
 ### Bug / regression
 

@@ -9,7 +9,8 @@ These trump everything else. See [`CLAUDE.md`](./CLAUDE.md) for the
 canonical list. Enforced mechanically by
 [`scripts/validate-dist.mjs`](./scripts/validate-dist.mjs) where feasible.
 
-1. Never push directly to `main`. Always branch → PR → merge.
+1. Direct pushes to `main` are allowed after validation; PR branches are also
+   allowed. Never force-push or delete `main`.
 2. Don't weaken `validate-dist.mjs` to make a change pass.
 3. Page copy lives in `src/data/site.ts`.
 4. No LinkedIn link for Cody Danet anywhere.

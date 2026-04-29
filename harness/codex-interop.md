@@ -45,7 +45,8 @@ Codex should read these files on first contact:
 
 ## Hard rules (apply to Codex too)
 
-1. Never push directly to main.
+1. Direct pushes to main are allowed after validation; PR branches are also
+   allowed. Never force-push or delete main.
 2. Don't weaken validate-dist.mjs.
 3. Content in site.ts, not templates.
 4. Cody Danet: no LinkedIn.

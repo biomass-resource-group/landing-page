@@ -140,7 +140,8 @@ tripped), produce:
 ## Guardrails
 
 All hard rules from CLAUDE.md still apply:
-- Never push to main.
+- Direct pushes to main are allowed after validation; never force-push or
+  delete main.
 - Don't weaken validate-dist.
 - Content in site.ts, not templates.
 - Hero stays calm.

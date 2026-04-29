@@ -7,7 +7,9 @@ Use when the live site has a visible regression and speed matters.
 1. **Confirm the regression.** Run `/deploy-check` against the live
    URL. Get the deployed SHA and compare to `main` HEAD.
 
-2. **Branch from `main`:**
+2. **Choose the integration path.** For a small validated fix, you may commit
+   on `main` and push directly. For review-heavy work or when a preview is
+   useful, branch from `main`:
    ```bash
    git checkout main
    git pull origin main
@@ -26,9 +28,10 @@ Use when the live site has a visible regression and speed matters.
    ```
    /ship "fix: <description of regression>"
    ```
-   This runs validation, commits, pushes, opens a PR.
+   This runs validation, commits, and pushes. Use a PR branch when review or
+   preview approval is needed.
 
-6. **Merge immediately** after CI goes green. Squash-merge.
+6. **If using a PR, merge immediately** after CI goes green. Squash-merge.
 
 7. **Verify the deploy.** Cloudflare Pages rebuilds on merge to `main`.
    Run `/deploy-check` again to confirm the fix is live.
@@ -43,6 +46,6 @@ not a hotfix — it's a regular fix that should go through `/improve`.
 
 ## Don't
 
-- Don't push directly to `main`. Even hotfixes go through a PR.
+- Don't force-push or delete `main`.
 - Don't bundle other changes. One fix, one PR.
 - Don't skip validation. A bad hotfix is worse than the regression.

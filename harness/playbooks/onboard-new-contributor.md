@@ -61,7 +61,9 @@ first time.
 
 ## Key constraints (memorize these)
 
-1. Never push to `main`. Always branch → PR → merge.
+1. Direct pushes to `main` are allowed after validation. Branch → PR → merge
+   is also allowed when review or preview approval is useful. Never
+   force-push or delete `main`.
 2. Content in `src/data/site.ts`, not in templates.
 3. Cody Danet: no LinkedIn. Julie Brown: LinkedIn stays on `/about/`.
 4. Hero: single H1, ≤ 2 actions, calm.

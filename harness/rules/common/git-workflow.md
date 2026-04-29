@@ -5,7 +5,9 @@ Rules for every commit and PR on this repo.
 ## Branching
 
 - `main` is the integration branch. CI + Cloudflare Pages deploy from it.
-- **Never push directly to `main`.** Always work on a feature branch.
+- **Direct pushes to `main` are allowed after validation.** Use a feature
+  branch + PR when the change needs review, a preview deployment, or a staged
+  integration point.
 - Feature branches: `claude/<kebab-topic>` or `fix/<kebab-topic>` or
   `feat/<kebab-topic>`. Topic is 3-5 words, kebab-case.
 - Dependabot branches are managed by Dependabot — don't rename.
@@ -33,10 +35,11 @@ immediately squash before opening the PR.
 
 ## Pushing
 
+- `git push origin main` is allowed for validated direct ships.
 - `git push -u origin <branch>` on first push. `git push` thereafter.
 - Retry up to 4× with exponential backoff (2s, 4s, 8s, 16s) on network
   errors. Do **not** retry on 403s — that indicates a permissions issue.
-- Never `--force` to `main`. Never `--no-verify`.
+- Never force-push or delete `main`. Never `--no-verify`.
 
 ## Pull requests
 
