@@ -19,7 +19,7 @@
   --line-gold: rgba(143, 104, 27, 0.55);
   --ink: #13231d;
   --ink-muted: #4f6358;
-  --ink-soft: #6a7a70;
+  --ink-soft: #586a5f;
   --white: #ffffff;
   --shadow-soft: 0 1px 0 rgba(13, 23, 20, 0.04), 0 18px 38px -28px rgba(13, 23, 20, 0.18);
   --shadow-strong: 0 1px 0 rgba(13, 23, 20, 0.05), 0 30px 56px -28px rgba(13, 23, 20, 0.24);
@@ -990,7 +990,7 @@ html:not(.js) [data-reveal] {
 
 .proof-strip__item h2 {
   color: var(--ink);
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 850;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1428,7 +1428,7 @@ html:not(.js) [data-reveal] {
 
 .definition-grid dt {
   color: var(--ink-soft);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 850;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -1553,10 +1553,10 @@ html:not(.js) [data-reveal] {
   gap: 0.45rem;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  padding: 0.32rem 0.55rem;
+  padding: 0.32rem 0.6rem;
   color: var(--ink);
   background: var(--paper);
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 850;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -2067,7 +2067,7 @@ html:not(.js) [data-reveal] {
 .email-card > span:first-child {
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
 }
 
 .email-card:last-child {
