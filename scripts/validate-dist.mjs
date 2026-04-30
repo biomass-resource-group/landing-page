@@ -263,8 +263,9 @@ expect(!homeHtml.includes('Why the platform scales'), 'Home page still contains 
 expect(!homeHtml.includes('home-metrics'), 'Home page still contains duplicate metric section markup');
 
 expect(platformHtml.includes('From feedstock to market'), 'Platform page is missing the operating model');
-expect(platformHtml.includes('Three revenue lines'), 'Platform page is missing the revenue stack');
+expect(platformHtml.includes('What each project can produce'), 'Platform page is missing the project outputs section');
 expect(platformHtml.includes('Project-stage carbon documentation'), 'Platform page is missing standards/verification handling');
+expect(!/revenue/i.test(platformHtml), 'Platform page still exposes investor-oriented revenue language');
 expect(!platformHtml.includes('Carbon removal statements follow the project stage'), 'Platform page still exposes awkward standards heading');
 expect(!platformHtml.includes('End-to-end biochar projects.'), 'Platform page still exposes awkward hero heading');
 expect(!platformHtml.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');

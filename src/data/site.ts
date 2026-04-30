@@ -138,7 +138,7 @@ export const home = {
       },
       {
         value: '3',
-        label: 'commercial revenue channels',
+        label: 'project output channels',
         status: 'Product, carbon, technology',
       },
       {
@@ -198,10 +198,10 @@ export const home = {
       'BRG highlights operating corridors first, with earlier-stage regional work kept separate.',
   },
   scale: {
-    label: 'Why the platform scales',
-    title: 'Project economics are designed around more than one revenue line.',
+    label: 'Project model',
+    title: 'Projects are designed around useful outputs.',
     intro:
-      'Carbon revenue depends on project approval, monitoring, verification, issuance, and offtake. BRG designs each asset so product and technology channels matter too.',
+      'Biochar products, carbon documentation, and deployment partnerships are planned together without implying credit issuance before review is complete.',
   },
   finalCta: {
     label: 'Contact',
@@ -426,28 +426,28 @@ export const platformPage = {
   },
 } as const;
 
-export const commercialModel = {
-  label: 'Revenue stack',
-  title: 'Three revenue lines',
+export const projectModel = {
+  label: 'Project outputs',
+  title: 'What each project can produce',
   intro:
-    'Product sales, carbon removal credits, and technology channels are evaluated together.',
+    'BRG designs projects around practical outputs for land, infrastructure, and carbon-removal buyers.',
   caveat:
-    'Carbon credit revenue depends on project approval, monitoring, verification, issuance, and offtake.',
+    'Carbon removal claims depend on project approval, monitoring, verification, issuance, and delivery requirements.',
   lines: [
     {
-      title: 'Biochar product sales',
+      title: 'Biochar products',
       description:
-        'Agricultural, soil, waste, and industrial product channels create non-credit revenue potential.',
+        'Biochar can support soil, agriculture, waste, and industrial use cases where local demand exists.',
     },
     {
-      title: 'Carbon removal credits',
+      title: 'Carbon removal documentation',
       description:
-        'Eligible production can move through registry and verifier pathways before credits are issued or delivered.',
+        'Eligible production is documented for registry and verifier review before any credit claim or delivery.',
     },
     {
-      title: 'Technology and deployment channels',
+      title: 'Deployment partnerships',
       description:
-        'Mobile kiln technology, deployment support, and local operating partnerships can extend the platform selectively.',
+        'Kiln deployment and local operating partnerships help adapt the project model to each corridor.',
     },
   ],
 } as const;
@@ -689,9 +689,9 @@ export const evidenceMetrics = [
 
 export const operatingPrinciples = [
   {
-    title: 'Revenue before scale',
+    title: 'Demand before scale',
     description:
-      'Projects are evaluated around product, carbon, and technology channels before scale assumptions are made.',
+      'Projects are evaluated around product use, carbon documentation, and deployment fit before scale assumptions are made.',
   },
   {
     title: 'Logistics first',

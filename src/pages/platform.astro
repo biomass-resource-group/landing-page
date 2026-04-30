@@ -4,12 +4,12 @@ import EvidenceNote from '../components/EvidenceNote.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import ProcessFlow from '../components/ProcessFlow.astro';
-import RevenueStack from '../components/RevenueStack.astro';
+import ProjectOutputs from '../components/ProjectOutputs.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import {
-  commercialModel,
   pageMeta,
   platformPage,
+  projectModel,
   siteMeta,
   verification,
 } from '../data/site';
@@ -44,10 +44,10 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section section--dark" id="revenue-stack">
+  <section class="section section--dark" id="project-outputs">
     <div class="container">
-      <SectionIntro label={commercialModel.label} title={commercialModel.title} intro={commercialModel.intro} tone="dark" />
-      <RevenueStack lines={commercialModel.lines} caveat={commercialModel.caveat} />
+      <SectionIntro label={projectModel.label} title={projectModel.title} intro={projectModel.intro} tone="dark" />
+      <ProjectOutputs lines={projectModel.lines} caveat={projectModel.caveat} />
     </div>
   </section>
 

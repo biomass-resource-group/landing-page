@@ -128,7 +128,9 @@ const main = async () => {
   const markets = await expectReachablePage('/markets/');
   const about = await expectReachablePage('/about/');
   const contact = await expectReachablePage('/contact/');
+  expect(platform.text.includes('What each project can produce'), 'Platform page is missing the project outputs section');
   expect(platform.text.includes('Project-stage carbon documentation'), 'Platform page is missing standards/verification handling');
+  expect(!/revenue/i.test(platform.text), 'Platform page still exposes investor-oriented revenue language');
   expect(!platform.text.includes('Carbon removal statements follow the project stage'), 'Platform page still exposes awkward standards heading');
   expect(!platform.text.includes('End-to-end biochar projects.'), 'Platform page still exposes awkward hero heading');
   expect(!platform.text.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');

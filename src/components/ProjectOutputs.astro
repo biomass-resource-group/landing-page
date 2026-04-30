@@ -12,11 +12,11 @@ interface Props {
 const { lines, caveat } = Astro.props;
 ---
 
-<div class="revenue-stack" data-reveal>
-  <div class="revenue-stack__grid">
+<div class="project-outputs" data-reveal>
+  <div class="project-outputs__grid">
     {
       lines.map((line, index) => (
-        <article class="revenue-stack__item">
+        <article class="project-outputs__item">
           <span>{String(index + 1).padStart(2, '0')}</span>
           <h3>{line.title}</h3>
           <p>{line.description}</p>
@@ -24,5 +24,5 @@ const { lines, caveat } = Astro.props;
       ))
     }
   </div>
-  {caveat && <p class="revenue-stack__caveat">{caveat}</p>}
+  {caveat && <p class="project-outputs__note">{caveat}</p>}
 </div>
