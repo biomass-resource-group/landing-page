@@ -5,16 +5,11 @@ const defaultRoute = contact.routes[0];
 const formAction = contact.form.endpoint || `mailto:${defaultRoute.recipient}`;
 ---
 
-<section class="section contact-form-section" id="inquiry-form">
-  <div class="container">
-    <div class="contact-form-wrap" data-reveal>
+<div class="contact-form-wrap" id="inquiry-form" data-reveal>
       <div class="contact-form-header">
         <p class="section-intro-block__label">Inquiry form</p>
         <h2 class="contact-form-header__title">{contact.form.title}</h2>
         <p class="contact-form-header__intro">{contact.form.intro}</p>
-        <p class="contact-form-header__note">
-          If your email app does not open, copy the inquiry summary and email the relevant address below.
-        </p>
       </div>
       <form
         class="contact-form"
@@ -123,5 +118,3 @@ const formAction = contact.form.endpoint || `mailto:${defaultRoute.recipient}`;
         {contact.form.privacyNote} <a href="/privacy/">Read the privacy notice.</a>
       </p>
     </div>
-  </div>
-</section>

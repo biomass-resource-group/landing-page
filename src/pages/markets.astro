@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import MarketCorridorCard from '../components/MarketCorridorCard.astro';
+import CorridorDossier from '../components/CorridorDossier.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
@@ -60,8 +60,8 @@ const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/
       <div class="corridor-list">
         {
           marketCorridors.map((corridor) => (
-            <div id={corridorAnchor(corridor.name)}>
-              <MarketCorridorCard {...corridor} />
+            <div id={corridorAnchor(corridor.name)} class="corridor-anchor">
+              <CorridorDossier {...corridor} />
             </div>
           ))
         }

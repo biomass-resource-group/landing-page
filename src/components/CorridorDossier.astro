@@ -1,0 +1,71 @@
+---
+import EvidenceNote from './EvidenceNote.astro';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  name: string;
+  region: string;
+  operatingEntity: string;
+  status: string;
+  statusLabel: string;
+  feedstock: string;
+  technology: string;
+  productChannel: string;
+  carbonPathway: string;
+  nextMilestone: string;
+  description: string;
+  evidenceNote?: string;
+}
+
+const {
+  name,
+  region,
+  operatingEntity,
+  status,
+  statusLabel,
+  feedstock,
+  technology,
+  productChannel,
+  carbonPathway,
+  nextMilestone,
+  description,
+  evidenceNote,
+} = Astro.props;
+---
+
+<article class="corridor-dossier" data-reveal>
+  <header class="corridor-dossier__header">
+    <div class="corridor-dossier__heading">
+      <p class="corridor-dossier__region">{region}</p>
+      <h3>{name}</h3>
+    </div>
+    <StatusBadge status={status} label={statusLabel} />
+  </header>
+
+  <p class="corridor-dossier__summary">{description}</p>
+
+  <div class="corridor-dossier__body">
+    <dl class="corridor-dossier__facts">
+      <div><dt>Operating entity</dt><dd>{operatingEntity}</dd></div>
+      <div><dt>Feedstock</dt><dd>{feedstock}</dd></div>
+      <div><dt>Technology</dt><dd>{technology}</dd></div>
+      <div><dt>Product channel</dt><dd>{productChannel}</dd></div>
+      <div><dt>Carbon pathway</dt><dd>{carbonPathway}</dd></div>
+      <div><dt>Next commercial milestone</dt><dd>{nextMilestone}</dd></div>
+    </dl>
+
+    <aside class="corridor-dossier__motif" aria-hidden="true">
+      <span class="corridor-dossier__pip corridor-dossier__pip--source"></span>
+      <span class="corridor-dossier__pip corridor-dossier__pip--kiln"></span>
+      <span class="corridor-dossier__pip corridor-dossier__pip--buyer"></span>
+      <span class="corridor-dossier__line"></span>
+      <span class="corridor-dossier__legend">Feedstock · Kiln · Buyer</span>
+    </aside>
+  </div>
+
+  {
+    evidenceNote && (
+      <EvidenceNote text={evidenceNote} status="underVerification" />
+    )
+  }
+</article>
