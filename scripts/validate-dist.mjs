@@ -39,7 +39,7 @@ const routeExpectations = new Map([
   [join('markets', 'index.html'), {
     canonical: `${siteUrl}/markets/`,
     title: 'Active Biochar Markets | Biomass Resource Group',
-    description: 'The BRG corridors currently active and the markets still under evaluation.',
+    description: 'Active BRG corridors and additional regions where market development is underway.',
   }],
   [join('about', 'index.html'), {
     canonical: `${siteUrl}/about/`,
@@ -73,6 +73,11 @@ const forbiddenContent = [
   '__cf_email__',
   'Toggle navigation',
   'https://www.linkedin.com/in/cody-danet/',
+  'Markets under evaluation',
+  'Under evaluation',
+  'Pipeline markets are not presented as active projects',
+  'no active operating claim is made from this label alone',
+  'Verification claims stay narrow',
 ];
 
 const expect = (condition, message) => {
@@ -253,19 +258,19 @@ expect(!homeHtml.includes('home-metrics'), 'Home page still contains duplicate m
 
 expect(platformHtml.includes('From feedstock to market'), 'Platform page is missing the operating model');
 expect(platformHtml.includes('Three revenue lines'), 'Platform page is missing the revenue stack');
-expect(platformHtml.includes('Verification claims stay narrow'), 'Platform page is missing standards/verification handling');
+expect(platformHtml.includes('Verification language stays specific'), 'Platform page is missing standards/verification handling');
 expect(!platformHtml.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
 expect(!platformHtml.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
 
 expect(marketsHtml.includes('Operating work underway'), 'Markets page is missing active corridors');
-expect(marketsHtml.includes('Markets under evaluation'), 'Markets page is missing pipeline separation');
-expect(marketsHtml.includes('Pakistan') && marketsHtml.includes('MENA') && marketsHtml.includes('Sub-Saharan Africa'), 'Markets page is missing pipeline markets');
+expect(marketsHtml.includes('Additional regions'), 'Markets page is missing additional regional development section');
+expect(marketsHtml.includes('Pakistan') && marketsHtml.includes('MENA') && marketsHtml.includes('Sub-Saharan Africa'), 'Markets page is missing additional regions');
 expect(!marketsHtml.includes('Status legend'), 'Markets page still contains the removed status legend');
 expect(!marketsHtml.includes('Corridor detail'), 'Markets page still contains the removed duplicate corridor-detail section');
 
 expect(aboutHtml.includes('Standards and verification pathways'), 'About page is missing renamed standards section');
 expect(aboutHtml.includes('Julie Brown') && aboutHtml.includes('https://www.linkedin.com/in/julieajbrown/'), 'About page is missing Julie Brown LinkedIn');
-expect(!aboutHtml.includes('Direct jobs pipeline'), 'About page still contains the removed evidence snapshot');
+expect(!aboutHtml.includes('future direct jobs potential'), 'About page still contains the removed evidence snapshot');
 expect(!aboutHtml.includes('Operating principles'), 'About page still contains the removed principles section');
 
 expect(contactHtml.includes('data-contact-form'), 'Contact page is missing the always-rendered inquiry form');

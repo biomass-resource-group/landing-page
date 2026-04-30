@@ -128,11 +128,14 @@ const main = async () => {
   const markets = await expectReachablePage('/markets/');
   const about = await expectReachablePage('/about/');
   const contact = await expectReachablePage('/contact/');
-  expect(platform.text.includes('Verification claims stay narrow'), 'Platform page is missing standards/verification claim handling');
+  expect(platform.text.includes('Verification language stays specific'), 'Platform page is missing standards/verification handling');
   expect(!platform.text.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
   expect(!platform.text.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
   expect(markets.text.includes('Operating work underway'), 'Markets page is missing active corridors');
-  expect(markets.text.includes('Markets under evaluation'), 'Markets page is missing pipeline separation');
+  expect(markets.text.includes('Additional regions'), 'Markets page is missing additional regional development section');
+  expect(!markets.text.includes('Markets under evaluation'), 'Markets page still exposes internal evaluation language');
+  expect(!markets.text.includes('Under evaluation'), 'Markets page still exposes internal status labels');
+  expect(!markets.text.includes('no active operating claim is made from this label alone'), 'Markets page still exposes internal claim-hygiene wording');
   expect(!markets.text.includes('Status legend'), 'Markets page still contains the removed status legend');
   expect(contact.text.includes('data-contact-form'), 'Contact page is missing the inquiry form');
   expect(contact.text.includes('data-form-mode="mailto"'), 'Contact page is missing the static mailto fallback');
@@ -146,7 +149,7 @@ const main = async () => {
     about.text.includes('Standards and verification pathways'),
     'About page is missing renamed standards and verification pathway language',
   );
-  expect(!about.text.includes('Direct jobs pipeline'), 'About page still contains the removed evidence snapshot');
+  expect(!about.text.includes('future direct jobs potential'), 'About page still contains the removed evidence snapshot');
   expect(!about.text.includes('Operating principles'), 'About page still contains the removed principles section');
   expect(
     !about.text.includes('https://www.linkedin.com/in/cody-danet/'),
