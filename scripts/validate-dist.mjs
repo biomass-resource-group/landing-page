@@ -15,6 +15,7 @@ const requiredFiles = [
   join('markets', 'index.html'),
   join('company', 'index.html'),
   join('contact', 'index.html'),
+  join('privacy', 'index.html'),
   '404.html',
   'robots.txt',
   'sitemap-index.xml',
@@ -29,22 +30,22 @@ const routeExpectations = new Map([
   ['index.html', {
     canonical: `${siteUrl}/`,
     title: 'Biochar Carbon Removal Infrastructure | Biomass Resource Group',
-    description: 'BRG builds biochar carbon removal infrastructure from waste biomass in emerging markets.',
+    description: 'BRG builds operator-led biochar infrastructure across active biomass corridors.',
   }],
   [join('platform', 'index.html'), {
     canonical: `${siteUrl}/platform/`,
     title: 'Operating Platform | Biomass Resource Group',
-    description: 'How BRG turns feedstock, kiln deployment, monitoring, and buyers into operating biochar projects.',
+    description: 'How BRG connects feedstock, kiln deployment, buyer channels, and project documentation.',
   }],
   [join('markets', 'index.html'), {
     canonical: `${siteUrl}/markets/`,
     title: 'Active Biochar Markets | Biomass Resource Group',
-    description: 'Active BRG corridors and additional regions where market development is underway.',
+    description: 'Active BRG operating corridors and additional regions under disciplined development.',
   }],
   [join('about', 'index.html'), {
     canonical: `${siteUrl}/about/`,
     title: 'About BRG | Biomass Resource Group',
-    description: 'Leadership and operating approach behind Biomass Resource Group.',
+    description: 'The leadership, operating discipline, and verification posture behind Biomass Resource Group.',
   }],
   [join('contact', 'index.html'), {
     canonical: `${siteUrl}/contact/`,
@@ -55,6 +56,11 @@ const routeExpectations = new Map([
     canonical: `${siteUrl}/about/`,
     title: 'About BRG | Biomass Resource Group',
     noindex: true,
+  }],
+  [join('privacy', 'index.html'), {
+    canonical: `${siteUrl}/privacy/`,
+    title: 'Privacy | Biomass Resource Group',
+    description: 'How BRG handles inquiry information on this static website.',
   }],
   ['404.html', {
     canonical: `${siteUrl}/404.html`,
@@ -253,38 +259,49 @@ const notFoundHtml = read('404.html');
 const siteUi = read(join('scripts', 'site-ui.js'));
 const sitemap = read('sitemap-0.xml');
 
+expect(homeHtml.includes('Operator-led biochar infrastructure for carbon removal.'), 'Home page is missing the operator-led hero');
+expect(homeHtml.includes('Prepared for review'), 'Home page is missing the compact proof/status strip');
 expect(homeHtml.includes('What BRG does'), 'Home page is missing the What BRG does section');
-expect(homeHtml.includes('Where work is active now'), 'Home page is missing the active corridors section');
-expect(homeHtml.includes('Start a focused conversation'), 'Home page final CTA is missing');
-expect(homeHtml.indexOf('What BRG does') < homeHtml.indexOf('Where work is active now'), 'Home page information architecture is out of order');
+expect(homeHtml.includes('Route the right conversation.'), 'Home page is missing audience routing');
+expect(homeHtml.includes('Operating corridors'), 'Home page is missing the active corridor preview');
+expect(homeHtml.includes('Start the right BRG conversation'), 'Home page final CTA is missing');
+expect(homeHtml.indexOf('Prepared for review') < homeHtml.indexOf('What BRG does'), 'Home page proof strip is out of order');
+expect(homeHtml.indexOf('What BRG does') < homeHtml.indexOf('Route the right conversation.'), 'Home page operating loop and audience sections are out of order');
+expect(homeHtml.indexOf('Route the right conversation.') < homeHtml.indexOf('Operating corridors'), 'Home page audience and corridor sections are out of order');
 expect(!homeHtml.includes('Live infrastructure'), 'Home page still duplicates the old live infrastructure section');
-expect(!homeHtml.includes('Choose your pathway'), 'Home page still contains the removed role-pathway section');
 expect(!homeHtml.includes('Why the platform scales'), 'Home page still contains the removed platform-scale section');
 expect(!homeHtml.includes('home-metrics'), 'Home page still contains duplicate metric section markup');
 
 expect(platformHtml.includes('From feedstock to market'), 'Platform page is missing the operating model');
-expect(platformHtml.includes('What each project can produce'), 'Platform page is missing the project outputs section');
-expect(platformHtml.includes('Project-stage carbon documentation'), 'Platform page is missing standards/verification handling');
+expect(platformHtml.includes('Owner-operated model'), 'Platform page is missing the owner-operated model');
+expect(platformHtml.includes('Technology approach'), 'Platform page is missing the compact technology approach');
+expect(platformHtml.includes('What a project is designed to deliver'), 'Platform page is missing the project outputs section');
+expect(platformHtml.includes('Carbon documentation stays project-specific.'), 'Platform page is missing standards/verification handling');
 expect(!/revenue/i.test(platformHtml), 'Platform page still exposes investor-oriented revenue language');
 expect(!platformHtml.includes('Carbon removal statements follow the project stage'), 'Platform page still exposes awkward standards heading');
 expect(!platformHtml.includes('End-to-end biochar projects.'), 'Platform page still exposes awkward hero heading');
-expect(!platformHtml.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
 expect(!platformHtml.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
 
-expect(marketsHtml.includes('Operating work underway'), 'Markets page is missing active corridors');
+expect(marketsHtml.includes('Active operating corridors'), 'Markets page is missing active corridors');
+expect(marketsHtml.includes('Operating entity') && marketsHtml.includes('Next commercial milestone'), 'Markets page is missing labeled corridor facts');
 expect(marketsHtml.includes('Additional regions'), 'Markets page is missing additional regional development section');
+expect(marketsHtml.includes('Active') && marketsHtml.includes('In development') && marketsHtml.includes('Future corridor'), 'Markets page is missing the public status hierarchy');
 expect(marketsHtml.includes('Pakistan') && marketsHtml.includes('MENA') && marketsHtml.includes('Sub-Saharan Africa'), 'Markets page is missing additional regions');
-expect(!marketsHtml.includes('Status legend'), 'Markets page still contains the removed status legend');
 expect(!marketsHtml.includes('Corridor detail'), 'Markets page still contains the removed duplicate corridor-detail section');
 
-expect(aboutHtml.includes('Built for independent review'), 'About page is missing standards section');
+expect(aboutHtml.includes('Biochar infrastructure is built in the field.'), 'About page is missing the operating story');
+expect(aboutHtml.includes('Evidence is tied to operating stage.'), 'About page is missing the evidence snapshot');
+expect(aboutHtml.includes('Operating discipline.'), 'About page is missing operating principles');
+expect(aboutHtml.includes('Carbon claims stay tied to project evidence.'), 'About page is missing standards section');
 expect(aboutHtml.includes('Julie Brown') && aboutHtml.includes('https://www.linkedin.com/in/julieajbrown/'), 'About page is missing Julie Brown LinkedIn');
 expect(!aboutHtml.includes('future direct jobs potential'), 'About page still contains the removed evidence snapshot');
-expect(!aboutHtml.includes('Operating principles'), 'About page still contains the removed principles section');
 
 expect(contactHtml.includes('data-contact-form'), 'Contact page is missing the always-rendered inquiry form');
+expect(contactHtml.includes('data-contact-route="investor"') && contactHtml.includes('data-contact-route="carbon"') && contactHtml.includes('data-contact-route="partner"') && contactHtml.includes('data-contact-route="general"'), 'Contact page is missing route cards for all inquiry types');
 expect(contactHtml.includes('data-form-mode="mailto"'), 'Contact form is not configured for static mailto fallback');
 expect(contactHtml.includes('Copy inquiry summary'), 'Contact page is missing inquiry summary copy action');
+expect(contactHtml.includes('If your email app does not open'), 'Contact page is missing mailto fallback guidance');
+expect(contactHtml.includes('/privacy/'), 'Contact page is missing privacy notice link');
 expect(contactHtml.includes('info@biomassresourcegroup.com'), 'Contact page is missing visible info email');
 expect(contactHtml.includes('invest@biomassresourcegroup.com'), 'Contact page is missing visible investor email');
 expect(contactHtml.includes('carbon@biomassresourcegroup.com'), 'Contact page is missing visible carbon email');
@@ -295,6 +312,11 @@ expect(contactHtml.includes('<!--email_off-->'), 'Contact page email routes are 
 
 expect(notFoundHtml.includes('Page not found.'), '404 page is missing the required heading');
 expect(notFoundHtml.includes('/platform/') && notFoundHtml.includes('/markets/') && notFoundHtml.includes('/contact/') && notFoundHtml.includes('href="/"'), '404 page is missing recovery links');
+const privacyHtml = read(join('privacy', 'index.html'));
+expect(privacyHtml.includes('Privacy notice'), 'Privacy page is missing its heading');
+expect(privacyHtml.includes('This website does not store inquiry form data in mailto mode'), 'Privacy page is missing static site behavior');
+expect(privacyHtml.includes('If a form endpoint is configured later'), 'Privacy page is missing future endpoint disclosure');
+expect(homeHtml.includes('/privacy/') || contactHtml.includes('/privacy/'), 'Site pages do not link to the privacy page');
 
 expect(siteUi.includes('hidden = !isOpen'), 'site-ui does not manage hidden state for the mobile menu');
 expect(siteUi.includes("toggleAttribute('inert'"), 'site-ui does not manage inert state for the mobile menu');
@@ -304,6 +326,7 @@ expect(siteUi.includes('navigator.clipboard.writeText'), 'site-ui does not imple
 
 expect(!sitemap.includes('/company/'), 'sitemap includes duplicate /company/');
 expect(!sitemap.includes('/404/'), 'sitemap includes /404/');
+expect(sitemap.includes('/privacy/'), 'sitemap is missing /privacy/');
 
 if (failures.length > 0) {
   console.error('Distribution validation failed:\n');

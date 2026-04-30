@@ -6,6 +6,7 @@ import PageHero from '../components/PageHero.astro';
 import ProcessFlow from '../components/ProcessFlow.astro';
 import ProjectOutputs from '../components/ProjectOutputs.astro';
 import SectionIntro from '../components/SectionIntro.astro';
+import StatusBadge from '../components/StatusBadge.astro';
 import {
   pageMeta,
   platformPage,
@@ -33,6 +34,26 @@ const structuredData = {
     compact
   />
 
+  <section class="section" id="owner-operated">
+    <div class="container">
+      <SectionIntro
+        label={platformPage.ownership.label}
+        title={platformPage.ownership.title}
+        intro={platformPage.ownership.intro}
+      />
+      <div class="platform-operating-boundary" data-reveal>
+        {
+          platformPage.ownership.layers.slice(0, 3).map((layer) => (
+            <article>
+              <h3>{layer.title}</h3>
+              <p>{layer.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="operating-model">
     <div class="container">
       <SectionIntro
@@ -41,6 +62,29 @@ const structuredData = {
         intro={platformPage.process.intro}
       />
       <ProcessFlow steps={platformPage.process.steps} />
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="technology-approach">
+    <div class="container">
+      <SectionIntro
+        label={platformPage.technology.label}
+        title={platformPage.technology.title}
+        intro={platformPage.technology.intro}
+      />
+      <div class="technology-matrix technology-matrix--compact">
+        {
+          platformPage.technology.systems.map((system) => (
+            <article class="technology-row" data-reveal>
+              <div>
+                <StatusBadge status={system.status} label={system.statusLabel} />
+                <h3>{system.title}</h3>
+              </div>
+              <p>{system.description}</p>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 
@@ -58,11 +102,14 @@ const structuredData = {
         title={platformPage.standards.title}
         intro={platformPage.standards.intro}
       />
-      <EvidenceNote
-        title="Verification posture"
-        status="verificationReady"
-        text={verification.claimLanguage}
-      />
+      <div class="card-grid card-grid--three">
+        {
+          platformPage.standards.notes.map((note) => (
+            <EvidenceNote title={note.title} status={note.status} text={note.text} />
+          ))
+        }
+      </div>
+      <p class="section-note">{verification.claimLanguage}</p>
     </div>
   </section>
 

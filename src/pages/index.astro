@@ -1,10 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AudiencePathCard from '../components/AudiencePathCard.astro';
 import PageCta from '../components/PageCta.astro';
 import ProcessFlow from '../components/ProcessFlow.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import {
+  audiencePaths,
   home,
   marketCorridors,
   pageMeta,
@@ -44,6 +46,32 @@ const structuredData = {
           <a class="button button--secondary" href={home.hero.secondaryAction.href}>{home.hero.secondaryAction.label}</a>
         </div>
       </div>
+      <div class="home-hero__schematic" aria-hidden="true" data-reveal>
+        <div class="schematic-map">
+          <span class="schematic-map__node schematic-map__node--feedstock">Feedstock</span>
+          <span class="schematic-map__node schematic-map__node--kiln">Kiln</span>
+          <span class="schematic-map__node schematic-map__node--buyer">Buyer</span>
+          <span class="schematic-map__node schematic-map__node--review">Review</span>
+          <span class="schematic-map__line schematic-map__line--a"></span>
+          <span class="schematic-map__line schematic-map__line--b"></span>
+          <span class="schematic-map__line schematic-map__line--c"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--proof" id="proof-strip">
+    <div class="container">
+      <div class="proof-strip" aria-label="BRG operating status">
+        {
+          home.proofStrip.map((item) => (
+            <article class="proof-strip__item" data-reveal>
+              <h2>{item.label}</h2>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 
@@ -54,16 +82,45 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section section--tinted" id="active-corridors">
+  <section class="section section--tinted" id="audience-pathways">
+    <div class="container">
+      <SectionIntro label={home.audienceIntro.label} title={home.audienceIntro.title} intro={home.audienceIntro.intro} />
+      <div class="card-grid card-grid--three">
+        {
+          audiencePaths.map((path) => (
+            <AudiencePathCard
+              audience={path.audience}
+              title={path.title}
+              description={path.description}
+              href={path.href}
+              cta={path.cta}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="active-corridors">
     <div class="container">
       <SectionIntro label={home.proof.label} title={home.proof.title} intro={home.proof.intro} />
       <div class="card-grid card-grid--two">
         {
           marketCorridors.map((corridor) => (
-            <article class="info-card" data-reveal>
-              <StatusBadge status={corridor.status} label={corridor.statusLabel} />
-              <h3>{corridor.name}</h3>
+            <article class="info-card info-card--corridor" data-reveal>
+              <div class="info-card__header">
+                <div>
+                  <span>{corridor.region}</span>
+                  <h3>{corridor.name}</h3>
+                </div>
+                <StatusBadge status={corridor.status} label={corridor.statusLabel} />
+              </div>
               <p>{corridor.description}</p>
+              <dl class="definition-grid definition-grid--compact">
+                <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
+                <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
+                <div><dt>Carbon pathway</dt><dd>{corridor.carbonPathway}</dd></div>
+              </dl>
               <a class="text-action" href={`/markets/#${corridorAnchor(corridor.name)}`}>
                 View {corridor.name}
                 <svg viewBox="0 0 24 24" aria-hidden="true">

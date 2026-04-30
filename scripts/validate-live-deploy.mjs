@@ -100,15 +100,16 @@ const main = async () => {
   );
   expect(
     home.text.includes('What BRG does') &&
-      home.text.includes('Where work is active now') &&
-      home.text.indexOf('What BRG does') < home.text.indexOf('Where work is active now'),
-    'Home page does not expose the simplified executive-summary structure',
+      home.text.includes('Route the right conversation.') &&
+      home.text.includes('Operating corridors') &&
+      home.text.indexOf('What BRG does') < home.text.indexOf('Route the right conversation.') &&
+      home.text.indexOf('Route the right conversation.') < home.text.indexOf('Operating corridors'),
+    'Home page does not expose the refined six-section structure',
   );
   expect(
-    home.text.includes('Start a focused conversation'),
+    home.text.includes('Start the right BRG conversation'),
     'Home page is missing the simplified final CTA',
   );
-  expect(!home.text.includes('Choose your pathway'), 'Home page still contains the removed role-pathway section');
   expect(!home.text.includes('Why the platform scales'), 'Home page still contains the removed platform-scale section');
   expect(
     !home.text.includes('/cdn-cgi/l/email-protection') && !home.text.includes('__cf_email__'),
@@ -128,30 +129,47 @@ const main = async () => {
   const markets = await expectReachablePage('/markets/');
   const about = await expectReachablePage('/about/');
   const contact = await expectReachablePage('/contact/');
-  expect(platform.text.includes('What each project can produce'), 'Platform page is missing the project outputs section');
-  expect(platform.text.includes('Project-stage carbon documentation'), 'Platform page is missing standards/verification handling');
+  const privacy = await expectReachablePage('/privacy/');
+  expect(platform.text.includes('Owner-operated model'), 'Platform page is missing owner-operated model');
+  expect(platform.text.includes('Technology approach'), 'Platform page is missing compact technology approach');
+  expect(platform.text.includes('What a project is designed to deliver'), 'Platform page is missing the project outputs section');
+  expect(platform.text.includes('Carbon documentation stays project-specific.'), 'Platform page is missing standards/verification handling');
   expect(!/revenue/i.test(platform.text), 'Platform page still exposes investor-oriented revenue language');
   expect(!platform.text.includes('Carbon removal statements follow the project stage'), 'Platform page still exposes awkward standards heading');
   expect(!platform.text.includes('End-to-end biochar projects.'), 'Platform page still exposes awkward hero heading');
-  expect(!platform.text.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
   expect(!platform.text.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
-  expect(markets.text.includes('Operating work underway'), 'Markets page is missing active corridors');
+  expect(markets.text.includes('Active operating corridors'), 'Markets page is missing active corridors');
+  expect(markets.text.includes('Operating entity') && markets.text.includes('Next commercial milestone'), 'Markets page is missing labeled corridor facts');
   expect(markets.text.includes('Additional regions'), 'Markets page is missing additional regional development section');
   expect(!markets.text.includes('Markets under evaluation'), 'Markets page still exposes internal evaluation language');
   expect(!markets.text.includes('Under evaluation'), 'Markets page still exposes internal status labels');
   expect(!markets.text.includes('no active operating claim is made from this label alone'), 'Markets page still exposes internal claim-hygiene wording');
-  expect(!markets.text.includes('Status legend'), 'Markets page still contains the removed status legend');
   expect(contact.text.includes('data-contact-form'), 'Contact page is missing the inquiry form');
+  expect(contact.text.includes('data-contact-route="investor"') && contact.text.includes('data-contact-route="carbon"') && contact.text.includes('data-contact-route="partner"') && contact.text.includes('data-contact-route="general"'), 'Contact page is missing all route cards');
   expect(contact.text.includes('data-form-mode="mailto"'), 'Contact page is missing the static mailto fallback');
   expect(contact.text.includes('Copy inquiry summary'), 'Contact page is missing inquiry summary copy support');
+  expect(contact.text.includes('If your email app does not open'), 'Contact page is missing mailto fallback guidance');
   expect(contact.text.includes('info@biomassresourcegroup.com'), 'Contact page is missing visible direct email');
+  expect(contact.text.includes('/privacy/'), 'Contact page is missing privacy link');
   expect(!contact.text.includes('Copy buttons add convenience'), 'Contact page still exposes internal progressive-enhancement language');
   expect(
     about.text.includes('https://www.linkedin.com/in/julieajbrown/'),
     'About page is missing Julie Brown LinkedIn markup',
   );
   expect(
-    about.text.includes('Built for independent review'),
+    about.text.includes('Biochar infrastructure is built in the field.'),
+    'About page is missing the operating story',
+  );
+  expect(
+    about.text.includes('Evidence is tied to operating stage.'),
+    'About page is missing the evidence snapshot',
+  );
+  expect(
+    about.text.includes('Operating discipline.'),
+    'About page is missing operating principles',
+  );
+  expect(
+    about.text.includes('Carbon claims stay tied to project evidence.'),
     'About page is missing renamed standards and verification pathway language',
   );
   expect(!about.text.includes('A concise view of who leads'), 'About page still exposes internal leadership framing');
@@ -160,12 +178,13 @@ const main = async () => {
   expect(!about.text.includes('careful verification language'), 'About page still exposes internal verification-language framing');
   expect(!about.text.includes('Verification-ready'), 'About page still exposes internal verification status labels');
   expect(!about.text.includes('Under verification'), 'About page still exposes internal verification status labels');
-  expect(!about.text.includes('future direct jobs potential'), 'About page still contains the removed evidence snapshot');
-  expect(!about.text.includes('Operating principles'), 'About page still contains the removed principles section');
+  expect(!about.text.includes('future direct jobs potential'), 'About page still contains the removed speculative jobs metric');
   expect(
     !about.text.includes('https://www.linkedin.com/in/cody-danet/'),
     'About page still includes Cody Danet LinkedIn link markup',
   );
+  expect(privacy.text.includes('This website does not store inquiry form data in mailto mode'), 'Privacy page is missing static site behavior');
+  expect(privacy.text.includes('If a form endpoint is configured later'), 'Privacy page is missing future endpoint disclosure');
 
   const company = await fetchText(`${siteUrl}/company/`);
   expect(company.response.ok, `/company/ request failed with ${company.response.status}`);

@@ -14,25 +14,25 @@ export const pageMeta = {
   home: {
     title: 'Biochar Carbon Removal Infrastructure',
     description:
-      'BRG builds biochar carbon removal infrastructure from waste biomass in emerging markets.',
+      'BRG builds operator-led biochar infrastructure across active biomass corridors.',
     path: '/',
   },
   platform: {
     title: 'Operating Platform',
     description:
-      'How BRG turns feedstock, kiln deployment, monitoring, and buyers into operating biochar projects.',
+      'How BRG connects feedstock, kiln deployment, buyer channels, and project documentation.',
     path: '/platform/',
   },
   markets: {
     title: 'Active Biochar Markets',
     description:
-      'Active BRG corridors and additional regions where market development is underway.',
+      'Active BRG operating corridors and additional regions under disciplined development.',
     path: '/markets/',
   },
   about: {
     title: 'About BRG',
     description:
-      'Leadership and operating approach behind Biomass Resource Group.',
+      'The leadership, operating discipline, and verification posture behind Biomass Resource Group.',
     path: '/about/',
   },
   contact: {
@@ -46,6 +46,12 @@ export const pageMeta = {
     description: 'The company page has moved to the BRG About page.',
     path: '/about/',
     noindex: true,
+  },
+  privacy: {
+    title: 'Privacy',
+    description:
+      'How BRG handles inquiry information on this static website.',
+    path: '/privacy/',
   },
   notFound: {
     title: 'Page not found',
@@ -88,27 +94,17 @@ export const statusLegend = [
   {
     key: 'active',
     label: 'Active',
-    description: 'Operating activity is underway in market.',
-  },
-  {
-    key: 'verification-pathway',
-    label: 'Verification pathway in progress',
-    description: 'Monitoring and methodology work are underway; issuance is not implied.',
-  },
-  {
-    key: 'commercial-pipeline',
-    label: 'Commercial offtake in progress',
-    description: 'Buyer or procurement discussions are advancing, subject to agreement and delivery.',
+    description: 'Operating activity is underway in the corridor.',
   },
   {
     key: 'under-evaluation',
     label: 'In development',
-    description: 'Regional market work is active, but operating corridor activity has not been announced.',
+    description: 'BRG is building the partner, feedstock, and buyer groundwork.',
   },
   {
     key: 'pipeline',
     label: 'Future corridor',
-    description: 'A region BRG is developing separately from current operating corridors.',
+    description: 'A region being tracked separately from current operating corridors.',
   },
 ] as const;
 
@@ -125,11 +121,11 @@ export const claimStatus = {
 export const home = {
   hero: {
     label: 'Biochar infrastructure',
-    title: 'Biochar infrastructure for carbon removal.',
+    title: 'Operator-led biochar infrastructure for carbon removal.',
     summary:
-      'BRG turns waste biomass into durable biochar products and carbon removal projects in active corridors.',
+      'BRG connects feedstock, kiln deployment, buyer channels, and carbon documentation across active biochar corridors.',
     primaryAction: { label: 'Discuss a project', href: '/contact/#inquiry-form' },
-    secondaryAction: { label: 'View markets', href: '/markets/' },
+    secondaryAction: { label: 'See active corridors', href: '/markets/' },
     metrics: [
       {
         value: '2',
@@ -153,6 +149,24 @@ export const home = {
       },
     ],
   },
+  proofStrip: [
+    {
+      label: 'Active corridors',
+      text: 'East Africa and Saudi Arabia operating work is separated from development regions.',
+    },
+    {
+      label: 'Feedstock-to-buyer model',
+      text: 'Projects connect biomass access, conversion, product use, and buyer channels.',
+    },
+    {
+      label: 'Prepared for review',
+      text: 'Project records, testing, and monitoring are prepared before carbon claims are made.',
+    },
+    {
+      label: 'Project-specific outcomes',
+      text: 'Approval, validation, verification, issuance, and delivery remain subject to review.',
+    },
+  ],
   whatWeDo: {
     label: 'What BRG does',
     title: 'One operating loop',
@@ -186,16 +200,16 @@ export const home = {
     ],
   },
   audienceIntro: {
-    label: 'Choose your pathway',
-    title: 'Start with the conversation that matches your mandate.',
+    label: 'Who should contact BRG',
+    title: 'Route the right conversation.',
     intro:
-      'Each route preselects the right inquiry type on the contact page and keeps the homepage focused.',
+      'Investors, carbon buyers, and project partners each need a different first conversation.',
   },
   proof: {
     label: 'Active corridors',
-    title: 'Where work is active now',
+    title: 'Operating corridors',
     intro:
-      'BRG highlights operating corridors first, with earlier-stage regional work kept separate.',
+      'Two active corridors show how the operating model adapts to local feedstock and infrastructure.',
   },
   scale: {
     label: 'Project model',
@@ -205,7 +219,7 @@ export const home = {
   },
   finalCta: {
     label: 'Contact',
-    title: 'Start a focused conversation',
+    title: 'Start the right BRG conversation',
     intro:
       'Use one form for investment, carbon offtake, project delivery, or general questions.',
     primaryAction: { label: 'Start an inquiry', href: '/contact/#inquiry-form' },
@@ -220,7 +234,7 @@ export const audiencePaths = [
     description:
       'Discuss asset-level economics, project qualification, operating timelines, and risk controls.',
     href: '/contact/?type=investor#inquiry-form',
-    cta: 'Start investor inquiry',
+    cta: 'Investor inquiry',
     subject: 'Investor inquiry',
     recipient: 'invest@biomassresourcegroup.com',
   },
@@ -230,7 +244,7 @@ export const audiencePaths = [
     description:
       'Discuss durability testing, MRV readiness, verification pathways, delivery timing, and offtake structure.',
     href: '/contact/?type=carbon#inquiry-form',
-    cta: 'Start offtake inquiry',
+    cta: 'Carbon buyer inquiry',
     subject: 'Carbon removal offtake inquiry',
     recipient: 'carbon@biomassresourcegroup.com',
   },
@@ -240,7 +254,7 @@ export const audiencePaths = [
     description:
       'Discuss local feedstock streams, kiln deployment, infrastructure integration, and operating responsibilities.',
     href: '/contact/?type=partner#inquiry-form',
-    cta: 'Start partnership inquiry',
+    cta: 'Project partner inquiry',
     subject: 'Project delivery partnership inquiry',
     recipient: 'partnerships@biomassresourcegroup.com',
   },
@@ -249,9 +263,9 @@ export const audiencePaths = [
 export const platformPage = {
   hero: {
     label: 'Operating platform',
-    title: 'Biochar operating platform.',
+    title: 'How BRG turns corridors into operating projects.',
     intro:
-      'BRG connects feedstock, kiln deployment, monitoring, and buyer channels.',
+      'BRG owns the operating path from feedstock access through kiln deployment, buyer channels, and project documentation.',
     primaryAction: { label: 'Request platform overview', href: '/contact/?type=general#inquiry-form' },
     secondaryAction: { label: 'Review active markets', href: '/markets/', variant: 'secondary' },
     meta: ['Owner-operated', 'MRV-ready workflows', 'Buyer channels'],
@@ -290,10 +304,10 @@ export const platformPage = {
     ],
   },
   ownership: {
-    label: 'Ownership model',
-    title: 'BRG owns and operates infrastructure, not just advice.',
+    label: 'Owner-operated model',
+    title: 'Infrastructure is built inside the operating boundary.',
     intro:
-      'The operating boundary is explicit: BRG builds local vehicles, controls field execution, and partners where local infrastructure or procurement channels require it.',
+      'BRG forms local operating structures, controls field execution, and partners where local infrastructure or procurement channels require it.',
     layers: [
       {
         title: 'Entity formation',
@@ -323,10 +337,10 @@ export const platformPage = {
     ],
   },
   technology: {
-    label: 'Technology matrix',
-    title: 'Deployment choices follow the corridor.',
+    label: 'Technology approach',
+    title: 'Kiln and documentation systems follow the corridor.',
     intro:
-      'The technology layer is shown by operating function and status, with careful separation between active use and readiness pathways.',
+      'Mobile kilns, fixed kilns, feedstock logistics, testing, and registry readiness are selected for the operating context.',
     systems: [
       {
         title: 'Mobile kiln',
@@ -367,7 +381,7 @@ export const platformPage = {
       {
         title: 'Testing and monitoring',
         status: 'verification-pathway',
-        statusLabel: 'Verification pathway in progress',
+        statusLabel: 'Prepared for review',
         description:
           'Production-run documentation, lab testing, traceability, and MRV records designed for third-party review.',
         details: [
@@ -379,7 +393,7 @@ export const platformPage = {
       {
         title: 'Registry readiness',
         status: 'verification-pathway',
-        statusLabel: 'Verification pathway in progress',
+        statusLabel: 'Prepared for review',
         description:
           'Alignment with applicable biochar methodologies without implying endorsement, approval, or issuance.',
         details: [
@@ -392,7 +406,7 @@ export const platformPage = {
   },
   standards: {
     label: 'Standards and verification',
-    title: 'Project-stage carbon documentation',
+    title: 'Carbon documentation stays project-specific.',
     intro:
       'Documentation is prepared for review before any credit is described as verified.',
     notes: [
@@ -428,9 +442,9 @@ export const platformPage = {
 
 export const projectModel = {
   label: 'Project outputs',
-  title: 'What each project can produce',
+  title: 'What a project is designed to deliver',
   intro:
-    'BRG designs each project around biochar use, site fit, and documentation.',
+    'Biochar use, site fit, documentation, and delivery channels are planned together.',
   caveat:
     'Carbon removal claims depend on project approval, monitoring, verification, issuance, and delivery requirements.',
   lines: [
@@ -464,9 +478,9 @@ export const marketsPage = {
   },
   activeIntro: {
     label: 'Active corridors',
-    title: 'Operating work underway',
+    title: 'Active operating corridors',
     intro:
-      'BRG is operating in these corridors today. Verification and offtake work advance by corridor.',
+      'Operating activity is underway in these corridors. Verification and offtake work advance by project.',
   },
   corridorDetail: {
     label: 'Corridor detail',
@@ -475,14 +489,14 @@ export const marketsPage = {
       'Operating infrastructure, carbon documentation, and offtake activity advance on separate timelines.',
   },
   pipelineIntro: {
-    label: 'Development',
+    label: 'Development regions',
     title: 'Additional regions',
     intro:
       'BRG is developing regional opportunities through feedstock, partner, and buyer work.',
   },
   finalCta: {
     label: 'Contact',
-    title: 'Discuss a corridor',
+    title: 'Discuss an operating corridor',
     intro:
       'Use the contact form for geography, feedstock, buyer, or deployment questions.',
     primaryAction: { label: 'Contact BRG', href: '/contact/?type=partner#inquiry-form' },
@@ -561,7 +575,7 @@ export const aboutPage = {
   },
   story: {
     label: 'Operating story',
-    title: 'Operating history matters because biochar is a field problem.',
+    title: 'Biochar infrastructure is built in the field.',
     intro:
       'Feedstock contracts, logistics, kiln operation, product buyers, and verification workflows have to work together before a corridor can scale.',
     paragraphs: [
@@ -571,31 +585,31 @@ export const aboutPage = {
   },
   leadership: {
     label: 'Leadership',
-    title: 'Operating leadership',
+    title: 'Leadership',
     intro:
       'BRG is led by operators focused on commercial partnerships, market execution, and field delivery.',
   },
   standards: {
     label: 'Verification',
-    title: 'Built for independent review',
+    title: 'Carbon claims stay tied to project evidence.',
     intro:
       'Projects are structured around recognized biochar testing, registry, and verification requirements.',
   },
   evidence: {
     label: 'Evidence snapshot',
-    title: 'Metrics are tied to their stage.',
+    title: 'Evidence is tied to operating stage.',
     intro:
       'The snapshot distinguishes current operations from earlier-stage market development.',
   },
   principles: {
     label: 'Operating principles',
-    title: 'How BRG decides what to build.',
+    title: 'Operating discipline.',
     intro:
-      'The principles are deliberately short so they can be scanned by investors, buyers, and operating partners.',
+      'BRG evaluates each corridor around demand, logistics, repeatability, and local execution.',
   },
   finalCta: {
     label: 'Contact',
-    title: 'Contact BRG',
+    title: 'Contact BRG leadership',
     intro:
       'Use the inquiry form for leadership, investor, buyer, or project conversations.',
     primaryAction: { label: 'Contact BRG', href: '/contact/?type=general#inquiry-form' },
@@ -715,9 +729,9 @@ const contactDomain = siteMeta.domain;
 export const contact = {
   label: 'Contact',
   hero: {
-    title: 'Contact BRG',
+    title: 'Choose the right BRG conversation.',
     intro:
-      'Send an inquiry or use the visible direct email addresses below.',
+      'Select a route, prepare an inquiry, or email the relevant BRG address directly.',
     primaryAction: { label: 'Start an inquiry', href: '#inquiry-form' },
     secondaryAction: { label: 'Direct emails', href: '#direct-emails', variant: 'secondary' },
     meta: ['Investors', 'Carbon buyers', 'Project partners', 'General'],
@@ -814,7 +828,39 @@ export const footer = {
       title: 'Connect',
       links: [
         { label: 'Contact BRG', href: '/contact/' },
+        { label: 'Privacy', href: '/privacy/' },
       ],
+    },
+  ],
+} as const;
+
+export const privacy = {
+  hero: {
+    label: 'Privacy',
+    title: 'Privacy notice',
+    intro:
+      'This page explains how inquiry information is handled on the BRG static website.',
+  },
+  sections: [
+    {
+      title: 'Static site behavior',
+      text:
+        'This website does not store inquiry form data in mailto mode. When you prepare an inquiry, the site builds an email draft in your own email app.',
+    },
+    {
+      title: 'Inquiry routing',
+      text:
+        'BRG uses inquiry information to respond to relevant investor, carbon buyer, project partner, or general conversations.',
+    },
+    {
+      title: 'Future form endpoint',
+      text:
+        'If a form endpoint is configured later, that endpoint provider receives submitted form data and handles delivery to BRG.',
+    },
+    {
+      title: 'No invented tracking claims',
+      text:
+        'This notice does not claim analytics, cookies, or tracking behavior that is not implemented in this repository.',
     },
   ],
 } as const;

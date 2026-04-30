@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
+import ContactRouteCard from '../components/ContactRouteCard.astro';
 import CopyEmailButton from '../components/CopyEmailButton.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
@@ -39,6 +40,30 @@ const getCopyLabel = (label: string) => {
     actions={[contact.hero.primaryAction, contact.hero.secondaryAction]}
     compact
   />
+
+  <section class="section section--compact" id="contact-routes">
+    <div class="container">
+      <SectionIntro
+        label="Inquiry routes"
+        title="Start with the right team."
+        intro="Choose a route to prefill the inquiry context below."
+      />
+      <div class="contact-route-grid">
+        {
+          contact.routes.map((route) => (
+            <ContactRouteCard
+              keyName={route.key}
+              label={route.label}
+              title={route.title}
+              description={route.description}
+              recipient={route.recipient}
+              subject={route.subject}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
 
   <ContactForm />
 

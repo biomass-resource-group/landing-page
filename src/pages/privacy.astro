@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { pageMeta, privacy, siteMeta } from '../data/site';
+
+const meta = pageMeta.privacy;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: meta.title,
+  url: `${siteMeta.siteUrl}${meta.path}`,
+  description: meta.description,
+};
+---
+
+<BaseLayout title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData}>
+  <PageHero
+    eyebrow={privacy.hero.label}
+    title={privacy.hero.title}
+    intro={privacy.hero.intro}
+    actions={[
+      { label: 'Contact BRG', href: '/contact/' },
+      { label: 'Return home', href: '/', variant: 'secondary' },
+    ]}
+    compact
+  />
+
+  <section class="section" id="privacy-notice">
+    <div class="container narrow">
+      <div class="privacy-list">
+        {
+          privacy.sections.map((section) => (
+            <article class="privacy-item" data-reveal>
+              <h2>{section.title}</h2>
+              <p>{section.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

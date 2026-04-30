@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import MarketCorridorCard from '../components/MarketCorridorCard.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
@@ -10,6 +11,7 @@ import {
   pageMeta,
   pipelineMarkets,
   siteMeta,
+  statusLegend,
 } from '../data/site';
 
 const meta = pageMeta.markets;
@@ -33,6 +35,21 @@ const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/
     compact
   />
 
+  <section class="section section--compact" id="corridor-status">
+    <div class="container">
+      <div class="status-legend" aria-label="Corridor status definitions">
+        {
+          statusLegend.map((status) => (
+            <article class="status-legend__item" data-reveal>
+              <StatusBadge status={status.key} label={status.label} description={status.description} />
+              <p>{status.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="active-corridors">
     <div class="container">
       <SectionIntro
@@ -40,19 +57,12 @@ const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/
         title={marketsPage.activeIntro.title}
         intro={marketsPage.activeIntro.intro}
       />
-      <div class="card-grid card-grid--two">
+      <div class="corridor-list">
         {
           marketCorridors.map((corridor) => (
-            <article class="info-card" id={corridorAnchor(corridor.name)} data-reveal>
-              <StatusBadge status={corridor.status} label={corridor.statusLabel} />
-              <h3>{corridor.name}</h3>
-              <p>{corridor.description}</p>
-              <dl class="definition-grid definition-grid--compact">
-                <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
-                <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
-                <div><dt>Carbon pathway</dt><dd>{corridor.carbonPathway}</dd></div>
-              </dl>
-            </article>
+            <div id={corridorAnchor(corridor.name)}>
+              <MarketCorridorCard {...corridor} />
+            </div>
           ))
         }
       </div>

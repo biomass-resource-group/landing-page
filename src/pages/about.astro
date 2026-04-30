@@ -1,12 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EvidenceNote from '../components/EvidenceNote.astro';
+import MetricCard from '../components/MetricCard.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import {
   aboutPage,
+  evidenceMetrics,
   leadership,
+  operatingPrinciples,
   pageMeta,
   siteMeta,
   verification,
@@ -52,6 +55,19 @@ const formatFocus = (items: readonly string[]) => {
     compact
   />
 
+  <section class="section" id="operating-story">
+    <div class="container">
+      <SectionIntro
+        label={aboutPage.story.label}
+        title={aboutPage.story.title}
+        intro={aboutPage.story.intro}
+      />
+      <div class="prose-block prose-block--columns" data-reveal>
+        {aboutPage.story.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="leadership">
     <div class="container">
       <SectionIntro
@@ -92,7 +108,44 @@ const formatFocus = (items: readonly string[]) => {
     </div>
   </section>
 
-  <section class="section section--tinted" id="standards">
+  <section class="section section--tinted" id="evidence">
+    <div class="container">
+      <SectionIntro
+        label={aboutPage.evidence.label}
+        title={aboutPage.evidence.title}
+        intro={aboutPage.evidence.intro}
+      />
+      <div class="metric-row metric-row--compact">
+        {
+          [evidenceMetrics[0], evidenceMetrics[1], evidenceMetrics[3]].map((metric) => (
+            <MetricCard value={metric.value} label={metric.label} status={metric.status} note={metric.note} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="principles">
+    <div class="container">
+      <SectionIntro
+        label={aboutPage.principles.label}
+        title={aboutPage.principles.title}
+        intro={aboutPage.principles.intro}
+      />
+      <div class="card-grid card-grid--four">
+        {
+          operatingPrinciples.map((principle) => (
+            <article class="principle-card" data-reveal>
+              <h3>{principle.title}</h3>
+              <p>{principle.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tinted" id="verification">
     <div class="container">
       <SectionIntro
         label={aboutPage.standards.label}
@@ -101,8 +154,8 @@ const formatFocus = (items: readonly string[]) => {
       />
       <div class="card-grid card-grid--two">
         {
-          verification.pathways.slice(0, 2).map((pathway) => (
-            <EvidenceNote title={pathway.label} text={`${pathway.detail} ${pathway.evidenceNote}`} />
+          verification.pathways.slice(0, 3).map((pathway) => (
+            <EvidenceNote title={pathway.label} status={pathway.status} text={`${pathway.detail} ${pathway.evidenceNote}`} />
           ))
         }
       </div>
