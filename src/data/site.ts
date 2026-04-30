@@ -188,7 +188,7 @@ export const home = {
       {
         title: 'Move biochar to buyers',
         description:
-          'Route biochar into agricultural, soil, waste, or industrial channels.',
+          'Route biochar products, offtake conversations, and eligible carbon documentation to buyers.',
         glossary: 'biochar',
       },
       {
@@ -232,7 +232,7 @@ export const audiencePaths = [
     audience: 'Investors',
     title: 'Review project economics and operating risk.',
     description:
-      'Discuss asset-level economics, project qualification, operating timelines, and risk controls.',
+      'Asset-level economics, qualification, operating timelines, and risk controls.',
     href: '/contact/?type=investor#inquiry-form',
     cta: 'Investor inquiry',
     subject: 'Investor inquiry',
@@ -242,7 +242,7 @@ export const audiencePaths = [
     audience: 'Carbon buyers',
     title: 'Evaluate future biochar carbon removal supply.',
     description:
-      'Discuss durability testing, MRV readiness, verification pathways, delivery timing, and offtake structure.',
+      'Durability testing, MRV readiness, registry pathway, delivery timing, and offtake structure.',
     href: '/contact/?type=carbon#inquiry-form',
     cta: 'Carbon buyer inquiry',
     subject: 'Carbon removal offtake inquiry',
@@ -252,7 +252,7 @@ export const audiencePaths = [
     audience: 'Project partners',
     title: 'Develop feedstock, deployment, or procurement channels.',
     description:
-      'Discuss local feedstock streams, kiln deployment, infrastructure integration, and operating responsibilities.',
+      'Local feedstock streams, kiln deployment, infrastructure integration, operating responsibilities.',
     href: '/contact/?type=partner#inquiry-form',
     cta: 'Project partner inquiry',
     subject: 'Project delivery partnership inquiry',
@@ -340,67 +340,47 @@ export const platformPage = {
     label: 'Technology approach',
     title: 'Kiln and documentation systems follow the corridor.',
     intro:
-      'Mobile kilns, fixed kilns, feedstock logistics, testing, and registry readiness are selected for the operating context.',
+      'Three operational systems are active. Testing and registry readiness advance per project.',
     systems: [
       {
         title: 'Mobile kiln',
         status: 'active',
         statusLabel: 'Active',
-        description:
-          'Distributed pyrolysis units for rural or biomass-proximate operations where transport distance matters.',
-        details: [
-          { label: 'Best fit', value: 'Distributed biomass streams' },
-          { label: 'Current context', value: 'East Africa corridor' },
-          { label: 'Readiness', value: 'Operating context active' },
-        ],
+        role: 'Distributed pyrolysis',
+        fit: 'Distributed biomass streams',
+        context: 'East Africa',
       },
       {
         title: 'Fixed kiln',
         status: 'active',
         statusLabel: 'Active',
-        description:
-          'Higher-throughput installations co-located with municipal, water, or industrial infrastructure.',
-        details: [
-          { label: 'Best fit', value: 'Industrial or municipal streams' },
-          { label: 'Current context', value: 'Saudi Arabia corridor' },
-          { label: 'Readiness', value: 'Operating context active' },
-        ],
+        role: 'Higher-throughput pyrolysis',
+        fit: 'Industrial or municipal streams',
+        context: 'Saudi Arabia',
       },
       {
         title: 'Feedstock logistics',
         status: 'active',
         statusLabel: 'Active',
-        description:
-          'Collection, staging, transport, and local team routines that determine whether production can scale.',
-        details: [
-          { label: 'Best fit', value: 'Every corridor' },
-          { label: 'Current context', value: 'Active corridors' },
-          { label: 'Readiness', value: 'Operational discipline' },
-        ],
+        role: 'Collection, staging, transport',
+        fit: 'Every corridor',
+        context: 'Local teams',
       },
       {
         title: 'Testing and monitoring',
         status: 'verification-pathway',
         statusLabel: 'Prepared for review',
-        description:
-          'Production-run documentation, lab testing, traceability, and MRV records designed for third-party review.',
-        details: [
-          { label: 'Best fit', value: 'Credit-eligible output' },
-          { label: 'Current context', value: 'Project-specific pathway' },
-          { label: 'Readiness', value: 'Subject to review' },
-        ],
+        role: 'Lab testing, traceability, MRV records',
+        fit: 'Credit-eligible output',
+        context: 'Project-specific',
       },
       {
         title: 'Registry readiness',
         status: 'verification-pathway',
         statusLabel: 'Prepared for review',
-        description:
-          'Alignment with applicable biochar methodologies without implying endorsement, approval, or issuance.',
-        details: [
-          { label: 'Best fit', value: 'Carbon removal projects' },
-          { label: 'Current context', value: 'Puro.earth, Isometric, Verra pathways' },
-          { label: 'Readiness', value: 'Subject to project approval' },
-        ],
+        role: 'Methodology alignment',
+        fit: 'Carbon removal projects',
+        context: 'Puro.earth, Isometric, Verra',
       },
     ],
   },
@@ -480,7 +460,7 @@ export const marketsPage = {
     label: 'Active corridors',
     title: 'Active operating corridors',
     intro:
-      'Operating activity is underway in these corridors. Verification and offtake work advance by project.',
+      'Field operations are underway. Verification and offtake work advance on a per-project timeline.',
   },
   corridorDetail: {
     label: 'Corridor detail',
@@ -577,10 +557,16 @@ export const aboutPage = {
     label: 'Operating story',
     title: 'Biochar infrastructure is built in the field.',
     intro:
-      'Feedstock contracts, logistics, kiln operation, product buyers, and verification workflows have to work together before a corridor can scale.',
+      'Feedstock contracts, logistics, kiln operation, product buyers, and verification have to work together before a corridor can scale.',
     paragraphs: [
       'BRG has built operating context across East Africa and the Middle East, with a focus on turning difficult waste streams into commercial biochar infrastructure.',
       'The company distinguishes active operating corridors from earlier-stage regional development so buyers, investors, and partners can quickly understand what is operating now.',
+    ],
+    context: [
+      { label: 'Active operations', value: 'East Africa, Saudi Arabia' },
+      { label: 'Field execution', value: 'Local entities, owned operations' },
+      { label: 'Verification', value: 'Prepared for third-party review' },
+      { label: 'Pipeline regions', value: 'Pakistan, MENA, Sub-Saharan Africa' },
     ],
   },
   leadership: {
@@ -741,7 +727,7 @@ export const contact = {
     endpoint: '',
     title: 'Inquiry form',
     intro:
-      'This opens your email app with a prepared message.',
+      'This opens your email app with a prepared message. If your email app does not open, copy the inquiry summary and email the relevant address below.',
     actionLabel: 'Prepare email inquiry',
     copySummaryLabel: 'Copy inquiry summary',
     privacyNote:
@@ -809,7 +795,7 @@ export const contact = {
     { label: 'Project partners', address: `partnerships@${contactDomain}` },
   ],
   reassurance:
-    'BRG routes inquiries to the relevant team and aims to respond within two business days.',
+    'BRG reviews each inquiry by route and responds where there is a relevant fit.',
 } as const;
 
 export const footer = {
@@ -843,24 +829,29 @@ export const privacy = {
   },
   sections: [
     {
-      title: 'Static site behavior',
+      title: 'Inquiry information',
       text:
-        'This website does not store inquiry form data in mailto mode. When you prepare an inquiry, the site builds an email draft in your own email app.',
+        'BRG uses the name, organization, email, role, geography, and message you provide to route the conversation to the relevant team.',
     },
     {
-      title: 'Inquiry routing',
+      title: 'Mailto mode',
       text:
-        'BRG uses inquiry information to respond to relevant investor, carbon buyer, project partner, or general conversations.',
+        'This website does not store inquiry form data in mailto mode. The site builds an email draft in your email application and delivery is handled by your email provider.',
     },
     {
       title: 'Future form endpoint',
       text:
-        'If a form endpoint is configured later, that endpoint provider receives submitted form data and handles delivery to BRG.',
+        'If a form endpoint is configured later, that endpoint provider receives submitted form data and forwards it to BRG. This notice will be updated to describe that processor and the data path.',
     },
     {
-      title: 'No invented tracking claims',
+      title: 'Analytics and cookies',
       text:
-        'This notice does not claim analytics, cookies, or tracking behavior that is not implemented in this repository.',
+        'This site does not set analytics or marketing cookies. If analytics is added later, this notice will be updated to describe what is collected and how it is used.',
+    },
+    {
+      title: 'Contact',
+      text:
+        'For questions about this notice, email info@biomassresourcegroup.com or use the contact page.',
     },
   ],
 } as const;

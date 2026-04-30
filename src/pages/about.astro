@@ -1,13 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialPanel from '../components/EditorialPanel.astro';
 import EvidenceNote from '../components/EvidenceNote.astro';
-import MetricCard from '../components/MetricCard.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import {
   aboutPage,
-  evidenceMetrics,
   leadership,
   operatingPrinciples,
   pageMeta,
@@ -62,9 +61,11 @@ const formatFocus = (items: readonly string[]) => {
         title={aboutPage.story.title}
         intro={aboutPage.story.intro}
       />
-      <div class="prose-block prose-block--columns" data-reveal>
-        {aboutPage.story.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-      </div>
+      <EditorialPanel
+        paragraphs={aboutPage.story.paragraphs}
+        context={aboutPage.story.context}
+        contextTitle="At a glance"
+      />
     </div>
   </section>
 
@@ -115,12 +116,22 @@ const formatFocus = (items: readonly string[]) => {
         title={aboutPage.evidence.title}
         intro={aboutPage.evidence.intro}
       />
-      <div class="metric-row metric-row--compact">
-        {
-          [evidenceMetrics[0], evidenceMetrics[1], evidenceMetrics[3]].map((metric) => (
-            <MetricCard value={metric.value} label={metric.label} status={metric.status} note={metric.note} />
-          ))
-        }
+      <div class="card-grid card-grid--three">
+        <EvidenceNote
+          title="Durability testing pathway"
+          status="tested"
+          text="Tied to EBC-aligned and H/Corg-style testing concepts. Not presented as a universal guarantee for every output."
+        />
+        <EvidenceNote
+          title="Active operating contexts"
+          status="operational"
+          text="Mobile and fixed kiln operations are active in two distinct corridors. Verification and offtake advance per project."
+        />
+        <EvidenceNote
+          title="Pipeline regions"
+          status="pipeline"
+          text="Pakistan, MENA, and Sub-Saharan Africa are tracked separately from active operating corridors."
+        />
       </div>
     </div>
   </section>

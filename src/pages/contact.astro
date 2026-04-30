@@ -7,6 +7,13 @@ import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import { contact, pageMeta, siteMeta } from '../data/site';
 
+const sidebarSummary = [
+  { label: 'Investor', value: 'Capital and project finance' },
+  { label: 'Carbon buyer', value: 'Carbon removal offtake' },
+  { label: 'Project partner', value: 'Feedstock, deployment, infrastructure' },
+  { label: 'General', value: 'Media or general questions' },
+];
+
 const meta = pageMeta.contact;
 const structuredData = {
   '@context': 'https://schema.org',
@@ -65,7 +72,27 @@ const getCopyLabel = (label: string) => {
     </div>
   </section>
 
-  <ContactForm />
+  <section class="section contact-intake-section">
+    <div class="container contact-intake">
+      <aside class="contact-intake__sidebar" aria-label="Inquiry guidance">
+        <p class="contact-intake__label">Inquiry intake</p>
+        <h2 class="contact-intake__title">Routed to the relevant team.</h2>
+        <p class="contact-intake__lede">Selecting a route updates the inquiry type, recipient, and subject below. The submit action opens your email app with a prepared message.</p>
+        <dl class="contact-intake__routes">
+          {
+            sidebarSummary.map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="contact-intake__note">If your email app does not open, copy the inquiry summary and email the relevant address below.</p>
+      </aside>
+      <ContactForm />
+    </div>
+  </section>
 
   <section class="section section--tinted" id="direct-emails">
     <div class="container">
