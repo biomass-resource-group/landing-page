@@ -123,8 +123,8 @@ export const home = {
     label: 'Biochar infrastructure',
     title: 'Operator-led biochar infrastructure for carbon removal.',
     summary:
-      'BRG connects feedstock, kiln deployment, buyer channels, and carbon documentation across active biochar corridors.',
-    primaryAction: { label: 'Discuss a project', href: '/contact/#inquiry-form' },
+      'BRG connects feedstock, kiln deployment, buyer channels, and carbon documentation across active biochar corridors in East Africa and Saudi Arabia.',
+    primaryAction: { label: 'Start a conversation', href: '/contact/#inquiry-form' },
     secondaryAction: { label: 'See active corridors', href: '/markets/' },
     metrics: [
       {
@@ -152,26 +152,26 @@ export const home = {
   proofStrip: [
     {
       label: 'Active corridors',
-      text: 'East Africa and Saudi Arabia operating work is separated from development regions.',
+      text: 'East Africa and Saudi Arabia are operating. Pipeline regions stay separate.',
     },
     {
       label: 'Feedstock-to-buyer model',
-      text: 'Projects connect biomass access, conversion, product use, and buyer channels.',
+      text: 'Biomass access, kiln conversion, product channels, and buyers stay on one path.',
     },
     {
       label: 'Prepared for review',
-      text: 'Project records, testing, and monitoring are prepared before carbon claims are made.',
+      text: 'Production records, lab testing, and monitoring are prepared for third-party review.',
     },
     {
-      label: 'Project-specific outcomes',
-      text: 'Approval, validation, verification, issuance, and delivery remain subject to review.',
+      label: 'Subject to review',
+      text: 'Carbon outcomes subject to approval, validation, verification, issuance, and delivery.',
     },
   ],
   whatWeDo: {
     label: 'What BRG does',
     title: 'One operating loop',
     intro:
-      'Feedstock, conversion, product use, and verification stay in one operating path.',
+      'Feedstock, conversion, product channels, and verification stay on one operating path.',
     steps: [
       {
         title: 'Source biomass',
@@ -182,19 +182,19 @@ export const home = {
       {
         title: 'Convert by pyrolysis',
         description:
-          'Match kiln systems to the feedstock, site conditions, and throughput need.',
+          'Match mobile and fixed kiln systems to feedstock, site, and throughput needs.',
         glossary: 'pyrolysis',
       },
       {
         title: 'Move biochar to buyers',
         description:
-          'Route biochar into agricultural, waste, soil, or industrial channels.',
+          'Route biochar into agricultural, soil, waste, or industrial channels.',
         glossary: 'biochar',
       },
       {
         title: 'Prepare verification',
         description:
-          'Build monitoring, testing, and traceability into routine operations.',
+          'Build monitoring, lab testing, and traceability into routine operations.',
         glossary: 'mrv',
       },
     ],
@@ -209,7 +209,7 @@ export const home = {
     label: 'Active corridors',
     title: 'Operating corridors',
     intro:
-      'Two active corridors show how the operating model adapts to local feedstock and infrastructure.',
+      'Two corridors are operating. Each adapts kiln choice, feedstock, and buyer channels to local infrastructure.',
   },
   scale: {
     label: 'Project model',
@@ -221,7 +221,7 @@ export const home = {
     label: 'Contact',
     title: 'Start the right BRG conversation',
     intro:
-      'Use one form for investment, carbon offtake, project delivery, or general questions.',
+      'Choose investor, carbon buyer, project partner, or general — the inquiry routes to the relevant team.',
     primaryAction: { label: 'Start an inquiry', href: '/contact/#inquiry-form' },
     secondaryAction: { label: 'View markets', href: '/markets/', variant: 'secondary' },
   },

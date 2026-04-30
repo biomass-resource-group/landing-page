@@ -47,15 +47,33 @@ const structuredData = {
         </div>
       </div>
       <div class="home-hero__schematic" aria-hidden="true" data-reveal>
-        <div class="schematic-map">
-          <span class="schematic-map__node schematic-map__node--feedstock">Feedstock</span>
-          <span class="schematic-map__node schematic-map__node--kiln">Kiln</span>
-          <span class="schematic-map__node schematic-map__node--buyer">Buyer</span>
-          <span class="schematic-map__node schematic-map__node--review">Review</span>
+        <figure class="schematic-map">
+          <span class="schematic-map__corner schematic-map__corner--tl">N</span>
+          <span class="schematic-map__corner schematic-map__corner--br">S</span>
+          <span class="schematic-map__node schematic-map__node--feedstock">
+            <span class="schematic-map__node-step">01</span>
+            <span class="schematic-map__node-label">Feedstock</span>
+          </span>
+          <span class="schematic-map__node schematic-map__node--kiln">
+            <span class="schematic-map__node-step">02</span>
+            <span class="schematic-map__node-label">Kiln</span>
+          </span>
+          <span class="schematic-map__node schematic-map__node--buyer">
+            <span class="schematic-map__node-step">03</span>
+            <span class="schematic-map__node-label">Buyer</span>
+          </span>
+          <span class="schematic-map__node schematic-map__node--review">
+            <span class="schematic-map__node-step">04</span>
+            <span class="schematic-map__node-label">Review</span>
+          </span>
           <span class="schematic-map__line schematic-map__line--a"></span>
           <span class="schematic-map__line schematic-map__line--b"></span>
           <span class="schematic-map__line schematic-map__line--c"></span>
-        </div>
+          <figcaption class="schematic-map__caption">
+            <span><span class="schematic-map__pip"></span>East Africa</span>
+            <span><span class="schematic-map__pip"></span>Saudi Arabia</span>
+          </figcaption>
+        </figure>
       </div>
     </div>
   </section>
