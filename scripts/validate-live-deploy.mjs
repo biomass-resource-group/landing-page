@@ -128,7 +128,9 @@ const main = async () => {
   const markets = await expectReachablePage('/markets/');
   const about = await expectReachablePage('/about/');
   const contact = await expectReachablePage('/contact/');
-  expect(platform.text.includes('Carbon removal statements follow the project stage'), 'Platform page is missing standards/verification handling');
+  expect(platform.text.includes('Project-stage carbon documentation'), 'Platform page is missing standards/verification handling');
+  expect(!platform.text.includes('Carbon removal statements follow the project stage'), 'Platform page still exposes awkward standards heading');
+  expect(!platform.text.includes('End-to-end biochar projects.'), 'Platform page still exposes awkward hero heading');
   expect(!platform.text.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
   expect(!platform.text.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
   expect(markets.text.includes('Operating work underway'), 'Markets page is missing active corridors');
@@ -141,6 +143,7 @@ const main = async () => {
   expect(contact.text.includes('data-form-mode="mailto"'), 'Contact page is missing the static mailto fallback');
   expect(contact.text.includes('Copy inquiry summary'), 'Contact page is missing inquiry summary copy support');
   expect(contact.text.includes('info@biomassresourcegroup.com'), 'Contact page is missing visible direct email');
+  expect(!contact.text.includes('Copy buttons add convenience'), 'Contact page still exposes internal progressive-enhancement language');
   expect(
     about.text.includes('https://www.linkedin.com/in/julieajbrown/'),
     'About page is missing Julie Brown LinkedIn markup',

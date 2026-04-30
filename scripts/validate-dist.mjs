@@ -264,7 +264,9 @@ expect(!homeHtml.includes('home-metrics'), 'Home page still contains duplicate m
 
 expect(platformHtml.includes('From feedstock to market'), 'Platform page is missing the operating model');
 expect(platformHtml.includes('Three revenue lines'), 'Platform page is missing the revenue stack');
-expect(platformHtml.includes('Carbon removal statements follow the project stage'), 'Platform page is missing standards/verification handling');
+expect(platformHtml.includes('Project-stage carbon documentation'), 'Platform page is missing standards/verification handling');
+expect(!platformHtml.includes('Carbon removal statements follow the project stage'), 'Platform page still exposes awkward standards heading');
+expect(!platformHtml.includes('End-to-end biochar projects.'), 'Platform page still exposes awkward hero heading');
 expect(!platformHtml.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
 expect(!platformHtml.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
 
@@ -286,6 +288,7 @@ expect(contactHtml.includes('info@biomassresourcegroup.com'), 'Contact page is m
 expect(contactHtml.includes('invest@biomassresourcegroup.com'), 'Contact page is missing visible investor email');
 expect(contactHtml.includes('carbon@biomassresourcegroup.com'), 'Contact page is missing visible carbon email');
 expect(contactHtml.includes('partnerships@biomassresourcegroup.com'), 'Contact page is missing visible partnerships email');
+expect(!contactHtml.includes('Copy buttons add convenience'), 'Contact page still exposes internal progressive-enhancement language');
 expect(homeHtml.includes('<!--email_off-->'), 'Home page footer email is not protected from Cloudflare email obfuscation');
 expect(contactHtml.includes('<!--email_off-->'), 'Contact page email routes are not protected from Cloudflare email obfuscation');
 

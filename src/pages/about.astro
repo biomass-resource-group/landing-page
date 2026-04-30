@@ -34,6 +34,13 @@ const structuredData = [
     },
   })),
 ];
+
+const formatFocus = (items: readonly string[]) => {
+  if (items.length === 0) return '';
+  if (items.length === 1) return items[0];
+
+  return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+};
 ---
 
 <BaseLayout title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData}>
@@ -54,41 +61,32 @@ const structuredData = [
       />
       <div class="leadership-grid">
         {
-          leadership.map((person) => {
-            const initials = person.name
-              .split(' ')
-              .map((part) => part[0])
-              .join('')
-              .slice(0, 2);
-
-            return (
-              <article class="leadership-card" data-reveal>
-                <div class="leadership-card__topline">
-                  <div class="leadership-card__avatar" aria-hidden="true">{initials}</div>
-                  <div>
-                    <h3>{person.name}</h3>
-                    <p>{person.role}</p>
-                  </div>
+          leadership.map((person) => (
+            <article class="leadership-card" data-reveal>
+              <div class="leadership-card__topline">
+                <div>
+                  <h3>{person.name}</h3>
+                  <p>{person.role}</p>
                 </div>
-                <p class="leadership-card__focus" aria-label={`${person.name} areas of responsibility`}>
-                  {person.focus.join(' / ')}
-                </p>
-                <div class="leadership-card__bio">
-                  {person.bio.map((paragraph) => <p>{paragraph}</p>)}
-                </div>
-                {
-                  person.href && (
-                    <a class="text-action" href={person.href} target="_blank" rel="noreferrer" aria-label={`${person.name} on LinkedIn`}>
-                      LinkedIn
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M5 12h14M13 5l7 7-7 7"></path>
-                      </svg>
-                    </a>
-                  )
-                }
-              </article>
-            );
-          })
+              </div>
+              <p class="leadership-card__focus" aria-label={`${person.name} areas of responsibility`}>
+                {formatFocus(person.focus)}
+              </p>
+              <div class="leadership-card__bio">
+                {person.bio.map((paragraph) => <p>{paragraph}</p>)}
+              </div>
+              {
+                person.href && (
+                  <a class="text-action" href={person.href} target="_blank" rel="noreferrer" aria-label={`${person.name} on LinkedIn`}>
+                    LinkedIn
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M5 12h14M13 5l7 7-7 7"></path>
+                    </svg>
+                  </a>
+                )
+              }
+            </article>
+          ))
         }
       </div>
     </div>

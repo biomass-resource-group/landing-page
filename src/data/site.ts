@@ -249,9 +249,9 @@ export const audiencePaths = [
 export const platformPage = {
   hero: {
     label: 'Operating platform',
-    title: 'End-to-end biochar projects.',
+    title: 'Biochar operating platform.',
     intro:
-      'BRG combines feedstock access, kiln deployment, monitoring, and buyer channels in one operating model.',
+      'BRG connects feedstock, kiln deployment, monitoring, and buyer channels.',
     primaryAction: { label: 'Request platform overview', href: '/contact/?type=general#inquiry-form' },
     secondaryAction: { label: 'Review active markets', href: '/markets/', variant: 'secondary' },
     meta: ['Owner-operated', 'MRV-ready workflows', 'Buyer channels'],
@@ -392,9 +392,9 @@ export const platformPage = {
   },
   standards: {
     label: 'Standards and verification',
-    title: 'Carbon removal statements follow the project stage',
+    title: 'Project-stage carbon documentation',
     intro:
-      'BRG prepares project documentation for third-party review and only describes credits as verified after the relevant process is complete.',
+      'Documentation is prepared for third-party review before credits are described as verified.',
     notes: [
       {
         title: 'Verification bodies',

@@ -45,21 +45,25 @@ const getCopyLabel = (label: string) => {
   <section class="section section--tinted" id="direct-emails">
     <div class="container">
       <SectionIntro
-        label="Direct emails"
-        title="Direct emails"
-        intro="Email addresses remain visible and selectable. Copy buttons add convenience when JavaScript is available."
+        label="Direct contact"
+        title="Email BRG"
+        intro="Use the address that best matches your inquiry."
       />
       <div class="email-grid">
         {
-          contact.directEmails.map((email) => (
-            <article class="email-card" data-reveal>
-              <span>{email.label}</span>
-              <!--email_off-->
-              <a href={`mailto:${email.address}`}>{email.address}</a>
-              <!--/email_off-->
-              <CopyEmailButton address={email.address} label={getCopyLabel(email.label)} />
-            </article>
-          ))
+          contact.directEmails.map((email) => {
+            const [local, domain] = email.address.split('@');
+
+            return (
+              <article class="email-card" data-reveal>
+                <span>{email.label}</span>
+                <!--email_off-->
+                <a href={`mailto:${email.address}`}><span class="email-address__local">{local}@</span><span class="email-address__domain">{domain}</span></a>
+                <!--/email_off-->
+                <CopyEmailButton address={email.address} label={getCopyLabel(email.label)} />
+              </article>
+            );
+          })
         }
       </div>
       <p class="contact-reassurance">{contact.reassurance}</p>

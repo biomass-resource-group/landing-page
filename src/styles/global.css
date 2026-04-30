@@ -30,8 +30,8 @@
   --space-section: clamp(1.8rem, 2.8vw, 3rem);
   --space-section-sm: clamp(1.45rem, 2.4vw, 2.25rem);
   --type-display-xl: clamp(2.15rem, 3.35vw, 3.25rem);
-  --type-display-lg: clamp(1.9rem, 2.65vw, 2.75rem);
-  --type-section: clamp(1.35rem, 1.65vw, 1.72rem);
+  --type-display-lg: clamp(1.75rem, 2.2vw, 2.35rem);
+  --type-section: clamp(1.25rem, 1.38vw, 1.5rem);
   --type-display-sm: clamp(1.2rem, 1.45vw, 1.45rem);
   --focus: 0 0 0 3px rgba(198, 154, 61, 0.34);
 }
@@ -631,6 +631,10 @@ html:not(.js) [data-reveal] {
   line-height: 1.05;
 }
 
+.page-hero__inner > p {
+  max-width: 58ch;
+}
+
 .page-hero__meta,
 .tag-list,
 .status-mini-list {
@@ -701,6 +705,10 @@ html:not(.js) [data-reveal] {
   line-height: 1.2;
 }
 
+.section-intro-block__summary {
+  max-width: 62ch;
+}
+
 .section--dark .section-intro-block__title {
   color: var(--cream);
 }
@@ -762,7 +770,7 @@ html:not(.js) [data-reveal] {
 .corridor-card h3,
 .pipeline-card h3,
 .contact-route-card h3,
-.email-card span,
+.email-card > span,
 .metric-card h3,
 .principle-card h3,
 .technology-row h3,
@@ -1125,41 +1133,29 @@ html:not(.js) [data-reveal] {
 
 .leadership-card {
   display: grid;
-  gap: 0.8rem;
+  align-content: start;
+  gap: 0.72rem;
   padding: clamp(1rem, 2vw, 1.25rem);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.74);
-  box-shadow: var(--shadow-soft);
+  background: rgba(255, 255, 255, 0.66);
+  box-shadow: 0 8px 22px rgba(13, 23, 20, 0.06);
 }
 
 .leadership-card__topline {
-  display: flex;
-  gap: 0.85rem;
-  align-items: center;
-}
-
-.leadership-card__avatar {
-  flex: 0 0 3rem;
-  width: 3rem;
-  height: 3rem;
   display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: var(--forest-900);
-  color: var(--cream);
-  font-weight: 900;
+  gap: 0.12rem;
 }
 
 .leadership-card__bio {
   display: grid;
-  gap: 0.65rem;
+  gap: 0.55rem;
 }
 
 .leadership-card__focus {
-  color: var(--ink-soft);
+  color: var(--ink);
   font-size: 0.92rem;
-  font-weight: 750;
+  font-weight: 820;
 }
 
 .prose-block {
@@ -1330,35 +1326,69 @@ html:not(.js) [data-reveal] {
 }
 
 .email-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow-soft);
 }
 
 .email-card {
   display: grid;
-  grid-template-columns: minmax(7rem, max-content) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(8.5rem, 0.28fr) minmax(18rem, 1fr) auto;
+  gap: 0.9rem;
   align-items: center;
-  padding: 0.9rem 1rem;
+  padding: 0.72rem 0.95rem;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.email-card:last-child {
+  border-bottom: 0;
+}
+
+.email-card > span {
+  color: var(--ink-muted);
+  font-size: 0.92rem;
+  font-weight: 820;
 }
 
 .email-card a {
-  min-height: 46px;
-  min-width: 46px;
+  min-height: 40px;
+  min-width: 0;
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   word-break: normal;
+  white-space: normal;
   color: var(--forest-800);
+  font-size: 0.98rem;
+  font-weight: 850;
+}
+
+.email-address__local,
+.email-address__domain {
+  white-space: nowrap;
+  color: var(--forest-800);
+  font-size: 0.98rem;
   font-weight: 850;
 }
 
 .copy-button {
-  min-height: 46px;
+  min-height: 40px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 0.45rem 0.75rem;
+  padding: 0.36rem 0.72rem;
   background: var(--forest-900);
   color: var(--cream);
   cursor: pointer;
+  font-size: 0.9rem;
   font-weight: 850;
   white-space: nowrap;
 }
@@ -1386,15 +1416,16 @@ html:not(.js) [data-reveal] {
 }
 
 .site-footer {
-  padding: clamp(1.9rem, 3vw, 2.8rem) 0;
+  padding: clamp(1.4rem, 2.2vw, 2rem) 0;
   color: var(--cream);
   background: var(--forest-950);
 }
 
 .site-footer__inner {
   display: grid;
-  grid-template-columns: minmax(300px, 1.2fr) minmax(150px, 0.45fr) minmax(150px, 0.45fr) minmax(260px, 0.7fr);
-  gap: clamp(1.25rem, 3vw, 2.5rem);
+  grid-template-columns: minmax(240px, 1fr) repeat(3, minmax(120px, max-content));
+  gap: clamp(1rem, 2.2vw, 1.9rem);
+  align-items: start;
 }
 
 .site-footer .brand {
@@ -1402,15 +1433,17 @@ html:not(.js) [data-reveal] {
 }
 
 .site-footer__legal {
-  max-width: 46ch;
-  margin-top: 0.85rem;
+  max-width: 34ch;
+  margin-top: 0.65rem;
   color: rgba(248, 241, 228, 0.78);
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 .site-footer__group {
   display: grid;
   align-content: start;
-  gap: 0.7rem;
+  gap: 0.48rem;
 }
 
 .site-footer__title {
@@ -1420,19 +1453,21 @@ html:not(.js) [data-reveal] {
 .site-footer__links {
   list-style: none;
   display: grid;
-  gap: 0.25rem;
+  gap: 0.1rem;
 }
 
 .site-footer a {
-  min-height: 46px;
+  min-height: 34px;
   min-width: 46px;
   display: inline-flex;
   align-items: center;
   color: var(--cream);
+  font-size: 0.92rem;
 }
 
 .site-footer__email {
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  white-space: nowrap;
   font-weight: 850;
   text-decoration: underline;
 }
@@ -1477,7 +1512,6 @@ html:not(.js) [data-reveal] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .email-grid,
   .pipeline-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1538,6 +1572,11 @@ html:not(.js) [data-reveal] {
     grid-column: 1 / -1;
   }
 
+  .email-card a {
+    white-space: normal;
+    overflow-wrap: normal;
+  }
+
   .home-hero {
     min-height: auto;
     align-items: start;
@@ -1554,6 +1593,15 @@ html:not(.js) [data-reveal] {
   .metric-row,
   .email-grid {
     grid-template-columns: 1fr;
+  }
+
+  .site-footer a {
+    min-height: 44px;
+  }
+
+  .site-footer__email {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .button,
@@ -1596,6 +1644,18 @@ html:not(.js) [data-reveal] {
 
   .email-card {
     grid-template-columns: 1fr;
+    padding-inline: 0.65rem;
+  }
+
+  .email-card a {
+    white-space: normal;
+    overflow-wrap: normal;
+    font-size: 0.98rem;
+    line-height: 1.35;
+  }
+
+  .email-card .copy-button {
+    justify-self: start;
   }
 }
 
