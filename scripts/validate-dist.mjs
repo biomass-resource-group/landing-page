@@ -44,7 +44,7 @@ const routeExpectations = new Map([
   [join('about', 'index.html'), {
     canonical: `${siteUrl}/about/`,
     title: 'About BRG | Biomass Resource Group',
-    description: 'Leadership and verification posture behind Biomass Resource Group.',
+    description: 'Leadership and operating approach behind Biomass Resource Group.',
   }],
   [join('contact', 'index.html'), {
     canonical: `${siteUrl}/contact/`,
@@ -78,6 +78,12 @@ const forbiddenContent = [
   'Pipeline markets are not presented as active projects',
   'no active operating claim is made from this label alone',
   'Verification claims stay narrow',
+  'A concise view of who leads',
+  'Focus:',
+  'Pathways, not endorsements',
+  'careful verification language',
+  'Verification-ready',
+  'Under verification',
 ];
 
 const expect = (condition, message) => {
@@ -258,7 +264,7 @@ expect(!homeHtml.includes('home-metrics'), 'Home page still contains duplicate m
 
 expect(platformHtml.includes('From feedstock to market'), 'Platform page is missing the operating model');
 expect(platformHtml.includes('Three revenue lines'), 'Platform page is missing the revenue stack');
-expect(platformHtml.includes('Verification language stays specific'), 'Platform page is missing standards/verification handling');
+expect(platformHtml.includes('Carbon removal statements follow the project stage'), 'Platform page is missing standards/verification handling');
 expect(!platformHtml.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
 expect(!platformHtml.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
 
@@ -268,7 +274,7 @@ expect(marketsHtml.includes('Pakistan') && marketsHtml.includes('MENA') && marke
 expect(!marketsHtml.includes('Status legend'), 'Markets page still contains the removed status legend');
 expect(!marketsHtml.includes('Corridor detail'), 'Markets page still contains the removed duplicate corridor-detail section');
 
-expect(aboutHtml.includes('Standards and verification pathways'), 'About page is missing renamed standards section');
+expect(aboutHtml.includes('Built for independent review'), 'About page is missing standards section');
 expect(aboutHtml.includes('Julie Brown') && aboutHtml.includes('https://www.linkedin.com/in/julieajbrown/'), 'About page is missing Julie Brown LinkedIn');
 expect(!aboutHtml.includes('future direct jobs potential'), 'About page still contains the removed evidence snapshot');
 expect(!aboutHtml.includes('Operating principles'), 'About page still contains the removed principles section');

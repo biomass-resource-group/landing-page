@@ -32,7 +32,7 @@ export const pageMeta = {
   about: {
     title: 'About BRG',
     description:
-      'Leadership and verification posture behind Biomass Resource Group.',
+      'Leadership and operating approach behind Biomass Resource Group.',
     path: '/about/',
   },
   contact: {
@@ -392,9 +392,9 @@ export const platformPage = {
   },
   standards: {
     label: 'Standards and verification',
-    title: 'Verification language stays specific',
+    title: 'Carbon removal statements follow the project stage',
     intro:
-      'BRG describes carbon removal work according to each project stage and third-party review process.',
+      'BRG prepares project documentation for third-party review and only describes credits as verified after the relevant process is complete.',
     notes: [
       {
         title: 'Verification bodies',
@@ -554,10 +554,10 @@ export const aboutPage = {
     label: 'About BRG',
     title: 'Operator-led infrastructure.',
     intro:
-      'BRG is built around field execution, commercial channels, and careful verification language.',
+      'BRG combines field execution, commercial partnerships, and project documentation for biochar carbon removal infrastructure.',
     primaryAction: { label: 'Contact leadership', href: '/contact/?type=general#inquiry-form' },
     secondaryAction: { label: 'See active markets', href: '/markets/', variant: 'secondary' },
-    meta: ['Operator-led', 'Evidence-aware', 'Clear stage language'],
+    meta: ['Operator-led', 'Commercial discipline', 'Third-party review'],
   },
   story: {
     label: 'Operating story',
@@ -571,15 +571,15 @@ export const aboutPage = {
   },
   leadership: {
     label: 'Leadership',
-    title: 'Leadership',
+    title: 'Operating leadership',
     intro:
-      'A concise view of who leads the company and where each person focuses.',
+      'BRG is led by operators focused on commercial partnerships, market execution, and field delivery.',
   },
   standards: {
-    label: 'Standards and verification pathways',
-    title: 'Standards and review pathways',
+    label: 'Verification',
+    title: 'Built for independent review',
     intro:
-      'Referenced organizations are treated as standards, testing, methodology, or review pathways.',
+      'Projects are structured around recognized biochar testing, registry, and verification requirements.',
   },
   evidence: {
     label: 'Evidence snapshot',
@@ -609,8 +609,8 @@ export const leadership = [
     role: 'CEO',
     focus: ['Company strategy', 'Partnerships', 'Growth'],
     bio: [
-      'Julie leads BRG as CEO, setting company direction across strategy, partnerships, and growth.',
-      'Her work connects BRG operating proof to capital, procurement, buyer, and institutional conversations.',
+      'Julie Brown leads BRG’s company strategy, partnerships, and growth agenda.',
+      'She works with investors, buyers, procurement partners, and institutions to move operating corridors from field execution into scaled commercial infrastructure.',
     ],
     href: 'https://www.linkedin.com/in/julieajbrown/',
   },
@@ -619,8 +619,8 @@ export const leadership = [
     role: 'Co-Founder',
     focus: ['Market buildout', 'Feedstock logistics', 'Technology deployment'],
     bio: [
-      'Cody brings operating continuity from the original Riziki NBS field work through BRG corridor buildout.',
-      'His work centers on local teams, feedstock contracts, kiln deployment, and day-to-day execution.',
+      'Cody Danet leads market buildout, feedstock logistics, and technology deployment.',
+      'He carries forward operating knowledge from Riziki NBS field work, coordinating local teams, feedstock contracts, kiln deployment, and site execution.',
     ],
   },
 ] as const;
@@ -629,15 +629,15 @@ export const verification = {
   pathways: [
     {
       label: 'DNV and SGS',
-      detail: 'Accredited verification bodies BRG may work with as projects move through review.',
+      detail: 'BRG prepares project documentation for review by qualified independent verification bodies as projects advance.',
       status: 'underVerification',
-      evidenceNote: 'Listed as review pathways; no certification or endorsement is implied.',
+      evidenceNote: 'Certification or verification statements are made only after the applicable review is complete.',
     },
     {
       label: 'Puro.earth, Isometric, and Verra VM0044',
-      detail: 'Biochar carbon removal methodology or registry pathways that may apply by project.',
+      detail: 'BRG structures eligible biochar projects with reference to applicable registry and methodology requirements.',
       status: 'verificationReady',
-      evidenceNote: 'Approval, validation, verification, issuance, and delivery depend on the project.',
+      evidenceNote: 'Approval, validation, verification, issuance, and delivery remain project-specific.',
     },
     {
       label: 'EBC-aligned testing',
@@ -653,7 +653,7 @@ export const verification = {
     },
   ],
   claimLanguage:
-    'BRG prepares project data for third-party review and uses verified carbon removal only after the relevant review process is complete.',
+    'Project data, monitoring records, and review steps advance before any carbon credit issuance or delivery.',
 } as const;
 
 export const evidenceMetrics = [

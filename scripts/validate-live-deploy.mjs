@@ -128,7 +128,7 @@ const main = async () => {
   const markets = await expectReachablePage('/markets/');
   const about = await expectReachablePage('/about/');
   const contact = await expectReachablePage('/contact/');
-  expect(platform.text.includes('Verification language stays specific'), 'Platform page is missing standards/verification handling');
+  expect(platform.text.includes('Carbon removal statements follow the project stage'), 'Platform page is missing standards/verification handling');
   expect(!platform.text.includes('Ownership model'), 'Platform page still contains the removed ownership matrix');
   expect(!platform.text.includes('Technology matrix'), 'Platform page still contains the removed technology matrix');
   expect(markets.text.includes('Operating work underway'), 'Markets page is missing active corridors');
@@ -146,9 +146,15 @@ const main = async () => {
     'About page is missing Julie Brown LinkedIn markup',
   );
   expect(
-    about.text.includes('Standards and verification pathways'),
+    about.text.includes('Built for independent review'),
     'About page is missing renamed standards and verification pathway language',
   );
+  expect(!about.text.includes('A concise view of who leads'), 'About page still exposes internal leadership framing');
+  expect(!about.text.includes('Focus:'), 'About page still exposes internal leadership labels');
+  expect(!about.text.includes('Pathways, not endorsements'), 'About page still exposes internal standards framing');
+  expect(!about.text.includes('careful verification language'), 'About page still exposes internal verification-language framing');
+  expect(!about.text.includes('Verification-ready'), 'About page still exposes internal verification status labels');
+  expect(!about.text.includes('Under verification'), 'About page still exposes internal verification status labels');
   expect(!about.text.includes('future direct jobs potential'), 'About page still contains the removed evidence snapshot');
   expect(!about.text.includes('Operating principles'), 'About page still contains the removed principles section');
   expect(
