@@ -124,11 +124,11 @@ export const claimStatus = {
 
 export const home = {
   hero: {
-    label: 'Biochar carbon removal infrastructure',
-    title: 'Biochar carbon removal infrastructure.',
+    label: 'Biochar infrastructure',
+    title: 'Biochar infrastructure for carbon removal.',
     summary:
-      'BRG turns waste biomass into biochar products and carbon removal projects in active emerging-market corridors.',
-    primaryAction: { label: 'Contact BRG', href: '/contact/#inquiry-form' },
+      'BRG turns waste biomass into durable biochar products and carbon removal projects in active corridors.',
+    primaryAction: { label: 'Discuss a project', href: '/contact/#inquiry-form' },
     secondaryAction: { label: 'View markets', href: '/markets/' },
     metrics: [
       {
@@ -155,32 +155,32 @@ export const home = {
   },
   whatWeDo: {
     label: 'What BRG does',
-    title: 'One operating loop.',
+    title: 'One operating loop',
     intro:
-      'BRG connects feedstock, conversion, product use, and carbon verification.',
+      'Feedstock, conversion, product use, and verification stay in one operating path.',
     steps: [
       {
-        title: 'Source waste biomass',
+        title: 'Source biomass',
         description:
-          'Secure local feedstock streams such as invasive biomass, residues, or organics.',
+          'Secure local waste streams with workable collection and transport economics.',
         glossary: 'biochar',
       },
       {
-        title: 'Convert through pyrolysis',
+        title: 'Convert by pyrolysis',
         description:
-          'Use kiln systems matched to feedstock, throughput, and local infrastructure.',
+          'Match kiln systems to the feedstock, site conditions, and throughput need.',
         glossary: 'pyrolysis',
       },
       {
-        title: 'Apply or sell biochar',
+        title: 'Move biochar to buyers',
         description:
-          'Move biochar into agricultural, soil, waste, or industrial channels.',
+          'Route biochar into agricultural, waste, soil, or industrial channels.',
         glossary: 'biochar',
       },
       {
-        title: 'Prepare carbon removal for verification',
+        title: 'Prepare verification',
         description:
-          'Build monitoring, testing, and traceability into the operating workflow.',
+          'Build monitoring, testing, and traceability into routine operations.',
         glossary: 'mrv',
       },
     ],
@@ -193,9 +193,9 @@ export const home = {
   },
   proof: {
     label: 'Active corridors',
-    title: 'Where work is active now.',
+    title: 'Where work is active now',
     intro:
-      'Current operating corridors are separated from pipeline markets and future evaluation areas.',
+      'Current corridors are kept separate from pipeline markets and future evaluation.',
   },
   scale: {
     label: 'Why the platform scales',
@@ -205,10 +205,10 @@ export const home = {
   },
   finalCta: {
     label: 'Contact',
-    title: 'Start a focused conversation.',
+    title: 'Start a focused conversation',
     intro:
       'Use one form for investment, carbon offtake, project delivery, or general questions.',
-    primaryAction: { label: 'Contact BRG', href: '/contact/#inquiry-form' },
+    primaryAction: { label: 'Start an inquiry', href: '/contact/#inquiry-form' },
     secondaryAction: { label: 'View markets', href: '/markets/', variant: 'secondary' },
   },
 } as const;
@@ -249,18 +249,18 @@ export const audiencePaths = [
 export const platformPage = {
   hero: {
     label: 'Operating platform',
-    title: 'How BRG builds projects.',
+    title: 'Biochar projects, built end to end.',
     intro:
-      'BRG combines feedstock access, kiln deployment, monitoring, and buyer channels into one project path.',
+      'BRG combines feedstock access, kiln deployment, monitoring, and buyer channels in one operating model.',
     primaryAction: { label: 'Request platform overview', href: '/contact/?type=general#inquiry-form' },
     secondaryAction: { label: 'Review active markets', href: '/markets/', variant: 'secondary' },
     meta: ['Owner-operated', 'MRV-ready workflows', 'Buyer channels'],
   },
   process: {
     label: 'Operating model',
-    title: 'From feedstock to market.',
+    title: 'From feedstock to market',
     intro:
-      'The platform is the sequence BRG repeats across suitable corridors.',
+      'The same sequence repeats across suitable corridors.',
     steps: [
       {
         title: 'Origination',
@@ -273,7 +273,7 @@ export const platformPage = {
           'Secure biomass access, collection routes, and transport economics.',
       },
       {
-        title: 'Technology deployment',
+        title: 'Kiln deployment',
         description:
           'Match mobile or fixed kiln systems to site conditions.',
       },
@@ -283,7 +283,7 @@ export const platformPage = {
           'Prepare traceability, testing, and verification records.',
       },
       {
-        title: 'Product and carbon channels',
+        title: 'Product channels',
         description:
           'Route biochar products and future credits to buyers.',
       },
@@ -392,7 +392,7 @@ export const platformPage = {
   },
   standards: {
     label: 'Standards and verification',
-    title: 'Verification claims stay narrow.',
+    title: 'Verification claims stay narrow',
     intro:
       'The site distinguishes active operations from verification pathways and future credit issuance.',
     notes: [
@@ -418,7 +418,7 @@ export const platformPage = {
   },
   finalCta: {
     label: 'Contact',
-    title: 'Request the platform overview.',
+    title: 'Request a platform overview',
     intro:
       'Use the contact form for operating model, ownership, or verification questions.',
     primaryAction: { label: 'Request platform overview', href: '/contact/?type=general#inquiry-form' },
@@ -428,7 +428,7 @@ export const platformPage = {
 
 export const commercialModel = {
   label: 'Revenue stack',
-  title: 'Three revenue lines.',
+  title: 'Three revenue lines',
   intro:
     'Product sales, carbon removal credits, and technology channels are evaluated together.',
   caveat:
@@ -455,18 +455,18 @@ export const commercialModel = {
 export const marketsPage = {
   hero: {
     label: 'Markets',
-    title: 'Active corridors and pipeline markets.',
+    title: 'Active corridors',
     intro:
-      'BRG separates active operating corridors from markets still under evaluation.',
+      'BRG separates current operating work from markets still under evaluation.',
     primaryAction: { label: 'Discuss a corridor', href: '/contact/?type=partner#inquiry-form' },
     secondaryAction: { label: 'Review platform', href: '/platform/', variant: 'secondary' },
     meta: ['Active corridors', 'Pipeline separated', 'Status-led review'],
   },
   activeIntro: {
     label: 'Active corridors',
-    title: 'Operating work underway.',
+    title: 'Operating work underway',
     intro:
-      'These corridors have active operating work; verification and offtake milestones remain project-specific.',
+      'These corridors have operating activity. Verification and offtake milestones remain project-specific.',
   },
   corridorDetail: {
     label: 'Corridor detail',
@@ -476,13 +476,13 @@ export const marketsPage = {
   },
   pipelineIntro: {
     label: 'Pipeline',
-    title: 'Markets under evaluation.',
+    title: 'Markets under evaluation',
     intro:
       'Pipeline markets are not presented as active projects.',
   },
   finalCta: {
     label: 'Contact',
-    title: 'Discuss a corridor.',
+    title: 'Discuss a corridor',
     intro:
       'Use the contact form for geography, feedstock, buyer, or deployment questions.',
     primaryAction: { label: 'Contact BRG', href: '/contact/?type=partner#inquiry-form' },
@@ -500,15 +500,15 @@ export const marketCorridors = [
     feedstock: 'Invasive Prosopis mesquite',
     technology: 'Mobile kiln fleet',
     productChannel: 'Agricultural biochar for smallholder and soil channels',
-    carbonPathway: 'Puro.earth methodology pathway; verification in progress',
-    nextMilestone: 'Scale mobile kiln fleet and continue third-party verification pathway',
+    carbonPathway: 'Puro.earth pathway in progress',
+    nextMilestone: 'Scale mobile kiln fleet and continue third-party verification',
     description:
       'Community-scale mobile kiln operations are active. Carbon removal language is framed as a verification pathway rather than completed credit issuance.',
     evidenceNote:
       'Active operation and verification readiness are distinct; this site does not claim completed registry issuance for the corridor.',
   },
   {
-    name: 'Kingdom of Saudi Arabia',
+    name: 'Saudi Arabia',
     region: 'Saudi Arabia',
     operatingEntity: 'Saudi Biochar',
     status: 'active',
@@ -516,7 +516,7 @@ export const marketCorridors = [
     feedstock: 'Municipal sewage sludge',
     technology: 'Fixed kiln installation',
     productChannel: 'Soil amendment, waste infrastructure, and biogas-linked channels',
-    carbonPathway: 'Industrial MRV integration; project-specific verification pathway',
+    carbonPathway: 'Project-specific MRV pathway',
     nextMilestone: 'Advance procurement and MRV integration with infrastructure partners',
     description:
       'Industrial fixed-kiln work is active. Verification and offtake claims remain project-specific and subject to approval.',
@@ -552,7 +552,7 @@ export const pipelineMarkets = [
 export const aboutPage = {
   hero: {
     label: 'About BRG',
-    title: 'Operator-led biochar infrastructure.',
+    title: 'Operator-led infrastructure.',
     intro:
       'BRG is built around field execution, commercial channels, and careful verification language.',
     primaryAction: { label: 'Contact leadership', href: '/contact/?type=general#inquiry-form' },
@@ -571,13 +571,13 @@ export const aboutPage = {
   },
   leadership: {
     label: 'Leadership',
-    title: 'Leadership.',
+    title: 'Leadership',
     intro:
       'A concise view of who leads the company and where each person focuses.',
   },
   standards: {
     label: 'Standards and verification pathways',
-    title: 'Pathway language, not endorsement language.',
+    title: 'Pathways, not endorsements',
     intro:
       'Referenced organizations are treated as standards, testing, methodology, or verification pathways.',
   },
@@ -595,7 +595,7 @@ export const aboutPage = {
   },
   finalCta: {
     label: 'Contact',
-    title: 'Contact BRG.',
+    title: 'Contact BRG',
     intro:
       'Use the inquiry form for leadership, investor, buyer, or project conversations.',
     primaryAction: { label: 'Contact BRG', href: '/contact/?type=general#inquiry-form' },
@@ -715,7 +715,7 @@ const contactDomain = siteMeta.domain;
 export const contact = {
   label: 'Contact',
   hero: {
-    title: 'Contact BRG.',
+    title: 'Contact BRG',
     intro:
       'Send an inquiry or use the visible direct email addresses below.',
     primaryAction: { label: 'Start an inquiry', href: '#inquiry-form' },
@@ -725,7 +725,7 @@ export const contact = {
   form: {
     mode: 'mailto',
     endpoint: '',
-    title: 'Start an inquiry.',
+    title: 'Inquiry form',
     intro:
       'The form builds a prefilled email when no form endpoint is configured.',
     actionLabel: 'Prepare email inquiry',

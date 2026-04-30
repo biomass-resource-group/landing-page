@@ -70,9 +70,9 @@ const structuredData = [
                     <p>{person.role}</p>
                   </div>
                 </div>
-                <ul class="tag-list" aria-label={`${person.name} focus areas`}>
-                  {person.focus.map((item) => <li>{item}</li>)}
-                </ul>
+                <p class="leadership-card__focus">
+                  Focus: {person.focus.join(', ')}
+                </p>
                 <div class="leadership-card__bio">
                   {person.bio.map((paragraph) => <p>{paragraph}</p>)}
                 </div>
