@@ -20,6 +20,8 @@ const structuredData = {
   url: `${siteMeta.siteUrl}${meta.path}`,
   description: meta.description,
 };
+
+const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 ---
 
 <BaseLayout title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData}>
@@ -41,7 +43,7 @@ const structuredData = {
       <div class="card-grid card-grid--two">
         {
           marketCorridors.map((corridor) => (
-            <article class="info-card" data-reveal>
+            <article class="info-card" id={corridorAnchor(corridor.name)} data-reveal>
               <StatusBadge status={corridor.status} label={corridor.statusLabel} />
               <h3>{corridor.name}</h3>
               <p>{corridor.description}</p>

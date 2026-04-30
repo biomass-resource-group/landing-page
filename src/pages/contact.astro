@@ -14,6 +14,21 @@ const structuredData = {
   url: `${siteMeta.siteUrl}${meta.path}`,
   description: meta.description,
 };
+
+const getCopyLabel = (label: string) => {
+  switch (label) {
+    case 'General':
+      return 'Copy general email address';
+    case 'Investors':
+      return 'Copy investor email address';
+    case 'Carbon buyers':
+      return 'Copy carbon buyer email address';
+    case 'Project partners':
+      return 'Copy project partnerships email address';
+    default:
+      return `Copy ${label} email address`;
+  }
+};
 ---
 
 <BaseLayout title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData}>
@@ -32,7 +47,7 @@ const structuredData = {
       <SectionIntro
         label="Direct emails"
         title="Direct emails"
-        intro="Copy buttons are progressive enhancement. The addresses remain plain, selectable text."
+        intro="Email addresses remain visible and selectable. Copy buttons add convenience when JavaScript is available."
       />
       <div class="email-grid">
         {
@@ -42,7 +57,7 @@ const structuredData = {
               <!--email_off-->
               <a href={`mailto:${email.address}`}>{email.address}</a>
               <!--/email_off-->
-              <CopyEmailButton address={email.address} />
+              <CopyEmailButton address={email.address} label={getCopyLabel(email.label)} />
             </article>
           ))
         }

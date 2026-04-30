@@ -1,11 +1,18 @@
 ---
 interface Props {
   address: string;
+  label?: string;
 }
 
-const { address } = Astro.props;
+const { address, label = `Copy ${address}` } = Astro.props;
 ---
 
-<button class="copy-button" type="button" data-copy-value={address}>
+<button
+  class="copy-button"
+  type="button"
+  data-copy-value={address}
+  data-copy-feedback={label.replace(/^Copy\s+/i, '')}
+  aria-label={label}
+>
   Copy
 </button>

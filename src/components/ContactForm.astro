@@ -20,7 +20,6 @@ const formAction = contact.form.endpoint || `mailto:${defaultRoute.recipient}`;
         data-contact-form
         data-form-mode={contact.form.endpoint ? 'endpoint' : contact.form.mode}
         data-form-endpoint={contact.form.endpoint}
-        novalidate
         aria-label="Contact inquiry form"
       >
         <div class="contact-form__status" data-form-status role="status" aria-live="polite"></div>
@@ -105,22 +104,19 @@ const formAction = contact.form.endpoint || `mailto:${defaultRoute.recipient}`;
             <button class="button button--primary contact-form__submit" type="submit">
               {contact.form.actionLabel}
             </button>
-            <button class="button button--secondary" type="button" data-copy-inquiry>
+            <button
+              class="button button--secondary"
+              type="button"
+              data-copy-inquiry
+              data-copy-feedback="inquiry summary"
+              aria-label="Copy inquiry summary"
+            >
               {contact.form.copySummaryLabel}
             </button>
           </div>
         </div>
       </form>
       <p class="contact-form__privacy">{contact.form.privacyNote}</p>
-      <noscript>
-        <div class="no-js-contact">
-          <h3>Direct email fallback</h3>
-          <p>JavaScript is not required to contact BRG. Use the visible direct emails below:</p>
-          <ul>
-            {contact.directEmails.map((email) => <li>{email.label}: {email.address}</li>)}
-          </ul>
-        </div>
-      </noscript>
     </div>
   </div>
 </section>

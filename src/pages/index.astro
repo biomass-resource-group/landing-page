@@ -11,6 +11,8 @@ import {
   siteMeta,
 } from '../data/site';
 
+const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
 const meta = pageMeta.home;
 const structuredData = {
   '@context': 'https://schema.org',
@@ -62,8 +64,8 @@ const structuredData = {
               <StatusBadge status={corridor.status} label={corridor.statusLabel} />
               <h3>{corridor.name}</h3>
               <p>{corridor.description}</p>
-              <a class="text-action" href="/markets/">
-                View market detail
+              <a class="text-action" href={`/markets/#${corridorAnchor(corridor.name)}`}>
+                View {corridor.name}
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14M13 5l7 7-7 7"></path>
                 </svg>

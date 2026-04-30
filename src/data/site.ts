@@ -249,7 +249,7 @@ export const audiencePaths = [
 export const platformPage = {
   hero: {
     label: 'Operating platform',
-    title: 'Biochar projects, built end to end.',
+    title: 'End-to-end biochar projects.',
     intro:
       'BRG combines feedstock access, kiln deployment, monitoring, and buyer channels in one operating model.',
     primaryAction: { label: 'Request platform overview', href: '/contact/?type=general#inquiry-form' },
@@ -727,11 +727,11 @@ export const contact = {
     endpoint: '',
     title: 'Inquiry form',
     intro:
-      'The form builds a prefilled email when no form endpoint is configured.',
+      'This opens your email app with a prepared message.',
     actionLabel: 'Prepare email inquiry',
     copySummaryLabel: 'Copy inquiry summary',
     privacyNote:
-      'This static site does not store inquiry data. If no form endpoint is configured, your email app handles delivery; if an endpoint is configured later, the configured form service handles submission.',
+      'The site does not store form data. Your email app handles delivery unless a form endpoint is configured later.',
     fields: {
       name: 'Name',
       organization: 'Organization',

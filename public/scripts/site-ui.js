@@ -134,14 +134,42 @@ const setupSiteUi = () => {
     closeMenu(true);
   });
 
+  const copyStatus = document.querySelector('[data-copy-status]');
+  const announceCopy = (message) => {
+    if (copyStatus) copyStatus.textContent = message;
+  };
+
   const copyText = async (value) => {
     if (!value) return false;
     try {
-      await navigator.clipboard.writeText(value);
-      return true;
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(value);
+        return true;
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.inset = '0 auto auto 0';
+      textarea.style.opacity = '0';
+      document.body.append(textarea);
+      textarea.select();
+      const copied = document.execCommand('copy');
+      textarea.remove();
+      return copied;
     } catch {
       return false;
     }
+  };
+
+  const setTemporaryButtonLabel = (button, label, duration = 1800) => {
+    if (!(button instanceof HTMLButtonElement)) return;
+    const defaultLabel = button.dataset.defaultLabel || button.textContent?.trim() || 'Copy';
+    button.dataset.defaultLabel = defaultLabel;
+    button.textContent = label;
+    window.setTimeout(() => {
+      button.textContent = defaultLabel;
+    }, duration);
   };
 
   document.querySelectorAll('[data-copy-value]').forEach((button) => {
@@ -149,15 +177,19 @@ const setupSiteUi = () => {
       if (!(button instanceof HTMLButtonElement)) return;
       const value = button.dataset.copyValue ?? '';
       const copied = await copyText(value);
-      button.textContent = copied ? 'Copied' : 'Copy failed';
-      window.setTimeout(() => {
-        button.textContent = 'Copy';
-      }, 1800);
+      const feedbackLabel = button.dataset.copyFeedback || 'text';
+      setTemporaryButtonLabel(button, copied ? 'Copied' : 'Copy failed');
+      announceCopy(
+        copied
+          ? `${feedbackLabel} copied.`
+          : `Copy failed. The ${feedbackLabel} remains visible and selectable.`,
+      );
     });
   });
 
   const form = document.querySelector('[data-contact-form]');
   if (form instanceof HTMLFormElement) {
+    form.noValidate = true;
     const routeSelect = form.querySelector('[data-inquiry-type]');
     const message = form.querySelector('[data-message]');
     const status = form.querySelector('[data-form-status]');
@@ -165,6 +197,10 @@ const setupSiteUi = () => {
     const summaryText = form.querySelector('[data-inquiry-summary-text]');
     const copySummary = form.querySelector('[data-copy-inquiry]');
     const routeCards = Array.from(document.querySelectorAll('[data-contact-route]'));
+    const fields = Array.from(form.querySelectorAll('input, select, textarea'))
+      .filter((field) => field instanceof HTMLInputElement || field instanceof HTMLSelectElement || field instanceof HTMLTextAreaElement);
+    const touchedFields = new WeakSet();
+    let attemptedSubmit = false;
 
     const getSelectedRoute = () => {
       if (!(routeSelect instanceof HTMLSelectElement)) return null;
@@ -183,50 +219,87 @@ const setupSiteUi = () => {
         : '';
     };
 
-    const setRoute = (routeKey) => {
+    const setRoute = (routeKey, options = {}) => {
       if (!(routeSelect instanceof HTMLSelectElement)) return;
       const option = Array.from(routeSelect.options).find((item) => item.value === routeKey);
       if (!option) return;
       routeSelect.value = routeKey;
       routeCards.forEach((button) => {
+        if (button instanceof HTMLButtonElement) {
+          button.setAttribute('aria-pressed', String(button.getAttribute('data-contact-route') === routeKey));
+        }
         const card = button.closest('[data-contact-route-card]');
         card?.classList.toggle('is-selected', button.getAttribute('data-contact-route') === routeKey);
       });
+      if (form.dataset.formMode === 'mailto' && option.dataset.recipient) {
+        form.action = `mailto:${option.dataset.recipient}`;
+      }
       const template = option.dataset.template ?? '';
       if (message instanceof HTMLTextAreaElement) message.placeholder = template;
+      if (summary instanceof HTMLElement && !summary.hidden) showSummary();
+      if (options.announce) {
+        setStatus(`Inquiry type set to ${option.textContent?.trim() || 'selected route'}. This opens your email app with a prepared message.`);
+      }
     };
 
     const params = new URLSearchParams(window.location.search);
     setRoute(params.get('type') || (routeSelect instanceof HTMLSelectElement ? routeSelect.value : 'investor'));
 
     routeSelect?.addEventListener('change', () => {
-      if (routeSelect instanceof HTMLSelectElement) setRoute(routeSelect.value);
+      if (routeSelect instanceof HTMLSelectElement) setRoute(routeSelect.value, { announce: true });
     });
 
     routeCards.forEach((button) => {
       button.addEventListener('click', () => {
         const routeKey = button.getAttribute('data-contact-route');
-        if (routeKey) setRoute(routeKey);
+        if (routeKey) setRoute(routeKey, { announce: true });
         form.scrollIntoView({ block: 'start', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
       });
     });
 
-    const setError = (field, messageText) => {
+    const getErrorMessage = (field) => {
       if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement)) return;
-      const error = document.querySelector(`[data-error-for="${field.id}"]`);
-      field.setAttribute('aria-invalid', messageText ? 'true' : 'false');
-      if (error) error.textContent = messageText;
+      if (field.validity.valid) return '';
+      if (field.validity.valueMissing) return 'This field is required.';
+      if (field instanceof HTMLInputElement && field.type === 'email') return 'Enter a valid email address.';
+      return 'Check this field.';
     };
 
+    const setError = (field, messageText) => {
+      if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement)) return true;
+      const error = document.querySelector(`[data-error-for="${field.id}"]`);
+      if (messageText) field.setAttribute('aria-invalid', 'true');
+      else field.removeAttribute('aria-invalid');
+      if (error) error.textContent = messageText;
+      return !messageText;
+    };
+
+    const validateField = (field, showError) => {
+      const messageText = showError ? getErrorMessage(field) : '';
+      return setError(field, messageText);
+    };
+
+    fields.forEach((field) => {
+      field.addEventListener('blur', () => {
+        touchedFields.add(field);
+        validateField(field, true);
+      });
+      field.addEventListener('input', () => {
+        if (touchedFields.has(field) || attemptedSubmit) validateField(field, true);
+      });
+      field.addEventListener('change', () => {
+        if (touchedFields.has(field) || attemptedSubmit) validateField(field, true);
+      });
+    });
+
     const validate = () => {
-      const requiredFields = Array.from(form.querySelectorAll('[required]'));
+      attemptedSubmit = true;
       let firstInvalid = null;
 
-      requiredFields.forEach((field) => {
+      fields.forEach((field) => {
         if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement)) return;
-        const messageText = field.validity.valid ? '' : field.type === 'email' && field.value ? 'Enter a valid email address.' : 'This field is required.';
-        setError(field, messageText);
-        if (messageText && !firstInvalid) firstInvalid = field;
+        const isValid = validateField(field, true);
+        if (!isValid && !firstInvalid) firstInvalid = field;
       });
 
       if (firstInvalid) {
@@ -270,7 +343,11 @@ const setupSiteUi = () => {
       if (!validate()) return;
       const text = showSummary();
       const copied = await copyText(text);
-      setStatus(copied ? 'Inquiry summary copied.' : 'Copy failed. The summary is visible below.');
+      if (copySummary instanceof HTMLButtonElement) {
+        setTemporaryButtonLabel(copySummary, copied ? 'Copied' : 'Copy failed');
+      }
+      setStatus(copied ? 'Inquiry summary copied.' : 'Copy failed. The summary remains visible below.');
+      announceCopy(copied ? 'Inquiry summary copied.' : 'Copy failed. The inquiry summary remains visible and selectable.');
     });
 
     form.addEventListener('submit', (event) => {

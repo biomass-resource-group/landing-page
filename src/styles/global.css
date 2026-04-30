@@ -8,6 +8,7 @@
   --forest-700: #285039;
   --moss: #66845a;
   --gold: #c69a3d;
+  --gold-strong: #8f681b;
   --clay: #a86949;
   --cream: #f8f1e4;
   --paper: #fffdf8;
@@ -47,6 +48,7 @@ html {
 body {
   min-width: 0;
   margin: 0;
+  overflow-x: clip;
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
@@ -217,6 +219,7 @@ html:not(.js) [data-reveal] {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  min-width: 0;
 }
 
 .brand,
@@ -237,7 +240,9 @@ html:not(.js) [data-reveal] {
   display: inline-flex;
   align-items: center;
   gap: 0.8rem;
+  min-width: 0;
   min-height: 44px;
+  flex: 0 1 auto;
   color: var(--ink);
   font-weight: 900;
 }
@@ -256,6 +261,7 @@ html:not(.js) [data-reveal] {
 
 .brand__wordmark {
   display: grid;
+  min-width: 0;
   font-size: 0.98rem;
   line-height: 1.05;
 }
@@ -264,10 +270,17 @@ html:not(.js) [data-reveal] {
   font-weight: 600;
 }
 
+.site-nav {
+  min-width: 0;
+}
+
 .site-nav__list {
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.4rem;
 }
 
@@ -345,6 +358,7 @@ html:not(.js) [data-reveal] {
   position: fixed;
   inset: calc(var(--header-height) + 0.7rem) 1rem auto;
   z-index: 60;
+  min-width: 0;
   max-height: calc(100svh - var(--header-height) - 1.4rem);
   overflow: auto;
   padding: 0.8rem;
@@ -674,7 +688,11 @@ html:not(.js) [data-reveal] {
 .page-hero__eyebrow,
 .page-cta__label,
 .hero-panel__label {
-  color: var(--gold);
+  color: var(--gold-strong);
+}
+
+.home-hero__eyebrow {
+  color: rgba(248, 241, 228, 0.8);
 }
 
 .section-intro-block__title {
@@ -786,30 +804,45 @@ html:not(.js) [data-reveal] {
   gap: clamp(0.9rem, 1.8vw, 1.15rem);
 }
 
+.card-grid > *,
+.proof-summary > *,
+.metric-row > *,
+.pipeline-grid > *,
+.email-grid > *,
+.leadership-grid > *,
+.status-legend > *,
+.corridor-list > *,
+.technology-matrix > *,
+.revenue-stack__grid > *,
+.definition-grid > *,
+.contact-form__grid > * {
+  min-width: 0;
+}
+
 .card-grid--two,
 .proof-summary,
 .leadership-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
 }
 
 .card-grid--three,
 .metric-row,
 .email-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
 }
 
 .card-grid--four,
 .pipeline-grid,
 .status-legend {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
 }
 
 .card-grid--five {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
 }
 
 .pipeline-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
 }
 
 .audience-card,
@@ -852,7 +885,7 @@ html:not(.js) [data-reveal] {
 
 .definition-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: 0.7rem 1rem;
 }
 
@@ -973,7 +1006,7 @@ html:not(.js) [data-reveal] {
 
 .revenue-stack__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: clamp(0.9rem, 1.8vw, 1.15rem);
 }
 
@@ -1160,7 +1193,7 @@ html:not(.js) [data-reveal] {
 }
 
 .contact-route-card__button span {
-  color: var(--gold);
+  color: var(--gold-strong);
   font-size: 0.84rem;
   font-weight: 900;
 }
@@ -1182,7 +1215,7 @@ html:not(.js) [data-reveal] {
 
 .contact-form-section .container,
 #direct-emails .container {
-  width: min(1240px, calc(100% - clamp(1rem, 5vw, 5rem)));
+  width: min(1040px, calc(100% - clamp(1rem, 5vw, 5rem)));
 }
 
 .contact-form-header {
@@ -1247,6 +1280,10 @@ html:not(.js) [data-reveal] {
   padding: 0.68rem 0.78rem;
   color: var(--ink);
   background: var(--white);
+}
+
+.contact-form__input:focus-visible {
+  border-color: var(--gold-strong);
 }
 
 .contact-form__textarea {
@@ -1323,6 +1360,7 @@ html:not(.js) [data-reveal] {
   color: var(--cream);
   cursor: pointer;
   font-weight: 850;
+  white-space: nowrap;
 }
 
 .hero-route-list {
