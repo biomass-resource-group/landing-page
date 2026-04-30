@@ -1391,7 +1391,7 @@ html:not(.js) [data-reveal] {
 
 .audience-card__label,
 .corridor-card__region {
-  color: var(--gold);
+  color: var(--gold-strong);
 }
 
 .text-action {
