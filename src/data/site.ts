@@ -394,7 +394,7 @@ export const platformPage = {
     label: 'Standards and verification',
     title: 'Project-stage carbon documentation',
     intro:
-      'Documentation is prepared for third-party review before credits are described as verified.',
+      'Documentation is prepared for review before any credit is described as verified.',
     notes: [
       {
         title: 'Verification bodies',
@@ -430,7 +430,7 @@ export const projectModel = {
   label: 'Project outputs',
   title: 'What each project can produce',
   intro:
-    'BRG designs projects around practical outputs for land, infrastructure, and carbon-removal buyers.',
+    'BRG designs each project around biochar use, site fit, and documentation.',
   caveat:
     'Carbon removal claims depend on project approval, monitoring, verification, issuance, and delivery requirements.',
   lines: [
