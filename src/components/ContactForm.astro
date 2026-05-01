@@ -19,7 +19,20 @@ const formAction = contact.form.endpoint || `mailto:${defaultRoute.recipient}`;
         data-form-mode={contact.form.endpoint ? 'endpoint' : contact.form.mode}
         data-form-endpoint={contact.form.endpoint}
         aria-label="Contact inquiry form"
+        novalidate
       >
+        <div
+          class="contact-form__error-summary"
+          data-error-summary
+          role="alert"
+          aria-live="assertive"
+          tabindex="-1"
+          hidden
+        >
+          <p class="contact-form__error-summary-title">Please complete the required fields before sending.</p>
+          <ul class="contact-form__error-summary-list" data-error-summary-list></ul>
+        </div>
+
         <div class="contact-form__status" data-form-status role="status" aria-live="polite"></div>
 
         <fieldset class="contact-form__fieldset">

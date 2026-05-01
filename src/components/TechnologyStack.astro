@@ -1,6 +1,4 @@
 ---
-import StatusBadge from './StatusBadge.astro';
-
 interface System {
   title: string;
   status: string;
@@ -31,12 +29,19 @@ const { systems } = Astro.props;
       systems.map((system) => (
         <li class="tech-stack__row">
           <span class="tech-stack__title">{system.title}</span>
-          <span class="tech-stack__role"><span class="tech-stack__mobile-label" aria-hidden="true">Role</span>{system.role}</span>
-          <span class="tech-stack__fit"><span class="tech-stack__mobile-label" aria-hidden="true">Operating fit</span>{system.fit}</span>
-          <span class="tech-stack__context"><span class="tech-stack__mobile-label" aria-hidden="true">Context</span>{system.context}</span>
-          <span class="tech-stack__status">
-            <StatusBadge status={system.status} label={system.statusLabel} />
+          <span class="tech-stack__role">
+            <span class="tech-stack__mobile-label" aria-hidden="true">Role</span>
+            {system.role}
           </span>
+          <span class="tech-stack__fit">
+            <span class="tech-stack__mobile-label" aria-hidden="true">Operating fit</span>
+            {system.fit}
+          </span>
+          <span class="tech-stack__context">
+            <span class="tech-stack__mobile-label" aria-hidden="true">Context</span>
+            {system.context}
+          </span>
+          <span class={`tech-stack__chip tech-stack__chip--${system.status}`}>{system.statusLabel}</span>
         </li>
       ))
     }

@@ -292,18 +292,52 @@ const setupSiteUi = () => {
       });
     });
 
+    const errorSummary = form.querySelector('[data-error-summary]');
+    const errorSummaryList = form.querySelector('[data-error-summary-list]');
+
+    const labelForField = (field) => {
+      const label = form.querySelector(`label[for="${field.id}"]`);
+      if (!(label instanceof HTMLElement)) return field.name || field.id;
+      return label.textContent?.replace(/\(required\)/i, '').trim() || field.id;
+    };
+
+    const updateErrorSummary = (invalidFields) => {
+      if (!(errorSummary instanceof HTMLElement) || !(errorSummaryList instanceof HTMLElement)) return;
+      errorSummaryList.replaceChildren();
+      if (invalidFields.length === 0) {
+        errorSummary.hidden = true;
+        return;
+      }
+      for (const field of invalidFields) {
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = `#${field.id}`;
+        link.textContent = labelForField(field);
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          field.focus();
+        });
+        item.append(link);
+        errorSummaryList.append(item);
+      }
+      errorSummary.hidden = false;
+    };
+
     const validate = () => {
       attemptedSubmit = true;
-      let firstInvalid = null;
+      const invalid = [];
 
       fields.forEach((field) => {
         if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement)) return;
         const isValid = validateField(field, true);
-        if (!isValid && !firstInvalid) firstInvalid = field;
+        if (!isValid) invalid.push(field);
       });
 
-      if (firstInvalid) {
-        firstInvalid.focus();
+      updateErrorSummary(invalid);
+
+      if (invalid.length > 0) {
+        if (errorSummary instanceof HTMLElement) errorSummary.focus();
+        else invalid[0].focus();
         setStatus('Please complete the required fields before sending.');
         return false;
       }
