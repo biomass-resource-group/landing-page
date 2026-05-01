@@ -754,91 +754,29 @@ html:not(.js) [data-reveal] {
 
 
 .process-flow {
-  position: relative;
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
-  gap: clamp(1rem, 2vw, 1.4rem);
-  padding-top: 1rem;
+  gap: clamp(1.2rem, 2.4vw, 1.8rem);
 }
 
-.process-flow::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    var(--ink) 0%,
-    var(--ink) calc(100% / 8 - 4px),
-    transparent calc(100% / 8 - 4px),
-    transparent calc(100% / 8 + 4px),
-    var(--ink) calc(100% / 8 + 4px),
-    var(--ink) calc(3 * 100% / 8 - 4px),
-    transparent calc(3 * 100% / 8 - 4px),
-    transparent calc(3 * 100% / 8 + 4px),
-    var(--ink) calc(3 * 100% / 8 + 4px),
-    var(--ink) calc(5 * 100% / 8 - 4px),
-    transparent calc(5 * 100% / 8 - 4px),
-    transparent calc(5 * 100% / 8 + 4px),
-    var(--ink) calc(5 * 100% / 8 + 4px),
-    var(--ink) calc(7 * 100% / 8 - 4px),
-    transparent calc(7 * 100% / 8 - 4px),
-    transparent calc(7 * 100% / 8 + 4px),
-    var(--ink) calc(7 * 100% / 8 + 4px),
-    var(--ink) 100%
-  );
-}
 
 .process-flow__step {
-  position: relative;
   min-width: 0;
   display: grid;
   align-content: start;
   gap: 0.55rem;
-  padding: 0.85rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
   background: transparent;
 }
 
-.process-flow__step::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 9px;
-  height: 9px;
-  border-radius: 999px;
-  background: var(--gold);
-  box-shadow: 0 0 0 3px rgba(198, 154, 61, 0.18);
+.section--dark .process-flow__step {
+  border-top-color: rgba(248, 241, 228, 0.22);
 }
 
-.section--dark .process-flow::before {
-  background: linear-gradient(
-    90deg,
-    rgba(248, 241, 228, 0.35) 0%,
-    rgba(248, 241, 228, 0.35) calc(100% / 8 - 4px),
-    transparent calc(100% / 8 - 4px),
-    transparent calc(100% / 8 + 4px),
-    rgba(248, 241, 228, 0.35) calc(100% / 8 + 4px),
-    rgba(248, 241, 228, 0.35) calc(3 * 100% / 8 - 4px),
-    transparent calc(3 * 100% / 8 - 4px),
-    transparent calc(3 * 100% / 8 + 4px),
-    rgba(248, 241, 228, 0.35) calc(3 * 100% / 8 + 4px),
-    rgba(248, 241, 228, 0.35) calc(5 * 100% / 8 - 4px),
-    transparent calc(5 * 100% / 8 - 4px),
-    transparent calc(5 * 100% / 8 + 4px),
-    rgba(248, 241, 228, 0.35) calc(5 * 100% / 8 + 4px),
-    rgba(248, 241, 228, 0.35) calc(7 * 100% / 8 - 4px),
-    transparent calc(7 * 100% / 8 - 4px),
-    transparent calc(7 * 100% / 8 + 4px),
-    rgba(248, 241, 228, 0.35) calc(7 * 100% / 8 + 4px),
-    rgba(248, 241, 228, 0.35) 100%
-  );
-}
 
+.section--dark 
 .section--dark .process-flow__step,
 
 .section--dark .process-flow p,
