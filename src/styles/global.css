@@ -775,10 +775,7 @@ html:not(.js) [data-reveal] {
   border-top-color: rgba(248, 241, 228, 0.22);
 }
 
-
-.section--dark 
 .section--dark .process-flow__step,
-
 .section--dark .process-flow p,
 .section--dark .process-flow h3 {
   color: var(--cream);
