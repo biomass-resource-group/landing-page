@@ -46,11 +46,11 @@ const structuredData = {
       />
       <ul class="tech-fit" data-reveal>
         {
-          platformPage.technology.items.map((item) => (
-            <li class="tech-fit__item">
-              <span class="tech-fit__title">{item.title}</span>
-              <span class="tech-fit__sep" aria-hidden="true">·</span>
-              <span class="tech-fit__text">{item.text}</span>
+          platformPage.technology.items.map((item, index) => (
+            <li class="tech-fit__block">
+              <span class="tech-fit__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <h3 class="tech-fit__title">{item.title}</h3>
+              <p class="tech-fit__text">{item.text}</p>
             </li>
           ))
         }

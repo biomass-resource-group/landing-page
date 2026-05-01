@@ -1,7 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import EditorialPanel from '../components/EditorialPanel.astro';
-import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import {
@@ -46,17 +44,25 @@ const structuredData = [
   />
 
   <section class="section" id="operating-story">
-    <div class="container">
+    <div class="container narrow">
       <SectionIntro
         label={aboutPage.story.label}
         title={aboutPage.story.title}
         intro={aboutPage.story.intro}
       />
-      <EditorialPanel
-        paragraphs={aboutPage.story.paragraphs}
-        context={aboutPage.story.context}
-        contextTitle="At a glance"
-      />
+      <div class="story-prose" data-reveal>
+        {aboutPage.story.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <dl class="story-rail" aria-label="At a glance">
+        {
+          aboutPage.story.context.map((item) => (
+            <div class="story-rail__item">
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
   </section>
 
