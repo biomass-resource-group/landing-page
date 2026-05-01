@@ -7,7 +7,6 @@ const formAction = contact.form.endpoint || `mailto:${defaultRoute.recipient}`;
 
 <div class="contact-form-wrap" id="inquiry-form" data-reveal>
       <div class="contact-form-header">
-        <p class="section-intro-block__label">Inquiry form</p>
         <h2 class="contact-form-header__title">{contact.form.title}</h2>
         <p class="contact-form-header__intro">{contact.form.intro}</p>
       </div>
@@ -110,7 +109,6 @@ const formAction = contact.form.endpoint || `mailto:${defaultRoute.recipient}`;
         </div>
 
         <div class="contact-form__footer">
-          <p class="contact-form__required-note">Required fields are marked with “required”.</p>
           <div class="contact-form__actions">
             <button class="button button--primary contact-form__submit" type="submit">
               {contact.form.actionLabel}

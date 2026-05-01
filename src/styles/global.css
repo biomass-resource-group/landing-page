@@ -675,7 +675,6 @@ html:not(.js) [data-reveal] {
   background:
     radial-gradient(ellipse at 88% 2%, rgba(198, 154, 61, 0.14), transparent 22rem),
     linear-gradient(180deg, var(--cream) 0%, rgba(248, 241, 228, 0) 100%);
-  border-bottom: 1px solid var(--line);
 }
 
 
@@ -717,25 +716,7 @@ html:not(.js) [data-reveal] {
   max-width: 58ch;
 }
 
-.page-hero__meta,
-.tag-list,
-.status-mini-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  list-style: none;
-}
 
-.page-hero__meta span,
-.tag-list li {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0.38rem 0.65rem;
-  color: var(--ink-muted);
-  background: rgba(255, 255, 255, 0.58);
-  font-size: 0.88rem;
-  font-weight: 800;
-}
 
 .hero-panel {
   display: grid;
@@ -1761,7 +1742,6 @@ p,
 
 .status-rail__item + .status-rail__item {
   padding-left: clamp(0.9rem, 1.7vw, 1.4rem);
-  border-left: 1px solid var(--line);
 }
 
 .status-rail__item dt {
@@ -1854,13 +1834,9 @@ p,
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
+  gap: clamp(1rem, 2vw, 1.6rem);
   margin: 0;
   padding: 0;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-md);
-  background: var(--paper);
-  overflow: hidden;
   font-feature-settings: 'lnum';
 }
 
@@ -1870,11 +1846,6 @@ p,
   align-content: start;
   gap: 0.45rem;
   padding: clamp(1.15rem, 2vw, 1.6rem);
-  border-right: 1px solid var(--line);
-}
-
-.tech-fit__block:last-child {
-  border-right: 0;
 }
 
 .tech-fit__index {
@@ -1944,11 +1915,9 @@ p,
 .story-rail {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0;
+  gap: 0 clamp(1rem, 2vw, 1.6rem);
   max-width: 64ch;
   margin: clamp(1.4rem, 2.4vw, 2rem) auto 0;
-  padding: 1.05rem 0 0;
-  border-top: 1px solid var(--ink);
 }
 
 .story-rail__item {
@@ -1956,17 +1925,6 @@ p,
   display: grid;
   align-content: start;
   gap: 0.25rem;
-  padding: 0 clamp(0.6rem, 1.4vw, 1rem);
-  border-right: 1px solid var(--line);
-}
-
-.story-rail__item:first-child {
-  padding-left: 0;
-}
-
-.story-rail__item:last-child {
-  padding-right: 0;
-  border-right: 0;
 }
 
 .story-rail__item dt {
@@ -2037,26 +1995,18 @@ p,
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 0;
+  gap: 0.4rem 1.6rem;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
 }
 
 .pipeline-strip__item {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.85rem 1.1rem;
-  border-right: 1px solid var(--line);
   color: var(--ink);
   font-size: 0.95rem;
   line-height: 1.4;
-}
-
-.pipeline-strip__item:last-child {
-  border-right: 0;
 }
 
 .pipeline-strip__name {
@@ -2082,19 +2032,16 @@ p,
 .doctrine-list {
   list-style: none;
   display: grid;
-  gap: 0;
+  gap: 0.85rem;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--ink);
 }
 
 .doctrine-list__item {
   display: grid;
-  grid-template-columns: 4rem minmax(0, 1fr);
-  gap: 1.2rem;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem;
   align-items: baseline;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--line);
 }
 
 .doctrine-list__index {
@@ -2132,28 +2079,7 @@ p,
     grid-template-columns: 1fr;
   }
 
-  .tech-fit__block {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
 
-  .tech-fit__block:last-child {
-    border-bottom: 0;
-  }
-
-  .pipeline-strip {
-    flex-direction: column;
-  }
-
-  .pipeline-strip__item {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-    width: 100%;
-  }
-
-  .pipeline-strip__item:last-child {
-    border-bottom: 0;
-  }
 
   .doctrine-list__item {
     grid-template-columns: 3rem minmax(0, 1fr);
@@ -2164,19 +2090,7 @@ p,
     grid-template-columns: 1fr;
   }
 
-  .story-rail__item {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-    padding: 0.75rem 0;
-  }
 
-  .story-rail__item:last-child {
-    border-bottom: 0;
-  }
-
-  .story-rail__item:first-child {
-    padding-top: 0;
-  }
 }
 
 /* ============================================================
@@ -2673,18 +2587,15 @@ p,
 .leadership-list {
   list-style: none;
   display: grid;
-  gap: 0;
+  gap: clamp(1.5rem, 2.6vw, 2.4rem);
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--line);
 }
 
 .leadership-row {
   display: grid;
   grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
   gap: clamp(1.2rem, 2.4vw, 2rem);
-  padding: clamp(1.4rem, 2.4vw, 1.85rem) 0;
-  border-bottom: 1px solid var(--line);
 }
 
 .leadership-row__identity {
@@ -2751,10 +2662,9 @@ p,
 .email-list {
   list-style: none;
   display: grid;
-  gap: 0;
+  gap: 0.4rem;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--line);
 }
 
 .email-row {
@@ -2762,8 +2672,7 @@ p,
   grid-template-columns: minmax(8.5rem, 0.28fr) minmax(0, 1fr) auto;
   gap: 0.9rem;
   align-items: center;
-  padding: 0.9rem 0;
-  border-bottom: 1px solid var(--line);
+  padding: 0.85rem 0;
 }
 
 .email-row__label {
