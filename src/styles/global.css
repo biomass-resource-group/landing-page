@@ -2020,73 +2020,13 @@ html:not(.js) [data-reveal] {
   overflow-wrap: anywhere;
 }
 
-.corridor-dossier__motif {
-  position: relative;
-  min-height: 200px;
-  display: grid;
-  align-content: end;
-  gap: 0.8rem;
-  padding: 1.1rem 1rem 0.85rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  background:
-    linear-gradient(rgba(19, 35, 29, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(19, 35, 29, 0.04) 1px, transparent 1px),
-    var(--cream);
-  background-size: 28px 28px;
-  overflow: hidden;
-}
 
-.corridor-dossier__motif::before {
-  content: '';
-  position: absolute;
-  inset: 8px;
-  border: 1px dashed rgba(143, 104, 27, 0.28);
-  border-radius: var(--radius-sm);
-  pointer-events: none;
-}
 
-.corridor-dossier__pip {
-  position: absolute;
-  width: 0.6rem;
-  height: 0.6rem;
-  border-radius: 999px;
-  background: var(--gold-strong);
-  box-shadow: 0 0 0 4px rgba(143, 104, 27, 0.14);
-}
 
-.corridor-dossier__pip--source {
-  top: 32%;
-  left: 18%;
-}
 
-.corridor-dossier__pip--kiln {
-  top: 48%;
-  left: 52%;
-}
 
-.corridor-dossier__pip--buyer {
-  top: 28%;
-  right: 16%;
-}
 
-.corridor-dossier__line {
-  position: absolute;
-  inset: 36% 16% auto 21%;
-  height: 1px;
-  background: linear-gradient(90deg, var(--gold-strong) 0%, var(--gold-strong) 35%, transparent 36%, var(--gold-strong) 50%, var(--gold-strong) 70%, transparent 71%, var(--gold-strong) 100%);
-  opacity: 0.7;
-}
 
-.corridor-dossier__legend {
-  position: relative;
-  z-index: 1;
-  color: var(--ink-soft);
-  font-size: 0.7rem;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
 
 .corridor-anchor {
   scroll-margin-top: calc(var(--header-height) + 1.4rem);
@@ -2316,10 +2256,7 @@ html:not(.js) [data-reveal] {
     grid-template-columns: 1fr;
   }
 
-  .corridor-dossier__motif {
-    min-height: 160px;
   }
-}
 
 @media (max-width: 820px) {
   

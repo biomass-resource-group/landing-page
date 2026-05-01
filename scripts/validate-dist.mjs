@@ -242,6 +242,22 @@ for (const cssAsset of cssAssets) {
     !/,\s*\{/.test(stylesheet),
     `${cssAsset} contains a selector list ending with a trailing comma before \`{\``,
   );
+  // Pseudo-diagram residue: motif/pip/line/legend selectors are decorative dossier
+  // micro-diagrams that must not regress into either source or built CSS.
+  const pseudoDiagramSelectors = [
+    'corridor-dossier__motif',
+    'corridor-dossier__pip',
+    'corridor-dossier__line',
+    'corridor-dossier__legend',
+    'home-hero__schematic',
+    'schematic-map',
+  ];
+  for (const sel of pseudoDiagramSelectors) {
+    expect(
+      !new RegExp('\\.' + sel + '(__|--|[^a-zA-Z0-9_-])').test(stylesheet),
+      `${cssAsset} still contains pseudo-diagram selector .${sel}`,
+    );
+  }
 }
 
 const htmlPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.html'));
@@ -401,6 +417,26 @@ expect(siteUi.includes('navigator.clipboard.writeText'), 'site-ui does not imple
 expect(!sitemap.includes('/company/'), 'sitemap includes duplicate /company/');
 expect(!sitemap.includes('/404/'), 'sitemap includes /404/');
 expect(sitemap.includes('/privacy/'), 'sitemap is missing /privacy/');
+
+// ProcessFlow numbering must not be spoken twice (once by <ol> and once by .process-flow__index).
+for (const relativePath of htmlPaths) {
+  const html = read(relativePath);
+  const indices = html.match(/<span class="process-flow__index"[^>]*>/g) || [];
+  for (const indexEl of indices) {
+    expect(
+      indexEl.includes('aria-hidden="true"'),
+      `${relativePath} renders a .process-flow__index without aria-hidden="true"`,
+    );
+  }
+}
+
+// Pseudo-diagram residue must not appear in rendered HTML either.
+for (const relativePath of htmlPaths) {
+  const html = read(relativePath);
+  for (const cls of ['corridor-dossier__motif', 'corridor-dossier__pip', 'corridor-dossier__line', 'corridor-dossier__legend', 'home-hero__schematic', 'schematic-map']) {
+    expect(!html.includes(cls), `${relativePath} renders pseudo-diagram class ${cls}`);
+  }
+}
 
 // Carbon-claim discipline: forbid uncaveated overstatements in any rendered HTML.
 const uncaveatedCarbon = [
