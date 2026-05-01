@@ -181,6 +181,18 @@ for (const cssAsset of cssAssets) {
   expect(!stylesheet.includes('data:font/'), `${cssAsset} contains inlined font data URLs`);
   expect(stylesheet.includes('prefers-reduced-motion'), `${cssAsset} is missing reduced-motion rules`);
   expect(!/a\{[^}]*text-decoration:none/.test(stylesheet), `${cssAsset} globally removes link underlines`);
+  expect(/@media[^{]*max-width:\s*820px/.test(stylesheet), `${cssAsset} is missing a 820px responsive breakpoint`);
+  expect(
+    /\.site-menu-toggle\{[^}]*display:inline-flex/.test(stylesheet) ||
+      /html\.js\s+\.site-menu-toggle\{[^}]*display:inline-flex/.test(stylesheet),
+    `${cssAsset} is missing a mobile display rule for .site-menu-toggle`,
+  );
+  expect(!/\.schematic-map(__|[^a-z])/.test(stylesheet), `${cssAsset} still contains schematic-map selectors`);
+  expect(!/\.section-intro-block__label::before/.test(stylesheet), `${cssAsset} still applies a decorative ::before to section labels`);
+  expect(
+    !/\.metric-card,[\s\S]{0,200}\.audience-card,[\s\S]{0,400}\.corridor-card\{/.test(stylesheet),
+    `${cssAsset} still groups many unrelated components into one card-shell selector`,
+  );
 }
 
 const htmlPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.html'));
@@ -268,6 +280,8 @@ expect(!homeHtml.includes('Why the platform scales'), 'Home page still contains 
 expect(!homeHtml.includes('home-metrics'), 'Home page still contains duplicate metric section markup');
 expect(!/What\\s+BRG\\s+does/i.test(homeHtml), 'Home page still renders the operating loop section (moved to Platform)');
 expect(!/Route\\s+the\\s+right\\s+conversation/i.test(homeHtml), 'Home page still renders the audience routing section (moved to Contact)');
+expect(!homeHtml.includes('schematic-map'), 'Home page still renders the schematic-map');
+expect(!homeHtml.includes('home-hero__schematic'), 'Home page still renders the schematic visual wrapper');
 
 expect(platformHtml.includes('Operating model'), 'Platform page is missing the operating model section');
 expect(platformHtml.includes('Technology fit'), 'Platform page is missing the technology fit section');
@@ -284,6 +298,13 @@ expect(marketsHtml.includes('Development regions'), 'Markets page is missing the
 expect(marketsHtml.includes('Active') && marketsHtml.includes('In development') && marketsHtml.includes('Future corridor'), 'Markets page is missing the public status hierarchy');
 expect(marketsHtml.includes('Pakistan') && marketsHtml.includes('MENA') && marketsHtml.includes('Sub-Saharan Africa'), 'Markets page is missing additional regions');
 expect(!marketsHtml.includes('Corridor detail'), 'Markets page still contains the removed duplicate corridor-detail section');
+{
+  const dossiers = marketsHtml.match(/<article class="corridor-dossier[\s\S]*?<\/article>/g) || [];
+  for (const dossier of dossiers) {
+    const reviewPathwayMatches = (dossier.match(/Review pathway/g) || []).length;
+    expect(reviewPathwayMatches <= 1, 'Markets dossier duplicates the "Review pathway" label inside one card');
+  }
+}
 
 expect(aboutHtml.includes('Biochar infrastructure is built in the field.'), 'About page is missing the operating story');
 expect(aboutHtml.includes('Operating principles'), 'About page is missing operating principles');
@@ -305,6 +326,12 @@ expect(contactHtml.includes('invest@biomassresourcegroup.com'), 'Contact page is
 expect(contactHtml.includes('carbon@biomassresourcegroup.com'), 'Contact page is missing visible carbon email');
 expect(contactHtml.includes('partnerships@biomassresourcegroup.com'), 'Contact page is missing visible partnerships email');
 expect(!contactHtml.includes('Copy buttons add convenience'), 'Contact page still exposes internal progressive-enhancement language');
+{
+  const buttons = contactHtml.match(/<button[^>]*data-contact-route[\s\S]*?<\/button>/g) || [];
+  for (const btn of buttons) {
+    expect(!/@biomassresourcegroup\.com/.test(btn), 'Contact route buttons still expose raw email addresses');
+  }
+}
 expect(homeHtml.includes('<!--email_off-->'), 'Home page footer email is not protected from Cloudflare email obfuscation');
 expect(contactHtml.includes('<!--email_off-->'), 'Contact page email routes are not protected from Cloudflare email obfuscation');
 
