@@ -227,6 +227,21 @@ for (const cssAsset of cssAssets) {
     !/,\s*>\s*span\s*,/.test(stylesheet) && !/,\s*>\s*span\s*\{/.test(stylesheet),
     `${cssAsset} contains an orphan "> span" selector inside a grouped rule`,
   );
+  // Bare element fragments (h1-h6 or p) inside a grouped class-rule are nearly always orphans
+  // left behind by selector deletion. > * and > span are caught by the rules above.
+  expect(
+    !/(?:^|,)\s*[hH][1-6]\s*,\s*\.[a-zA-Z_-]/.test(stylesheet),
+    `${cssAsset} contains a bare heading element inside a grouped class selector list (likely an orphan)`,
+  );
+  expect(
+    !/(?:,)\s*p\s*,\s*\.[a-zA-Z_-]/.test(stylesheet) && !/(?:,)\s*p\s*\{[^}]*max-width/.test(stylesheet),
+    `${cssAsset} contains a bare <p> element inside a grouped class selector list (likely an orphan)`,
+  );
+  // Selector lists that end with a comma immediately before another rule body — e.g. `.foo,.bar,{` — are clearly broken.
+  expect(
+    !/,\s*\{/.test(stylesheet),
+    `${cssAsset} contains a selector list ending with a trailing comma before \`{\``,
+  );
 }
 
 const htmlPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.html'));
