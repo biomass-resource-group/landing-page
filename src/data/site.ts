@@ -198,7 +198,6 @@ export const platformPage = {
       'BRG coordinates feedstock access, kiln deployment, buyer channels, and project documentation inside each operating corridor.',
     primaryAction: { label: 'Request platform overview', href: '/contact/?type=general#inquiry-form' },
     secondaryAction: { label: 'Review active markets', href: '/markets/', variant: 'secondary' },
-    meta: ['Owner-operated', 'Operating corridors', 'Project documentation'],
   },
   process: {
     label: 'Operating model',
