@@ -274,8 +274,8 @@ html:not(.js) [data-reveal] {
 
 .site-header.is-scrolled,
 .site-header:focus-within {
-  border-bottom-color: var(--line);
-  box-shadow: 0 12px 34px rgba(13, 23, 20, 0.08);
+  border-bottom-color: rgba(19, 35, 29, 0.06);
+  box-shadow: 0 8px 22px rgba(13, 23, 20, 0.05);
 }
 
 .site-header__inner {
@@ -294,9 +294,11 @@ html:not(.js) [data-reveal] {
 .button,
 .text-action,
 .hero-route,
-.destination-link,
-.pathway-card,
 .site-footer a,
+.email-row__address,
+.leadership-row__link {
+  text-decoration: none;
+}
 
 .brand {
   display: inline-flex;
@@ -1017,8 +1019,6 @@ p,
   display: grid;
   align-content: start;
   gap: 0.2rem;
-  padding-top: 0.55rem;
-  border-top: 1px solid var(--line);
 }
 
 .definition-grid dt {
@@ -1553,14 +1553,8 @@ p,
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .proof-strip__item:nth-child(2) {
-    border-right: 0;
-  }
-
-  .proof-strip__item:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--line);
-  }
-
+  
+  
   .pipeline-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1782,8 +1776,6 @@ p,
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid var(--line);
 }
 
 .corridor-preview__header h3 {
@@ -1810,8 +1802,6 @@ p,
 .corridor-preview__facts > div {
   display: grid;
   gap: 0.18rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--line);
 }
 
 .corridor-preview__facts dt {
@@ -2124,8 +2114,6 @@ p,
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1rem;
   align-items: start;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--line);
 }
 
 .corridor-dossier__heading {
@@ -2174,8 +2162,6 @@ p,
 .corridor-dossier__facts > div {
   display: grid;
   gap: 0.18rem;
-  padding-top: 0.55rem;
-  border-top: 1px solid var(--line);
 }
 
 .corridor-dossier__facts dt {
@@ -2334,52 +2320,11 @@ p,
 
 
 /* Doctrine — numbered editorial principles */
-.doctrine {
-  list-style: none;
-  display: grid;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-}
 
-.doctrine__item {
-  display: grid;
-  grid-template-columns: 4rem minmax(0, 1fr);
-  gap: 0.4rem 1.4rem;
-  padding: 1.2rem 0;
-  border-bottom: 1px solid var(--line);
-}
 
-.doctrine__index {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 1.6rem;
-  color: var(--gold-strong);
-  letter-spacing: 0;
-  line-height: 1;
-  font-feature-settings: 'lnum';
-}
 
-.doctrine__copy {
-  display: grid;
-  gap: 0.45rem;
-  max-width: 64ch;
-}
 
-.doctrine__copy h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.35rem;
-  line-height: 1.15;
-}
 
-.doctrine__copy p {
-  color: var(--ink-muted);
-  font-size: 1rem;
-  line-height: 1.55;
-}
 
 /* Compact contact route card (button-driven, no email exposure) */
 .contact-route {
