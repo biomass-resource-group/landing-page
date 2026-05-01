@@ -193,6 +193,10 @@ for (const cssAsset of cssAssets) {
     !/\.metric-card,[\s\S]{0,200}\.audience-card,[\s\S]{0,400}\.corridor-card\{/.test(stylesheet),
     `${cssAsset} still groups many unrelated components into one card-shell selector`,
   );
+  expect(
+    !/\.no-js-nav\{[^}]*display:\s*none/.test(stylesheet),
+    `${cssAsset} hides .no-js-nav by default; the noscript fallback must remain visible`,
+  );
 }
 
 const htmlPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.html'));
@@ -352,6 +356,24 @@ expect(siteUi.includes('navigator.clipboard.writeText'), 'site-ui does not imple
 expect(!sitemap.includes('/company/'), 'sitemap includes duplicate /company/');
 expect(!sitemap.includes('/404/'), 'sitemap includes /404/');
 expect(sitemap.includes('/privacy/'), 'sitemap is missing /privacy/');
+
+// Carbon-claim discipline: forbid uncaveated overstatements in any rendered HTML.
+const uncaveatedCarbon = [
+  /\bverified\s+carbon\s+removal/i,
+  /\bissued\s+credits/i,
+  /\bdelivered\s+carbon\s+removal/i,
+  /\bregistry[-\s]approved/i,
+  /\bcertified\s+credits/i,
+  /\bguaranteed\s+carbon/i,
+  /\bpermanent\s+carbon/i,
+  /\bindustrial\s+scale/i,
+];
+for (const relativePath of htmlPaths) {
+  const html = read(relativePath);
+  for (const pattern of uncaveatedCarbon) {
+    expect(!pattern.test(html), `${relativePath} contains uncaveated carbon claim matching ${pattern}`);
+  }
+}
 
 if (failures.length > 0) {
   console.error('Distribution validation failed:\n');

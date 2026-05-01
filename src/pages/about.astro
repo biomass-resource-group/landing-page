@@ -73,33 +73,20 @@ const structuredData = [
         title={aboutPage.leadership.title}
         intro={aboutPage.leadership.intro}
       />
-      <div class="leadership-grid">
+      <ul class="leadership-list" data-reveal>
         {
-          leadership.map((person) => {
-            const initials = person.name
-              .split(/\s+/)
-              .map((part) => part.charAt(0).toUpperCase())
-              .join('')
-              .slice(0, 2);
-
-            return (
-              <article class="leadership" data-reveal>
-                <div class="leadership__head">
-                  <span class="leadership__monogram" aria-hidden="true">{initials}</span>
-                  <div class="leadership__identity">
-                    <h3>{person.name}</h3>
-                    <p>{person.role}</p>
-                  </div>
-                </div>
-                <ul class="leadership__focus" aria-label={`${person.name} focus areas`}>
-                  {person.focus.map((item) => <li>{item}</li>)}
-                </ul>
-                <div class="leadership__bio">
-                  {person.bio.map((paragraph) => <p>{paragraph}</p>)}
-                </div>
+          leadership.map((person) => (
+            <li class="leadership-row">
+              <div class="leadership-row__identity">
+                <h3>{person.name}</h3>
+                <p class="leadership-row__role">{person.role}</p>
+                <p class="leadership-row__focus">{person.focus.join(' · ')}</p>
+              </div>
+              <div class="leadership-row__bio">
+                {person.bio.map((paragraph) => <p>{paragraph}</p>)}
                 {
                   person.href && (
-                    <a class="leadership__link" href={person.href} target="_blank" rel="noreferrer" aria-label={`${person.name} on LinkedIn`}>
+                    <a class="leadership-row__link" href={person.href} target="_blank" rel="noreferrer" aria-label={`${person.name} on LinkedIn`}>
                       LinkedIn
                       <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M5 12h14M13 5l7 7-7 7"></path>
@@ -107,11 +94,11 @@ const structuredData = [
                     </a>
                   )
                 }
-              </article>
-            );
-          })
+              </div>
+            </li>
+          ))
         }
-      </div>
+      </ul>
     </div>
   </section>
 

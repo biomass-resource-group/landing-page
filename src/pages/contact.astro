@@ -68,23 +68,23 @@ const getCopyLabel = (label: string) => {
         title="Email BRG"
         intro="Use the address that best matches your inquiry."
       />
-      <div class="email-grid">
+      <ul class="email-list" aria-label="Direct contact emails">
         {
           contact.directEmails.map((email) => {
             const [local, domain] = email.address.split('@');
 
             return (
-              <article class="email-card" data-reveal>
-                <span>{email.label}</span>
+              <li class="email-row" data-reveal>
+                <span class="email-row__label">{email.label}</span>
                 <!--email_off-->
-                <a href={`mailto:${email.address}`}><span class="email-address__local">{local}@</span><span class="email-address__domain">{domain}</span></a>
+                <a class="email-row__address" href={`mailto:${email.address}`}><span class="email-address__local">{local}@</span><span class="email-address__domain">{domain}</span></a>
                 <!--/email_off-->
                 <CopyEmailButton address={email.address} label={getCopyLabel(email.label)} />
-              </article>
+              </li>
             );
           })
         }
-      </div>
+      </ul>
       <p class="contact-reassurance">{contact.reassurance}</p>
     </div>
   </section>
