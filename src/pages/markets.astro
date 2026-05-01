@@ -41,7 +41,7 @@ const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/
         {
           statusLegend.map((status) => (
             <article class="status-legend__item" data-reveal>
-              <StatusBadge status={status.key} label={status.label} description={status.description} />
+              <StatusBadge status={status.key} label={status.label} />
               <p>{status.description}</p>
             </article>
           ))

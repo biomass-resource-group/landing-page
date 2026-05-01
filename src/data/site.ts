@@ -223,7 +223,7 @@ export const home = {
     intro:
       'Choose investor, carbon buyer, project partner, or general — the inquiry routes to the relevant team.',
     primaryAction: { label: 'Start an inquiry', href: '/contact/#inquiry-form' },
-    secondaryAction: { label: 'View markets', href: '/markets/', variant: 'secondary' },
+    secondaryAction: { label: 'Review platform', href: '/platform/', variant: 'secondary' },
   },
 } as const;
 
@@ -748,7 +748,8 @@ export const contact = {
       label: 'Investor',
       title: 'Capital and project finance',
       description:
-        'Use this route for equity, project-level finance, investor review, or operating economics.',
+        'For capital, project-level finance, investor review, and operating economics.',
+      cta: 'Start investor inquiry',
       recipient: `invest@${contactDomain}`,
       subject: 'Investor inquiry',
       bodyTemplate:
@@ -757,9 +758,10 @@ export const contact = {
     {
       key: 'carbon',
       label: 'Carbon buyer',
-      title: 'Carbon removal offtake',
+      title: 'Future biochar carbon removal supply',
       description:
-        'Use this route for future biochar carbon removal supply, MRV, delivery timing, or offtake structure.',
+        'For future biochar carbon removal supply, MRV readiness, registry pathway, and offtake structure.',
+      cta: 'Start carbon buyer inquiry',
       recipient: `carbon@${contactDomain}`,
       subject: 'Carbon removal offtake inquiry',
       bodyTemplate:
@@ -768,9 +770,10 @@ export const contact = {
     {
       key: 'partner',
       label: 'Project partner',
-      title: 'Feedstock, deployment, or infrastructure partnership',
+      title: 'Feedstock, deployment, and infrastructure partnerships',
       description:
-        'Use this route for feedstock streams, local operations, kiln deployment, procurement, or project delivery.',
+        'For feedstock streams, kiln deployment, local operations, and procurement.',
+      cta: 'Start partner inquiry',
       recipient: `partnerships@${contactDomain}`,
       subject: 'Project delivery partnership inquiry',
       bodyTemplate:
@@ -779,9 +782,10 @@ export const contact = {
     {
       key: 'general',
       label: 'General',
-      title: 'General BRG inquiry',
+      title: 'Company, media, and uncategorized questions',
       description:
-        'Use this route for media, general company questions, or conversations that do not fit the other routes.',
+        'For company, media, or uncategorized questions that do not fit the other routes.',
+      cta: 'Start general inquiry',
       recipient: siteMeta.email,
       subject: 'General BRG inquiry',
       bodyTemplate:

@@ -4,27 +4,28 @@ interface Props {
   label: string;
   title: string;
   description: string;
-  recipient: string;
-  subject: string;
+  cta: string;
 }
 
-const { keyName, label, title, description, recipient, subject } = Astro.props;
-const href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}`;
+const { keyName, label, title, description, cta } = Astro.props;
 ---
 
-<article class="contact-route-card" data-contact-route-card data-route={keyName} data-reveal>
-  <!--email_off-->
-  <button class="contact-route-card__button" type="button" data-contact-route={keyName} aria-pressed="false">
-    <span>{label}</span>
-    <strong>{title}</strong>
-    <small>{recipient}</small>
+<article class="contact-route" data-contact-route-card data-route={keyName} data-reveal>
+  <button
+    class="contact-route__button"
+    type="button"
+    data-contact-route={keyName}
+    aria-pressed="false"
+    aria-describedby={`contact-route-${keyName}-desc`}
+  >
+    <span class="contact-route__label">{label}</span>
+    <span class="contact-route__title">{title}</span>
+    <span class="contact-route__cta" aria-hidden="true">
+      {cta}
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 12h14M13 5l7 7-7 7"></path>
+      </svg>
+    </span>
   </button>
-  <p>{description}</p>
-  <a class="text-action" href={href}>
-    Email this route
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 12h14M13 5l7 7-7 7"></path>
-    </svg>
-  </a>
-  <!--/email_off-->
+  <p class="contact-route__description" id={`contact-route-${keyName}-desc`}>{description}</p>
 </article>
