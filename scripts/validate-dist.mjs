@@ -197,6 +197,36 @@ for (const cssAsset of cssAssets) {
     !/\.no-js-nav\{[^}]*display:\s*none/.test(stylesheet),
     `${cssAsset} hides .no-js-nav by default; the noscript fallback must remain visible`,
   );
+
+  // Stale class families: must not retain CSS after they leave source markup
+  const staleFamilies = [
+    'info-card',
+    'proof-summary',
+    'pipeline-card',
+    'metric-card',
+    'audience-card',
+    'principle-card',
+    'technology-row',
+    'corridor-card',
+    'email-card',
+    'contact-route-card',
+    'status-legend',
+  ];
+  for (const family of staleFamilies) {
+    const re = new RegExp('\\.' + family + '(__|--|[^a-zA-Z0-9_-])', 'g');
+    expect(!re.test(stylesheet), `${cssAsset} still contains stale .${family} CSS`);
+  }
+
+  // Orphan selector fragments: bare > *, > span, h3, or p inside a comma-separated grouped selector list.
+  // These appear when a selector was deleted mid-list and a trailing comma+next-line was left dangling.
+  expect(
+    !/,\s*>\s*\*\s*,/.test(stylesheet) && !/,\s*>\s*\*\s*\{/.test(stylesheet),
+    `${cssAsset} contains an orphan "> *" selector inside a grouped rule`,
+  );
+  expect(
+    !/,\s*>\s*span\s*,/.test(stylesheet) && !/,\s*>\s*span\s*\{/.test(stylesheet),
+    `${cssAsset} contains an orphan "> span" selector inside a grouped rule`,
+  );
 }
 
 const htmlPaths = collectRelativePaths(distDir, (relativePath) => relativePath.endsWith('.html'));
