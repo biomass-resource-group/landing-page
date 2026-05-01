@@ -527,18 +527,6 @@ html:not(.js) [data-reveal] {
 .page-hero__eyebrow,
 .page-cta__label,
 .hero-panel__label,
-.corridor-card__region,
-.audience-card__label,
-.claim-status,
-.site-footer__title {
-  font-size: 0.72rem;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-
-
 .home-hero__title,
 .page-hero h1 {
   font-family: var(--font-display);
@@ -878,109 +866,48 @@ html:not(.js) [data-reveal] {
   font-feature-settings: 'lnum';
 }
 
-.process-flow h3,
-.info-card h3,
-.proof-summary h3,
-.pipeline-card h3,
-h3,
-> span,
-.principle-card h3 {
+.process-flow h3 {
   font-size: 1.02rem;
   line-height: 1.2;
 }
 
-.audience-card h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.45rem;
-  line-height: 1.1;
-  letter-spacing: 0;
-}
 
-.principle-card h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.3rem;
-  line-height: 1.1;
-}
 
 .process-flow h3 {
   font-size: 1.02rem;
   letter-spacing: 0.005em;
 }
 
-.process-flow p,
-.info-card p,
-.audience-card p,
-.proof-summary p,
-.pipeline-card p,
-p,
-.metric-card p,
-.principle-card p,
-.technology-row p,
-.corridor-card p,
-.prose-block p,
-.evidence-note p,
-
 .process-flow p {
   max-width: 34ch;
 }
 
 .card-grid,
-.proof-summary,
-.metric-row,
-.pipeline-grid,
-.leadership-grid,
 .contact-route-grid,
-.status-legend,
-.corridor-list,
-.technology-matrix,
-.platform-operating-boundary,
+.corridor-list {
+  display: grid;
+  gap: clamp(0.9rem, 1.8vw, 1.15rem);
+}
 
 .card-grid > *,
-.proof-summary > *,
-.metric-row > *,
-.pipeline-grid > *,
-> *,
-.leadership-grid > *,
 .contact-route-grid > *,
-.status-legend > *,
 .corridor-list > *,
-.technology-matrix > *,
-.platform-operating-boundary > *,
-.privacy-list > *,
-.project-outputs__grid > *,
-.definition-grid > *,
 .contact-form__grid > * {
   min-width: 0;
 }
 
-.card-grid--two,
-.proof-summary,
-.leadership-grid {
+.card-grid--two {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
 }
 
 .card-grid--three,
-.metric-row,
 .contact-route-grid {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
 }
 
 .card-grid--four,
 .pipeline-grid,
-.status-legend,
-.platform-operating-boundary {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-}
 
-.card-grid--five {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
-}
-
-.pipeline-grid {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-}
 
 
 
@@ -1112,24 +1039,8 @@ p,
   color: var(--cream);
 }
 
-.status-legend__item {
-  display: grid;
-  gap: 0.75rem;
-  padding: 1.05rem 1.15rem;
-  background: var(--paper);
-  border-color: var(--line);
-  box-shadow: none;
-}
 
-.status-legend__item .status-badge {
-  justify-self: start;
-}
 
-.status-legend__item p {
-  color: var(--ink-muted);
-  font-size: 0.92rem;
-  line-height: 1.45;
-}
 
 .corridor-list {
   grid-template-columns: 1fr;
@@ -1239,18 +1150,7 @@ p,
 }
 
 
-.technology-row > div {
-  display: grid;
-  justify-items: start;
-  gap: 0.6rem;
-}
 
-.technology-row h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.3rem;
-  line-height: 1.15;
-}
 
 
 
@@ -1530,10 +1430,7 @@ p,
   }
 
   .card-grid--four,
-  .status-legend {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
 @media (min-width: 1600px) {
   :root {
@@ -1547,10 +1444,7 @@ p,
 
 @media (max-width: 1024px) {
   .home-hero__proof,
-  .pipeline-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
+  
   .site-footer__inner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1583,37 +1477,11 @@ p,
   .page-hero__shell--split,
   .home-hero__inner,
   .page-cta__body,
-  .technology-row,
-  .card-grid--two,
+    .card-grid--two,
   .card-grid--three,
   .card-grid--four,
   .card-grid--five,
-  .proof-summary,
-  .leadership-grid,
-  .contact-route-grid,
-  .platform-operating-boundary,
-  .prose-block--columns,
-  .proof-strip,
-  .status-legend,
-  .pipeline-grid,
-  .contact-form__grid,
-  .glossary-strip,
-  .project-outputs__grid,
-  .process-flow,
-  .site-footer__inner {
-    grid-template-columns: 1fr;
-  }
-
   
-  
-  
-  .home-hero {
-    min-height: auto;
-    align-items: start;
-    padding-top: calc(var(--header-height) + 1.6rem);
-    padding-bottom: 2rem;
-  }
-
   .home-hero__title,
   .page-hero h1 {
     max-width: 20ch;
@@ -1668,8 +1536,7 @@ p,
     grid-template-columns: 1fr;
   }
 
-  .proof-summary__header,
-  .corridor-card__header,
+
   .contact-form__footer,
   
   
