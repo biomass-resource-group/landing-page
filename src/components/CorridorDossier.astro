@@ -1,5 +1,4 @@
 ---
-import EvidenceNote from './EvidenceNote.astro';
 import StatusBadge from './StatusBadge.astro';
 
 interface Props {
@@ -49,7 +48,10 @@ const {
 
   {
     evidenceNote && (
-      <EvidenceNote text={evidenceNote} status="underVerification" />
+      <aside class="corridor-dossier__caution">
+        <p class="corridor-dossier__caution-label">Caution</p>
+        <p>{evidenceNote}</p>
+      </aside>
     )
   }
 </article>
