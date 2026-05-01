@@ -138,7 +138,7 @@ export const home = {
     },
     {
       label: 'Review posture',
-      text: 'Carbon outcomes subject to approval, validation, verification, issuance, and delivery.',
+      text: 'Outcomes subject to approval, validation, verification, issuance, and delivery.',
     },
   ],
   proof: {
