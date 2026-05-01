@@ -37,16 +37,18 @@ const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/
 
   <section class="section section--compact" id="corridor-status">
     <div class="container">
-      <div class="status-legend" aria-label="Corridor status definitions">
+      <dl class="status-rail status-rail--legend" aria-label="Corridor status definitions">
         {
           statusLegend.map((status) => (
-            <article class="status-legend__item" data-reveal>
-              <StatusBadge status={status.key} label={status.label} />
-              <p>{status.description}</p>
-            </article>
+            <div class="status-rail__item" data-reveal>
+              <dt>
+                <StatusBadge status={status.key} label={status.label} />
+              </dt>
+              <dd>{status.description}</dd>
+            </div>
           ))
         }
-      </div>
+      </dl>
     </div>
   </section>
 
@@ -69,24 +71,24 @@ const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/
     </div>
   </section>
 
-  <section class="section section--tinted" id="pipeline">
+  <section class="section" id="pipeline">
     <div class="container">
       <SectionIntro
-        label={marketsPage.pipelineIntro.label}
-        title={marketsPage.pipelineIntro.title}
-        intro={marketsPage.pipelineIntro.intro}
+        label="Development regions"
+        title="Development regions"
+        intro="Earlier-stage regional work, kept distinct from active operating corridors."
       />
-      <div class="pipeline-grid">
+      <ul class="pipeline-strip" data-reveal>
         {
           pipelineMarkets.map((market) => (
-            <article class="pipeline-card" data-reveal>
-              <StatusBadge status={market.status} label={market.statusLabel} />
-              <h3>{market.name}</h3>
-              <p>{market.description}</p>
-            </article>
+            <li class={`pipeline-strip__item pipeline-strip__item--${market.status}`}>
+              <span class="pipeline-strip__name">{market.name}</span>
+              <span class="pipeline-strip__sep" aria-hidden="true">·</span>
+              <span class="pipeline-strip__label">{market.statusLabel}</span>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </section>
 

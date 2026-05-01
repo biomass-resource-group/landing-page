@@ -1,21 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import EvidenceNote from '../components/EvidenceNote.astro';
-import OperatingBoundaryPanel from '../components/OperatingBoundaryPanel.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import ProcessFlow from '../components/ProcessFlow.astro';
-import ProjectOutputs from '../components/ProjectOutputs.astro';
 import SectionIntro from '../components/SectionIntro.astro';
-import TechnologyStack from '../components/TechnologyStack.astro';
-
-import {
-  pageMeta,
-  platformPage,
-  projectModel,
-  siteMeta,
-  verification,
-} from '../data/site';
+import { pageMeta, platformPage, siteMeta } from '../data/site';
 
 const meta = pageMeta.platform;
 const structuredData = {
@@ -33,19 +22,9 @@ const structuredData = {
     title={platformPage.hero.title}
     intro={platformPage.hero.intro}
     actions={[platformPage.hero.primaryAction, platformPage.hero.secondaryAction]}
+    meta={platformPage.hero.meta}
     compact
   />
-
-  <section class="section" id="owner-operated">
-    <div class="container">
-      <SectionIntro
-        label={platformPage.ownership.label}
-        title={platformPage.ownership.title}
-        intro={platformPage.ownership.intro}
-      />
-      <OperatingBoundaryPanel layers={platformPage.ownership.layers} />
-    </div>
-  </section>
 
   <section class="section" id="operating-model">
     <div class="container">
@@ -58,39 +37,34 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section section--tinted" id="technology-approach">
+  <section class="section section--tinted" id="technology-fit">
     <div class="container">
       <SectionIntro
         label={platformPage.technology.label}
         title={platformPage.technology.title}
         intro={platformPage.technology.intro}
       />
-      <TechnologyStack systems={platformPage.technology.systems} />
-    </div>
-  </section>
-
-  <section class="section section--dark" id="project-outputs">
-    <div class="container">
-      <SectionIntro label={projectModel.label} title={projectModel.title} intro={projectModel.intro} tone="dark" />
-      <ProjectOutputs lines={projectModel.lines} caveat={projectModel.caveat} />
-    </div>
-  </section>
-
-  <section class="section" id="standards">
-    <div class="container">
-      <SectionIntro
-        label={platformPage.standards.label}
-        title={platformPage.standards.title}
-        intro={platformPage.standards.intro}
-      />
-      <div class="card-grid card-grid--three">
+      <ul class="tech-fit" data-reveal>
         {
-          platformPage.standards.notes.map((note) => (
-            <EvidenceNote title={note.title} status={note.status} text={note.text} />
+          platformPage.technology.items.map((item) => (
+            <li class="tech-fit__item">
+              <span class="tech-fit__title">{item.title}</span>
+              <span class="tech-fit__sep" aria-hidden="true">·</span>
+              <span class="tech-fit__text">{item.text}</span>
+            </li>
           ))
         }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="review-posture">
+    <div class="container narrow">
+      <div class="review-posture" data-reveal>
+        <p class="review-posture__label">{platformPage.reviewPosture.label}</p>
+        <h2 class="review-posture__title">{platformPage.reviewPosture.title}</h2>
+        <p class="review-posture__text">{platformPage.reviewPosture.text}</p>
       </div>
-      <p class="section-note">{verification.claimLanguage}</p>
     </div>
   </section>
 

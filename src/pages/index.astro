@@ -1,19 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AudiencePathCard from '../components/AudiencePathCard.astro';
 import PageCta from '../components/PageCta.astro';
-import ProcessFlow from '../components/ProcessFlow.astro';
 import SectionIntro from '../components/SectionIntro.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import {
-  audiencePaths,
   home,
   marketCorridors,
   pageMeta,
   siteMeta,
 } from '../data/site';
 
-const corridorAnchor = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+const corridorAnchor = (name: string) =>
+  name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
 const meta = pageMeta.home;
 const structuredData = {
@@ -78,44 +76,18 @@ const structuredData = {
     </div>
   </section>
 
-  <section class="section section--proof" id="proof-strip">
+  <section class="section section--rail" id="status-rail">
     <div class="container">
-      <div class="proof-strip" aria-label="BRG operating status">
+      <dl class="status-rail" aria-label="BRG operating status">
         {
-          home.proofStrip.map((item) => (
-            <article class="proof-strip__item" data-reveal>
-              <h2>{item.label}</h2>
-              <p>{item.text}</p>
-            </article>
+          home.statusRail.map((item) => (
+            <div class="status-rail__item" data-reveal>
+              <dt>{item.label}</dt>
+              <dd>{item.text}</dd>
+            </div>
           ))
         }
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="what-brg-does">
-    <div class="container">
-      <SectionIntro label={home.whatWeDo.label} title={home.whatWeDo.title} intro={home.whatWeDo.intro} />
-      <ProcessFlow steps={home.whatWeDo.steps} />
-    </div>
-  </section>
-
-  <section class="section section--tinted" id="audience-pathways">
-    <div class="container">
-      <SectionIntro label={home.audienceIntro.label} title={home.audienceIntro.title} intro={home.audienceIntro.intro} />
-      <div class="card-grid card-grid--three">
-        {
-          audiencePaths.map((path) => (
-            <AudiencePathCard
-              audience={path.audience}
-              title={path.title}
-              description={path.description}
-              href={path.href}
-              cta={path.cta}
-            />
-          ))
-        }
-      </div>
+      </dl>
     </div>
   </section>
 
@@ -125,22 +97,19 @@ const structuredData = {
       <div class="card-grid card-grid--two">
         {
           marketCorridors.map((corridor) => (
-            <article class="info-card info-card--corridor" data-reveal>
-              <div class="info-card__header">
-                <div>
-                  <span>{corridor.region}</span>
-                  <h3>{corridor.name}</h3>
-                </div>
+            <article class="corridor-preview" data-reveal>
+              <header class="corridor-preview__header">
+                <h3>{corridor.name}</h3>
                 <StatusBadge status={corridor.status} label={corridor.statusLabel} />
-              </div>
-              <p>{corridor.description}</p>
-              <dl class="definition-grid definition-grid--compact">
+              </header>
+              <p class="corridor-preview__summary">{corridor.description}</p>
+              <dl class="corridor-preview__facts">
                 <div><dt>Feedstock</dt><dd>{corridor.feedstock}</dd></div>
                 <div><dt>Technology</dt><dd>{corridor.technology}</dd></div>
-                <div><dt>Carbon pathway</dt><dd>{corridor.carbonPathway}</dd></div>
+                <div><dt>Review pathway</dt><dd>{corridor.carbonPathway}</dd></div>
               </dl>
               <a class="text-action" href={`/markets/#${corridorAnchor(corridor.name)}`}>
-                View {corridor.name}
+                Review {corridor.name}
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14M13 5l7 7-7 7"></path>
                 </svg>

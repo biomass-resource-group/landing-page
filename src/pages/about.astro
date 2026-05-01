@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EditorialPanel from '../components/EditorialPanel.astro';
-import EvidenceNote from '../components/EvidenceNote.astro';
 import PageCta from '../components/PageCta.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionIntro from '../components/SectionIntro.astro';
@@ -11,7 +10,6 @@ import {
   operatingPrinciples,
   pageMeta,
   siteMeta,
-  verification,
 } from '../data/site';
 
 const meta = pageMeta.about;
@@ -36,7 +34,6 @@ const structuredData = [
     },
   })),
 ];
-
 ---
 
 <BaseLayout title={meta.title} description={meta.description} path={meta.path} structuredData={structuredData}>
@@ -63,7 +60,7 @@ const structuredData = [
     </div>
   </section>
 
-  <section class="section" id="leadership">
+  <section class="section section--tinted" id="leadership">
     <div class="container">
       <SectionIntro
         label={aboutPage.leadership.label}
@@ -112,33 +109,6 @@ const structuredData = [
     </div>
   </section>
 
-  <section class="section section--tinted" id="evidence">
-    <div class="container">
-      <SectionIntro
-        label={aboutPage.evidence.label}
-        title={aboutPage.evidence.title}
-        intro={aboutPage.evidence.intro}
-      />
-      <div class="card-grid card-grid--three">
-        <EvidenceNote
-          title="Durability testing pathway"
-          status="tested"
-          text="Tied to EBC-aligned and H/Corg-style testing concepts. Not presented as a universal guarantee for every output."
-        />
-        <EvidenceNote
-          title="Active operating contexts"
-          status="operational"
-          text="Mobile and fixed kiln operations are active in two distinct corridors. Verification and offtake advance per project."
-        />
-        <EvidenceNote
-          title="Pipeline regions"
-          status="pipeline"
-          text="Pakistan, MENA, and Sub-Saharan Africa are tracked separately from active operating corridors."
-        />
-      </div>
-    </div>
-  </section>
-
   <section class="section" id="principles">
     <div class="container">
       <SectionIntro
@@ -146,44 +116,30 @@ const structuredData = [
         title={aboutPage.principles.title}
         intro={aboutPage.principles.intro}
       />
-      <ol class="doctrine" data-reveal>
+      <ul class="doctrine-list" data-reveal>
         {
           operatingPrinciples.map((principle, index) => (
-            <li class="doctrine__item">
-              <span class="doctrine__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              <div class="doctrine__copy">
-                <h3>{principle.title}</h3>
-                <p>{principle.description}</p>
-              </div>
+            <li class="doctrine-list__item">
+              <span class="doctrine-list__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <span class="doctrine-list__title">{principle.title}</span>
             </li>
           ))
         }
-      </ol>
+      </ul>
     </div>
   </section>
 
-  <section class="section section--tinted" id="verification">
-    <div class="container">
-      <SectionIntro
-        label={aboutPage.standards.label}
-        title={aboutPage.standards.title}
-        intro={aboutPage.standards.intro}
-      />
-      <div class="card-grid card-grid--two">
-        {
-          verification.pathways.slice(0, 3).map((pathway) => (
-            <EvidenceNote title={pathway.label} status={pathway.status} text={`${pathway.detail} ${pathway.evidenceNote}`} />
-          ))
-        }
+  <section class="section" id="claims-discipline">
+    <div class="container narrow">
+      <div class="review-posture" data-reveal>
+        <p class="review-posture__label">{aboutPage.claimsDiscipline.label}</p>
+        <h2 class="review-posture__title">{aboutPage.claimsDiscipline.title}</h2>
+        <p class="review-posture__text">{aboutPage.claimsDiscipline.text}</p>
+        <div class="review-posture__actions">
+          <a class="button button--primary" href={aboutPage.finalCta.primaryAction.href}>{aboutPage.finalCta.primaryAction.label}</a>
+          <a class="button button--secondary" href={aboutPage.finalCta.secondaryAction.href}>{aboutPage.finalCta.secondaryAction.label}</a>
+        </div>
       </div>
     </div>
   </section>
-
-  <PageCta
-    label={aboutPage.finalCta.label}
-    title={aboutPage.finalCta.title}
-    intro={aboutPage.finalCta.intro}
-    primaryAction={aboutPage.finalCta.primaryAction}
-    secondaryAction={aboutPage.finalCta.secondaryAction}
-  />
 </BaseLayout>
