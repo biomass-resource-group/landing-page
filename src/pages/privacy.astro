@@ -26,16 +26,13 @@ const structuredData = {
   />
 
   <section class="section" id="privacy-notice">
-    <div class="container">
-      <div class="privacy-stack" data-reveal>
+    <div class="container narrow">
+      <div class="privacy-notice" data-reveal>
         {
-          privacy.sections.map((section, index) => (
-            <article class="privacy-stack__item">
-              <span class="privacy-stack__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              <div class="privacy-stack__copy">
-                <h2>{section.title}</h2>
-                <p>{section.text}</p>
-              </div>
+          privacy.sections.map((section) => (
+            <article class="privacy-notice__item">
+              <h2>{section.title}</h2>
+              <p>{section.text}</p>
             </article>
           ))
         }
