@@ -438,6 +438,28 @@ for (const relativePath of htmlPaths) {
   }
 }
 
+// Source/CSS parity: required current component families must have dedicated CSS.
+{
+  const requiredFamilies = [
+    'status-rail',
+    'corridor-preview',
+    'pipeline-strip',
+    'process-flow',
+    'tech-fit',
+    'review-posture',
+    'leadership-row',
+    'doctrine-list',
+    'contact-route__button',
+    'email-row',
+    'privacy-notice',
+  ];
+  const allCss = cssAssets.map((asset) => readFileSync(join(distDir, '_astro', asset), 'utf8')).join('\n');
+  for (const family of requiredFamilies) {
+    const re = new RegExp('\\.' + family.replace(/__/g, '__') + '(?:[^a-zA-Z0-9_-]|$)');
+    expect(re.test(allCss), `Built CSS is missing a dedicated rule for .${family}`);
+  }
+}
+
 // Carbon-claim discipline: forbid uncaveated overstatements in any rendered HTML.
 const uncaveatedCarbon = [
   /\bverified\s+carbon\s+removal/i,
