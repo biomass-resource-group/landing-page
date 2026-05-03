@@ -453,9 +453,10 @@ for (const relativePath of htmlPaths) {
     'email-row',
     'privacy-notice',
   ];
+  const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const allCss = cssAssets.map((asset) => readFileSync(join(distDir, '_astro', asset), 'utf8')).join('\n');
   for (const family of requiredFamilies) {
-    const re = new RegExp('\\.' + family.replace(/__/g, '__') + '(?:[^a-zA-Z0-9_-]|$)');
+    const re = new RegExp('\\.' + escapeRegExp(family) + '(?:[^a-zA-Z0-9_-]|$)');
     expect(re.test(allCss), `Built CSS is missing a dedicated rule for .${family}`);
   }
 }
