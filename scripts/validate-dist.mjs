@@ -243,14 +243,15 @@ for (const cssAsset of cssAssets) {
     `${cssAsset} contains a selector list ending with a trailing comma before \`{\``,
   );
   // Corridor dossier should not combine box-shadow chrome with a decorative ::before gold top bar.
+  // Iterate every .corridor-dossier and ::before rule (responsive overrides may add more).
   {
-    const dossierBlock = stylesheet.match(/\.corridor-dossier\b[^{]*\{[^}]*\}/);
-    const dossierBefore = stylesheet.match(/\.corridor-dossier::before\b[^{]*\{[^}]*\}/);
-    if (dossierBlock && dossierBefore) {
-      const hasShadow = /box-shadow:[^;}]+\S/.test(dossierBlock[0]);
-      const hasGoldBar = /background:[^;}]*var\(--gold\)|background-color:[^;}]*var\(--gold\)/.test(dossierBefore[0]);
-      expect(!(hasShadow && hasGoldBar), `${cssAsset} stacks .corridor-dossier shadow with a ::before gold top bar — too much chrome`);
-    }
+    const dossierRules = [...stylesheet.matchAll(/\.corridor-dossier\b[^{:]*\{[^}]*\}/g)];
+    const beforeRules = [...stylesheet.matchAll(/\.corridor-dossier::before\b[^{]*\{[^}]*\}/g)];
+    const hasShadow = dossierRules.some((m) => /box-shadow:[^;}]+\S/.test(m[0]));
+    const hasGoldBar = beforeRules.some((m) =>
+      /background(?:-color)?:[^;}]*var\(--gold\)|background(?:-color)?:[^;}]*#c69a3d/i.test(m[0]),
+    );
+    expect(!(hasShadow && hasGoldBar), `${cssAsset} stacks .corridor-dossier shadow with a ::before gold top bar — too much chrome`);
   }
   // Pseudo-diagram residue: motif/pip/line/legend selectors are decorative dossier
   // micro-diagrams that must not regress into either source or built CSS.
@@ -320,6 +321,10 @@ for (const relativePath of htmlPaths) {
   for (const forbidden of forbiddenContent) {
     expect(!html.includes(forbidden), `${relativePath} still contains forbidden content: ${forbidden}`);
   }
+
+  // CTA copy: prefer "View …" over "Review …" to avoid conflating navigation with third-party carbon review.
+  expect(!/Review platform/i.test(html), `${relativePath} contains a "Review platform" CTA — prefer "View platform"`);
+  expect(!/Review active markets/i.test(html), `${relativePath} contains a "Review active markets" CTA — prefer "View active markets"`);
 
   if (!routeHeaders) continue;
 
@@ -427,14 +432,6 @@ expect(siteUi.includes('navigator.clipboard.writeText'), 'site-ui does not imple
 expect(!sitemap.includes('/company/'), 'sitemap includes duplicate /company/');
 expect(!sitemap.includes('/404/'), 'sitemap includes /404/');
 expect(sitemap.includes('/privacy/'), 'sitemap is missing /privacy/');
-
-// CTA copy: prefer "View platform" / "View active markets" over "Review platform" / "Review active markets"
-// to avoid conflating navigation with third-party carbon review.
-for (const relativePath of htmlPaths) {
-  const html = read(relativePath);
-  expect(!/Review platform/i.test(html), `${relativePath} contains a "Review platform" CTA — prefer "View platform"`);
-  expect(!/Review active markets/i.test(html), `${relativePath} contains a "Review active markets" CTA — prefer "View active markets"`);
-}
 
 // ProcessFlow numbering must not be spoken twice (once by <ol> and once by .process-flow__index).
 for (const relativePath of htmlPaths) {
