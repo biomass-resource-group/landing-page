@@ -153,7 +153,7 @@ export const home = {
     intro:
       'One inquiry routes to investor, carbon buyer, project partner, or general — pick a route on contact.',
     primaryAction: { label: 'Start an inquiry', href: '/contact/#inquiry-form' },
-    secondaryAction: { label: 'Review platform', href: '/platform/', variant: 'secondary' },
+    secondaryAction: { label: 'View platform', href: '/platform/', variant: 'secondary' },
   },
 } as const;
 
@@ -197,7 +197,7 @@ export const platformPage = {
     intro:
       'BRG coordinates feedstock access, kiln deployment, buyer channels, and project documentation inside each operating corridor.',
     primaryAction: { label: 'Request platform overview', href: '/contact/?type=general#inquiry-form' },
-    secondaryAction: { label: 'Review active markets', href: '/markets/', variant: 'secondary' },
+    secondaryAction: { label: 'View active markets', href: '/markets/', variant: 'secondary' },
   },
   process: {
     label: 'Operating model',
@@ -259,7 +259,7 @@ export const platformPage = {
     intro:
       'Use the contact form for operating model or review questions.',
     primaryAction: { label: 'Request platform overview', href: '/contact/?type=general#inquiry-form' },
-    secondaryAction: { label: 'Review active markets', href: '/markets/', variant: 'secondary' },
+    secondaryAction: { label: 'View active markets', href: '/markets/', variant: 'secondary' },
   },
 } as const;
 
@@ -296,7 +296,7 @@ export const marketsPage = {
     intro:
       'BRG builds from active operating corridors while developing additional regional opportunities.',
     primaryAction: { label: 'Discuss a corridor', href: '/contact/?type=partner#inquiry-form' },
-    secondaryAction: { label: 'Review platform', href: '/platform/', variant: 'secondary' },
+    secondaryAction: { label: 'View platform', href: '/platform/', variant: 'secondary' },
     meta: ['Active corridors', 'Additional regions', 'Stage-specific review'],
   },
   activeIntro: {
@@ -323,7 +323,7 @@ export const marketsPage = {
     intro:
       'Use the contact form for geography, feedstock, buyer, or deployment questions.',
     primaryAction: { label: 'Contact BRG', href: '/contact/?type=partner#inquiry-form' },
-    secondaryAction: { label: 'Review platform', href: '/platform/', variant: 'secondary' },
+    secondaryAction: { label: 'View platform', href: '/platform/', variant: 'secondary' },
   },
 } as const;
 

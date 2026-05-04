@@ -1874,14 +1874,6 @@ html:not(.js) [data-reveal] {
   font-feature-settings: 'lnum';
 }
 
-.corridor-dossier::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 3px;
-  background: var(--gold);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-}
 
 .corridor-dossier__header {
   display: grid;
@@ -1967,20 +1959,6 @@ html:not(.js) [data-reveal] {
   scroll-margin-top: calc(var(--header-height) + 1.4rem);
 }
 
-/* TechnologyStack — operational table, dark header */
-
-
-
-
-
-
-
-
-
-
-
-
-/* Operating boundary panel */
 
 
 
@@ -1998,7 +1976,18 @@ html:not(.js) [data-reveal] {
 
 
 
-/* Editorial panel — text + side context */
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2021,7 +2010,6 @@ html:not(.js) [data-reveal] {
 
 
 
-/* Leadership — typographic monogram cards */
 
 
 
@@ -2158,7 +2146,6 @@ html:not(.js) [data-reveal] {
   font-weight: 800;
 }
 
-/* Privacy — numbered editorial stack */
 
 
 
