@@ -1406,7 +1406,8 @@ html:not(.js) [data-reveal] {
   .card-grid--two,
   .card-grid--three,
   .card-grid--four,
-  .card-grid--five {
+  .card-grid--five,
+  .process-flow {
     grid-template-columns: 1fr;
   }
 
@@ -1419,7 +1420,7 @@ html:not(.js) [data-reveal] {
     min-height: 44px;
   }
 
-  .site-footer__email {
+  .site-footer a.site-footer__email {
     white-space: normal;
     overflow-wrap: anywhere;
   }
