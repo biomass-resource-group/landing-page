@@ -31,9 +31,6 @@ const structuredData = {
   bodyClass="page--home"
 >
   <section class="home-hero" data-hero>
-    <div class="home-hero__backdrop" aria-hidden="true">
-      <span class="home-hero__grain"></span>
-    </div>
     <div class="container home-hero__inner">
       <div class="home-hero__copy" data-reveal>
         <p class="home-hero__eyebrow">{home.hero.label}</p>
@@ -75,7 +72,7 @@ const structuredData = {
   <section class="section" id="active-corridors">
     <div class="container">
       <SectionIntro label={home.proof.label} title={home.proof.title} intro={home.proof.intro} />
-      <div class="card-grid card-grid--two">
+      <div class="corridor-preview-list">
         {
           marketCorridors.map((corridor) => (
             <article class="corridor-preview" data-reveal>
