@@ -2114,6 +2114,10 @@ html:not(.js) [data-reveal] {
     padding: 0 1rem 1rem;
   }
 
+  .page-hero__shell--split {
+    grid-template-columns: 1fr;
+  }
+
   .status-rail {
     grid-template-columns: 1fr;
   }
