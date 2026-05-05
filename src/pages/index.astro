@@ -43,6 +43,16 @@ const structuredData = {
           <a class="button button--primary" href={home.hero.primaryAction.href}>{home.hero.primaryAction.label}</a>
           <a class="button button--secondary" href={home.hero.secondaryAction.href}>{home.hero.secondaryAction.label}</a>
         </div>
+        <ul class="home-hero__signature" aria-label="Active operating corridors">
+          {
+            home.hero.signature.map((corridor) => (
+              <li class="home-hero__signature-item">
+                <span class="home-hero__signature-dot" aria-hidden="true"></span>
+                <span>{corridor.code} · {corridor.label}</span>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </section>
