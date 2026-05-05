@@ -311,6 +311,10 @@ html:not(.js) [data-reveal] {
   color: var(--cream);
 }
 
+.page--home .site-header .brand__wordmark span {
+  color: rgba(245, 236, 219, 0.72);
+}
+
 .page--home .site-header .site-nav__link:hover,
 .page--home .site-header .site-nav__link:focus-visible,
 .page--home .site-header .site-nav__link--active {
