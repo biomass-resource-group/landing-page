@@ -126,6 +126,10 @@ export const home = {
       'BRG develops feedstock, kiln deployment, buyer channels, and carbon documentation across active biochar corridors in East Africa and Saudi Arabia.',
     primaryAction: { label: 'Start a conversation', href: '/contact/#inquiry-form' },
     secondaryAction: { label: 'See active corridors', href: '/markets/' },
+    signature: [
+      { label: 'East Africa', code: 'EA' },
+      { label: 'Saudi Arabia', code: 'SA' },
+    ],
   },
   statusRail: [
     {
@@ -297,7 +301,6 @@ export const marketsPage = {
       'BRG builds from active operating corridors while developing additional regional opportunities.',
     primaryAction: { label: 'Discuss a corridor', href: '/contact/?type=partner#inquiry-form' },
     secondaryAction: { label: 'View platform', href: '/platform/', variant: 'secondary' },
-    meta: ['Active corridors', 'Additional regions', 'Stage-specific review'],
   },
   activeIntro: {
     label: 'Active corridors',
@@ -389,12 +392,11 @@ export const pipelineMarkets = [
 export const aboutPage = {
   hero: {
     label: 'About BRG',
-    title: 'Operator-led infrastructure.',
+    title: 'Field execution before scale.',
     intro:
       'BRG combines field execution, commercial partnerships, and project documentation for biochar carbon removal infrastructure.',
     primaryAction: { label: 'Contact leadership', href: '/contact/?type=general#inquiry-form' },
     secondaryAction: { label: 'See active markets', href: '/markets/', variant: 'secondary' },
-    meta: ['Operator-led', 'Commercial discipline', 'Third-party review'],
   },
   story: {
     label: 'Operating story',
@@ -568,7 +570,6 @@ export const contact = {
       'Select a route, prepare an inquiry, or email the relevant BRG address directly.',
     primaryAction: { label: 'Start an inquiry', href: '#inquiry-form' },
     secondaryAction: { label: 'Direct emails', href: '#direct-emails', variant: 'secondary' },
-    meta: ['Investors', 'Carbon buyers', 'Project partners', 'General'],
   },
   form: {
     mode: 'mailto',
