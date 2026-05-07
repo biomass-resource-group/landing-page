@@ -1526,7 +1526,6 @@ html:not(.js) [data-reveal] {
 
 
 
-.contact-route[data-route].is-selected 
 .contact-route__description {
   display: none;
 }

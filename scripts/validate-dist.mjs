@@ -514,16 +514,18 @@ for (const relativePath of htmlPaths) {
 
 // Source-file check: catch dangling selector orphans that survive minification
 // because they fuse with the next rule via descendant. Detects the pattern
-// "<selector><whitespace + optional comment><class-selector> {".
+// "<selector><whitespace + optional comment><class-selector> {" where the first
+// selector has NO brace and the second IS a rule body.
 {
   const sourceCss = readFileSync(join(repoRoot, 'src', 'styles', 'global.css'), 'utf8');
-  // Look for a class selector on its own line followed only by whitespace/comments
-  // and then another class with rule body. Limited to a 200-char window so we
-  // don't false-positive on grouped selector lists.
-  const re = /\n\s*(\.[a-zA-Z][a-zA-Z0-9_-]*)\s*\n(?:\s*\/\*[^*]*\*\/\s*\n?)*\s*(\.[a-zA-Z][a-zA-Z0-9_-]*)[^,]{0,40}\{/g;
+  // Match a complex class-based selector (with optional [attr], chained
+  // classes, and pseudo) followed by newline, optional comment, then another
+  // class selector that opens a rule body. Restricting "no comma" between them
+  // keeps grouped selector lists from false-positive.
+  const re = /\n\s*(\.[\w-]+(?:\[[^\]]+\])?(?:[\.\:][\w-]+(?:\([^)]*\))?|\[[^\]]+\])*)\s*\n(?:\s*\/\*[^*]*\*\/\s*\n?)*\s*(\.[\w-]+(?:[\.\[\:][\w\d_:\-=()'"\[\]]+)?)[^,{]*\{/g;
   let match;
   while ((match = re.exec(sourceCss)) !== null) {
-    expect(false, `src/styles/global.css contains a dangling ${match[1]} selector before ${match[2]} (orphan from deletion)`);
+    expect(false, `src/styles/global.css contains a dangling ${match[1].trim()} selector before ${match[2].trim()} (orphan from selector deletion)`);
   }
 }
 
