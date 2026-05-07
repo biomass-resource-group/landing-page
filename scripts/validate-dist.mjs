@@ -512,6 +512,21 @@ for (const relativePath of htmlPaths) {
   }
 }
 
+// Source-file check: catch dangling selector orphans that survive minification
+// because they fuse with the next rule via descendant. Detects the pattern
+// "<selector><whitespace + optional comment><class-selector> {".
+{
+  const sourceCss = readFileSync(join(repoRoot, 'src', 'styles', 'global.css'), 'utf8');
+  // Look for a class selector on its own line followed only by whitespace/comments
+  // and then another class with rule body. Limited to a 200-char window so we
+  // don't false-positive on grouped selector lists.
+  const re = /\n\s*(\.[a-zA-Z][a-zA-Z0-9_-]*)\s*\n(?:\s*\/\*[^*]*\*\/\s*\n?)*\s*(\.[a-zA-Z][a-zA-Z0-9_-]*)[^,]{0,40}\{/g;
+  let match;
+  while ((match = re.exec(sourceCss)) !== null) {
+    expect(false, `src/styles/global.css contains a dangling ${match[1]} selector before ${match[2]} (orphan from deletion)`);
+  }
+}
+
 // Carbon-claim discipline: forbid uncaveated overstatements in any rendered HTML.
 const uncaveatedCarbon = [
   /\bverified\s+carbon\s+removal/i,
