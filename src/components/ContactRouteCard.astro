@@ -7,7 +7,7 @@ interface Props {
   cta: string;
 }
 
-const { keyName, label, title, description, cta } = Astro.props;
+const { keyName, label, title, description } = Astro.props;
 ---
 
 <article class="contact-route" data-contact-route-card data-route={keyName} data-reveal>
@@ -20,12 +20,6 @@ const { keyName, label, title, description, cta } = Astro.props;
   >
     <span class="contact-route__label">{label}</span>
     <span class="contact-route__title">{title}</span>
-    <span class="contact-route__cta" aria-hidden="true">
-      {cta}
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M5 12h14M13 5l7 7-7 7"></path>
-      </svg>
-    </span>
   </button>
   <p class="contact-route__description" id={`contact-route-${keyName}-desc`}>{description}</p>
 </article>
