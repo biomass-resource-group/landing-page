@@ -6,14 +6,12 @@ interface Step {
 
 interface Props {
   steps: readonly Step[];
-  ordered?: boolean;
 }
 
-const { steps, ordered = true } = Astro.props;
-const ListTag = ordered ? 'ol' : 'div';
+const { steps } = Astro.props;
 ---
 
-<ListTag class="process-flow">
+<ol class="process-flow">
   {
     steps.map((step) => (
       <li class="process-flow__step" data-reveal>
@@ -22,4 +20,4 @@ const ListTag = ordered ? 'ol' : 'div';
       </li>
     ))
   }
-</ListTag>
+</ol>
