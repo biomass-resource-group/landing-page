@@ -242,6 +242,42 @@ for (const cssAsset of cssAssets) {
     !/,\s*\{/.test(stylesheet),
     `${cssAsset} contains a selector list ending with a trailing comma before \`{\``,
   );
+
+  // Component chrome: corridor-dossier must not stack a heavy shadow.
+  expect(
+    !/\.corridor-dossier\b[^{]*\{[^}]*var\(--shadow-strong\)/.test(stylesheet),
+    `${cssAsset} applies var(--shadow-strong) to .corridor-dossier; corridor dossiers should read as records, not premium cards`,
+  );
+
+  // Component chrome: review-posture::before must not be a decorative gold strip.
+  {
+    const beforeRules = [...stylesheet.matchAll(/\.review-posture::before\b[^{]*\{[^}]*\}/g)];
+    const goldStrip = beforeRules.some((m) =>
+      /background[^;}]*var\(--gold\)|background[^;}]*#c69a3d/i.test(m[0]),
+    );
+    expect(!goldStrip, `${cssAsset} renders a decorative gold strip on .review-posture::before`);
+  }
+
+  // Reduced-motion structural checks.
+  expect(
+    /@media\s*\(prefers-reduced-motion:\s*reduce\)/.test(stylesheet),
+    `${cssAsset} is missing @media (prefers-reduced-motion: reduce)`,
+  );
+  // Find a window of CSS after the @media block to test sub-conditions. Take 1500 chars after the at-rule open.
+  const rmIdx = stylesheet.search(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+  if (rmIdx >= 0) {
+    const window = stylesheet.slice(rmIdx, rmIdx + 1500);
+    expect(
+      /html\s*\{[^}]*scroll-behavior\s*:\s*auto/.test(window),
+      `${cssAsset} reduced-motion rule does not set html scroll-behavior to auto`,
+    );
+    expect(
+      /\[data-reveal\]\s*\{[^}]*(?:transition|transform)/.test(window) ||
+        /\*\s*,?[^}]*transition-duration\s*:\s*\.?0?\.?001ms/.test(window),
+      `${cssAsset} reduced-motion rule does not neutralize [data-reveal] transitions`,
+    );
+  }
+
   // Corridor dossier should not combine box-shadow chrome with a decorative ::before gold top bar.
   // Iterate every .corridor-dossier and ::before rule (responsive overrides may add more).
   {

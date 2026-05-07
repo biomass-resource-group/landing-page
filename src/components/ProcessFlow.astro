@@ -15,9 +15,8 @@ const ListTag = ordered ? 'ol' : 'div';
 
 <ListTag class="process-flow">
   {
-    steps.map((step, index) => (
+    steps.map((step) => (
       <li class="process-flow__step" data-reveal>
-        <span class="process-flow__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
         <h3>{step.title}</h3>
         <p>{step.description}</p>
       </li>
