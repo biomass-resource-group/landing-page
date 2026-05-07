@@ -1130,7 +1130,6 @@ html:not(.js) [data-reveal] {
   margin: 0;
   padding: 0;
   border-top: 1px solid var(--ink);
-  counter-reset: step;
 }
 
 .process-flow__step {

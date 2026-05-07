@@ -273,7 +273,7 @@ for (const cssAsset of cssAssets) {
     );
     expect(
       /\[data-reveal\]\s*\{[^}]*(?:transition|transform)/.test(window) ||
-        /\*\s*,?[^}]*transition-duration\s*:\s*\.?0?\.?001ms/.test(window),
+        /\*\s*,?[^}]*transition-duration\s*:\s*(?:0\.001|\.001)ms\b/.test(window),
       `${cssAsset} reduced-motion rule does not neutralize [data-reveal] transitions`,
     );
   }
