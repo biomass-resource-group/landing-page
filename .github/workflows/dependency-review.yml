@@ -30,7 +30,7 @@ jobs:
           echo "status=$status" >> "$GITHUB_OUTPUT"
 
       - if: github.event_name == 'pull_request' && steps.dependency-graph.outputs.status == 'enabled'
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@v5
 
       - if: github.event_name == 'pull_request' && steps.dependency-graph.outputs.status != 'enabled'
         run: echo "Skipping dependency review because GitHub Dependency Graph is not enabled for this repository."
