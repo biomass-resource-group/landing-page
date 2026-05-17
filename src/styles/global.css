@@ -665,6 +665,9 @@ html:not(.js) [data-reveal] {
 
 .page-hero__inner {
   position: relative;
+  display: grid;
+  gap: var(--space-md);
+  max-width: 760px;
 }
 
 .page-hero__inner::before {
@@ -686,12 +689,6 @@ html:not(.js) [data-reveal] {
 .page-hero__shell--split {
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
   align-items: center;
-}
-
-.page-hero__inner {
-  display: grid;
-  gap: var(--space-md);
-  max-width: 760px;
 }
 
 .page-hero__eyebrow {
