@@ -17,8 +17,13 @@ const { keyName, label, title, description } = Astro.props;
     aria-pressed="false"
     aria-describedby={`contact-route-${keyName}-desc`}
   >
-    <span class="contact-route__label">{label}</span>
-    <span class="contact-route__title">{title}</span>
+    <span class="contact-route__copy">
+      <span class="contact-route__label">{label}</span>
+      <span class="contact-route__title">{title}</span>
+    </span>
+    <svg class="contact-route__chevron" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h14M13 5l7 7-7 7"></path>
+    </svg>
   </button>
   <p class="contact-route__description" id={`contact-route-${keyName}-desc`}>{description}</p>
 </article>

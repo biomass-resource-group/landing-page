@@ -13,10 +13,13 @@ const { steps } = Astro.props;
 
 <ol class="process-flow">
   {
-    steps.map((step) => (
+    steps.map((step, index) => (
       <li class="process-flow__step" data-reveal>
-        <h3>{step.title}</h3>
-        <p>{step.description}</p>
+        <span class="process-flow__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <div class="process-flow__body">
+          <h3>{step.title}</h3>
+          <p>{step.description}</p>
+        </div>
       </li>
     ))
   }
