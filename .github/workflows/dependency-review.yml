@@ -29,7 +29,7 @@ jobs:
         run: |
           set -euo pipefail
           files="${RUNNER_TEMP}/dependency-review-pr-files.txt"
-          gh api --paginate +            "repos/${REPOSITORY}/pulls/${PR_NUMBER}/files?per_page=100" +            --jq '.[].filename' > "${files}"
+          gh api --paginate "repos/${REPOSITORY}/pulls/${PR_NUMBER}/files?per_page=100" --jq '.[].filename' > "${files}"
 
           relevant=false
           while IFS= read -r path; do
