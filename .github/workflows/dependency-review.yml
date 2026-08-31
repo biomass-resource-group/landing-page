@@ -2,7 +2,10 @@ name: Dependency Review
 
 on:
   pull_request:
-  workflow_dispatch:
+    paths:
+      - package.json
+      - package-lock.json
+      - .github/workflows/dependency-review.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -17,23 +20,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v6
-      - name: Detect dependency graph support
-        id: dependency-graph
+      - name: Require dependency graph
         env:
           GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
         run: |
-          status="$(
-            gh api "repos/${{ github.repository }}" \
-              --jq '.security_and_analysis.dependency_graph.status // "disabled"'
-          )"
-          echo "status=$status" >> "$GITHUB_OUTPUT"
+          set -euo pipefail
+          status="$(gh api "repos/${REPOSITORY}" --jq '.security_and_analysis.dependency_graph.status // "disabled"')"
+          if [ "$status" != "enabled" ]; then
+            echo "::error::GitHub Dependency Graph must be enabled; refusing to report a successful no-op review."
+            exit 1
+          fi
 
-      - if: github.event_name == 'pull_request' && steps.dependency-graph.outputs.status == 'enabled'
-        uses: actions/dependency-review-action@v4
-
-      - if: github.event_name == 'pull_request' && steps.dependency-graph.outputs.status != 'enabled'
-        run: echo "Skipping dependency review because GitHub Dependency Graph is not enabled for this repository."
-
-      - if: github.event_name != 'pull_request'
-        run: echo "Skipping dependency review because this workflow only evaluates pull request dependency diffs."
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v4
