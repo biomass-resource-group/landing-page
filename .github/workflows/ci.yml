@@ -25,7 +25,9 @@ jobs:
 
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: 22.12.0
+          # Lighthouse 13 requires Node >=22.19. Keep the CI toolchain exact
+          # and compatible instead of running outside its declared engine.
+          node-version: 22.19.0
           cache: npm
 
       - run: npm ci
@@ -38,24 +40,32 @@ jobs:
           SERVER_PID=$!
           trap 'kill $SERVER_PID' EXIT
           npx --yes wait-on@8.0.5 http://127.0.0.1:4173
-          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
-            --only-categories=performance,accessibility,best-practices,seo \
-            --chrome-flags='--headless=new --no-sandbox' \
-            --quiet \
-            --output=json \
-            --output-path=/tmp/brg-lighthouse.json
+          for sample in 1 2 3; do
+            npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ --only-categories=performance,accessibility,best-practices,seo --chrome-flags='--headless=new --no-sandbox' --quiet --output=json --output-path="/tmp/brg-lighthouse-${sample}.json"
+          done
           node - <<'NODE'
           const fs = require('fs');
-          const report = JSON.parse(fs.readFileSync('/tmp/brg-lighthouse.json', 'utf8'));
+          const reports = [1, 2, 3].map((sample) =>
+            JSON.parse(fs.readFileSync(`/tmp/brg-lighthouse-${sample}.json`, 'utf8')),
+          );
           const thresholds = {
             performance: 0.9,
             accessibility: 1,
             'best-practices': 1,
             seo: 1,
           };
+          const median = (values) => {
+            const sorted = [...values].sort((left, right) => left - right);
+            return sorted[Math.floor(sorted.length / 2)];
+          };
 
           for (const [category, minimum] of Object.entries(thresholds)) {
-            const actual = report.categories[category].score;
+            const scores = reports.map((report) => report.categories[category].score);
+            // Performance is noisy on shared runners, so require the median of
+            // three full audits. Binary compliance categories must pass every
+            // sample and therefore use the minimum.
+            const actual = category === 'performance' ? median(scores) : Math.min(...scores);
+            console.log(`${category}: ${scores.join(', ')} (enforced ${actual})`);
             if (actual < minimum) {
               console.error(`${category} score ${actual} is below ${minimum}`);
               process.exit(1);
