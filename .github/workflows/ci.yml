@@ -34,11 +34,11 @@ jobs:
       - run: npm run validate:dist
       - name: Lighthouse smoke check
         run: |
-          npx --yes serve@14 dist -l 4173 >/tmp/brg-serve.log 2>&1 &
+          npx --yes serve@14.2.6 dist -l 4173 >/tmp/brg-serve.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID' EXIT
-          npx --yes wait-on http://127.0.0.1:4173
-          npx --yes lighthouse@13 http://127.0.0.1:4173/ \
+          npx --yes wait-on@8.0.5 http://127.0.0.1:4173
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
             --only-categories=performance,accessibility,best-practices,seo \
             --chrome-flags='--headless=new --no-sandbox' \
             --quiet \
