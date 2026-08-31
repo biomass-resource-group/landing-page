@@ -97,8 +97,14 @@ jobs:
 
             if [ -z "$issue_number" ]; then
               gh issue create --repo "$REPOSITORY" --title "$title" --body "$body"
-            elif ! gh issue view "$issue_number" --repo "$REPOSITORY" --json body,comments --jq '.body, .comments[].body' | grep -Fq "$marker"; then
-              gh issue comment "$issue_number" --repo "$REPOSITORY" --body "$body"
+            else
+              issue_history="$(
+                gh issue view "$issue_number" --repo "$REPOSITORY" \
+                  --json body,comments --jq '.body, .comments[].body'
+              )"
+              if ! grep -Fq "$marker" <<< "$issue_history"; then
+                gh issue comment "$issue_number" --repo "$REPOSITORY" --body "$body"
+              fi
             fi
             exit 0
           fi
