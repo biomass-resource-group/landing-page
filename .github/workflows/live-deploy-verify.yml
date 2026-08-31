@@ -1,26 +1,109 @@
 name: Live Deploy Verify
 
+# Scheduled workflows are loaded from the default branch. Keeping this monitor
+# schedule-only prevents a dispatch-selected ref from gaining issue-write access.
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '17 14 * * *'
+    - cron: "17 14 * * *"
+
+permissions: {}
 
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      fingerprint: ${{ steps.validate.outputs.fingerprint }}
+      outcome: ${{ steps.validate.outputs.outcome }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22.12.0
 
-      - run: node ./scripts/validate-live-deploy.mjs
+      - name: Validate live deployment
+        id: validate
+        shell: bash
+        run: |
+          set +e
+          node ./scripts/validate-live-deploy.mjs > >(tee live-deploy.log) 2>&1
+          status=$?
+          set -e
+
+          fingerprint="$(sha256sum live-deploy.log | awk '{print $1}')"
+          echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
+          if [ "$status" -eq 0 ]; then
+            echo "outcome=success" >> "$GITHUB_OUTPUT"
+          else
+            echo "outcome=failure" >> "$GITHUB_OUTPUT"
+          fi
+
+          {
+            echo "## Live deployment verification"
+            echo
+            echo "~~~text"
+            tail -n 100 live-deploy.log
+            echo "~~~"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep deployment health fail-closed
+        if: steps.validate.outputs.outcome == 'failure'
+        run: |
+          echo "::error::Live deployment does not match the repository contract."
+          exit 1
+
+  reconcile-alert:
+    name: Reconcile deployment incident
+    needs: verify
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPOSITORY: ${{ github.repository }}
+      VERIFY_RESULT: ${{ needs.verify.result }}
+      FINGERPRINT: ${{ needs.verify.outputs.fingerprint }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - name: Create, deduplicate, or resolve the incident
+        shell: bash
+        run: |
+          set -euo pipefail
+          title='[monitor] Live deployment verification failing'
+          issue_number="$(
+            gh issue list --repo "$REPOSITORY" --state open --limit 100 --json number,title --jq '.[] | select(.title == "[monitor] Live deployment verification failing") | .number' | head -n 1
+          )"
+
+          if [ "$VERIFY_RESULT" != "success" ]; then
+            marker="<!-- live-deploy-fingerprint:$FINGERPRINT -->"
+            body="$marker
+          The production deployment does not match the repository contract.
+
+          Latest failing run: $RUN_URL
+          Failure fingerprint: $FINGERPRINT
+
+          The verification job remains red; this issue only deduplicates notifications."
+
+            if [ -z "$issue_number" ]; then
+              gh issue create --repo "$REPOSITORY" --title "$title" --body "$body"
+            elif ! gh issue view "$issue_number" --repo "$REPOSITORY" --json body,comments --jq '.body, .comments[].body' | grep -Fq "$marker"; then
+              gh issue comment "$issue_number" --repo "$REPOSITORY" --body "$body"
+            fi
+            exit 0
+          fi
+
+          if [ -n "$issue_number" ]; then
+            gh issue comment "$issue_number" --repo "$REPOSITORY" --body "Recovered in $RUN_URL. Closing the deployment incident."
+            gh issue close "$issue_number" --repo "$REPOSITORY"
+          fi
