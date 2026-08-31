@@ -1,11 +1,10 @@
 name: Dependency Review
 
+# This workflow is intended to become a required check. It therefore starts
+# for every pull request and publishes the same `dependency-review` context
+# even when no dependency manifest changed.
 on:
   pull_request:
-    paths:
-      - package.json
-      - package-lock.json
-      - .github/workflows/dependency-review.yml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -17,20 +16,55 @@ permissions:
 
 jobs:
   dependency-review:
+    name: dependency-review
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Classify dependency changes
+        id: changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          files="${RUNNER_TEMP}/dependency-review-pr-files.txt"
+          gh api --paginate +            "repos/${REPOSITORY}/pulls/${PR_NUMBER}/files?per_page=100" +            --jq '.[].filename' > "${files}"
+
+          relevant=false
+          while IFS= read -r path; do
+            case "${path}" in
+              package.json|package-lock.json|.github/workflows/dependency-review.yml)
+                relevant=true
+                ;;
+            esac
+          done < "${files}"
+
+          echo "relevant=${relevant}" >> "${GITHUB_OUTPUT}"
+          echo "Dependency-relevant change: ${relevant}"
+
       - name: Require dependency graph
+        if: steps.changes.outputs.relevant == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
           status="$(gh api "repos/${REPOSITORY}" --jq '.security_and_analysis.dependency_graph.status // "disabled"')"
-          if [ "$status" != "enabled" ]; then
-            echo "::error::GitHub Dependency Graph must be enabled; refusing to report a successful no-op review."
+          if [ "${status}" != "enabled" ]; then
+            echo "::error::GitHub Dependency Graph must be enabled for dependency-changing pull requests."
             exit 1
           fi
 
       - name: Review dependency changes
+        if: steps.changes.outputs.relevant == 'true'
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v4
+
+      - name: Report no dependency change
+        if: steps.changes.outputs.relevant == 'false'
+        run: |
+          {
+            echo "### Dependency review"
+            echo
+            echo "No dependency manifest or dependency-review policy changed."
+          } >> "${GITHUB_STEP_SUMMARY}"
