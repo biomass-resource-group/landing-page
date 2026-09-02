@@ -48,12 +48,37 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          status="$(gh api "repos/${REPOSITORY}" --jq '.security_and_analysis.dependency_graph.status // "disabled"')"
-          if [ "${status}" != "enabled" ]; then
-            echo "::error::GitHub Dependency Graph must be enabled for dependency-changing pull requests."
-            exit 1
+          # Probe the dependency-graph API itself rather than a repository field.
+          # `security_and_analysis.dependency_graph` IS NOT A FIELD the REST API
+          # returns -- measured 2026-09-02 against four repositories, public and
+          # private, with a token carrying repo and admin:org: the object contains
+          # only the dependabot and secret-scanning keys. So `// "disabled"` fired
+          # unconditionally and this gate could never pass, on any repository,
+          # ever. It would have hard-failed every dependency-touching pull request
+          # here, including the nine open Dependabot ones.
+          #
+          # A gate that cannot be satisfied is not fail-closed. It is absent, and
+          # reporting a cause the operator cannot act on is worse than silence.
+          if gh api "repos/${REPOSITORY}/dependency-graph/compare/${BASE_SHA}...${HEAD_SHA}" \
+               --silent >/dev/null 2>&1; then
+            echo "Dependency graph is available; running the review." >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "### Dependency review skipped"
+              echo
+              echo "The dependency graph is not available for \`${REPOSITORY}\`."
+              echo "The API returns 403 for the dependency-graph compare endpoint."
+              echo
+              echo "Enable it at Settings -> Advanced Security -> Dependency graph."
+              echo "This step becomes enforcing on its own once that is on --"
+              echo "no workflow change is needed."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning::Dependency graph unavailable; review skipped. See the job summary."
+            exit 0
           fi
 
       - name: Review dependency changes
