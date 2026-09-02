@@ -36,8 +36,6 @@ jobs:
       - run: npm run validate:dist
       - name: Lighthouse smoke check
         run: |
-          SERVER_PID=$!
-          trap 'kill $SERVER_PID' EXIT
           # --no-install from origin/main: serve, wait-on and lighthouse are all
           # locked devDependencies installed by `npm ci` above, so resolving them
           # from the lockfile is stricter than the @version pins this branch was
@@ -48,6 +46,14 @@ jobs:
           # single-sample form would leave that step reading files that do not
           # exist. One Lighthouse run is also the flakiest possible measurement.
           npx --no-install serve dist -l 4173 >/tmp/brg-serve.log 2>&1 &
+          # $! must be read on the line AFTER the background job, not before it.
+          # A merge left this capture above the `serve &` line, so SERVER_PID was
+          # empty, the EXIT trap ran `kill` with no argument, and the step exited 2
+          # -- after every Lighthouse threshold had already passed 1.0. A teardown
+          # that fails a green run is the worst kind of red: it says the gate found
+          # something when it found nothing.
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
           npx --no-install wait-on http://127.0.0.1:4173
           for sample in 1 2 3; do
             npx --no-install lighthouse http://127.0.0.1:4173/ --only-categories=performance,accessibility,best-practices,seo --chrome-flags='--headless=new --no-sandbox' --quiet --output=json --output-path="/tmp/brg-lighthouse-${sample}.json"
