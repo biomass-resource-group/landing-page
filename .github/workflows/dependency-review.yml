@@ -44,6 +44,7 @@ jobs:
           echo "Dependency-relevant change: ${relevant}"
 
       - name: Require dependency graph
+        id: graph
         if: steps.changes.outputs.relevant == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -65,6 +66,7 @@ jobs:
           # reporting a cause the operator cannot act on is worse than silence.
           if gh api "repos/${REPOSITORY}/dependency-graph/compare/${BASE_SHA}...${HEAD_SHA}" \
                --silent >/dev/null 2>&1; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
             echo "Dependency graph is available; running the review." >> "$GITHUB_STEP_SUMMARY"
           else
             {
@@ -77,12 +79,17 @@ jobs:
               echo "This step becomes enforcing on its own once that is on --"
               echo "no workflow change is needed."
             } >> "$GITHUB_STEP_SUMMARY"
+            echo "available=false" >> "$GITHUB_OUTPUT"
             echo "::warning::Dependency graph unavailable; review skipped. See the job summary."
             exit 0
           fi
 
+      # Gated on the probe above, not only on relevance. The action itself hard
+      # fails with "Dependency review is not supported on this repository" when the
+      # graph is off, so leaving it ungated moved the same unsatisfiable failure one
+      # step later rather than removing it.
       - name: Review dependency changes
-        if: steps.changes.outputs.relevant == 'true'
+        if: steps.changes.outputs.relevant == 'true' && steps.graph.outputs.available == 'true'
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v4
 
       - name: Report no dependency change
