@@ -36,12 +36,21 @@ jobs:
       - run: npm run validate:dist
       - name: Lighthouse smoke check
         run: |
-          npx --yes serve@14.2.6 dist -l 4173 >/tmp/brg-serve.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID' EXIT
-          npx --yes wait-on@8.0.5 http://127.0.0.1:4173
+          # --no-install from origin/main: serve, wait-on and lighthouse are all
+          # locked devDependencies installed by `npm ci` above, so resolving them
+          # from the lockfile is stricter than the @version pins this branch was
+          # fetching at run time, and Dependabot already tracks them.
+          #
+          # The three-sample loop from this branch is kept: the median step below
+          # reads /tmp/brg-lighthouse-${sample}.json by name, so main's
+          # single-sample form would leave that step reading files that do not
+          # exist. One Lighthouse run is also the flakiest possible measurement.
+          npx --no-install serve dist -l 4173 >/tmp/brg-serve.log 2>&1 &
+          npx --no-install wait-on http://127.0.0.1:4173
           for sample in 1 2 3; do
-            npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ --only-categories=performance,accessibility,best-practices,seo --chrome-flags='--headless=new --no-sandbox' --quiet --output=json --output-path="/tmp/brg-lighthouse-${sample}.json"
+            npx --no-install lighthouse http://127.0.0.1:4173/ --only-categories=performance,accessibility,best-practices,seo --chrome-flags='--headless=new --no-sandbox' --quiet --output=json --output-path="/tmp/brg-lighthouse-${sample}.json"
           done
           node - <<'NODE'
           const fs = require('fs');
