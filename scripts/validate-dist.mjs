@@ -23,7 +23,6 @@ const requiredFiles = [
   '_redirects',
   'og-default.jpg',
   join('scripts', 'company-redirect.js'),
-  join('scripts', 'site-ui.js'),
 ];
 
 const routeExpectations = new Map([
@@ -138,11 +137,13 @@ const extractScripts = (html) =>
     const attributes = match[1] ?? '';
     const content = match[2] ?? '';
     const typeMatch = attributes.match(/\btype\s*=\s*["']([^"']+)["']/i);
+    const srcMatch = attributes.match(/\bsrc\s*=\s*["']([^"']+)["']/i);
 
     return {
       attributes,
       content,
       hasSrc: /\bsrc\s*=/.test(attributes),
+      src: srcMatch?.[1] ?? null,
       type: typeMatch?.[1]?.toLowerCase() ?? 'text/javascript',
     };
   });
@@ -332,8 +333,8 @@ for (const relativePath of htmlPaths) {
     `${relativePath} is missing a focusable main landmark`,
   );
   expect(
-    /<script[^>]*src="\/scripts\/site-ui\.js"[^>]*defer[^>]*><\/script>/.test(html),
-    `${relativePath} is missing the deferred site-ui script`,
+    scripts.some((script) => script.type === 'module' && script.src?.startsWith('/_astro/BaseLayout.astro_')),
+    `${relativePath} is missing the bundled site-ui module`,
   );
   expect(executableInlineScripts.length === 0, `${relativePath} contains inline executable scripts`);
   expect(routeHeaders instanceof Map, `${relativePath} is missing a route-specific CSP block`);
@@ -384,8 +385,15 @@ const marketsHtml = read(join('markets', 'index.html'));
 const aboutHtml = read(join('about', 'index.html'));
 const contactHtml = read(join('contact', 'index.html'));
 const notFoundHtml = read('404.html');
-const siteUi = read(join('scripts', 'site-ui.js'));
 const sitemap = read('sitemap-0.xml');
+const siteUiPath = extractScripts(homeHtml)
+  .find((script) => script.src?.startsWith('/_astro/BaseLayout.astro_'))?.src;
+const contactUiPath = extractScripts(contactHtml)
+  .find((script) => script.src?.startsWith('/_astro/ContactForm.astro_'))?.src;
+expect(siteUiPath, 'Home page is missing the hashed site-ui asset');
+expect(contactUiPath, 'Contact page is missing the route-specific contact-form asset');
+const siteUi = read(siteUiPath.slice(1));
+const contactUi = read(contactUiPath.slice(1));
 
 expect(homeHtml.includes('Operator-led biochar infrastructure for carbon removal.'), 'Home page is missing the operator-led hero');
 expect(homeHtml.includes('Active corridors'), 'Home page is missing the compact status rail');
@@ -459,11 +467,16 @@ expect(privacyHtml.includes('This website does not store inquiry form data in ma
 expect(privacyHtml.includes('If a form endpoint is configured later'), 'Privacy page is missing future endpoint disclosure');
 expect(homeHtml.includes('/privacy/') || contactHtml.includes('/privacy/'), 'Site pages do not link to the privacy page');
 
-expect(siteUi.includes('hidden = !isOpen'), 'site-ui does not manage hidden state for the mobile menu');
-expect(siteUi.includes("toggleAttribute('inert'"), 'site-ui does not manage inert state for the mobile menu');
+expect(/\.hidden\s*=\s*!/.test(siteUi), 'site-ui does not manage hidden state for the mobile menu');
+expect(/\.toggleAttribute\(["']inert["']/.test(siteUi), 'site-ui does not manage inert state for the mobile menu');
 expect(siteUi.includes('Close navigation') && siteUi.includes('Open navigation'), 'site-ui does not update menu labels');
-expect(siteUi.includes('window.location.href = `mailto:'), 'site-ui does not implement the mailto form fallback');
 expect(siteUi.includes('navigator.clipboard.writeText'), 'site-ui does not implement copy-to-clipboard behavior');
+expect(contactUi.includes('mailto:'), 'contact-form does not implement the mailto form fallback');
+expect(contactUi.includes('navigator.clipboard.writeText'), 'contact-form does not implement copy-to-clipboard behavior');
+expect(!homeHtml.includes('/_astro/ContactForm.astro_'), 'Home page loads the contact-only script');
+expect((homeHtml.match(/rel="preload"[^>]*as="font"/g) || []).length === 1, 'Home page must preload exactly one above-the-fold font');
+expect(homeHtml.includes("font-family: 'Manrope Variable'"), 'Home page is missing the Manrope font-face');
+expect(homeHtml.includes("font-family: 'Cormorant Garamond'"), 'Home page is missing the Cormorant Garamond font-face');
 
 expect(!sitemap.includes('/company/'), 'sitemap includes duplicate /company/');
 expect(!sitemap.includes('/404/'), 'sitemap includes /404/');
