@@ -10,7 +10,7 @@ Astro-based marketing site for `biomassresourcegroup.com`, designed for static d
 
 ## Stack
 
-- Astro 6
+- Astro 7
 - Static output with sitemap generation
 - Self-hosted variable `Manrope` and `Cormorant Garamond` via `@fontsource`
 
