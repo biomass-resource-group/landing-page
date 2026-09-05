@@ -1,8 +1,10 @@
 name: Dependency Review
 
+# This workflow is intended to become a required check. It therefore starts
+# for every pull request and publishes the same `dependency-review` context
+# even when no dependency manifest changed.
 on:
   pull_request:
-  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -14,26 +16,87 @@ permissions:
 
 jobs:
   dependency-review:
+    name: dependency-review
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
-      - name: Detect dependency graph support
-        id: dependency-graph
+      - name: Classify dependency changes
+        id: changes
         env:
           GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          status="$(
-            gh api "repos/${{ github.repository }}" \
-              --jq '.security_and_analysis.dependency_graph.status // "disabled"'
-          )"
-          echo "status=$status" >> "$GITHUB_OUTPUT"
+          set -euo pipefail
+          files="${RUNNER_TEMP}/dependency-review-pr-files.txt"
+          gh api --paginate "repos/${REPOSITORY}/pulls/${PR_NUMBER}/files?per_page=100" --jq '.[].filename' > "${files}"
 
-      - if: github.event_name == 'pull_request' && steps.dependency-graph.outputs.status == 'enabled'
-        uses: actions/dependency-review-action@v4
+          relevant=false
+          while IFS= read -r path; do
+            case "${path}" in
+              package.json|package-lock.json|.github/workflows/dependency-review.yml)
+                relevant=true
+                ;;
+            esac
+          done < "${files}"
 
-      - if: github.event_name == 'pull_request' && steps.dependency-graph.outputs.status != 'enabled'
-        run: echo "Skipping dependency review because GitHub Dependency Graph is not enabled for this repository."
+          echo "relevant=${relevant}" >> "${GITHUB_OUTPUT}"
+          echo "Dependency-relevant change: ${relevant}"
 
-      - if: github.event_name != 'pull_request'
-        run: echo "Skipping dependency review because this workflow only evaluates pull request dependency diffs."
+      - name: Require dependency graph
+        id: graph
+        if: steps.changes.outputs.relevant == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          # Probe the dependency-graph API itself rather than a repository field.
+          # `security_and_analysis.dependency_graph` IS NOT A FIELD the REST API
+          # returns -- measured 2026-09-02 against four repositories, public and
+          # private, with a token carrying repo and admin:org: the object contains
+          # only the dependabot and secret-scanning keys. So `// "disabled"` fired
+          # unconditionally and this gate could never pass, on any repository,
+          # ever. It would have hard-failed every dependency-touching pull request
+          # here, including the nine open Dependabot ones.
+          #
+          # A gate that cannot be satisfied is not fail-closed. It is absent, and
+          # reporting a cause the operator cannot act on is worse than silence.
+          if gh api "repos/${REPOSITORY}/dependency-graph/compare/${BASE_SHA}...${HEAD_SHA}" \
+               --silent >/dev/null 2>&1; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "Dependency graph is available; running the review." >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "### Dependency review skipped"
+              echo
+              echo "The dependency graph is not available for \`${REPOSITORY}\`."
+              echo "The API returns 403 for the dependency-graph compare endpoint."
+              echo
+              echo "Enable it at Settings -> Advanced Security -> Dependency graph."
+              echo "This step becomes enforcing on its own once that is on --"
+              echo "no workflow change is needed."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Dependency graph unavailable; review skipped. See the job summary."
+            exit 0
+          fi
+
+      # Gated on the probe above, not only on relevance. The action itself hard
+      # fails with "Dependency review is not supported on this repository" when the
+      # graph is off, so leaving it ungated moved the same unsatisfiable failure one
+      # step later rather than removing it.
+      - name: Review dependency changes
+        if: steps.changes.outputs.relevant == 'true' && steps.graph.outputs.available == 'true'
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v4
+
+      - name: Report no dependency change
+        if: steps.changes.outputs.relevant == 'false'
+        run: |
+          {
+            echo "### Dependency review"
+            echo
+            echo "No dependency manifest or dependency-review policy changed."
+          } >> "${GITHUB_STEP_SUMMARY}"

@@ -19,11 +19,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: 22.12.0
+          persist-credentials: false
+
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          # Lighthouse 13 requires Node >=22.19. Keep the CI toolchain exact
+          # and compatible instead of running outside its declared engine.
+          node-version: 22.19.0
           cache: npm
 
       - run: npm ci
@@ -32,28 +36,51 @@ jobs:
       - run: npm run validate:dist
       - name: Lighthouse smoke check
         run: |
-          npx --yes serve@14 dist -l 4173 >/tmp/brg-serve.log 2>&1 &
+          # --no-install from origin/main: serve, wait-on and lighthouse are all
+          # locked devDependencies installed by `npm ci` above, so resolving them
+          # from the lockfile is stricter than the @version pins this branch was
+          # fetching at run time, and Dependabot already tracks them.
+          #
+          # The three-sample loop from this branch is kept: the median step below
+          # reads /tmp/brg-lighthouse-${sample}.json by name, so main's
+          # single-sample form would leave that step reading files that do not
+          # exist. One Lighthouse run is also the flakiest possible measurement.
+          npx --no-install serve dist -l 4173 >/tmp/brg-serve.log 2>&1 &
+          # $! must be read on the line AFTER the background job, not before it.
+          # A merge left this capture above the `serve &` line, so SERVER_PID was
+          # empty, the EXIT trap ran `kill` with no argument, and the step exited 2
+          # -- after every Lighthouse threshold had already passed 1.0. A teardown
+          # that fails a green run is the worst kind of red: it says the gate found
+          # something when it found nothing.
           SERVER_PID=$!
-          trap 'kill $SERVER_PID' EXIT
-          npx --yes wait-on http://127.0.0.1:4173
-          npx --yes lighthouse@13 http://127.0.0.1:4173/ \
-            --only-categories=performance,accessibility,best-practices,seo \
-            --chrome-flags='--headless=new --no-sandbox' \
-            --quiet \
-            --output=json \
-            --output-path=/tmp/brg-lighthouse.json
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          npx --no-install wait-on http://127.0.0.1:4173
+          for sample in 1 2 3; do
+            npx --no-install lighthouse http://127.0.0.1:4173/ --only-categories=performance,accessibility,best-practices,seo --chrome-flags='--headless=new --no-sandbox' --quiet --output=json --output-path="/tmp/brg-lighthouse-${sample}.json"
+          done
           node - <<'NODE'
           const fs = require('fs');
-          const report = JSON.parse(fs.readFileSync('/tmp/brg-lighthouse.json', 'utf8'));
+          const reports = [1, 2, 3].map((sample) =>
+            JSON.parse(fs.readFileSync(`/tmp/brg-lighthouse-${sample}.json`, 'utf8')),
+          );
           const thresholds = {
             performance: 0.9,
             accessibility: 1,
             'best-practices': 1,
             seo: 1,
           };
+          const median = (values) => {
+            const sorted = [...values].sort((left, right) => left - right);
+            return sorted[Math.floor(sorted.length / 2)];
+          };
 
           for (const [category, minimum] of Object.entries(thresholds)) {
-            const actual = report.categories[category].score;
+            const scores = reports.map((report) => report.categories[category].score);
+            // Performance is noisy on shared runners, so require the median of
+            // three full audits. Binary compliance categories must pass every
+            // sample and therefore use the minimum.
+            const actual = category === 'performance' ? median(scores) : Math.min(...scores);
+            console.log(`${category}: ${scores.join(', ')} (enforced ${actual})`);
             if (actual < minimum) {
               console.error(`${category} score ${actual} is below ${minimum}`);
               process.exit(1);
