@@ -7,6 +7,30 @@ import cormorantDisplayWoff2 from '@fontsource/cormorant-garamond/files/cormoran
 import cormorantDisplayItalicWoff2 from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-italic.woff2?url';
 import '../styles/global.css';
 
+const fontFaces = `
+  @font-face {
+    font-family: 'Manrope Variable';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 200 800;
+    src: url('${manropeVariableWoff2}') format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 500;
+    src: url('${cormorantDisplayWoff2}') format('woff2');
+  }
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+    font-display: swap;
+    font-weight: 500;
+    src: url('${cormorantDisplayItalicWoff2}') format('woff2');
+  }
+`;
+
 interface Props {
   title?: string;
   description?: string;
@@ -63,8 +87,7 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <link rel="preload" href={manropeVariableWoff2} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={cormorantDisplayWoff2} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={cormorantDisplayItalicWoff2} as="font" type="font/woff2" crossorigin />
+    <style is:inline set:html={fontFaces}></style>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl.toString()} />
     <title>{fullTitle}</title>
@@ -81,7 +104,9 @@ const jsonLd = [...baseStructuredData, ...extraStructuredData].filter(Boolean);
     <meta name="twitter:description" content={description} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     <meta name="theme-color" content="#0e1714" />
-    <script src="/scripts/site-ui.js" defer></script>
+    <script>
+      import '../scripts/site-ui.js';
+    </script>
     {
       jsonLd.length > 0 && (
         <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
