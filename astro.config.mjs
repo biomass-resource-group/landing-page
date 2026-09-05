@@ -13,6 +13,11 @@ export default defineConfig({
   vite: {
     build: {
       assetsInlineLimit: 0,
+      // Preserve the existing CSS/JS output contract through the Vite 8 upgrade.
+      // In particular, mobile media queries and inert-state calls stay in the
+      // syntax checked by validate:dist and the deployment monitor.
+      minify: 'esbuild',
+      cssMinify: 'esbuild',
     },
   },
 });

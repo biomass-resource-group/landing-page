@@ -5,7 +5,7 @@ working in `biomass-resource-group/landing-page`. Read this first.
 
 ## What this repo is
 
-Static Astro 6 marketing site for `biomassresourcegroup.com`, deployed on
+Static Astro 7 marketing site for `biomassresourcegroup.com`, deployed on
 Cloudflare Pages. All page content is centralized in [`src/data/site.ts`](./src/data/site.ts);
 routes in [`src/pages/`](./src/pages/) compose that data through shared
 components in [`src/components/`](./src/components/). Styles live in a single
