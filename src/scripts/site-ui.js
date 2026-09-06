@@ -5,7 +5,6 @@ const setupSiteUi = () => {
   const menu = document.querySelector('[data-menu]');
   const toggle = document.querySelector('[data-menu-toggle]');
   const toggleLabel = document.querySelector('[data-menu-toggle-label]');
-  const hero = document.querySelector('[data-hero]');
   const content = document.getElementById('content');
   const skipLink = document.querySelector('.skip-link');
   const body = document.body;
@@ -24,16 +23,9 @@ const setupSiteUi = () => {
     header.classList.toggle('is-scrolled', window.scrollY > 20);
   };
 
-  const syncHero = () => {
-    if (prefersReducedMotion || !(hero instanceof HTMLElement)) return;
-    const progress = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
-    hero.style.setProperty('--hero-progress', progress.toFixed(3));
-  };
-
   const syncScrollState = () => {
     scrollFrame = 0;
     syncHeader();
-    syncHero();
   };
 
   const requestScrollSync = () => {
