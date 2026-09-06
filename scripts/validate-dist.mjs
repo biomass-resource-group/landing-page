@@ -168,6 +168,10 @@ const headersBlocks = parseHeadersBlocks(read('_headers'));
 const rootHeaders = headersBlocks.get('/*') ?? new Map();
 const assetHeaders = headersBlocks.get('/_astro/*') ?? new Map();
 
+expect(
+  rootHeaders.get('strict-transport-security') === 'max-age=31536000; includeSubDomains',
+  '_headers is missing the required one-year HSTS policy',
+);
 expect(rootHeaders.get('x-frame-options') === 'DENY', '_headers is missing X-Frame-Options: DENY');
 expect(rootHeaders.get('referrer-policy') === 'strict-origin-when-cross-origin', '_headers is missing Referrer-Policy');
 expect(rootHeaders.get('cross-origin-opener-policy') === 'same-origin', '_headers is missing COOP');

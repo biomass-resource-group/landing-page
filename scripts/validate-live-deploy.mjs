@@ -83,6 +83,12 @@ const main = async () => {
   compareHeaders(home.response, homeHeaders, 'home page');
 
   expect(
+    normalizeHeaderValue(home.response.headers.get('strict-transport-security') ?? '') ===
+      'max-age=31536000; includeSubDomains',
+    'Home page HSTS does not match the required one-year subdomain policy',
+  );
+
+  expect(
     home.text.includes(`<link rel="canonical" href="${siteUrl}/"`),
     'Home page canonical does not match production URL',
   );
