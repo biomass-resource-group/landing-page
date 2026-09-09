@@ -25,7 +25,7 @@
     "esbuild": "^0.28.2",
     "lighthouse": "13.0.1",
     "serve": "14.2.5",
-    "wait-on": "9.0.1",
+    "wait-on": "9.1.0",
     "typescript": "^7.0.2"
   },
   "overrides": {
