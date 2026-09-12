@@ -53,41 +53,29 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          # Probe the dependency-graph API itself rather than a repository field.
-          # `security_and_analysis.dependency_graph` IS NOT A FIELD the REST API
-          # returns -- measured 2026-09-02 against four repositories, public and
-          # private, with a token carrying repo and admin:org: the object contains
-          # only the dependabot and secret-scanning keys. So `// "disabled"` fired
-          # unconditionally and this gate could never pass, on any repository,
-          # ever. It would have hard-failed every dependency-touching pull request
-          # here, including the nine open Dependabot ones.
-          #
-          # A gate that cannot be satisfied is not fail-closed. It is absent, and
-          # reporting a cause the operator cannot act on is worse than silence.
+          # Probe the API used by the review. Unavailable review is a failure;
+          # do not infer a specific HTTP status or configuration from exit code.
           if gh api "repos/${REPOSITORY}/dependency-graph/compare/${BASE_SHA}...${HEAD_SHA}" \
-               --silent >/dev/null 2>&1; then
+               --silent >/dev/null; then
             echo "available=true" >> "$GITHUB_OUTPUT"
             echo "Dependency graph is available; running the review." >> "$GITHUB_STEP_SUMMARY"
           else
             {
-              echo "### Dependency review skipped"
+              echo "### Dependency review unavailable"
               echo
-              echo "The dependency graph is not available for \`${REPOSITORY}\`."
-              echo "The API returns 403 for the dependency-graph compare endpoint."
+              echo "The dependency-graph probe failed for \`${REPOSITORY}\`."
+              echo "Dependency changes have not been reviewed."
               echo
-              echo "Enable it at Settings -> Advanced Security -> Dependency graph."
-              echo "This step becomes enforcing on its own once that is on --"
-              echo "no workflow change is needed."
+              echo "Use the command error above to diagnose graph availability or access"
+              echo "for the selected workflow token. This check remains failed until"
+              echo "the dependency review can complete."
             } >> "$GITHUB_STEP_SUMMARY"
             echo "available=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Dependency graph unavailable; review skipped. See the job summary."
-            exit 0
+            echo "::error::Dependency graph unavailable; dependency changes remain unreviewed."
+            exit 1
           fi
 
-      # Gated on the probe above, not only on relevance. The action itself hard
-      # fails with "Dependency review is not supported on this repository" when the
-      # graph is off, so leaving it ungated moved the same unsatisfiable failure one
-      # step later rather than removing it.
+      # The preceding step fails when a relevant change cannot be reviewed.
       - name: Review dependency changes
         if: steps.changes.outputs.relevant == 'true' && steps.graph.outputs.available == 'true'
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0

@@ -32,7 +32,7 @@ jobs:
 
       - run: npm ci
       - run: npm audit --audit-level=high
-      - run: node --test harness/tests/lighthouse.test.mjs
+      - run: node --test harness/tests/lighthouse.test.mjs harness/tests/dependency-review.test.mjs
       - run: npm run check
       - run: npm run build
       - run: npm run validate:dist
@@ -61,4 +61,3 @@ jobs:
             npx --no-install lighthouse http://127.0.0.1:4173/ --only-categories=performance,accessibility,best-practices,seo --chrome-flags='--headless=new --no-sandbox' --quiet --output=json --output-path="/tmp/brg-lighthouse-${sample}.json"
           done
           node scripts/validate-lighthouse.mjs /tmp/brg-lighthouse-1.json /tmp/brg-lighthouse-2.json /tmp/brg-lighthouse-3.json
-
