@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { parseHeadersBlocks } from './headers-utils.mjs';
+import { readScriptGraph } from './read-script-graph.mjs';
 
 const repoRoot = process.cwd();
 const distDir = join(repoRoot, 'dist');
@@ -396,8 +397,8 @@ const contactUiPath = extractScripts(contactHtml)
   .find((script) => script.src?.startsWith('/_astro/ContactForm.astro_'))?.src;
 expect(siteUiPath, 'Home page is missing the hashed site-ui asset');
 expect(contactUiPath, 'Contact page is missing the route-specific contact-form asset');
-const siteUi = read(siteUiPath.slice(1));
-const contactUi = read(contactUiPath.slice(1));
+const siteUi = await readScriptGraph(distDir, siteUiPath.slice(1));
+const contactUi = await readScriptGraph(distDir, contactUiPath.slice(1));
 
 expect(homeHtml.includes('Operator-led biochar infrastructure for carbon removal.'), 'Home page is missing the operator-led hero');
 expect(homeHtml.includes('Active corridors'), 'Home page is missing the compact status rail');
