@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "esbuild": "^0.28.2",
-    "lighthouse": "13.0.1",
-    "serve": "14.2.5",
+    "lighthouse": "13.5.0",
+    "serve": "14.2.6",
     "wait-on": "9.0.1",
     "typescript": "^7.0.2"
   },

@@ -43,7 +43,26 @@ jobs:
           echo "relevant=${relevant}" >> "${GITHUB_OUTPUT}"
           echo "Dependency-relevant change: ${relevant}"
 
-      - name: Require dependency graph
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: steps.changes.outputs.relevant == 'true'
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        if: steps.changes.outputs.relevant == 'true'
+        with:
+          node-version: 22.19.0
+          cache: npm
+
+      # Review the entire locked tree, including build/audit tools. Install
+      # without lifecycle scripts; registry errors and every advisory fail.
+      - name: Audit locked dependencies
+        if: steps.changes.outputs.relevant == 'true'
+        run: |
+          npm ci --ignore-scripts
+          npm audit --audit-level=low
+
+      - name: Check dependency graph availability
         id: graph
         if: steps.changes.outputs.relevant == 'true'
         env:
@@ -53,41 +72,24 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          # Probe the dependency-graph API itself rather than a repository field.
-          # `security_and_analysis.dependency_graph` IS NOT A FIELD the REST API
-          # returns -- measured 2026-09-02 against four repositories, public and
-          # private, with a token carrying repo and admin:org: the object contains
-          # only the dependabot and secret-scanning keys. So `// "disabled"` fired
-          # unconditionally and this gate could never pass, on any repository,
-          # ever. It would have hard-failed every dependency-touching pull request
-          # here, including the nine open Dependabot ones.
-          #
-          # A gate that cannot be satisfied is not fail-closed. It is absent, and
-          # reporting a cause the operator cannot act on is worse than silence.
+          # The full lockfile audit above is required even when the compare API
+          # is unavailable (for example, repositories without graph access).
           if gh api "repos/${REPOSITORY}/dependency-graph/compare/${BASE_SHA}...${HEAD_SHA}" \
-               --silent >/dev/null 2>&1; then
+               --silent >/dev/null; then
             echo "available=true" >> "$GITHUB_OUTPUT"
             echo "Dependency graph is available; running the review." >> "$GITHUB_STEP_SUMMARY"
           else
             {
-              echo "### Dependency review skipped"
+              echo "### Dependency graph unavailable"
               echo
-              echo "The dependency graph is not available for \`${REPOSITORY}\`."
-              echo "The API returns 403 for the dependency-graph compare endpoint."
-              echo
-              echo "Enable it at Settings -> Advanced Security -> Dependency graph."
-              echo "This step becomes enforcing on its own once that is on --"
-              echo "no workflow change is needed."
+              echo "The graph comparison could not run; see the API error above."
+              echo "The required full lockfile npm audit completed successfully,"
+              echo "including development dependencies at the low severity threshold."
             } >> "$GITHUB_STEP_SUMMARY"
             echo "available=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Dependency graph unavailable; review skipped. See the job summary."
-            exit 0
           fi
 
-      # Gated on the probe above, not only on relevance. The action itself hard
-      # fails with "Dependency review is not supported on this repository" when the
-      # graph is off, so leaving it ungated moved the same unsatisfiable failure one
-      # step later rather than removing it.
+      # Add graph-delta review when the service is available.
       - name: Review dependency changes
         if: steps.changes.outputs.relevant == 'true' && steps.graph.outputs.available == 'true'
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
