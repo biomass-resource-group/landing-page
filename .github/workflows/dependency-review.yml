@@ -43,7 +43,26 @@ jobs:
           echo "relevant=${relevant}" >> "${GITHUB_OUTPUT}"
           echo "Dependency-relevant change: ${relevant}"
 
-      - name: Require dependency graph
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: steps.changes.outputs.relevant == 'true'
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        if: steps.changes.outputs.relevant == 'true'
+        with:
+          node-version: 22.19.0
+          cache: npm
+
+      # Review the entire locked tree, including build/audit tools. Install
+      # without lifecycle scripts; registry errors and every advisory fail.
+      - name: Audit locked dependencies
+        if: steps.changes.outputs.relevant == 'true'
+        run: |
+          npm ci --ignore-scripts
+          npm audit --audit-level=low
+
+      - name: Check dependency graph availability
         id: graph
         if: steps.changes.outputs.relevant == 'true'
         env:
@@ -53,29 +72,24 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
-          # Probe the API used by the review. Unavailable review is a failure;
-          # do not infer a specific HTTP status or configuration from exit code.
+          # The full lockfile audit above is required even when the compare API
+          # is unavailable (for example, repositories without graph access).
           if gh api "repos/${REPOSITORY}/dependency-graph/compare/${BASE_SHA}...${HEAD_SHA}" \
                --silent >/dev/null; then
             echo "available=true" >> "$GITHUB_OUTPUT"
             echo "Dependency graph is available; running the review." >> "$GITHUB_STEP_SUMMARY"
           else
             {
-              echo "### Dependency review unavailable"
+              echo "### Dependency graph unavailable"
               echo
-              echo "The dependency-graph probe failed for \`${REPOSITORY}\`."
-              echo "Dependency changes have not been reviewed."
-              echo
-              echo "Use the command error above to diagnose graph availability or access"
-              echo "for the selected workflow token. This check remains failed until"
-              echo "the dependency review can complete."
+              echo "The graph comparison could not run; see the API error above."
+              echo "The required full lockfile npm audit completed successfully,"
+              echo "including development dependencies at the low severity threshold."
             } >> "$GITHUB_STEP_SUMMARY"
             echo "available=false" >> "$GITHUB_OUTPUT"
-            echo "::error::Dependency graph unavailable; dependency changes remain unreviewed."
-            exit 1
           fi
 
-      # The preceding step fails when a relevant change cannot be reviewed.
+      # Add graph-delta review when the service is available.
       - name: Review dependency changes
         if: steps.changes.outputs.relevant == 'true' && steps.graph.outputs.available == 'true'
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
