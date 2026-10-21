@@ -31,6 +31,8 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - name: Test harness guards and lifecycle hooks
+        run: npm test
       - run: npm run check
       - run: npm run build
       - run: npm run validate:dist
