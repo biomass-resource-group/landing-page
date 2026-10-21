@@ -106,6 +106,7 @@ for (const [cmd, expected, desc] of tests) {
   const r = spawnSync('node', [guard], {
     input: JSON.stringify({ tool_input: { command: cmd } }),
     encoding: 'utf8',
+    timeout: 10_000,
   });
   const ok = r.status === expected;
   console.log(ok ? '  PASS' : '  FAIL', desc, `(exit: ${r.status}, expected: ${expected})`);

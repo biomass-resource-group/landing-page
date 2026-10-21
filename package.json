@@ -13,7 +13,8 @@
     "validate:dist": "node ./scripts/validate-dist.mjs",
     "validate:live-deploy": "node ./scripts/validate-live-deploy.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "node harness/tests/guard-verify.mjs && node harness/tests/hooks.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
