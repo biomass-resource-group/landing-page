@@ -34,6 +34,7 @@ jobs:
       - name: Test harness guards and lifecycle hooks
         run: npm test
       - run: npm run check
+      - run: node --test harness/tests/clipboard.test.mjs
       - run: npm run build
       - run: npm run validate:dist
       - name: Lighthouse smoke check
